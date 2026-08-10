@@ -119,3 +119,26 @@ footer {
 
     font-size: 12px;
 }
+/* Collapsible sections */
+
+section {
+    padding: 10px 14px;
+}
+
+section h2 {
+    margin: 0;
+    border-bottom: none;
+}
+
+.section-content {
+    display: none;
+}
+
+section.open .section-content {
+    display: block;
+}
+
+section.open h2 {
+    border-bottom: 1px solid #404249;
+    padding-bottom: 6px;
+}
