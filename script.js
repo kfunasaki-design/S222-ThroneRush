@@ -1,21 +1,21 @@
-function setLanguage(language) {
+function openSection(sectionId) {
 
-    const english = document.getElementById("english");
-    const japanese = document.getElementById("japanese");
+    const sections = document.querySelectorAll("main section");
 
-    if (language === "ja") {
-        english.style.display = "none";
-        japanese.style.display = "block";
-        document.documentElement.lang = "ja";
-    } else {
-        english.style.display = "block";
-        japanese.style.display = "none";
-        document.documentElement.lang = "en";
-    }
-
-    // Scroll to the top after switching language
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
+    sections.forEach(function(section) {
+        section.classList.remove("open");
     });
+
+    const target = document.getElementById(sectionId);
+
+    if (target) {
+        target.classList.add("open");
+
+        setTimeout(function() {
+            target.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }, 50);
+    }
 }
