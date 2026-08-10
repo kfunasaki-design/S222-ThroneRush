@@ -47,17 +47,19 @@ header h1 {
 }
 
 .index a {
-    padding: 2px 6px;
-
+    display: inline-block;
+    padding: 5px 8px;
     color: #00a8fc;
     background: transparent;
-
     border: none;
     border-radius: 3px;
-
     font-size: 13px;
     text-decoration: none;
 }
+
+
+
+
 
 .index a:hover {
     text-decoration: underline;
