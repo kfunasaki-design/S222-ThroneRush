@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>S222 Throne Rush Calendar</title>
+
+  <link rel="stylesheet" href="calendar.css">
+</head>
+
+<body>
+
+  <header class="header">
+    <div>
+      <h1>S222 Throne Rush Calendar</h1>
+      <p id="event-period">Event: --</p>
+    </div>
+
+    <button id="addScheduleBtn" class="main-button">
+      ＋ Add Schedule
+    </button>
+  </header>
+
+
+  <!-- Month Navigation -->
+  <div class="month-navigation">
+
+    <button id="prevMonth">‹</button>
+
+    <h2 id="monthTitle"></h2>
+
+    <button id="nextMonth">›</button>
+
+  </div>
+
+
+  <!-- Calendar -->
+  <main id="calendarWrapper">
+
+    <div id="calendar"></div>
+
+  </main>
+
+
+  <!-- Schedule Input -->
+  <dialog id="scheduleDialog">
+
+    <form id="scheduleForm">
+
+      <div class="dialog-header">
+
+        <h2 id="dialogTitle">Add Schedule</h2>
+
+        <button
+          type="button"
+          id="closeDialog"
+          class="close-button">
+          ×
+        </button>
+
+      </div>
+
+
+      <!-- Fortress -->
+      <label>
+        Fortress
+
+        <select id="fortress" required>
+
+          <option value="Lv7">Lv7</option>
+          <option value="Lv6">Lv6</option>
+          <option value="Lv5">Lv5</option>
+          <option value="Lv1-4">Lv1–4</option>
+
+        </select>
+
+      </label>
+
+
+      <!-- Coordinate -->
+      <fieldset>
+
+        <legend>Coordinate</legend>
+
+        <div class="coordinate">
+
+          <input
+            id="coordinateX"
+            type="number"
+            min="0"
+            placeholder="X"
+            required>
+
+          <span>:</span>
+
+          <input
+            id="coordinateY"
+            type="number"
+            min="0"
+            placeholder="Y"
+            required>
+
+        </div>
+
+      </fieldset>
+
+
+      <!-- Guild -->
+      <label>
+
+        Guild
+
+        <input
+          id="guild"
+          type="text"
+          maxlength="80"
+          required>
+
+      </label>
+
+
+      <!-- Start -->
+      <fieldset>
+
+        <legend>Start — Attack Start</legend>
+
+        <div class="datetime">
+
+          <div>
+            <span>Date</span>
+
+            <input
+              id="startDate"
+              type="date"
+              required>
+          </div>
+
+          <div>
+            <span>GMT</span>
+
+            <input
+              id="startGMT"
+              type="time"
+              required>
+          </div>
+
+          <div>
+            <span>JST</span>
+
+            <input
+              id="startJST"
+              type="time"
+              required>
+          </div>
+
+        </div>
+
+      </fieldset>
+
+
+      <!-- End -->
+      <fieldset>
+
+        <legend>End — Planned Handover</legend>
+
+        <div class="datetime">
+
+          <div>
+            <span>Date</span>
+
+            <input
+              id="endDate"
+              type="date"
+              required>
+          </div>
+
+          <div>
+            <span>GMT</span>
+
+            <input
+              id="endGMT"
+              type="time"
+              required>
+          </div>
+
+          <div>
+            <span>JST</span>
+
+            <input
+              id="endJST"
+              type="time"
+              required>
+          </div>
+
+        </div>
+
+      </fieldset>
+
+
+      <!-- Description -->
+      <label>
+
+        Description
+
+        <textarea
+          id="description"
+          rows="4"
+          maxlength="1000">
+        </textarea>
+
+      </label>
+
+
+      <p id="formError" class="error"></p>
+
+
+      <div class="form-buttons">
+
+        <button
+          type="button"
+          id="deleteBtn"
+          class="delete-button">
+          Delete
+        </button>
+
+        <div>
+
+          <button
+            type="button"
+            id="cancelBtn"
+            class="secondary-button">
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="main-button">
+            Save
+          </button>
+
+        </div>
+
+      </div>
+
+    </form>
+
+  </dialog>
+
+
+  <!-- Detail -->
+  <dialog id="detailDialog">
+
+    <div class="detail">
+
+      <div class="dialog-header">
+
+        <h2 id="detailTitle"></h2>
+
+        <button
+          id="closeDetail"
+          class="close-button">
+          ×
+        </button>
+
+      </div>
+
+
+      <div id="detailContent"></div>
+
+
+      <!-- Color -->
+      <div class="color-control">
+
+        <label>
+          Schedule Color
+
+          <input
+            id="scheduleColor"
+            type="color">
+        </label>
+
+      </div>
+
+
+      <div class="detail-buttons">
+
+        <button
+          id="editSchedule"
+          class="secondary-button">
+          Edit
+        </button>
+
+        <button
+          id="detailClose"
+          class="main-button">
+          Close
+        </button>
+
+      </div>
+
+    </div>
+
+  </dialog>
+
+
+  <script src="script.js"></script>
+
+</body>
+</html>
