@@ -531,6 +531,49 @@ function renderCalendar() {
   eventPeriod.textContent =
     `Event: ${event.start} → ${event.end}`;
 
+  /* =========================
+     Weekday Header
+  ========================= */
+
+  const weekdayRow =
+    document.createElement("div");
+
+  weekdayRow.className =
+    "weekday-row";
+
+  const weekdays = [
+    "Sun",
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat"
+  ];
+
+  weekdays.forEach(
+    weekday => {
+
+      const cell =
+        document.createElement("div");
+
+      cell.className =
+        "weekday-cell";
+
+      cell.textContent =
+        weekday;
+
+      weekdayRow.appendChild(
+        cell
+      );
+
+    }
+  );
+
+  calendar.appendChild(
+    weekdayRow
+  );
+
 
   const firstDay =
     new Date(
