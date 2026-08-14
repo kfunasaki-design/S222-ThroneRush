@@ -147,7 +147,7 @@ button {
 
   height: calc(100vh - 125px);
 
-  touch-action: none;
+  touch-action: pan-x pan-y;
 
   background: #0c0d0f;
 }
