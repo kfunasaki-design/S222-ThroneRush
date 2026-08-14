@@ -4,6 +4,24 @@
 
 
 /* =========================================================
+   Supabase
+========================================================= */
+
+const SUPABASE_URL =
+  "YOUR_SUPABASE_URL";
+
+const SUPABASE_ANON_KEY =
+  "YOUR_SUPABASE_ANON_KEY";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
+
+
+/* =========================================================
    State
 ========================================================= */
 
@@ -21,11 +39,9 @@ let selectedSchedule = null;
 let zoom = 1;
 
 
-/*
-  Prototype event period.
-
-  後で管理者設定に変更。
-*/
+/* =========================================================
+   Event Period
+========================================================= */
 
 const event = {
 
@@ -45,6 +61,7 @@ let creatorId =
     "s222_creator_id"
   );
 
+
 if (!creatorId) {
 
   creatorId =
@@ -54,6 +71,7 @@ if (!creatorId) {
     "s222_creator_id",
     creatorId
   );
+
 }
 
 
@@ -62,61 +80,27 @@ if (!creatorId) {
 ========================================================= */
 
 const calendar =
-  document.getElementById("calendar");
+  document.getElementById(
+    "calendar"
+  );
+
 
 const calendarWrapper =
   document.getElementById(
     "calendarWrapper"
   );
 
+
 const monthTitle =
   document.getElementById(
     "monthTitle"
   );
 
+
 const eventPeriod =
   document.getElementById(
     "event-period"
   );
-
-
-/* =========================================================
-   Local Storage
-========================================================= */
-
-function saveLocal() {
-
-  localStorage.setItem(
-
-    "s222_schedules",
-
-    JSON.stringify(schedules)
-
-  );
-}
-
-
-function loadLocal() {
-
-  const data =
-    localStorage.getItem(
-      "s222_schedules"
-    );
-
-  if (!data) return;
-
-  try {
-
-    schedules =
-      JSON.parse(data);
-
-  } catch {
-
-    schedules = [];
-
-  }
-
-}
 
 
 /* =========================================================
@@ -139,6 +123,7 @@ function formatDate(date) {
     ).padStart(2, "0");
 
   return `${y}-${m}-${d}`;
+
 }
 
 
@@ -185,7 +170,7 @@ function defaultColor(level) {
 
 
 /* =========================================================
-   GMT / JST conversion
+   GMT / JST
 ========================================================= */
 
 function updateJST(
@@ -196,6 +181,7 @@ function updateJST(
   if (!gmtInput.value)
     return;
 
+
   const [
     hour,
     minute
@@ -204,8 +190,10 @@ function updateJST(
       .split(":")
       .map(Number);
 
+
   const date =
     new Date();
+
 
   date.setUTCHours(
     hour,
@@ -214,9 +202,11 @@ function updateJST(
     0
   );
 
+
   date.setHours(
     date.getHours() + 9
   );
+
 
   jstInput.value =
     String(
@@ -238,6 +228,7 @@ function updateGMT(
   if (!jstInput.value)
     return;
 
+
   const [
     hour,
     minute
@@ -246,8 +237,10 @@ function updateGMT(
       .split(":")
       .map(Number);
 
+
   const date =
     new Date();
+
 
   date.setUTCHours(
     hour - 9,
@@ -255,6 +248,7 @@ function updateGMT(
     0,
     0
   );
+
 
   gmtInput.value =
     String(
@@ -268,44 +262,247 @@ function updateGMT(
 }
 
 
-startGMT.addEventListener(
-  "input",
-  () =>
-    updateJST(
-      startGMT,
-      startJST
-    )
-);
+/* =========================================================
+   Supabase Load
+========================================================= */
+
+async function loadSchedules() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("schedules")
+      .select("*")
+      .order(
+        "start",
+        {
+          ascending: true
+        }
+      );
 
 
-startJST.addEventListener(
-  "input",
-  () =>
-    updateGMT(
-      startJST,
-      startGMT
-    )
-);
+  if (error) {
+
+    console.error(
+      "Supabase load error:",
+      error
+    );
+
+    alert(
+      "Failed to load schedules."
+    );
+
+    schedules = [];
+
+    renderCalendar();
+
+    return;
+
+  }
 
 
-endGMT.addEventListener(
-  "input",
-  () =>
-    updateJST(
-      endGMT,
-      endJST
-    )
-);
+  schedules =
+    (data || []).map(
+      schedule => ({
+
+        id:
+          schedule.id,
+
+        fortress:
+          schedule.fortress,
+
+        x:
+          schedule.x,
+
+        y:
+          schedule.y,
+
+        guild:
+          schedule.guild,
+
+        start:
+          schedule.start,
+
+        end:
+          schedule.end,
+
+        description:
+          schedule.description || "",
+
+        color:
+          schedule.color,
+
+        creatorId:
+          schedule.creator_id
+
+      })
+    );
 
 
-endJST.addEventListener(
-  "input",
-  () =>
-    updateGMT(
-      endJST,
-      endGMT
-    )
-);
+  renderCalendar();
+
+}
+
+
+/* =========================================================
+   Supabase Insert
+========================================================= */
+
+async function insertSchedule(
+  schedule
+) {
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("schedules")
+      .insert({
+
+        id:
+          schedule.id,
+
+        fortress:
+          schedule.fortress,
+
+        x:
+          schedule.x,
+
+        y:
+          schedule.y,
+
+        guild:
+          schedule.guild,
+
+        start:
+          schedule.start,
+
+        end:
+          schedule.end,
+
+        description:
+          schedule.description,
+
+        color:
+          schedule.color,
+
+        creator_id:
+          schedule.creatorId
+
+      });
+
+
+  if (error) {
+
+    console.error(
+      "Supabase insert error:",
+      error
+    );
+
+    throw error;
+
+  }
+
+}
+
+
+/* =========================================================
+   Supabase Update
+========================================================= */
+
+async function updateSchedule(
+  schedule
+) {
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("schedules")
+      .update({
+
+        fortress:
+          schedule.fortress,
+
+        x:
+          schedule.x,
+
+        y:
+          schedule.y,
+
+        guild:
+          schedule.guild,
+
+        start:
+          schedule.start,
+
+        end:
+          schedule.end,
+
+        description:
+          schedule.description,
+
+        color:
+          schedule.color,
+
+        creator_id:
+          schedule.creatorId
+
+      })
+      .eq(
+        "id",
+        schedule.id
+      );
+
+
+  if (error) {
+
+    console.error(
+      "Supabase update error:",
+      error
+    );
+
+    throw error;
+
+  }
+
+}
+
+
+/* =========================================================
+   Supabase Delete
+========================================================= */
+
+async function deleteSchedule(
+  scheduleId
+) {
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("schedules")
+      .delete()
+      .eq(
+        "id",
+        scheduleId
+      );
+
+
+  if (error) {
+
+    console.error(
+      "Supabase delete error:",
+      error
+    );
+
+    throw error;
+
+  }
+
+}
 
 
 /* =========================================================
@@ -315,6 +512,7 @@ endJST.addEventListener(
 function renderCalendar() {
 
   calendar.innerHTML = "";
+
 
   monthTitle.textContent =
     currentMonth.toLocaleDateString(
@@ -346,12 +544,9 @@ function renderCalendar() {
     );
 
 
-  /*
-    Start from Sunday.
-  */
-
   const calendarStart =
     new Date(firstDay);
+
 
   calendarStart.setDate(
     firstDay.getDate()
@@ -363,6 +558,7 @@ function renderCalendar() {
   const calendarEnd =
     new Date(lastDay);
 
+
   calendarEnd.setDate(
     lastDay.getDate()
     +
@@ -371,7 +567,9 @@ function renderCalendar() {
 
 
   let cursor =
-    new Date(calendarStart);
+    new Date(
+      calendarStart
+    );
 
 
   while (
@@ -382,6 +580,7 @@ function renderCalendar() {
       document.createElement(
         "div"
       );
+
 
     week.className =
       "week";
@@ -396,6 +595,7 @@ function renderCalendar() {
       const date =
         new Date(cursor);
 
+
       date.setDate(
         cursor.getDate() + i
       );
@@ -404,7 +604,10 @@ function renderCalendar() {
       const day =
         createDay(date);
 
-      week.appendChild(day);
+
+      week.appendChild(
+        day
+      );
 
     }
 
@@ -423,12 +626,19 @@ function renderCalendar() {
 }
 
 
-function createDay(date) {
+/* =========================================================
+   Day
+========================================================= */
+
+function createDay(
+  date
+) {
 
   const day =
     document.createElement(
       "div"
     );
+
 
   day.className =
     "day";
@@ -456,6 +666,7 @@ function createDay(date) {
       "div"
     );
 
+
   header.className =
     "day-header";
 
@@ -476,14 +687,10 @@ function createDay(date) {
       "div"
     );
 
+
   list.className =
     "schedule-list";
 
-
-  /*
-    All schedules which overlap
-    this day are displayed.
-  */
 
   schedules
     .filter(
@@ -494,7 +701,7 @@ function createDay(date) {
         )
     )
     .sort(
-      (a,b) =>
+      (a, b) =>
         new Date(a.start)
         -
         new Date(b.start)
@@ -507,6 +714,7 @@ function createDay(date) {
             schedule
           );
 
+
         list.appendChild(
           item
         );
@@ -518,6 +726,7 @@ function createDay(date) {
   day.appendChild(
     header
   );
+
 
   day.appendChild(
     list
@@ -539,17 +748,20 @@ function scheduleOverlapsDay(
 ) {
 
   const start =
-    new Date(
-      date
-    );
+    new Date(date);
+
 
   start.setHours(
-    0,0,0,0
+    0,
+    0,
+    0,
+    0
   );
 
 
   const end =
     new Date(start);
+
 
   end.setDate(
     end.getDate() + 1
@@ -560,6 +772,7 @@ function scheduleOverlapsDay(
     new Date(
       schedule.start
     );
+
 
   const scheduleEnd =
     new Date(
@@ -575,6 +788,10 @@ function scheduleOverlapsDay(
 
 }
 
+
+/* =========================================================
+   Schedule Button
+========================================================= */
 
 function createSchedule(
   schedule
@@ -650,15 +867,18 @@ function resetForm() {
 
   form.reset();
 
+
   document.getElementById(
     "deleteBtn"
   ).style.display =
     "none";
 
+
   document.getElementById(
     "dialogTitle"
   ).textContent =
     "Add Schedule";
+
 
   selectedSchedule =
     null;
@@ -694,7 +914,7 @@ document
 
 form.addEventListener(
   "submit",
-  eventSubmit => {
+  async eventSubmit => {
 
     eventSubmit.preventDefault();
 
@@ -753,9 +973,15 @@ form.addEventListener(
       ).value.trim();
 
 
-    /*
-      Store GMT as UTC.
-    */
+    const error =
+      document.getElementById(
+        "formError"
+      );
+
+
+    error.textContent =
+      "";
+
 
     const start =
       new Date(
@@ -768,19 +994,6 @@ form.addEventListener(
         `${endDate}T${endGMT}:00Z`
       );
 
-
-    const error =
-      document.getElementById(
-        "formError"
-      );
-
-
-    error.textContent = "";
-
-
-    /*
-      Minimum 72 hours.
-    */
 
     if (
       end - start
@@ -795,10 +1008,6 @@ form.addEventListener(
 
     }
 
-
-    /*
-      Event boundary.
-    */
 
     const eventStart =
       new Date(
@@ -852,74 +1061,70 @@ form.addEventListener(
       color:
         selectedSchedule
           ? selectedSchedule.color
-          : defaultColor(fortress),
+          : defaultColor(
+              fortress
+            ),
 
       creatorId
 
     };
 
 
-    /*
-      New schedule
-    */
-
-    if (
-      !selectedSchedule
-    ) {
-
-      schedules.push(
-        schedule
-      );
-
-    }
-
-
-    /*
-      Edit schedule
-    */
-
-    else {
-
-      const index =
-        schedules.findIndex(
-          item =>
-            item.id
-            ===
-            selectedSchedule.id
-        );
-
-
-      /*
-        Only creator can edit
-        in this prototype.
-      */
+    try {
 
       if (
-        selectedSchedule
-          .creatorId
-        !==
-        creatorId
+        !selectedSchedule
       ) {
 
-        error.textContent =
-          "Only the creator can edit this schedule.";
+        await insertSchedule(
+          schedule
+        );
 
-        return;
+      }
+
+      else {
+
+        if (
+          selectedSchedule
+            .creatorId
+          !==
+          creatorId
+        ) {
+
+          error.textContent =
+            "Only the creator can edit this schedule.";
+
+          return;
+
+        }
+
+
+        await updateSchedule(
+          schedule
+        );
 
       }
 
 
-      schedules[index] =
-        schedule;
+      await loadSchedules();
+
+      dialog.close();
 
     }
 
+    catch (
+      saveError
+    ) {
 
-    saveLocal();
+      console.error(
+        saveError
+      );
 
-    dialog.close();
 
-    renderCalendar();
+      error.textContent =
+        "Failed to save schedule.";
+
+    }
 
   }
 );
@@ -978,7 +1183,9 @@ function showDetails(
       </div>
 
       <div class="detail-value">
-        ${schedule.fortress}
+        ${escapeHTML(
+          schedule.fortress
+        )}
       </div>
 
     </div>
@@ -991,7 +1198,11 @@ function showDetails(
       </div>
 
       <div class="detail-value">
-        ${schedule.x}:${schedule.y}
+        ${escapeHTML(
+          schedule.x
+        )}:${escapeHTML(
+          schedule.y
+        )}
       </div>
 
     </div>
@@ -1093,29 +1304,37 @@ function showDetails(
     schedule.color;
 
 
-  /*
-    Color can be changed
-    by anyone.
-  */
-
   document.getElementById(
     "scheduleColor"
   ).oninput =
-    event => {
+    async colorEvent => {
 
       schedule.color =
-        event.target.value;
+        colorEvent.target.value;
 
-      saveLocal();
 
-      renderCalendar();
+      try {
+
+        await updateSchedule(
+          schedule
+        );
+
+        await loadSchedules();
+
+      }
+
+      catch (
+        error
+      ) {
+
+        console.error(
+          error
+        );
+
+      }
 
     };
 
-
-  /*
-    Edit button only for creator.
-  */
 
   document.getElementById(
     "editSchedule"
@@ -1132,6 +1351,10 @@ function showDetails(
 }
 
 
+/* =========================================================
+   Date Formatting
+========================================================= */
+
 function formatGMT(
   date
 ) {
@@ -1140,6 +1363,7 @@ function formatGMT(
     .toLocaleString(
       "en-GB",
       {
+
         timeZone:
           "UTC",
 
@@ -1160,6 +1384,7 @@ function formatGMT(
 
         hour12:
           false
+
       }
     );
 
@@ -1174,6 +1399,7 @@ function formatJST(
     .toLocaleString(
       "en-GB",
       {
+
         timeZone:
           "Asia/Tokyo",
 
@@ -1194,6 +1420,7 @@ function formatJST(
 
         hour12:
           false
+
       }
     );
 
@@ -1211,17 +1438,23 @@ function escapeHTML(
 
         const map = {
 
-          "&": "&amp;",
+          "&":
+            "&amp;",
 
-          "<": "&lt;",
+          "<":
+            "&lt;",
 
-          ">": "&gt;",
+          ">":
+            "&gt;",
 
-          '"': "&quot;",
+          '"':
+            "&quot;",
 
-          "'": "&#039;"
+          "'":
+            "&#039;"
 
         };
+
 
         return map[
           character
@@ -1338,46 +1571,50 @@ function openEditForm(
     "startDate"
   ).value =
     start.toISOString()
-      .slice(0,10);
+      .slice(0, 10);
 
 
   document.getElementById(
     "startGMT"
   ).value =
     start.toISOString()
-      .slice(11,16);
+      .slice(11, 16);
 
 
   document.getElementById(
     "startJST"
   ).value =
-    formatTimeJST(start);
+    formatTimeJST(
+      start
+    );
 
 
   document.getElementById(
     "endDate"
   ).value =
     end.toISOString()
-      .slice(0,10);
+      .slice(0, 10);
 
 
   document.getElementById(
     "endGMT"
   ).value =
     end.toISOString()
-      .slice(11,16);
+      .slice(11, 16);
 
 
   document.getElementById(
     "endJST"
   ).value =
-    formatTimeJST(end);
+    formatTimeJST(
+      end
+    );
 
 
   document.getElementById(
     "description"
   ).value =
-    schedule.description;
+    schedule.description || "";
 
 
   document.getElementById(
@@ -1405,6 +1642,7 @@ function formatTimeJST(
     .toLocaleTimeString(
       "en-GB",
       {
+
         timeZone:
           "Asia/Tokyo",
 
@@ -1416,6 +1654,7 @@ function formatTimeJST(
 
         hour12:
           false
+
       }
     );
 
@@ -1432,7 +1671,7 @@ document
   )
   .addEventListener(
     "click",
-    () => {
+    async () => {
 
       if (
         !selectedSchedule
@@ -1457,20 +1696,32 @@ document
         return;
 
 
-      schedules =
-        schedules.filter(
-          schedule =>
-            schedule.id
-            !==
-            selectedSchedule.id
+      try {
+
+        await deleteSchedule(
+          selectedSchedule.id
         );
 
 
-      saveLocal();
+        await loadSchedules();
 
-      dialog.close();
+        dialog.close();
 
-      renderCalendar();
+      }
+
+      catch (
+        error
+      ) {
+
+        console.error(
+          error
+        );
+
+        alert(
+          "Failed to delete schedule."
+        );
+
+      }
 
     }
   );
@@ -1531,21 +1782,47 @@ document
 let pinchStart = null;
 
 
+function distance(
+  touch1,
+  touch2
+) {
+
+  const dx =
+    touch1.clientX
+    -
+    touch2.clientX;
+
+
+  const dy =
+    touch1.clientY
+    -
+    touch2.clientY;
+
+
+  return Math.sqrt(
+    dx * dx
+    +
+    dy * dy
+  );
+
+}
+
+
 calendarWrapper
   .addEventListener(
     "touchstart",
-    event => {
+    touchEvent => {
 
       if (
-        event.touches.length
+        touchEvent.touches.length
         ===
         2
       ) {
 
         pinchStart =
           distance(
-            event.touches[0],
-            event.touches[1]
+            touchEvent.touches[0],
+            touchEvent.touches[1]
           );
 
       }
@@ -1560,10 +1837,10 @@ calendarWrapper
 calendarWrapper
   .addEventListener(
     "touchmove",
-    event => {
+    touchEvent => {
 
       if (
-        event.touches.length
+        touchEvent.touches.length
         !==
         2
         ||
@@ -1574,9 +1851,97 @@ calendarWrapper
 
       const current =
         distance(
-          event.touches[0],
-          event.touches[1]
+          touchEvent.touches[0],
+          touchEvent.touches[1]
         );
 
 
       const ratio =
+        current
+        /
+        pinchStart;
+
+
+      zoom *= ratio;
+
+
+      zoom =
+        Math.min(
+          Math.max(
+            zoom,
+            0.7
+          ),
+          2
+        );
+
+
+      calendar.style.transform =
+        `scale(${zoom})`;
+
+
+      pinchStart =
+        current;
+
+    },
+    {
+      passive: true
+    }
+  );
+
+
+calendarWrapper
+  .addEventListener(
+    "touchend",
+    () => {
+
+      pinchStart =
+        null;
+
+    }
+  );
+
+
+/* =========================================================
+   Initialize
+========================================================= */
+
+startGMT.addEventListener(
+  "input",
+  () =>
+    updateJST(
+      startGMT,
+      startJST
+    )
+);
+
+
+startJST.addEventListener(
+  "input",
+  () =>
+    updateGMT(
+      startJST,
+      startGMT
+    );
+
+
+endGMT.addEventListener(
+  "input",
+  () =>
+    updateJST(
+      endGMT,
+      endJST
+    )
+);
+
+
+endJST.addEventListener(
+  "input",
+  () =>
+    updateGMT(
+      endJST,
+      endGMT
+    )
+);
+
+
+loadSchedules();
