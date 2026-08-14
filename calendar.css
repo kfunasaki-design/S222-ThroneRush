@@ -601,4 +601,10 @@ legend {
   color: #555;
   opacity: 0.6;
 }
+.header-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+  
   }
