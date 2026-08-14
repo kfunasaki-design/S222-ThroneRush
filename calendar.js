@@ -1780,11 +1780,15 @@ document
 
 
 /* =========================================================
-   Pinch Zoom
+   Pinch Zoom / Touch Scroll
 ========================================================= */
 
 let pinchStart = null;
 
+
+/* =========================================================
+   Distance
+========================================================= */
 
 function distance(
   touch1,
@@ -1792,25 +1796,107 @@ function distance(
 ) {
 
   const dx =
-    touch1.clientX
-    -
+    touch1.clientX -
     touch2.clientX;
 
-
   const dy =
-    touch1.clientY
-    -
+    touch1.clientY -
     touch2.clientY;
 
-
   return Math.sqrt(
-    dx * dx
-    +
+    dx * dx +
     dy * dy
   );
 
 }
 
+
+/* =========================================================
+   Minimum Zoom
+========================================================= */
+
+function getMinimumZoom() {
+
+  const calendarWidth =
+    calendar.scrollWidth;
+
+  const wrapperWidth =
+    calendarWrapper.clientWidth;
+
+
+  if (
+    calendarWidth <= 0 ||
+    wrapperWidth <= 0
+  ) {
+
+    return 0.4;
+
+  }
+
+
+  return Math.min(
+    1,
+    wrapperWidth / calendarWidth
+  );
+
+}
+
+
+/* =========================================================
+   Apply Zoom
+========================================================= */
+
+function applyZoom() {
+
+  const minZoom =
+    getMinimumZoom();
+
+
+  zoom =
+    Math.min(
+      Math.max(
+        zoom,
+        minZoom
+      ),
+      2
+    );
+
+
+  calendar.style.transform =
+    `scale(${zoom})`;
+
+
+  /*
+    transform does not change
+    the actual scrollable width.
+
+    Add the extra visual width
+    so the right side remains
+    scrollable when zoomed in.
+  */
+
+  if (
+    zoom > 1
+  ) {
+
+    calendar.style.marginRight =
+      `${calendar.scrollWidth * (zoom - 1)}px`;
+
+  }
+
+  else {
+
+    calendar.style.marginRight =
+      "0px";
+
+  }
+
+}
+
+
+/* =========================================================
+   Touch Start
+========================================================= */
 
 calendarWrapper
   .addEventListener(
@@ -1818,9 +1904,7 @@ calendarWrapper
     touchEvent => {
 
       if (
-        touchEvent.touches.length
-        ===
-        2
+        touchEvent.touches.length === 2
       ) {
 
         pinchStart =
@@ -1838,19 +1922,36 @@ calendarWrapper
   );
 
 
+/* =========================================================
+   Touch Move
+========================================================= */
+
 calendarWrapper
   .addEventListener(
     "touchmove",
     touchEvent => {
 
+      /*
+        Two fingers =
+        custom pinch zoom
+      */
+
       if (
-        touchEvent.touches.length
-        !==
-        2
-        ||
+        touchEvent.touches.length !== 2 ||
         pinchStart === null
-      )
+      ) {
+
         return;
+
+      }
+
+
+      /*
+        Prevent normal browser
+        scrolling while pinching.
+      */
+
+      touchEvent.preventDefault();
 
 
       const current =
@@ -1861,26 +1962,14 @@ calendarWrapper
 
 
       const ratio =
-        current
-        /
+        current /
         pinchStart;
 
 
       zoom *= ratio;
 
 
-      zoom =
-        Math.min(
-          Math.max(
-            zoom,
-            0.4
-          ),
-          2
-        );
-
-
-      calendar.style.transform =
-        `scale(${zoom})`;
+      applyZoom();
 
 
       pinchStart =
@@ -1888,23 +1977,52 @@ calendarWrapper
 
     },
     {
-      passive: true
+      passive: false
     }
   );
 
+
+/* =========================================================
+   Touch End
+========================================================= */
 
 calendarWrapper
   .addEventListener(
     "touchend",
-    () => {
+    touchEvent => {
 
-      pinchStart =
-        null;
+      if (
+        touchEvent.touches.length < 2
+      ) {
+
+        pinchStart =
+          null;
+
+      }
 
     }
   );
 
 
+/* =========================================================
+   Resize
+========================================================= */
+
+window.addEventListener(
+  "resize",
+  () => {
+
+    applyZoom();
+
+  }
+);
+
+
+/* =========================================================
+   Initial Zoom
+========================================================= */
+
+applyZoom();
 /* =========================================================
    Initialize
 ========================================================= */
