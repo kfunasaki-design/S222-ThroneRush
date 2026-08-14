@@ -689,7 +689,17 @@ function createDay(
 
   day.className =
     "day";
+  if (
+    date.getMonth()
+    !==
+    currentMonth.getMonth()
+  ) {
 
+    day.classList.add(
+      "other-month"
+    );
+
+  }
 
   const today =
     new Date();
