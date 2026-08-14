@@ -7,8 +7,8 @@
    Supabase
 ========================================================= */
 
-const SUPABASE_URL = "あなたのProject URL";
-const SUPABASE_ANON_KEY = "あなたのAnon/Publishable Key";
+const SUPABASE_URL = "https://pvppgvjhfslizkudjxru.supabase.co/rest/v1/";
+const SUPABASE_ANON_KEY = "sb_publishable_R9RKZAlPhesQKiiwnEq84A_s88z57bk";
 
 
 const supabaseClient =
