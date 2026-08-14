@@ -597,4 +597,8 @@ legend {
 
   border-right: none;
 }
+  .other-month .day-header {
+  color: #555;
+  opacity: 0.6;
+}
   }
