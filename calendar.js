@@ -679,7 +679,6 @@ function createDay(
     date.toLocaleDateString(
       "en-US",
       {
-        weekday: "short",
         month: "numeric",
         day: "numeric"
       }
