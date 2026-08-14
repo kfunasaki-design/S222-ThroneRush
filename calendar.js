@@ -1909,6 +1909,27 @@ calendarWrapper
    Initialize
 ========================================================= */
 
+const startGMT =
+  document.getElementById(
+    "startGMT"
+  );
+
+const startJST =
+  document.getElementById(
+    "startJST"
+  );
+
+const endGMT =
+  document.getElementById(
+    "endGMT"
+  );
+
+const endJST =
+  document.getElementById(
+    "endJST"
+  );
+
+
 startGMT.addEventListener(
   "input",
   () =>
@@ -1925,7 +1946,8 @@ startJST.addEventListener(
     updateGMT(
       startJST,
       startGMT
-    );
+    )
+);
 
 
 endGMT.addEventListener(
@@ -1947,5 +1969,9 @@ endJST.addEventListener(
     )
 );
 
+
+/* =========================================================
+   Load
+========================================================= */
 
 loadSchedules();
