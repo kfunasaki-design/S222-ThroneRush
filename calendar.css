@@ -179,7 +179,7 @@ button {
 
 .day {
 
-  min-height: 100px;
+  min-height: 180px;
 
   border-right: 1px solid var(--border);
 }
@@ -529,9 +529,37 @@ legend {
     align-items: stretch;
   }
 
+
   .header button {
 
     width: 100%;
   }
+
+
+  #calendar {
+
+    min-width: 980px;
+  }
+
+
+  /* 日付表示をコンパクトにする */
+
+  .day-header {
+
+    height: 32px;
+
+    padding: 7px;
+
+    font-size: 12px;
+  }
+
+
+  /* 縦方向を広くする */
+
+  .day {
+
+    min-height: 180px;
+  }
+
 
   }
