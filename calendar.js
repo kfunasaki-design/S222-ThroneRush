@@ -675,15 +675,8 @@ function createDay(
     "day-header";
 
 
-  header.textContent =
-    date.toLocaleDateString(
-      "en-US",
-      {
-        month: "numeric",
-        day: "numeric"
-      }
-    );
-
+header.textContent =
+  date.getDate();
 
   const list =
     document.createElement(
