@@ -556,5 +556,45 @@ legend {
     min-height: 180px;
   }
 
+/* =========================
+   Weekday Header
+========================= */
 
+.weekday-row {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(7, minmax(0, 1fr));
+
+  width: 100%;
+
+  position: sticky;
+
+  top: 0;
+
+  z-index: 10;
+
+  background: #17191d;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.weekday-cell {
+
+  padding: 8px 4px;
+
+  text-align: center;
+
+  color: #aaa;
+
+  font-size: 12px;
+
+  border-right: 1px solid var(--border);
+}
+
+.weekday-cell:last-child {
+
+  border-right: none;
+}
   }
