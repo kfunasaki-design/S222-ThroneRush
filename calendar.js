@@ -1822,7 +1822,15 @@ document
 
     }
   );
-
+document
+  .getElementById(
+    "refreshBtn"
+  )
+  .addEventListener(
+    "click",
+    () =>
+      loadSchedules()
+  );
 
 /* =========================================================
    Pinch Zoom / Touch Scroll
