@@ -7,7 +7,7 @@
    Supabase
 ========================================================= */
 
-const SUPABASE_URL = "https://pvppgvjhfslizkudjxru.supabase.co/rest/v1/";
+const SUPABASE_URL = "https://pvppgvjhfslizkudjxru.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_R9RKZAlPhesQKiiwnEq84A_s88z57bk";
 
 
