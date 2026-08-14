@@ -1873,7 +1873,7 @@ calendarWrapper
         Math.min(
           Math.max(
             zoom,
-            0.7
+            0.4
           ),
           2
         );
