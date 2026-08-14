@@ -2092,4 +2092,4 @@ endJST.addEventListener(
    Load
 ========================================================= */
 
-loadSchedules();２２２
+loadSchedules();
