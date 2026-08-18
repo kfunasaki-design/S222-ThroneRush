@@ -307,43 +307,42 @@ async function loadSchedules() {
   }
 
 
-  schedules =
-    (data || []).map(
-      schedule => ({
+schedules =
+  (data || []).map(
+    schedule => ({
 
-        id:
-          schedule.id,
+      id:
+        schedule.id,
 
-        fortress:
-          schedule.fortress,
+      fortress:
+        schedule.fortress,
 
-        x:
-          schedule.x,
+      x:
+        schedule.coordinate_x,
 
-        y:
-          schedule.y,
+      y:
+        schedule.coordinate_y,
 
-        guild:
-          schedule.guild,
+      guild:
+        schedule.guild,
 
-        start:
-          schedule.start,
+      start:
+        schedule.start_at,
 
-        end:
-          schedule.end,
+      end:
+        schedule.end_at,
 
-        description:
-          schedule.description || "",
+      description:
+        schedule.description || "",
 
-        color:
-          schedule.color,
+      color:
+        schedule.color,
 
-        creatorId:
-          schedule.creator_id
+      creatorId:
+        schedule.creator_id
 
-      })
-    );
-
+    })
+  );
 
   renderCalendar();
 
@@ -363,40 +362,39 @@ async function insertSchedule(
   } =
     await supabaseClient
       .from("schedules")
-      .insert({
+.insert({
 
-        id:
-          schedule.id,
+  id:
+    schedule.id,
 
-        fortress:
-          schedule.fortress,
+  fortress:
+    schedule.fortress,
 
-        x:
-          schedule.x,
+  coordinate_x:
+    schedule.x,
 
-        y:
-          schedule.y,
+  coordinate_y:
+    schedule.y,
 
-        guild:
-          schedule.guild,
+  guild:
+    schedule.guild,
 
-        start:
-          schedule.start,
+  start_at:
+    schedule.start,
 
-        end:
-          schedule.end,
+  end_at:
+    schedule.end,
 
-        description:
-          schedule.description,
+  description:
+    schedule.description,
 
-        color:
-          schedule.color,
+  color:
+    schedule.color,
 
-        creator_id:
-          schedule.creatorId
+  creator_id:
+    schedule.creatorId
 
-      });
-
+});
 
   if (error) {
 
@@ -425,36 +423,36 @@ async function updateSchedule(
   } =
     await supabaseClient
       .from("schedules")
-      .update({
+.update({
 
-        fortress:
-          schedule.fortress,
+  fortress:
+    schedule.fortress,
 
-        x:
-          schedule.x,
+  coordinate_x:
+    schedule.x,
 
-        y:
-          schedule.y,
+  coordinate_y:
+    schedule.y,
 
-        guild:
-          schedule.guild,
+  guild:
+    schedule.guild,
 
-        start:
-          schedule.start,
+  start_at:
+    schedule.start,
 
-        end:
-          schedule.end,
+  end_at:
+    schedule.end,
 
-        description:
-          schedule.description,
+  description:
+    schedule.description,
 
-        color:
-          schedule.color,
+  color:
+    schedule.color,
 
-        creator_id:
-          schedule.creatorId
+  creator_id:
+    schedule.creatorId
 
-      })
+})
       .eq(
         "id",
         schedule.id
