@@ -280,7 +280,7 @@ async function loadSchedules() {
       .from("schedules")
       .select("*")
       .order(
-        "start",
+        "start_at",
         {
           ascending: true
         }
