@@ -731,53 +731,76 @@ week.appendChild(
       cover each other.
     */
 
-    const lanes = [];
+const lanes = [];
 
 
-    weekSchedules.forEach(
-      schedule => {
+weekSchedules.forEach(
+  schedule => {
 
-        const segment =
-          getWeekScheduleSegment(
-            schedule,
-            weekStart,
-            weekEnd
-          );
-
-
-        let laneIndex = 0;
+    const segment =
+      getWeekScheduleSegment(
+        schedule,
+        weekStart,
+        weekEnd
+      );
 
 
-        while (
-          lanes[laneIndex] &&
-          lanes[laneIndex] >= segment.startColumn
-          &&
-          lanes[laneIndex] <= segment.endColumn
-        ) {
-
-          laneIndex++;
-
-        }
+    let laneIndex = 0;
 
 
-        lanes[laneIndex] =
-          segment.endColumn;
+    while (true) {
 
+      if (!lanes[laneIndex]) {
 
-        const item =
-          createSchedule(
-            schedule,
-            segment,
-            laneIndex
-          );
-
-
-        scheduleLayer.appendChild(
-          item
-        );
+        lanes[laneIndex] = [];
 
       }
+
+
+      const overlaps =
+        lanes[laneIndex].some(
+          existingSegment =>
+            existingSegment.startColumn
+            <=
+            segment.endColumn
+            &&
+            existingSegment.endColumn
+            >=
+            segment.startColumn
+        );
+
+
+      if (!overlaps) {
+
+        break;
+
+      }
+
+
+      laneIndex++;
+
+    }
+
+
+    lanes[laneIndex].push(
+      segment
     );
+
+
+    const item =
+      createSchedule(
+        schedule,
+        segment,
+        laneIndex
+      );
+
+
+    scheduleLayer.appendChild(
+      item
+    );
+
+  }
+);
 
 
     /*
