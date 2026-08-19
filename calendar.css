@@ -140,11 +140,11 @@ button {
 
 #calendarWrapper {
 
-  overflow: auto;
+  overflow: visible;
 
   width: 100%;
 
-  height: calc(100vh - 125px);
+  height: auto;
 
   touch-action: pan-x pan-y;
 
