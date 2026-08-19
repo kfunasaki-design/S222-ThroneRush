@@ -657,6 +657,19 @@ function renderCalendar() {
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+     
     calendar.appendChild(
       week
     );
@@ -729,55 +742,12 @@ function createDay(
 header.textContent =
   date.getDate();
 
-  const list =
-    document.createElement(
-      "div"
-    );
-
-
-  list.className =
-    "schedule-list";
-
-
-  schedules
-    .filter(
-      schedule =>
-        scheduleOverlapsDay(
-          schedule,
-          date
-        )
-    )
-    .sort(
-      (a, b) =>
-        new Date(a.start)
-        -
-        new Date(b.start)
-    )
-    .forEach(
-      schedule => {
-
-        const item =
-          createSchedule(
-            schedule
-          );
-
-
-        list.appendChild(
-          item
-        );
-
-      }
-    );
-
 
   day.appendChild(
     header
   );
 
 
-  day.appendChild(
-    list
-  );
 
 
   return day;
