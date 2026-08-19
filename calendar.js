@@ -651,6 +651,10 @@ week.className =
   "week";
 
 
+week.style.position =
+  "relative";
+
+
 const dayGrid =
   document.createElement(
     "div"
@@ -665,14 +669,38 @@ dayGrid.className =
       over the seven day cells.
     */
 
-    const scheduleLayer =
-      document.createElement(
-        "div"
-      );
+const scheduleLayer =
+  document.createElement(
+    "div"
+  );
 
 
-    scheduleLayer.className =
-      "schedule-layer";
+scheduleLayer.className =
+  "schedule-layer";
+
+
+/*
+  Schedule layer must overlay
+  the seven day cells.
+*/
+
+scheduleLayer.style.position =
+  "absolute";
+
+scheduleLayer.style.left =
+  "0";
+
+scheduleLayer.style.top =
+  "0";
+
+scheduleLayer.style.width =
+  "100%";
+
+scheduleLayer.style.height =
+  "100%";
+
+scheduleLayer.style.pointerEvents =
+  "none";
 
 
     /* =========================
@@ -804,13 +832,13 @@ weekSchedules.forEach(
       space for the schedule lanes.
     */
 
-    const scheduleHeight =
-      Math.max(
-        180,
-        38 +
-        (lanes.length * 34) +
-        8
-      );
+const scheduleHeight =
+  Math.max(
+    180,
+    42 +
+    (lanes.length * 34) +
+    10
+  );
 
 
     week.style.minHeight =
@@ -1096,12 +1124,20 @@ function createSchedule(
     );
 
 
-  button.className =
-    "schedule";
+button.className =
+  "schedule";
 
 
-  button.style.background =
-    schedule.color;
+button.style.position =
+  "absolute";
+
+
+button.style.background =
+  schedule.color;
+
+
+button.style.pointerEvents =
+  "auto";
 
 
   button.textContent =
