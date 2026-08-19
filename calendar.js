@@ -646,14 +646,22 @@ function renderCalendar() {
     );
 
 
-    const week =
-      document.createElement(
-        "div"
-      );
+const week =
+  document.createElement(
+    "div"
+  );
+
+week.className =
+  "week";
 
 
-    week.className =
-      "week";
+const dayGrid =
+  document.createElement(
+    "div"
+  );
+
+dayGrid.className =
+  "day-grid";
 
 
     /*
@@ -694,9 +702,12 @@ function renderCalendar() {
         createDay(date);
 
 
-      week.appendChild(
-        day
-      );
+dayGrid.appendChild(
+  day
+);
+week.appendChild(
+  dayGrid
+);
 
     }
 
