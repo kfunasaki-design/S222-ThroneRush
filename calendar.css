@@ -156,6 +156,8 @@ button {
   width: 100%;
 
   transform-origin: top left;
+
+  position: relative;
 }
 
 
@@ -623,7 +625,7 @@ legend {
 
   top: 0;
 
-  z-index: 10;
+  z-index: 100;
 
   background: #17191d;
 
