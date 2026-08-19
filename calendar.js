@@ -530,43 +530,50 @@ function renderCalendar() {
      Weekday Header
   ========================= */
 
-  const weekdayRow =
-    document.createElement("div");
-
-  weekdayRow.className =
-    "weekday-row";
+weekdayHeader.innerHTML = "";
 
 
-  const weekdays = [
-    "Sun",
-    "Mon",
-    "Tue",
-    "Wed",
-    "Thu",
-    "Fri",
-    "Sat"
-  ];
+const weekdayRow =
+  document.createElement("div");
+
+weekdayRow.className =
+  "weekday-row";
 
 
-  weekdays.forEach(
-    weekday => {
+const weekdays = [
+  "Sun",
+  "Mon",
+  "Tue",
+  "Wed",
+  "Thu",
+  "Fri",
+  "Sat"
+];
 
-      const cell =
-        document.createElement("div");
 
-      cell.className =
-        "weekday-cell";
+weekdays.forEach(
+  weekday => {
 
-      cell.textContent =
-        weekday;
+    const cell =
+      document.createElement("div");
 
-      weekdayRow.appendChild(
-        cell
-      );
+    cell.className =
+      "weekday-cell";
 
-    }
-  );
+    cell.textContent =
+      weekday;
 
+    weekdayRow.appendChild(
+      cell
+    );
+
+  }
+);
+
+
+weekdayHeader.appendChild(
+  weekdayRow
+);
 
 
 
