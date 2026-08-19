@@ -568,9 +568,7 @@ function renderCalendar() {
   );
 
 
-  calendar.appendChild(
-    weekdayRow
-  );
+
 
 
   /* =========================
