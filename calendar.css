@@ -140,19 +140,11 @@ button {
 
 #calendarWrapper {
 
-  overflow: auto;
-
   width: 100%;
-
-  height: calc(100vh - 125px);
-
-  touch-action: pan-x pan-y;
 
   background: #0c0d0f;
 
-  /* スクロールバーを非表示 */
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  touch-action: pan-x pan-y;
 }
 
 #calendarWrapper::-webkit-scrollbar {
