@@ -24,6 +24,8 @@ body {
     BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
+
+  overflow-y: auto;
 }
 
 
