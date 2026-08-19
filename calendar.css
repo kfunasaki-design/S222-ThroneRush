@@ -210,12 +210,6 @@ button {
   color: #aaa;
 
   font-size: 12px;
-
-  position: sticky;
-
-  top: 0;
-
-  z-index: 2;
 }
 
 .today .day-header {
