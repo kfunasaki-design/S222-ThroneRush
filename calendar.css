@@ -572,6 +572,20 @@ legend {
    Weekday Header
 ========================= */
 
+#weekdayHeader {
+
+  width: 100%;
+
+  background: #17191d;
+
+  border-bottom: 1px solid var(--border);
+
+  position: relative;
+
+  z-index: 20;
+}
+
+
 .weekday-row {
 
   display: grid;
@@ -580,16 +594,6 @@ legend {
     repeat(7, minmax(0, 1fr));
 
   width: 100%;
-
-  position: sticky;
-
-  top: 0;
-
-  z-index: 10;
-
-  background: #17191d;
-
-  border-bottom: 1px solid var(--border);
 }
 
 .weekday-cell {
