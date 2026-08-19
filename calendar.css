@@ -569,46 +569,6 @@ legend {
 
 
 /* =========================
-   Mobile
-========================= */
-
-@media (max-width: 700px) {
-
-  .header {
-
-    flex-direction: column;
-
-    align-items: stretch;
-  }
-
-
-  .header button {
-
-    width: 100%;
-  }
-
-
-
-  /* 日付表示をコンパクトにする */
-
-  .day-header {
-
-    height: 32px;
-
-    padding: 7px;
-
-    font-size: 12px;
-  }
-
-
-  /* 縦方向を広くする */
-
-  .day {
-
-    min-height: 180px;
-  }
-
-/* =========================
    Weekday Header
 ========================= */
 
@@ -625,7 +585,7 @@ legend {
 
   top: 0;
 
-  z-index: 100;
+  z-index: 10;
 
   background: #17191d;
 
@@ -649,6 +609,46 @@ legend {
 
   border-right: none;
 }
+
+
+/* =========================
+   Mobile
+========================= */
+
+@media (max-width: 700px) {
+
+  .header {
+
+    flex-direction: column;
+
+    align-items: stretch;
+  }
+
+  .header button {
+
+    width: 100%;
+  }
+
+  .day-header {
+
+    height: 32px;
+
+    padding: 7px;
+
+    font-size: 12px;
+  }
+
+  .day {
+
+    min-height: 180px;
+  }
+
+}
+
+
+
+
+  
   .other-month .day-header {
   color: #555;
   opacity: 0.6;
