@@ -698,20 +698,18 @@ dayGrid.className =
       );
 
 
-      const day =
-        createDay(date);
+  const day =
+    createDay(date);
 
 
 dayGrid.appendChild(
   day
 );
+
+}
 week.appendChild(
   dayGrid
 );
-
-    }
-
-
     /* =========================
        Schedules
     ========================= */
