@@ -551,29 +551,36 @@ const weekdays = [
 ];
 
 
-weekdays.forEach(
-  weekday => {
+  weekdays.forEach(
+    weekday => {
 
-    const cell =
-      document.createElement("div");
+      const cell =
+        document.createElement(
+          "div"
+        );
 
-    cell.className =
-      "weekday-cell";
+      cell.className =
+        "weekday-cell";
 
-    cell.textContent =
-      weekday;
+      cell.textContent =
+        weekday;
 
-    weekdayRow.appendChild(
-      cell
-    );
+      weekdayRow.appendChild(
+        cell
+      );
 
-  }
-);
+    }
+  );
 
 
-weekdayHeader.appendChild(
-  weekdayRow
-);
+  weekdayHeader.appendChild(
+    weekdayRow
+  );
+
+
+  /* =========================
+     Month Range
+  ========================= */
 
 
 
