@@ -529,6 +529,7 @@ function renderCalendar() {
   eventPeriod.textContent =
     `Event: ${event.start} → ${event.end}`;
 
+
   /* =========================
      Weekday Header
   ========================= */
@@ -539,6 +540,7 @@ function renderCalendar() {
   weekdayRow.className =
     "weekday-row";
 
+
   const weekdays = [
     "Sun",
     "Mon",
@@ -548,6 +550,7 @@ function renderCalendar() {
     "Fri",
     "Sat"
   ];
+
 
   weekdays.forEach(
     weekday => {
@@ -568,10 +571,15 @@ function renderCalendar() {
     }
   );
 
+
   calendar.appendChild(
     weekdayRow
   );
 
+
+  /* =========================
+     Month Range
+  ========================= */
 
   const firstDay =
     new Date(
@@ -617,9 +625,26 @@ function renderCalendar() {
     );
 
 
+  /* =========================
+     Create Weeks
+  ========================= */
+
   while (
     cursor <= calendarEnd
   ) {
+
+    const weekStart =
+      new Date(cursor);
+
+
+    const weekEnd =
+      new Date(cursor);
+
+
+    weekEnd.setDate(
+      weekEnd.getDate() + 6
+    );
+
 
     const week =
       document.createElement(
@@ -631,6 +656,25 @@ function renderCalendar() {
       "week";
 
 
+    /*
+      Schedule layer is placed
+      over the seven day cells.
+    */
+
+    const scheduleLayer =
+      document.createElement(
+        "div"
+      );
+
+
+    scheduleLayer.className =
+      "schedule-layer";
+
+
+    /* =========================
+       Day Cells
+    ========================= */
+
     for (
       let i = 0;
       i < 7;
@@ -638,11 +682,11 @@ function renderCalendar() {
     ) {
 
       const date =
-        new Date(cursor);
+        new Date(weekStart);
 
 
       date.setDate(
-        cursor.getDate() + i
+        weekStart.getDate() + i
       );
 
 
@@ -657,19 +701,99 @@ function renderCalendar() {
     }
 
 
+    /* =========================
+       Schedules
+    ========================= */
+
+    const weekSchedules =
+      schedules.filter(
+        schedule =>
+          scheduleOverlapsWeek(
+            schedule,
+            weekStart,
+            weekEnd
+          )
+      );
 
 
+    /*
+      Each schedule receives a lane
+      so overlapping schedules do not
+      cover each other.
+    */
+
+    const lanes = [];
 
 
+    weekSchedules.forEach(
+      schedule => {
+
+        const segment =
+          getWeekScheduleSegment(
+            schedule,
+            weekStart,
+            weekEnd
+          );
 
 
+        let laneIndex = 0;
 
 
+        while (
+          lanes[laneIndex] &&
+          lanes[laneIndex] >= segment.startColumn
+          &&
+          lanes[laneIndex] <= segment.endColumn
+        ) {
+
+          laneIndex++;
+
+        }
 
 
+        lanes[laneIndex] =
+          segment.endColumn;
 
 
-     
+        const item =
+          createSchedule(
+            schedule,
+            segment,
+            laneIndex
+          );
+
+
+        scheduleLayer.appendChild(
+          item
+        );
+
+      }
+    );
+
+
+    /*
+      Give the week enough vertical
+      space for the schedule lanes.
+    */
+
+    const scheduleHeight =
+      Math.max(
+        180,
+        38 +
+        (lanes.length * 34) +
+        8
+      );
+
+
+    week.style.minHeight =
+      `${scheduleHeight}px`;
+
+
+    week.appendChild(
+      scheduleLayer
+    );
+
+
     calendar.appendChild(
       week
     );
@@ -700,6 +824,8 @@ function createDay(
 
   day.className =
     "day";
+
+
   if (
     date.getMonth()
     !==
@@ -711,6 +837,7 @@ function createDay(
     );
 
   }
+
 
   const today =
     new Date();
@@ -739,15 +866,13 @@ function createDay(
     "day-header";
 
 
-header.textContent =
-  date.getDate();
+  header.textContent =
+    date.getDate();
 
 
   day.appendChild(
     header
   );
-
-
 
 
   return day;
@@ -756,34 +881,14 @@ header.textContent =
 
 
 /* =========================================================
-   Schedule
+   Schedule / Week
 ========================================================= */
 
-function scheduleOverlapsDay(
+function scheduleOverlapsWeek(
   schedule,
-  date
+  weekStart,
+  weekEnd
 ) {
-
-  const start =
-    new Date(date);
-
-
-  start.setHours(
-    0,
-    0,
-    0,
-    0
-  );
-
-
-  const end =
-    new Date(start);
-
-
-  end.setDate(
-    end.getDate() + 1
-  );
-
 
   const scheduleStart =
     new Date(
@@ -797,21 +902,164 @@ function scheduleOverlapsDay(
     );
 
 
+  const rangeStart =
+    new Date(
+      weekStart
+    );
+
+
+  rangeStart.setHours(
+    0,
+    0,
+    0,
+    0
+  );
+
+
+  const rangeEnd =
+    new Date(
+      weekEnd
+    );
+
+
+  rangeEnd.setDate(
+    rangeEnd.getDate() + 1
+  );
+
+
+  rangeEnd.setHours(
+    0,
+    0,
+    0,
+    0
+  );
+
+
   return (
-    scheduleStart < end
+    scheduleStart < rangeEnd
     &&
-    scheduleEnd > start
+    scheduleEnd > rangeStart
   );
 
 }
 
 
 /* =========================================================
-   Schedule Button
+   Week Schedule Segment
+========================================================= */
+
+function getWeekScheduleSegment(
+  schedule,
+  weekStart,
+  weekEnd
+) {
+
+  const scheduleStart =
+    new Date(
+      schedule.start
+    );
+
+
+  const scheduleEnd =
+    new Date(
+      schedule.end
+    );
+
+
+  const segmentStart =
+    scheduleStart > weekStart
+      ? scheduleStart
+      : new Date(weekStart);
+
+
+  const segmentEnd =
+    scheduleEnd < new Date(
+      weekEnd.getTime()
+      + 24 * 60 * 60 * 1000
+    )
+      ? scheduleEnd
+      : new Date(
+          weekEnd.getTime()
+          + 24 * 60 * 60 * 1000
+        );
+
+
+  let startColumn =
+    Math.floor(
+      (
+        new Date(
+          segmentStart.getFullYear(),
+          segmentStart.getMonth(),
+          segmentStart.getDate()
+        )
+        -
+        new Date(
+          weekStart.getFullYear(),
+          weekStart.getMonth(),
+          weekStart.getDate()
+        )
+      )
+      /
+      (24 * 60 * 60 * 1000)
+    );
+
+
+  let endColumn =
+    Math.ceil(
+      (
+        new Date(
+          segmentEnd.getFullYear(),
+          segmentEnd.getMonth(),
+          segmentEnd.getDate()
+        )
+        -
+        new Date(
+          weekStart.getFullYear(),
+          weekStart.getMonth(),
+          weekStart.getDate()
+        )
+      )
+      /
+      (24 * 60 * 60 * 1000)
+    ) - 1;
+
+
+  startColumn =
+    Math.max(
+      0,
+      Math.min(
+        6,
+        startColumn
+      )
+    );
+
+
+  endColumn =
+    Math.max(
+      startColumn,
+      Math.min(
+        6,
+        endColumn
+      )
+    );
+
+
+  return {
+    startColumn,
+    endColumn
+  };
+
+}
+
+
+/* =========================================================
+   Schedule
 ========================================================= */
 
 function createSchedule(
-  schedule
+  schedule,
+  segment,
+  laneIndex
 ) {
 
   const button =
@@ -834,6 +1082,23 @@ function createSchedule(
     )} ${schedule.x}:${schedule.y} ${schedule.guild}`;
 
 
+  /*
+    Position the schedule across
+    the required number of days.
+  */
+
+  button.style.left =
+    `calc(${segment.startColumn} * (100% / 7) + 4px)`;
+
+
+  button.style.width =
+    `calc(${segment.endColumn - segment.startColumn + 1} * (100% / 7) - 8px)`;
+
+
+  button.style.top =
+    `${38 + laneIndex * 34}px`;
+
+
   button.addEventListener(
     "click",
     () =>
@@ -846,7 +1111,6 @@ function createSchedule(
   return button;
 
 }
-
 
 /* =========================================================
    Add Schedule
