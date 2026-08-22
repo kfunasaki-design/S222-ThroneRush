@@ -35,10 +35,6 @@ let currentMonth =
 
 let selectedSchedule = null;
 
-let zoom = 1;
-
-let pinchStart = null;
-
 
 /* =========================================================
    Event Period
@@ -104,7 +100,9 @@ const detailDialog =
 ========================================================= */
 
 function isMobile() {
+
   return window.innerWidth <= 700;
+
 }
 
 
@@ -327,6 +325,7 @@ function updateCurrentTime() {
 function updateLanguage() {
 
   const mobile = isMobile();
+
 
   /* Header */
 
@@ -1081,8 +1080,6 @@ function renderCalendar() {
 
   updateLanguage();
 
-  applyZoom();
-
 }
 
 
@@ -1332,11 +1329,6 @@ function createSchedule(
   button.style.pointerEvents =
     "auto";
 
-
-  /*
-    IMPORTANT:
-    Schedule content is NOT translated.
-  */
 
   button.textContent =
     `${fortressIcon(
@@ -2266,209 +2258,12 @@ document
 
 
 /* =========================================================
-   Pinch Zoom / Touch Scroll
-========================================================= */
-
-function distance(
-  touch1,
-  touch2
-) {
-
-  const dx =
-    touch1.clientX -
-    touch2.clientX;
-
-  const dy =
-    touch1.clientY -
-    touch2.clientY;
-
-  return Math.sqrt(
-    dx * dx +
-    dy * dy
-  );
-
-}
-
-
-/* =========================================================
-   Minimum Zoom
-========================================================= */
-
-function getMinimumZoom() {
-
-  const calendarWidth =
-    calendar.scrollWidth;
-
-  const wrapperWidth =
-    calendarWrapper.clientWidth;
-
-  if (
-    calendarWidth <= 0 ||
-    wrapperWidth <= 0
-  ) {
-
-    return 0.4;
-
-  }
-
-  return Math.min(
-    1,
-    wrapperWidth / calendarWidth
-  );
-
-}
-
-
-/* =========================================================
-   Apply Zoom
-========================================================= */
-
-function applyZoom() {
-
-  const minZoom =
-    getMinimumZoom();
-
-  zoom =
-    Math.min(
-      Math.max(
-        zoom,
-        minZoom
-      ),
-      2
-    );
-
-
-  calendar.style.transform =
-    `scale(${zoom})`;
-
-
-  /*
-    transform does not change
-    actual scrollable width.
-  */
-
-  if (
-    zoom > 1
-  ) {
-
-    calendar.style.marginRight =
-      `${calendar.scrollWidth * (zoom - 1)}px`;
-
-  }
-
-  else {
-
-    calendar.style.marginRight =
-      "0px";
-
-  }
-
-}
-
-
-/* =========================================================
-   Touch Start
-========================================================= */
-
-calendarWrapper
-  .addEventListener(
-    "touchstart",
-    touchEvent => {
-
-      if (
-        touchEvent.touches.length === 2
-      ) {
-
-        pinchStart =
-          distance(
-            touchEvent.touches[0],
-            touchEvent.touches[1]
-          );
-
-      }
-
-    },
-    {
-      passive: true
-    }
-  );
-
-
-/* =========================================================
-   Touch Move
-========================================================= */
-
-calendarWrapper
-  .addEventListener(
-    "touchmove",
-    touchEvent => {
-
-      if (
-        touchEvent.touches.length !== 2 ||
-        pinchStart === null
-      ) {
-
-        return;
-
-      }
-
-      touchEvent.preventDefault();
-
-      const current =
-        distance(
-          touchEvent.touches[0],
-          touchEvent.touches[1]
-        );
-
-      const ratio =
-        current /
-        pinchStart;
-
-      zoom *= ratio;
-
-      applyZoom();
-
-      pinchStart =
-        current;
-
-    },
-    {
-      passive: false
-    }
-  );
-
-
-/* =========================================================
-   Touch End
-========================================================= */
-
-calendarWrapper
-  .addEventListener(
-    "touchend",
-    touchEvent => {
-
-      if (
-        touchEvent.touches.length < 2
-      ) {
-
-        pinchStart =
-          null;
-
-      }
-
-    }
-  );
-
-
-/* =========================================================
    Resize
 ========================================================= */
 
 window.addEventListener(
   "resize",
   () => {
-
-    applyZoom();
 
     updateLanguage();
 
