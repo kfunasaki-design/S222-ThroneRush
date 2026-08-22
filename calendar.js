@@ -1217,62 +1217,110 @@ function getWeekScheduleSegment(
       schedule.end
     );
 
-  const segmentStart =
-    scheduleStart > weekStart
-      ? scheduleStart
-      : new Date(weekStart);
 
-  const weekEndExclusive =
-    new Date(
-      weekEnd.getTime()
-      +
-      24 * 60 * 60 * 1000
+  /*
+    Calendar display date is based on JST.
+
+    Example:
+    GMT 08/30 23:00
+    = JST 08/31 08:00
+
+    The calendar therefore treats this as 08/31.
+  */
+
+  function getJSTDate(date) {
+
+    const parts =
+      new Intl.DateTimeFormat(
+        "en-CA",
+        {
+          timeZone: "Asia/Tokyo",
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit"
+        }
+      ).formatToParts(date);
+
+    const year =
+      parts.find(
+        part => part.type === "year"
+      ).value;
+
+    const month =
+      parts.find(
+        part => part.type === "month"
+      ).value;
+
+    const day =
+      parts.find(
+        part => part.type === "day"
+      ).value;
+
+    return new Date(
+      Number(year),
+      Number(month) - 1,
+      Number(day)
     );
 
-  const segmentEnd =
-    scheduleEnd < weekEndExclusive
-      ? scheduleEnd
-      : weekEndExclusive;
+  }
 
+
+  const startDate =
+    getJSTDate(
+      scheduleStart
+    );
+
+  const endDate =
+    getJSTDate(
+      scheduleEnd
+    );
+
+  const weekStartDate =
+    new Date(
+      weekStart.getFullYear(),
+      weekStart.getMonth(),
+      weekStart.getDate()
+    );
+
+
+  /*
+    Start column
+  */
 
   let startColumn =
-    Math.floor(
+    Math.round(
       (
-        new Date(
-          segmentStart.getFullYear(),
-          segmentStart.getMonth(),
-          segmentStart.getDate()
-        )
-        -
-        new Date(
-          weekStart.getFullYear(),
-          weekStart.getMonth(),
-          weekStart.getDate()
-        )
+        startDate -
+        weekStartDate
       )
       /
       (24 * 60 * 60 * 1000)
     );
 
 
+  /*
+    End column
+
+    The end date itself is included.
+
+    This is the important fix.
+
+    Example:
+    Start: 08/30
+    End:   08/31 JST
+
+    => columns 08/30 and 08/31
+  */
+
   let endColumn =
-    Math.ceil(
+    Math.round(
       (
-        new Date(
-          segmentEnd.getFullYear(),
-          segmentEnd.getMonth(),
-          segmentEnd.getDate()
-        )
-        -
-        new Date(
-          weekStart.getFullYear(),
-          weekStart.getMonth(),
-          weekStart.getDate()
-        )
+        endDate -
+        weekStartDate
       )
       /
       (24 * 60 * 60 * 1000)
-    ) - 1;
+    );
 
 
   startColumn =
@@ -1283,6 +1331,7 @@ function getWeekScheduleSegment(
         startColumn
       )
     );
+
 
   endColumn =
     Math.max(
@@ -1300,7 +1349,6 @@ function getWeekScheduleSegment(
   };
 
 }
-
 
 /* =========================================================
    Schedule
