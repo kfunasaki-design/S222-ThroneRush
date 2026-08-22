@@ -194,3 +194,9 @@ section.open h2 {
 .faq-level-list li {
   margin: 2px 0;
 }
+[class*="channelName"][data-name*="jp"]::before {
+  content: "🔴 雑談"; /* ここに代替えの記号とチャンネル名を書く */
+  position: absolute;
+  left: 0;
+  color: #fff; /* チャンネル名の文字色 */
+}
