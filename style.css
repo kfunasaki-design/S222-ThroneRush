@@ -194,6 +194,24 @@ section.open h2 {
 .faq-level-list li {
   margin: 2px 0;
 }
+
+
+/* チャンネル名の中に「jp」という文字列が含まれている場合の処理 */
+[class*="channel"] a[href*="jp"], 
+[class*="name"]::text {
+  /* ※環境やクラス名によって挙動が変わるため、確実な「特定の名前狙い」の書き換えを推奨します */
+}
+
+/* 一番確実な方法：チャンネルの「ID」または「特定の文字列」を指定して中身をごっそり差し替える */
+/* 例: 「jp-雑談」というチャンネル名の「jp」部分を非表示にして「🔴」に変える場合 */
+
+/* 1. 元のテキスト（jp）を透明にして見えなくする */
+[class*="channelName"][data-name*="jp"] {
+  color: transparent !important;
+  position: relative;
+}
+
+/* 2. 代わりの記号と本来のチャンネル名を再表示する */
 [class*="channelName"][data-name*="jp"]::before {
   content: "🔴 雑談"; /* ここに代替えの記号とチャンネル名を書く */
   position: absolute;
