@@ -197,7 +197,7 @@ section.open h2 {
 
 
 /* チャンネル名の中に「jp」という文字列が含まれている場合の処理 */
-[class*="channel"] a[href*="jp"], 
+[class*="channel"] a[href*="JP"], 
 [class*="name"]::text {
   /* ※環境やクラス名によって挙動が変わるため、確実な「特定の名前狙い」の書き換えを推奨します */
 }
@@ -206,13 +206,13 @@ section.open h2 {
 /* 例: 「jp-雑談」というチャンネル名の「jp」部分を非表示にして「🔴」に変える場合 */
 
 /* 1. 元のテキスト（jp）を透明にして見えなくする */
-[class*="channelName"][data-name*="jp"] {
+[class*="channelName"][data-name*="JP"] {
   color: transparent !important;
   position: relative;
 }
 
 /* 2. 代わりの記号と本来のチャンネル名を再表示する */
-[class*="channelName"][data-name*="jp"]::before {
+[class*="channelName"][data-name*="JP"]::before {
   content: "🔴 雑談"; /* ここに代替えの記号とチャンネル名を書く */
   position: absolute;
   left: 0;
