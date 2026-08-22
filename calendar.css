@@ -221,7 +221,12 @@ button {
 
   background: #0c0d0f;
 
-  touch-action: pan-x pan-y;
+  /*
+    Vertical scrolling only.
+    Pinch zoom is disabled.
+  */
+
+  touch-action: pan-y;
 
   -webkit-overflow-scrolling: touch;
 }
@@ -238,8 +243,6 @@ button {
   min-width: 0;
 
   position: relative;
-
-  transform-origin: top left;
 }
 
 
@@ -736,6 +739,13 @@ legend {
     overflow-y: auto;
 
     overflow-x: hidden;
+
+    /*
+      Keep vertical scrolling only.
+      Pinch zoom is disabled.
+    */
+
+    touch-action: pan-y;
 
     -webkit-overflow-scrolling: touch;
   }
