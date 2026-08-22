@@ -13,7 +13,6 @@ const SUPABASE_URL =
 const SUPABASE_ANON_KEY =
   "sb_publishable_R9RKZAlPhesQKiiwnEq84A_s88z57bk";
 
-
 const supabaseClient =
   window.supabase.createClient(
     SUPABASE_URL,
@@ -38,17 +37,16 @@ let selectedSchedule = null;
 
 let zoom = 1;
 
+let pinchStart = null;
+
 
 /* =========================================================
    Event Period
 ========================================================= */
 
 const event = {
-
   start: "2026-08-01",
-
   end: "2026-09-25"
-
 };
 
 
@@ -57,10 +55,7 @@ const event = {
 ========================================================= */
 
 let creatorId =
-  localStorage.getItem(
-    "s222_creator_id"
-  );
-
+  localStorage.getItem("s222_creator_id");
 
 if (!creatorId) {
 
@@ -80,27 +75,37 @@ if (!creatorId) {
 ========================================================= */
 
 const calendar =
-  document.getElementById(
-    "calendar"
-  );
-
+  document.getElementById("calendar");
 
 const calendarWrapper =
-  document.getElementById(
-    "calendarWrapper"
-  );
-
+  document.getElementById("calendarWrapper");
 
 const monthTitle =
-  document.getElementById(
-    "monthTitle"
-  );
-
+  document.getElementById("monthTitle");
 
 const eventPeriod =
-  document.getElementById(
-    "event-period"
-  );
+  document.getElementById("event-period");
+
+const weekdayHeader =
+  document.getElementById("weekdayHeader");
+
+const dialog =
+  document.getElementById("scheduleDialog");
+
+const form =
+  document.getElementById("scheduleForm");
+
+const detailDialog =
+  document.getElementById("detailDialog");
+
+
+/* =========================================================
+   Device
+========================================================= */
+
+function isMobile() {
+  return window.innerWidth <= 700;
+}
 
 
 /* =========================================================
@@ -170,7 +175,7 @@ function defaultColor(level) {
 
 
 /* =========================================================
-   GMT / JST
+   GMT / JST Input Conversion
 ========================================================= */
 
 function updateJST(
@@ -181,7 +186,6 @@ function updateJST(
   if (!gmtInput.value)
     return;
 
-
   const [
     hour,
     minute
@@ -190,10 +194,7 @@ function updateJST(
       .split(":")
       .map(Number);
 
-
-  const date =
-    new Date();
-
+  const date = new Date();
 
   date.setUTCHours(
     hour,
@@ -202,11 +203,9 @@ function updateJST(
     0
   );
 
-
   date.setHours(
     date.getHours() + 9
   );
-
 
   jstInput.value =
     String(
@@ -228,7 +227,6 @@ function updateGMT(
   if (!jstInput.value)
     return;
 
-
   const [
     hour,
     minute
@@ -237,10 +235,7 @@ function updateGMT(
       .split(":")
       .map(Number);
 
-
-  const date =
-    new Date();
-
+  const date = new Date();
 
   date.setUTCHours(
     hour - 9,
@@ -248,7 +243,6 @@ function updateGMT(
     0,
     0
   );
-
 
   gmtInput.value =
     String(
@@ -258,6 +252,275 @@ function updateGMT(
     String(
       date.getUTCMinutes()
     ).padStart(2, "0");
+
+}
+
+
+/* =========================================================
+   Current Time
+========================================================= */
+
+function updateCurrentTime() {
+
+  if (!eventPeriod)
+    return;
+
+  /*
+    PC:
+    Keep the event period.
+
+    Mobile:
+    Show current GMT / JST.
+  */
+
+  if (!isMobile()) {
+
+    eventPeriod.textContent =
+      `Event: ${event.start} → ${event.end}`;
+
+    return;
+
+  }
+
+  const now = new Date();
+
+  const gmt =
+    now.toLocaleString(
+      "en-GB",
+      {
+        timeZone: "UTC",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+      }
+    );
+
+  const jst =
+    now.toLocaleString(
+      "en-GB",
+      {
+        timeZone: "Asia/Tokyo",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+      }
+    );
+
+  eventPeriod.textContent =
+    `現在時刻  GMT ${gmt}  /  JST ${jst}`;
+
+}
+
+
+/* =========================================================
+   Responsive Translation
+========================================================= */
+
+function updateLanguage() {
+
+  const mobile = isMobile();
+
+  /* Header */
+
+  const title =
+    document.querySelector(".header h1");
+
+  if (title) {
+
+    title.textContent =
+      mobile
+        ? "S222 スローンラッシュ カレンダー"
+        : "S222 Throne Rush Calendar";
+
+  }
+
+
+  /* Buttons */
+
+  const addButton =
+    document.getElementById(
+      "addScheduleBtn"
+    );
+
+  if (addButton) {
+
+    addButton.textContent =
+      mobile
+        ? "予定を追加"
+        : "Add Schedule";
+
+  }
+
+
+  const refreshButton =
+    document.getElementById(
+      "refreshBtn"
+    );
+
+  if (refreshButton) {
+
+    refreshButton.textContent =
+      mobile
+        ? "🔄 更新"
+        : "🔄 Refresh";
+
+  }
+
+
+  /* Weekday */
+
+  const weekdayCells =
+    document.querySelectorAll(
+      ".weekday-cell"
+    );
+
+  const weekdaysEN = [
+    "Sun",
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat"
+  ];
+
+  const weekdaysJP = [
+    "日",
+    "月",
+    "火",
+    "水",
+    "木",
+    "金",
+    "土"
+  ];
+
+  weekdayCells.forEach(
+    (cell, index) => {
+
+      cell.textContent =
+        mobile
+          ? weekdaysJP[index]
+          : weekdaysEN[index];
+
+    }
+  );
+
+
+  /* Dialog */
+
+  const dialogTitle =
+    document.getElementById(
+      "dialogTitle"
+    );
+
+  if (dialogTitle) {
+
+    if (
+      dialogTitle.dataset.mode === "edit"
+    ) {
+
+      dialogTitle.textContent =
+        mobile
+          ? "予定を編集"
+          : "Edit Schedule";
+
+    }
+    else {
+
+      dialogTitle.textContent =
+        mobile
+          ? "予定を追加"
+          : "Add Schedule";
+
+    }
+
+  }
+
+
+  const detailClose =
+    document.getElementById(
+      "detailClose"
+    );
+
+  if (detailClose) {
+
+    detailClose.textContent =
+      mobile
+        ? "閉じる"
+        : "Close";
+
+  }
+
+
+  const editButton =
+    document.getElementById(
+      "editSchedule"
+    );
+
+  if (editButton) {
+
+    editButton.textContent =
+      mobile
+        ? "編集"
+        : "Edit";
+
+  }
+
+
+  const cancelButton =
+    document.getElementById(
+      "cancelBtn"
+    );
+
+  if (cancelButton) {
+
+    cancelButton.textContent =
+      mobile
+        ? "キャンセル"
+        : "Cancel";
+
+  }
+
+
+  const saveButton =
+    form?.querySelector(
+      'button[type="submit"]'
+    );
+
+  if (saveButton) {
+
+    saveButton.textContent =
+      mobile
+        ? "保存"
+        : "Save";
+
+  }
+
+
+  const deleteButton =
+    document.getElementById(
+      "deleteBtn"
+    );
+
+  if (deleteButton) {
+
+    deleteButton.textContent =
+      mobile
+        ? "削除"
+        : "Delete";
+
+  }
+
+
+  updateCurrentTime();
 
 }
 
@@ -282,7 +545,6 @@ async function loadSchedules() {
         }
       );
 
-
   if (error) {
 
     console.error(
@@ -302,43 +564,42 @@ async function loadSchedules() {
 
   }
 
+  schedules =
+    (data || []).map(
+      schedule => ({
 
-schedules =
-  (data || []).map(
-    schedule => ({
+        id:
+          schedule.id,
 
-      id:
-        schedule.id,
+        fortress:
+          schedule.fortress,
 
-      fortress:
-        schedule.fortress,
+        x:
+          schedule.coordinate_x,
 
-      x:
-        schedule.coordinate_x,
+        y:
+          schedule.coordinate_y,
 
-      y:
-        schedule.coordinate_y,
+        guild:
+          schedule.guild,
 
-      guild:
-        schedule.guild,
+        start:
+          schedule.start_at,
 
-      start:
-        schedule.start_at,
+        end:
+          schedule.end_at,
 
-      end:
-        schedule.end_at,
+        description:
+          schedule.description || "",
 
-      description:
-        schedule.description || "",
+        color:
+          schedule.color,
 
-      color:
-        schedule.color,
+        creatorId:
+          schedule.creator_id
 
-      creatorId:
-        schedule.creator_id
-
-    })
-  );
+      })
+    );
 
   renderCalendar();
 
@@ -358,39 +619,39 @@ async function insertSchedule(
   } =
     await supabaseClient
       .from("schedules")
-.insert({
+      .insert({
 
-  id:
-    schedule.id,
+        id:
+          schedule.id,
 
-  fortress:
-    schedule.fortress,
+        fortress:
+          schedule.fortress,
 
-  coordinate_x:
-    schedule.x,
+        coordinate_x:
+          schedule.x,
 
-  coordinate_y:
-    schedule.y,
+        coordinate_y:
+          schedule.y,
 
-  guild:
-    schedule.guild,
+        guild:
+          schedule.guild,
 
-  start_at:
-    schedule.start,
+        start_at:
+          schedule.start,
 
-  end_at:
-    schedule.end,
+        end_at:
+          schedule.end,
 
-  description:
-    schedule.description,
+        description:
+          schedule.description,
 
-  color:
-    schedule.color,
+        color:
+          schedule.color,
 
-  creator_id:
-    schedule.creatorId
+        creator_id:
+          schedule.creatorId
 
-});
+      });
 
   if (error) {
 
@@ -419,41 +680,40 @@ async function updateSchedule(
   } =
     await supabaseClient
       .from("schedules")
-.update({
+      .update({
 
-  fortress:
-    schedule.fortress,
+        fortress:
+          schedule.fortress,
 
-  coordinate_x:
-    schedule.x,
+        coordinate_x:
+          schedule.x,
 
-  coordinate_y:
-    schedule.y,
+        coordinate_y:
+          schedule.y,
 
-  guild:
-    schedule.guild,
+        guild:
+          schedule.guild,
 
-  start_at:
-    schedule.start,
+        start_at:
+          schedule.start,
 
-  end_at:
-    schedule.end,
+        end_at:
+          schedule.end,
 
-  description:
-    schedule.description,
+        description:
+          schedule.description,
 
-  color:
-    schedule.color,
+        color:
+          schedule.color,
 
-  creator_id:
-    schedule.creatorId
+        creator_id:
+          schedule.creatorId
 
-})
+      })
       .eq(
         "id",
         schedule.id
       );
-
 
   if (error) {
 
@@ -488,7 +748,6 @@ async function deleteSchedule(
         scheduleId
       );
 
-
   if (error) {
 
     console.error(
@@ -511,7 +770,6 @@ function renderCalendar() {
 
   calendar.innerHTML = "";
 
-
   monthTitle.textContent =
     currentMonth.toLocaleDateString(
       "en-US",
@@ -522,34 +780,27 @@ function renderCalendar() {
     );
 
 
-  eventPeriod.textContent =
-    `Event: ${event.start} → ${event.end}`;
-
-
-  /* =========================
+  /* =======================================================
      Weekday Header
-  ========================= */
+  ======================================================= */
 
-weekdayHeader.innerHTML = "";
+  weekdayHeader.innerHTML = "";
 
+  const weekdayRow =
+    document.createElement("div");
 
-const weekdayRow =
-  document.createElement("div");
+  weekdayRow.className =
+    "weekday-row";
 
-weekdayRow.className =
-  "weekday-row";
-
-
-const weekdays = [
-  "Sun",
-  "Mon",
-  "Tue",
-  "Wed",
-  "Thu",
-  "Fri",
-  "Sat"
-];
-
+  const weekdays = [
+    "Sun",
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat"
+  ];
 
   weekdays.forEach(
     weekday => {
@@ -572,22 +823,14 @@ const weekdays = [
     }
   );
 
-
   weekdayHeader.appendChild(
     weekdayRow
   );
 
 
-  /* =========================
+  /* =======================================================
      Month Range
-  ========================= */
-
-
-
-
-  /* =========================
-     Month Range
-  ========================= */
+  ======================================================= */
 
   const firstDay =
     new Date(
@@ -596,7 +839,6 @@ const weekdays = [
       1
     );
 
-
   const lastDay =
     new Date(
       currentMonth.getFullYear(),
@@ -604,10 +846,8 @@ const weekdays = [
       0
     );
 
-
   const calendarStart =
     new Date(firstDay);
-
 
   calendarStart.setDate(
     firstDay.getDate()
@@ -615,10 +855,8 @@ const weekdays = [
     firstDay.getDay()
   );
 
-
   const calendarEnd =
     new Date(lastDay);
-
 
   calendarEnd.setDate(
     lastDay.getDate()
@@ -626,16 +864,13 @@ const weekdays = [
     (6 - lastDay.getDay())
   );
 
-
   let cursor =
-    new Date(
-      calendarStart
-    );
+    new Date(calendarStart);
 
 
-  /* =========================
+  /* =======================================================
      Create Weeks
-  ========================= */
+  ======================================================= */
 
   while (
     cursor <= calendarEnd
@@ -644,80 +879,65 @@ const weekdays = [
     const weekStart =
       new Date(cursor);
 
-
     const weekEnd =
       new Date(cursor);
-
 
     weekEnd.setDate(
       weekEnd.getDate() + 6
     );
 
 
-const week =
-  document.createElement(
-    "div"
-  );
+    const week =
+      document.createElement(
+        "div"
+      );
 
-week.className =
-  "week";
+    week.className =
+      "week";
 
-
-week.style.position =
-  "relative";
-
-
-const dayGrid =
-  document.createElement(
-    "div"
-  );
-
-dayGrid.className =
-  "day-grid";
+    week.style.position =
+      "relative";
 
 
-    /*
-      Schedule layer is placed
-      over the seven day cells.
-    */
+    const dayGrid =
+      document.createElement(
+        "div"
+      );
 
-const scheduleLayer =
-  document.createElement(
-    "div"
-  );
+    dayGrid.className =
+      "day-grid";
 
 
-scheduleLayer.className =
-  "schedule-layer";
+    const scheduleLayer =
+      document.createElement(
+        "div"
+      );
+
+    scheduleLayer.className =
+      "schedule-layer";
+
+    scheduleLayer.style.position =
+      "absolute";
+
+    scheduleLayer.style.left =
+      "0";
+
+    scheduleLayer.style.top =
+      "0";
+
+    scheduleLayer.style.width =
+      "100%";
+
+    scheduleLayer.style.height =
+      "100%";
+
+    scheduleLayer.style.pointerEvents =
+      "none";
 
 
-/*
-  Schedule layer must overlay
-  the seven day cells.
-*/
-
-scheduleLayer.style.position =
-  "absolute";
-
-scheduleLayer.style.left =
-  "0";
-
-scheduleLayer.style.top =
-  "0";
-
-scheduleLayer.style.width =
-  "100%";
-
-scheduleLayer.style.height =
-  "100%";
-
-scheduleLayer.style.pointerEvents =
-  "none";
-
-
-    /* =========================
+    /* =====================================================
        Day Cells
-    ========================= */
+    ===================================================== */
 
     for (
       let i = 0;
@@ -728,27 +948,27 @@ scheduleLayer.style.pointerEvents =
       const date =
         new Date(weekStart);
 
-
       date.setDate(
         weekStart.getDate() + i
       );
 
+      const day =
+        createDay(date);
 
-  const day =
-    createDay(date);
+      dayGrid.appendChild(
+        day
+      );
+
+    }
+
+    week.appendChild(
+      dayGrid
+    );
 
 
-dayGrid.appendChild(
-  day
-);
-
-}
-week.appendChild(
-  dayGrid
-);
-    /* =========================
+    /* =====================================================
        Schedules
-    ========================= */
+    ===================================================== */
 
     const weekSchedules =
       schedules.filter(
@@ -760,118 +980,108 @@ week.appendChild(
           )
       );
 
-
-    /*
-      Each schedule receives a lane
-      so overlapping schedules do not
-      cover each other.
-    */
-
-const lanes = [];
+    const lanes = [];
 
 
-weekSchedules.forEach(
-  schedule => {
+    weekSchedules.forEach(
+      schedule => {
 
-    const segment =
-      getWeekScheduleSegment(
-        schedule,
-        weekStart,
-        weekEnd
-      );
+        const segment =
+          getWeekScheduleSegment(
+            schedule,
+            weekStart,
+            weekEnd
+          );
 
+        let laneIndex = 0;
 
-    let laneIndex = 0;
+        while (true) {
 
+          if (!lanes[laneIndex]) {
 
-    while (true) {
+            lanes[laneIndex] = [];
 
-      if (!lanes[laneIndex]) {
+          }
 
-        lanes[laneIndex] = [];
+          const overlaps =
+            lanes[laneIndex].some(
+              existingSegment =>
+                existingSegment.startColumn
+                <=
+                segment.endColumn
+                &&
+                existingSegment.endColumn
+                >=
+                segment.startColumn
+            );
 
-      }
+          if (!overlaps) {
 
+            break;
 
-      const overlaps =
-        lanes[laneIndex].some(
-          existingSegment =>
-            existingSegment.startColumn
-            <=
-            segment.endColumn
-            &&
-            existingSegment.endColumn
-            >=
-            segment.startColumn
+          }
+
+          laneIndex++;
+
+        }
+
+        lanes[laneIndex].push(
+          segment
         );
 
+        const item =
+          createSchedule(
+            schedule,
+            segment,
+            laneIndex
+          );
 
-      if (!overlaps) {
-
-        break;
+        scheduleLayer.appendChild(
+          item
+        );
 
       }
-
-
-      laneIndex++;
-
-    }
-
-
-    lanes[laneIndex].push(
-      segment
     );
 
 
-    const item =
-      createSchedule(
-        schedule,
-        segment,
-        laneIndex
+    /* =====================================================
+       Week Height
+    ===================================================== */
+
+    const scheduleHeight =
+      Math.max(
+        180,
+        42 +
+        (lanes.length * 34) +
+        10
       );
-
-
-    scheduleLayer.appendChild(
-      item
-    );
-
-  }
-);
-
-
-    /*
-      Give the week enough vertical
-      space for the schedule lanes.
-    */
-
-const scheduleHeight =
-  Math.max(
-    180,
-    42 +
-    (lanes.length * 34) +
-    10
-  );
-
 
     week.style.minHeight =
       `${scheduleHeight}px`;
-
 
     week.appendChild(
       scheduleLayer
     );
 
-
     calendar.appendChild(
       week
     );
-
 
     cursor.setDate(
       cursor.getDate() + 7
     );
 
   }
+
+
+  /*
+    Apply translation after rebuilding
+    the weekday header.
+  */
+
+  updateLanguage();
+
+  applyZoom();
 
 }
 
@@ -880,19 +1090,15 @@ const scheduleHeight =
    Day
 ========================================================= */
 
-function createDay(
-  date
-) {
+function createDay(date) {
 
   const day =
     document.createElement(
       "div"
     );
 
-
   day.className =
     "day";
-
 
   if (
     date.getMonth()
@@ -906,10 +1112,8 @@ function createDay(
 
   }
 
-
   const today =
     new Date();
-
 
   if (
     formatDate(date)
@@ -923,25 +1127,20 @@ function createDay(
 
   }
 
-
   const header =
     document.createElement(
       "div"
     );
 
-
   header.className =
     "day-header";
-
 
   header.textContent =
     date.getDate();
 
-
   day.appendChild(
     header
   );
-
 
   return day;
 
@@ -963,18 +1162,13 @@ function scheduleOverlapsWeek(
       schedule.start
     );
 
-
   const scheduleEnd =
     new Date(
       schedule.end
     );
 
-
   const rangeStart =
-    new Date(
-      weekStart
-    );
-
+    new Date(weekStart);
 
   rangeStart.setHours(
     0,
@@ -983,17 +1177,12 @@ function scheduleOverlapsWeek(
     0
   );
 
-
   const rangeEnd =
-    new Date(
-      weekEnd
-    );
-
+    new Date(weekEnd);
 
   rangeEnd.setDate(
     rangeEnd.getDate() + 1
   );
-
 
   rangeEnd.setHours(
     0,
@@ -1001,7 +1190,6 @@ function scheduleOverlapsWeek(
     0,
     0
   );
-
 
   return (
     scheduleStart < rangeEnd
@@ -1027,29 +1215,27 @@ function getWeekScheduleSegment(
       schedule.start
     );
 
-
   const scheduleEnd =
     new Date(
       schedule.end
     );
-
 
   const segmentStart =
     scheduleStart > weekStart
       ? scheduleStart
       : new Date(weekStart);
 
+  const weekEndExclusive =
+    new Date(
+      weekEnd.getTime()
+      +
+      24 * 60 * 60 * 1000
+    );
 
   const segmentEnd =
-    scheduleEnd < new Date(
-      weekEnd.getTime()
-      + 24 * 60 * 60 * 1000
-    )
+    scheduleEnd < weekEndExclusive
       ? scheduleEnd
-      : new Date(
-          weekEnd.getTime()
-          + 24 * 60 * 60 * 1000
-        );
+      : weekEndExclusive;
 
 
   let startColumn =
@@ -1101,7 +1287,6 @@ function getWeekScheduleSegment(
       )
     );
 
-
   endColumn =
     Math.max(
       startColumn,
@@ -1135,22 +1320,23 @@ function createSchedule(
       "button"
     );
 
+  button.className =
+    "schedule";
 
-button.className =
-  "schedule";
+  button.style.position =
+    "absolute";
+
+  button.style.background =
+    schedule.color;
+
+  button.style.pointerEvents =
+    "auto";
 
 
-button.style.position =
-  "absolute";
-
-
-button.style.background =
-  schedule.color;
-
-
-button.style.pointerEvents =
-  "auto";
-
+  /*
+    IMPORTANT:
+    Schedule content is NOT translated.
+  */
 
   button.textContent =
     `${fortressIcon(
@@ -1158,18 +1344,11 @@ button.style.pointerEvents =
     )} ${schedule.x}:${schedule.y} ${schedule.guild}`;
 
 
-  /*
-    Position the schedule across
-    the required number of days.
-  */
-
   button.style.left =
     `calc(${segment.startColumn} * (100% / 7) + 4px)`;
 
-
   button.style.width =
     `calc(${segment.endColumn - segment.startColumn + 1} * (100% / 7) - 8px)`;
-
 
   button.style.top =
     `${38 + laneIndex * 34}px`;
@@ -1183,31 +1362,17 @@ button.style.pointerEvents =
       )
   );
 
-
   return button;
 
 }
+
 
 /* =========================================================
    Add Schedule
 ========================================================= */
 
-const dialog =
-  document.getElementById(
-    "scheduleDialog"
-  );
-
-
-const form =
-  document.getElementById(
-    "scheduleForm"
-  );
-
-
 document
-  .getElementById(
-    "addScheduleBtn"
-  )
+  .getElementById("addScheduleBtn")
   .addEventListener(
     "click",
     () => {
@@ -1224,18 +1389,23 @@ function resetForm() {
 
   form.reset();
 
-
   document.getElementById(
     "deleteBtn"
   ).style.display =
     "none";
 
+  const title =
+    document.getElementById(
+      "dialogTitle"
+    );
 
-  document.getElementById(
-    "dialogTitle"
-  ).textContent =
-    "Add Schedule";
+  title.dataset.mode =
+    "add";
 
+  title.textContent =
+    isMobile()
+      ? "予定を追加"
+      : "Add Schedule";
 
   selectedSchedule =
     null;
@@ -1244,9 +1414,7 @@ function resetForm() {
 
 
 document
-  .getElementById(
-    "closeDialog"
-  )
+  .getElementById("closeDialog")
   .addEventListener(
     "click",
     () =>
@@ -1255,9 +1423,7 @@ document
 
 
 document
-  .getElementById(
-    "cancelBtn"
-  )
+  .getElementById("cancelBtn")
   .addEventListener(
     "click",
     () =>
@@ -1275,66 +1441,55 @@ form.addEventListener(
 
     eventSubmit.preventDefault();
 
-
     const fortress =
       document.getElementById(
         "fortress"
       ).value;
-
 
     const x =
       document.getElementById(
         "coordinateX"
       ).value;
 
-
     const y =
       document.getElementById(
         "coordinateY"
       ).value;
-
 
     const guild =
       document.getElementById(
         "guild"
       ).value.trim();
 
-
     const startDate =
       document.getElementById(
         "startDate"
       ).value;
-
 
     const startGMT =
       document.getElementById(
         "startGMT"
       ).value;
 
-
     const endDate =
       document.getElementById(
         "endDate"
       ).value;
-
 
     const endGMT =
       document.getElementById(
         "endGMT"
       ).value;
 
-
     const description =
       document.getElementById(
         "description"
       ).value.trim();
 
-
     const error =
       document.getElementById(
         "formError"
       );
-
 
     error.textContent =
       "";
@@ -1344,7 +1499,6 @@ form.addEventListener(
       new Date(
         `${startDate}T${startGMT}:00Z`
       );
-
 
     const end =
       new Date(
@@ -1359,7 +1513,9 @@ form.addEventListener(
     ) {
 
       error.textContent =
-        "End must be at least 3 days after Start.";
+        isMobile()
+          ? "終了日時は開始日時から3日以上後にしてください。"
+          : "End must be at least 3 days after Start.";
 
       return;
 
@@ -1370,7 +1526,6 @@ form.addEventListener(
       new Date(
         `${event.start}T00:00:00Z`
       );
-
 
     const eventEnd =
       new Date(
@@ -1385,7 +1540,9 @@ form.addEventListener(
     ) {
 
       error.textContent =
-        "The schedule must be inside the event period.";
+        isMobile()
+          ? "予定はイベント期間内に設定してください。"
+          : "The schedule must be inside the event period.";
 
       return;
 
@@ -1442,19 +1599,19 @@ form.addEventListener(
       else {
 
         if (
-          selectedSchedule
-            .creatorId
+          selectedSchedule.creatorId
           !==
           creatorId
         ) {
 
           error.textContent =
-            "Only the creator can edit this schedule.";
+            isMobile()
+              ? "この予定を編集できるのは作成者だけです。"
+              : "Only the creator can edit this schedule.";
 
           return;
 
         }
-
 
         await updateSchedule(
           schedule
@@ -1477,9 +1634,10 @@ form.addEventListener(
         saveError
       );
 
-
       error.textContent =
-        "Failed to save schedule.";
+        isMobile()
+          ? "予定の保存に失敗しました。"
+          : "Failed to save schedule.";
 
     }
 
@@ -1490,12 +1648,6 @@ form.addEventListener(
 /* =========================================================
    Details
 ========================================================= */
-
-const detailDialog =
-  document.getElementById(
-    "detailDialog"
-  );
-
 
 function showDetails(
   schedule
@@ -1518,7 +1670,6 @@ function showDetails(
       schedule.start
     );
 
-
   const end =
     new Date(
       schedule.end
@@ -1531,12 +1682,16 @@ function showDetails(
     );
 
 
+  const mobile =
+    isMobile();
+
+
   content.innerHTML = `
 
     <div class="detail-item">
 
       <div class="detail-label">
-        Fortress
+        ${mobile ? "要塞" : "Fortress"}
       </div>
 
       <div class="detail-value">
@@ -1551,7 +1706,7 @@ function showDetails(
     <div class="detail-item">
 
       <div class="detail-label">
-        Coordinate
+        ${mobile ? "座標" : "Coordinate"}
       </div>
 
       <div class="detail-value">
@@ -1568,7 +1723,7 @@ function showDetails(
     <div class="detail-item">
 
       <div class="detail-label">
-        Guild
+        ${mobile ? "ギルド" : "Guild"}
       </div>
 
       <div class="detail-value">
@@ -1583,23 +1738,17 @@ function showDetails(
     <div class="detail-item">
 
       <div class="detail-label">
-        Start
+        ${mobile ? "開始" : "Start"}
       </div>
 
       <div class="detail-value">
 
-        ${formatGMT(
-          start
-        )}
-
+        ${formatGMT(start)}
         GMT
 
         <br>
 
-        ${formatJST(
-          start
-        )}
-
+        ${formatJST(start)}
         JST
 
       </div>
@@ -1610,23 +1759,17 @@ function showDetails(
     <div class="detail-item">
 
       <div class="detail-label">
-        End / Planned Handover
+        ${mobile ? "終了 / 引き渡し予定" : "End / Planned Handover"}
       </div>
 
       <div class="detail-value">
 
-        ${formatGMT(
-          end
-        )}
-
+        ${formatGMT(end)}
         GMT
 
         <br>
 
-        ${formatJST(
-          end
-        )}
-
+        ${formatJST(end)}
         JST
 
       </div>
@@ -1637,15 +1780,13 @@ function showDetails(
     <div class="detail-item">
 
       <div class="detail-label">
-        Description
+        ${mobile ? "説明" : "Description"}
       </div>
 
       <div class="detail-value">
 
         ${escapeHTML(
-          schedule.description
-          ||
-          "—"
+          schedule.description || "—"
         )}
 
       </div>
@@ -1669,7 +1810,6 @@ function showDetails(
       schedule.color =
         colorEvent.target.value;
 
-
       try {
 
         await updateSchedule(
@@ -1680,9 +1820,7 @@ function showDetails(
 
       }
 
-      catch (
-        error
-      ) {
+      catch (error) {
 
         console.error(
           error
@@ -1812,7 +1950,6 @@ function escapeHTML(
 
         };
 
-
         return map[
           character
         ];
@@ -1828,9 +1965,7 @@ function escapeHTML(
 ========================================================= */
 
 document
-  .getElementById(
-    "closeDetail"
-  )
+  .getElementById("closeDetail")
   .addEventListener(
     "click",
     () =>
@@ -1839,9 +1974,7 @@ document
 
 
 document
-  .getElementById(
-    "detailClose"
-  )
+  .getElementById("detailClose")
   .addEventListener(
     "click",
     () =>
@@ -1850,21 +1983,15 @@ document
 
 
 document
-  .getElementById(
-    "editSchedule"
-  )
+  .getElementById("editSchedule")
   .addEventListener(
     "click",
     () => {
 
-      if (
-        !selectedSchedule
-      )
+      if (!selectedSchedule)
         return;
 
-
       detailDialog.close();
-
 
       openEditForm(
         selectedSchedule
@@ -1882,10 +2009,18 @@ function openEditForm(
     schedule;
 
 
-  document.getElementById(
-    "dialogTitle"
-  ).textContent =
-    "Edit Schedule";
+  const title =
+    document.getElementById(
+      "dialogTitle"
+    );
+
+  title.dataset.mode =
+    "edit";
+
+  title.textContent =
+    isMobile()
+      ? "予定を編集"
+      : "Edit Schedule";
 
 
   document.getElementById(
@@ -1917,7 +2052,6 @@ function openEditForm(
       schedule.start
     );
 
-
   const end =
     new Date(
       schedule.end
@@ -1941,9 +2075,7 @@ function openEditForm(
   document.getElementById(
     "startJST"
   ).value =
-    formatTimeJST(
-      start
-    );
+    formatTimeJST(start);
 
 
   document.getElementById(
@@ -1963,9 +2095,7 @@ function openEditForm(
   document.getElementById(
     "endJST"
   ).value =
-    formatTimeJST(
-      end
-    );
+    formatTimeJST(end);
 
 
   document.getElementById(
@@ -2023,22 +2153,17 @@ function formatTimeJST(
 ========================================================= */
 
 document
-  .getElementById(
-    "deleteBtn"
-  )
+  .getElementById("deleteBtn")
   .addEventListener(
     "click",
     async () => {
 
-      if (
-        !selectedSchedule
-      )
+      if (!selectedSchedule)
         return;
 
 
       if (
-        selectedSchedule
-          .creatorId
+        selectedSchedule.creatorId
         !==
         creatorId
       )
@@ -2047,7 +2172,9 @@ document
 
       if (
         !confirm(
-          "Delete this schedule?"
+          isMobile()
+            ? "この予定を削除しますか？"
+            : "Delete this schedule?"
         )
       )
         return;
@@ -2059,23 +2186,22 @@ document
           selectedSchedule.id
         );
 
-
         await loadSchedules();
 
         dialog.close();
 
       }
 
-      catch (
-        error
-      ) {
+      catch (error) {
 
         console.error(
           error
         );
 
         alert(
-          "Failed to delete schedule."
+          isMobile()
+            ? "予定の削除に失敗しました。"
+            : "Failed to delete schedule."
         );
 
       }
@@ -2089,9 +2215,7 @@ document
 ========================================================= */
 
 document
-  .getElementById(
-    "prevMonth"
-  )
+  .getElementById("prevMonth")
   .addEventListener(
     "click",
     () => {
@@ -2103,7 +2227,6 @@ document
           1
         );
 
-
       renderCalendar();
 
     }
@@ -2111,9 +2234,7 @@ document
 
 
 document
-  .getElementById(
-    "nextMonth"
-  )
+  .getElementById("nextMonth")
   .addEventListener(
     "click",
     () => {
@@ -2125,30 +2246,27 @@ document
           1
         );
 
-
       renderCalendar();
 
     }
   );
+
+
+/* =========================================================
+   Refresh
+========================================================= */
+
 document
-  .getElementById(
-    "refreshBtn"
-  )
+  .getElementById("refreshBtn")
   .addEventListener(
     "click",
     () =>
       loadSchedules()
   );
 
+
 /* =========================================================
    Pinch Zoom / Touch Scroll
-========================================================= */
-
-let pinchStart = null;
-
-
-/* =========================================================
-   Distance
 ========================================================= */
 
 function distance(
@@ -2184,7 +2302,6 @@ function getMinimumZoom() {
   const wrapperWidth =
     calendarWrapper.clientWidth;
 
-
   if (
     calendarWidth <= 0 ||
     wrapperWidth <= 0
@@ -2193,7 +2310,6 @@ function getMinimumZoom() {
     return 0.4;
 
   }
-
 
   return Math.min(
     1,
@@ -2212,7 +2328,6 @@ function applyZoom() {
   const minZoom =
     getMinimumZoom();
 
-
   zoom =
     Math.min(
       Math.max(
@@ -2229,11 +2344,7 @@ function applyZoom() {
 
   /*
     transform does not change
-    the actual scrollable width.
-
-    Add the extra visual width
-    so the right side remains
-    scrollable when zoomed in.
+    actual scrollable width.
   */
 
   if (
@@ -2292,11 +2403,6 @@ calendarWrapper
     "touchmove",
     touchEvent => {
 
-      /*
-        Two fingers =
-        custom pinch zoom
-      */
-
       if (
         touchEvent.touches.length !== 2 ||
         pinchStart === null
@@ -2306,14 +2412,7 @@ calendarWrapper
 
       }
 
-
-      /*
-        Prevent normal browser
-        scrolling while pinching.
-      */
-
       touchEvent.preventDefault();
-
 
       const current =
         distance(
@@ -2321,17 +2420,13 @@ calendarWrapper
           touchEvent.touches[1]
         );
 
-
       const ratio =
         current /
         pinchStart;
 
-
       zoom *= ratio;
 
-
       applyZoom();
-
 
       pinchStart =
         current;
@@ -2375,17 +2470,14 @@ window.addEventListener(
 
     applyZoom();
 
+    updateLanguage();
+
   }
 );
 
 
 /* =========================================================
-   Initial Zoom
-========================================================= */
-
-applyZoom();
-/* =========================================================
-   Initialize
+   GMT / JST Inputs
 ========================================================= */
 
 const startGMT =
@@ -2450,7 +2542,21 @@ endJST.addEventListener(
 
 
 /* =========================================================
-   Load
+   Current Time Timer
 ========================================================= */
+
+setInterval(
+  updateCurrentTime,
+  1000
+);
+
+
+/* =========================================================
+   Initial
+========================================================= */
+
+updateLanguage();
+
+updateCurrentTime();
 
 loadSchedules();
