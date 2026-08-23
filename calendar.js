@@ -1028,14 +1028,10 @@ function renderCalendar() {
   calendar.innerHTML = "";
 
 
-  monthTitle.textContent =
-    currentMonth.toLocaleDateString(
-      "en-US",
-      {
-        month: "long",
-        year: "numeric"
-      }
-    );
+monthTitle.textContent =
+  `${currentMonth.getFullYear()}/${String(
+    currentMonth.getMonth() + 1
+  ).padStart(2, "0")}`;
 
 
   /* =======================================================
