@@ -118,7 +118,15 @@ button {
 
   align-items: center;
 }
+#refreshBtn {
 
+  background: #30343b;
+
+  padding: 9px 11px;
+
+  min-width: 40px;
+
+}
 
 /* =========================================================
    Month
