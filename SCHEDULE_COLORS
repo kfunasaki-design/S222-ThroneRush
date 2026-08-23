@@ -41,7 +41,7 @@ let selectedSchedule = null;
 ========================================================= */
 
 const SCHEDULE_COLORS = [
-  "#04FC01",
+  "#00FFFF",
   "#FF00FF",
   "#02FF00",
   "#0000FF",
