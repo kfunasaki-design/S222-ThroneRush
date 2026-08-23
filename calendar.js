@@ -182,55 +182,26 @@ function defaultColor(level) {
 
 function getScheduleTextColor(color) {
 
-  if (!color)
-    return "#ffffff";
-
-  const hex =
-    String(color)
-      .replace("#", "")
-      .trim();
-
-  if (hex.length !== 6)
-    return "#ffffff";
-
-  const r =
-    parseInt(
-      hex.substring(0, 2),
-      16
-    );
-
-  const g =
-    parseInt(
-      hex.substring(2, 4),
-      16
-    );
-
-  const b =
-    parseInt(
-      hex.substring(4, 6),
-      16
-    );
-
-  if (
-    Number.isNaN(r) ||
-    Number.isNaN(g) ||
-    Number.isNaN(b)
+  switch (
+    color.toUpperCase()
   ) {
 
-    return "#ffffff";
+    case "#04FC01":
+    case "#FF00FF":
+    case "#02FF00":
+    case "#FFFF00":
+    case "#FFFFFF":
+      return "#111111";
+
+    case "#0000FF":
+    case "#FE0000":
+    case "#000000":
+      return "#FFFFFF";
+
+    default:
+      return "#FFFFFF";
 
   }
-
-  const brightness =
-    (
-      r * 299 +
-      g * 587 +
-      b * 114
-    ) / 1000;
-
-  return brightness > 160
-    ? "#111111"
-    : "#ffffff";
 
 }
 
