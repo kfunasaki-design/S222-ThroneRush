@@ -151,6 +151,10 @@ function fortressIcon(level) {
 }
 
 
+/* =========================================================
+   Default Schedule Color
+========================================================= */
+
 function defaultColor(level) {
 
   switch (level) {
@@ -263,14 +267,6 @@ function updateCurrentTime() {
   if (!eventPeriod)
     return;
 
-  /*
-    PC:
-    Keep the event period.
-
-    Mobile:
-    Show current GMT / JST.
-  */
-
   if (!isMobile()) {
 
     eventPeriod.textContent =
@@ -342,7 +338,7 @@ function updateLanguage() {
   }
 
 
-  /* Buttons */
+  /* Add Button */
 
   const addButton =
     document.getElementById(
@@ -359,16 +355,19 @@ function updateLanguage() {
   }
 
 
+  /* Refresh Button */
+
   const refreshButton =
     document.getElementById(
       "refreshBtn"
     );
 
-if (refreshButton) {
+  if (refreshButton) {
 
-  refreshButton.textContent = "R";
+    refreshButton.textContent =
+      "R";
 
-}
+  }
 
 
   /* Weekday */
@@ -441,6 +440,8 @@ if (refreshButton) {
   }
 
 
+  /* Detail Close */
+
   const detailClose =
     document.getElementById(
       "detailClose"
@@ -455,6 +456,8 @@ if (refreshButton) {
 
   }
 
+
+  /* Edit */
 
   const editButton =
     document.getElementById(
@@ -471,6 +474,8 @@ if (refreshButton) {
   }
 
 
+  /* Cancel */
+
   const cancelButton =
     document.getElementById(
       "cancelBtn"
@@ -486,6 +491,8 @@ if (refreshButton) {
   }
 
 
+  /* Save */
+
   const saveButton =
     form?.querySelector(
       'button[type="submit"]'
@@ -500,6 +507,8 @@ if (refreshButton) {
 
   }
 
+
+  /* Delete */
 
   const deleteButton =
     document.getElementById(
@@ -1070,11 +1079,6 @@ function renderCalendar() {
   }
 
 
-  /*
-    Apply translation after rebuilding
-    the weekday header.
-  */
-
   updateLanguage();
 
 }
@@ -1280,10 +1284,6 @@ function getWeekScheduleSegment(
     );
 
 
-  /*
-    Start column
-  */
-
   let startColumn =
     Math.round(
       (
@@ -1294,20 +1294,6 @@ function getWeekScheduleSegment(
       (24 * 60 * 60 * 1000)
     );
 
-
-  /*
-    End column
-
-    The end date itself is included.
-
-    This is the important fix.
-
-    Example:
-    Start: 08/30
-    End:   08/31 JST
-
-    => columns 08/30 and 08/31
-  */
 
   let endColumn =
     Math.round(
@@ -1347,6 +1333,7 @@ function getWeekScheduleSegment(
 
 }
 
+
 /* =========================================================
    Schedule
 ========================================================= */
@@ -1378,7 +1365,6 @@ function createSchedule(
 
   button.style.pointerEvents =
     "auto";
-   
 
   button.textContent =
     `${fortressIcon(
@@ -1407,6 +1393,12 @@ function createSchedule(
   return button;
 
 }
+
+
+/* =========================================================
+   Schedule Text Color
+========================================================= */
+
 function getScheduleTextColor(color) {
 
   if (!color)
@@ -1480,6 +1472,7 @@ function resetForm() {
   ).style.display =
     "none";
 
+
   const title =
     document.getElementById(
       "dialogTitle"
@@ -1493,11 +1486,43 @@ function resetForm() {
       ? "予定を追加"
       : "Add Schedule";
 
+
   selectedSchedule =
     null;
 
+
+  /*
+    New schedule default color
+  */
+
+  const fortress =
+    document.getElementById(
+      "fortress"
+    );
+
+  const scheduleColor =
+    document.getElementById(
+      "scheduleColor"
+    );
+
+  if (
+    fortress &&
+    scheduleColor
+  ) {
+
+    scheduleColor.value =
+      defaultColor(
+        fortress.value
+      );
+
+  }
+
 }
 
+
+/* =========================================================
+   Close Dialog
+========================================================= */
 
 document
   .getElementById("closeDialog")
@@ -1526,6 +1551,7 @@ form.addEventListener(
   async eventSubmit => {
 
     eventSubmit.preventDefault();
+
 
     const fortress =
       document.getElementById(
@@ -1571,6 +1597,12 @@ form.addEventListener(
       document.getElementById(
         "description"
       ).value.trim();
+
+    const scheduleColor =
+      document.getElementById(
+        "scheduleColor"
+      );
+
 
     const error =
       document.getElementById(
@@ -1659,10 +1691,14 @@ form.addEventListener(
       description,
 
       color:
-        selectedSchedule
-          ? selectedSchedule.color
-          : defaultColor(
-              fortress
+        scheduleColor
+          ? scheduleColor.value
+          : (
+              selectedSchedule
+                ? selectedSchedule.color
+                : defaultColor(
+                    fortress
+                  )
             ),
 
       creatorId
@@ -1882,39 +1918,46 @@ function showDetails(
   `;
 
 
-  document.getElementById(
-    "scheduleColor"
-  ).value =
-    schedule.color;
+  const scheduleColor =
+    document.getElementById(
+      "scheduleColor"
+    );
 
+  if (scheduleColor) {
 
-  document.getElementById(
-    "scheduleColor"
-  ).oninput =
-    async colorEvent => {
+    scheduleColor.value =
+      schedule.color ||
+      defaultColor(
+        schedule.fortress
+      );
 
-      schedule.color =
-        colorEvent.target.value;
+    scheduleColor.oninput =
+      async colorEvent => {
 
-      try {
+        schedule.color =
+          colorEvent.target.value;
 
-        await updateSchedule(
-          schedule
-        );
+        try {
 
-        await loadSchedules();
+          await updateSchedule(
+            schedule
+          );
 
-      }
+          await loadSchedules();
 
-      catch (error) {
+        }
 
-        console.error(
-          error
-        );
+        catch (error) {
 
-      }
+          console.error(
+            error
+          );
 
-    };
+        }
+
+      };
+
+  }
 
 
   document.getElementById(
@@ -2087,6 +2130,10 @@ document
   );
 
 
+/* =========================================================
+   Edit Form
+========================================================= */
+
 function openEditForm(
   schedule
 ) {
@@ -2188,6 +2235,28 @@ function openEditForm(
     "description"
   ).value =
     schedule.description || "";
+
+
+  /*
+    Important:
+    Show the existing schedule color
+    when opening the edit form.
+  */
+
+  const scheduleColor =
+    document.getElementById(
+      "scheduleColor"
+    );
+
+  if (scheduleColor) {
+
+    scheduleColor.value =
+      schedule.color ||
+      defaultColor(
+        schedule.fortress
+      );
+
+  }
 
 
   document.getElementById(
@@ -2428,6 +2497,52 @@ endJST.addEventListener(
       endGMT
     )
 );
+
+
+/* =========================================================
+   Fortress → Default Color
+========================================================= */
+
+const fortressInput =
+  document.getElementById(
+    "fortress"
+  );
+
+const scheduleColorInput =
+  document.getElementById(
+    "scheduleColor"
+  );
+
+
+if (
+  fortressInput &&
+  scheduleColorInput
+) {
+
+  fortressInput.addEventListener(
+    "change",
+    () => {
+
+      /*
+        Only change the color automatically
+        when creating a new schedule.
+      */
+
+      if (
+        !selectedSchedule
+      ) {
+
+        scheduleColorInput.value =
+          defaultColor(
+            fortressInput.value
+          );
+
+      }
+
+    }
+  );
+
+}
 
 
 /* =========================================================
