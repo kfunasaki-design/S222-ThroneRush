@@ -348,7 +348,7 @@ function getScheduleTextColor(
       → Black text
     */
 
-    case "#04FC01":
+    case "#00FFFF":
     case "#FF00FF":
     case "#02FF00":
     case "#FFFF00":
