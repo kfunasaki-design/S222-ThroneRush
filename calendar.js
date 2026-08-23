@@ -1684,7 +1684,10 @@ function createSchedule(
   button.className =
     "schedule";
 
-
+button.setAttribute(
+  "translate",
+  "no"
+);
   button.style.position =
     "absolute";
 
