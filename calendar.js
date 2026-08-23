@@ -1371,6 +1371,11 @@ function createSchedule(
   button.style.background =
     schedule.color;
 
+  button.style.color =
+    getScheduleTextColor(
+      schedule.color
+    );
+
   button.style.pointerEvents =
     "auto";
 
