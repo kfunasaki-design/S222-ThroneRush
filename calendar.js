@@ -177,6 +177,65 @@ function defaultColor(level) {
 
 
 /* =========================================================
+   Schedule Text Color
+========================================================= */
+
+function getScheduleTextColor(color) {
+
+  if (!color)
+    return "#ffffff";
+
+  const hex =
+    String(color)
+      .replace("#", "")
+      .trim();
+
+  if (hex.length !== 6)
+    return "#ffffff";
+
+  const r =
+    parseInt(
+      hex.substring(0, 2),
+      16
+    );
+
+  const g =
+    parseInt(
+      hex.substring(2, 4),
+      16
+    );
+
+  const b =
+    parseInt(
+      hex.substring(4, 6),
+      16
+    );
+
+  if (
+    Number.isNaN(r) ||
+    Number.isNaN(g) ||
+    Number.isNaN(b)
+  ) {
+
+    return "#ffffff";
+
+  }
+
+  const brightness =
+    (
+      r * 299 +
+      g * 587 +
+      b * 114
+    ) / 1000;
+
+  return brightness > 160
+    ? "#111111"
+    : "#ffffff";
+
+}
+
+
+/* =========================================================
    GMT / JST Input Conversion
 ========================================================= */
 
@@ -267,6 +326,7 @@ function updateCurrentTime() {
   if (!eventPeriod)
     return;
 
+
   if (!isMobile()) {
 
     eventPeriod.textContent =
@@ -276,7 +336,9 @@ function updateCurrentTime() {
 
   }
 
+
   const now = new Date();
+
 
   const gmt =
     now.toLocaleString(
@@ -293,6 +355,7 @@ function updateCurrentTime() {
       }
     );
 
+
   const jst =
     now.toLocaleString(
       "en-GB",
@@ -308,6 +371,7 @@ function updateCurrentTime() {
       }
     );
 
+
   eventPeriod.textContent =
     `現在時刻  GMT ${gmt}  /  JST ${jst}`;
 
@@ -320,13 +384,16 @@ function updateCurrentTime() {
 
 function updateLanguage() {
 
-  const mobile = isMobile();
+  const mobile =
+    isMobile();
 
 
   /* Header */
 
   const title =
-    document.querySelector(".header h1");
+    document.querySelector(
+      ".header h1"
+    );
 
   if (title) {
 
@@ -396,6 +463,7 @@ function updateLanguage() {
     "金",
     "土"
   ];
+
 
   weekdayCells.forEach(
     (cell, index) => {
@@ -550,6 +618,7 @@ async function loadSchedules() {
         }
       );
 
+
   if (error) {
 
     console.error(
@@ -568,6 +637,7 @@ async function loadSchedules() {
     return;
 
   }
+
 
   schedules =
     (data || []).map(
@@ -605,6 +675,7 @@ async function loadSchedules() {
 
       })
     );
+
 
   renderCalendar();
 
@@ -657,6 +728,7 @@ async function insertSchedule(
           schedule.creatorId
 
       });
+
 
   if (error) {
 
@@ -720,6 +792,7 @@ async function updateSchedule(
         schedule.id
       );
 
+
   if (error) {
 
     console.error(
@@ -753,6 +826,7 @@ async function deleteSchedule(
         scheduleId
       );
 
+
   if (error) {
 
     console.error(
@@ -773,7 +847,12 @@ async function deleteSchedule(
 
 function renderCalendar() {
 
+  if (!calendar)
+    return;
+
+
   calendar.innerHTML = "";
+
 
   monthTitle.textContent =
     currentMonth.toLocaleDateString(
@@ -789,48 +868,57 @@ function renderCalendar() {
      Weekday Header
   ======================================================= */
 
-  weekdayHeader.innerHTML = "";
+  if (weekdayHeader) {
 
-  const weekdayRow =
-    document.createElement("div");
+    weekdayHeader.innerHTML = "";
 
-  weekdayRow.className =
-    "weekday-row";
-
-  const weekdays = [
-    "Sun",
-    "Mon",
-    "Tue",
-    "Wed",
-    "Thu",
-    "Fri",
-    "Sat"
-  ];
-
-  weekdays.forEach(
-    weekday => {
-
-      const cell =
-        document.createElement(
-          "div"
-        );
-
-      cell.className =
-        "weekday-cell";
-
-      cell.textContent =
-        weekday;
-
-      weekdayRow.appendChild(
-        cell
+    const weekdayRow =
+      document.createElement(
+        "div"
       );
 
-    }
-  );
+    weekdayRow.className =
+      "weekday-row";
 
-  weekdayHeader.appendChild(
-    weekdayRow
-  );
+
+    const weekdays = [
+      "Sun",
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat"
+    ];
+
+
+    weekdays.forEach(
+      weekday => {
+
+        const cell =
+          document.createElement(
+            "div"
+          );
+
+        cell.className =
+          "weekday-cell";
+
+        cell.textContent =
+          weekday;
+
+        weekdayRow.appendChild(
+          cell
+        );
+
+      }
+    );
+
+
+    weekdayHeader.appendChild(
+      weekdayRow
+    );
+
+  }
 
 
   /* =======================================================
@@ -844,12 +932,14 @@ function renderCalendar() {
       1
     );
 
+
   const lastDay =
     new Date(
       currentMonth.getFullYear(),
       currentMonth.getMonth() + 1,
       0
     );
+
 
   const calendarStart =
     new Date(firstDay);
@@ -860,6 +950,7 @@ function renderCalendar() {
     firstDay.getDay()
   );
 
+
   const calendarEnd =
     new Date(lastDay);
 
@@ -868,6 +959,7 @@ function renderCalendar() {
     +
     (6 - lastDay.getDay())
   );
+
 
   let cursor =
     new Date(calendarStart);
@@ -883,6 +975,7 @@ function renderCalendar() {
 
     const weekStart =
       new Date(cursor);
+
 
     const weekEnd =
       new Date(cursor);
@@ -921,24 +1014,6 @@ function renderCalendar() {
     scheduleLayer.className =
       "schedule-layer";
 
-    scheduleLayer.style.position =
-      "absolute";
-
-    scheduleLayer.style.left =
-      "0";
-
-    scheduleLayer.style.top =
-      "0";
-
-    scheduleLayer.style.width =
-      "100%";
-
-    scheduleLayer.style.height =
-      "100%";
-
-    scheduleLayer.style.pointerEvents =
-      "none";
-
 
     /* =====================================================
        Day Cells
@@ -957,14 +1032,17 @@ function renderCalendar() {
         weekStart.getDate() + i
       );
 
+
       const day =
         createDay(date);
+
 
       dayGrid.appendChild(
         day
       );
 
     }
+
 
     week.appendChild(
       dayGrid
@@ -975,6 +1053,9 @@ function renderCalendar() {
        Schedules
     ===================================================== */
 
+    const lanes = [];
+
+
     const weekSchedules =
       schedules.filter(
         schedule =>
@@ -984,8 +1065,6 @@ function renderCalendar() {
             weekEnd
           )
       );
-
-    const lanes = [];
 
 
     weekSchedules.forEach(
@@ -998,7 +1077,13 @@ function renderCalendar() {
             weekEnd
           );
 
+
+        if (!segment)
+          return;
+
+
         let laneIndex = 0;
+
 
         while (true) {
 
@@ -1007,6 +1092,7 @@ function renderCalendar() {
             lanes[laneIndex] = [];
 
           }
+
 
           const overlaps =
             lanes[laneIndex].some(
@@ -1020,19 +1106,20 @@ function renderCalendar() {
                 segment.startColumn
             );
 
-          if (!overlaps) {
 
+          if (!overlaps)
             break;
 
-          }
 
           laneIndex++;
 
         }
 
+
         lanes[laneIndex].push(
           segment
         );
+
 
         const item =
           createSchedule(
@@ -1040,6 +1127,7 @@ function renderCalendar() {
             segment,
             laneIndex
           );
+
 
         scheduleLayer.appendChild(
           item
@@ -1061,16 +1149,20 @@ function renderCalendar() {
         10
       );
 
+
     week.style.minHeight =
       `${scheduleHeight}px`;
+
 
     week.appendChild(
       scheduleLayer
     );
 
+
     calendar.appendChild(
       week
     );
+
 
     cursor.setDate(
       cursor.getDate() + 7
@@ -1095,8 +1187,10 @@ function createDay(date) {
       "div"
     );
 
+
   day.className =
     "day";
+
 
   if (
     date.getMonth()
@@ -1110,8 +1204,10 @@ function createDay(date) {
 
   }
 
+
   const today =
     new Date();
+
 
   if (
     formatDate(date)
@@ -1125,20 +1221,25 @@ function createDay(date) {
 
   }
 
+
   const header =
     document.createElement(
       "div"
     );
 
+
   header.className =
     "day-header";
+
 
   header.textContent =
     date.getDate();
 
+
   day.appendChild(
     header
   );
+
 
   return day;
 
@@ -1160,13 +1261,41 @@ function scheduleOverlapsWeek(
       schedule.start
     );
 
+
   const scheduleEnd =
     new Date(
       schedule.end
     );
 
+
+  /*
+    Prevent one invalid schedule from
+    stopping the entire calendar render.
+  */
+
+  if (
+    Number.isNaN(
+      scheduleStart.getTime()
+    )
+    ||
+    Number.isNaN(
+      scheduleEnd.getTime()
+    )
+  ) {
+
+    console.warn(
+      "Invalid schedule date:",
+      schedule
+    );
+
+    return false;
+
+  }
+
+
   const rangeStart =
     new Date(weekStart);
+
 
   rangeStart.setHours(
     0,
@@ -1175,12 +1304,15 @@ function scheduleOverlapsWeek(
     0
   );
 
+
   const rangeEnd =
     new Date(weekEnd);
+
 
   rangeEnd.setDate(
     rangeEnd.getDate() + 1
   );
+
 
   rangeEnd.setHours(
     0,
@@ -1188,6 +1320,7 @@ function scheduleOverlapsWeek(
     0,
     0
   );
+
 
   return (
     scheduleStart < rangeEnd
@@ -1213,20 +1346,40 @@ function getWeekScheduleSegment(
       schedule.start
     );
 
+
   const scheduleEnd =
     new Date(
       schedule.end
     );
 
 
+  if (
+    Number.isNaN(
+      scheduleStart.getTime()
+    )
+    ||
+    Number.isNaN(
+      scheduleEnd.getTime()
+    )
+  ) {
+
+    return null;
+
+  }
+
+
   /*
-    Calendar display date is based on JST.
+    Convert an absolute timestamp
+    into its calendar date in JST.
 
     Example:
-    GMT 08/30 23:00
-    = JST 08/31 08:00
 
-    The calendar therefore treats this as 08/31.
+    GMT 08/30 23:00
+    =
+    JST 08/31 08:00
+
+    Therefore the schedule belongs
+    to the 08/31 calendar cell.
   */
 
   function getJSTDate(date) {
@@ -1242,20 +1395,27 @@ function getWeekScheduleSegment(
         }
       ).formatToParts(date);
 
+
     const year =
       parts.find(
-        part => part.type === "year"
+        part =>
+          part.type === "year"
       ).value;
+
 
     const month =
       parts.find(
-        part => part.type === "month"
+        part =>
+          part.type === "month"
       ).value;
+
 
     const day =
       parts.find(
-        part => part.type === "day"
+        part =>
+          part.type === "day"
       ).value;
+
 
     return new Date(
       Number(year),
@@ -1271,10 +1431,12 @@ function getWeekScheduleSegment(
       scheduleStart
     );
 
+
   const endDate =
     getJSTDate(
       scheduleEnd
     );
+
 
   const weekStartDate =
     new Date(
@@ -1283,6 +1445,10 @@ function getWeekScheduleSegment(
       weekStart.getDate()
     );
 
+
+  /*
+    Start column
+  */
 
   let startColumn =
     Math.round(
@@ -1294,6 +1460,20 @@ function getWeekScheduleSegment(
       (24 * 60 * 60 * 1000)
     );
 
+
+  /*
+    End column
+
+    The END DATE itself is included.
+
+    Example:
+
+    GMT 08/30
+    JST 08/31
+
+    => schedule continues through
+       the 08/31 calendar cell.
+  */
 
   let endColumn =
     Math.round(
@@ -1349,22 +1529,34 @@ function createSchedule(
       "button"
     );
 
+
   button.className =
     "schedule";
+
 
   button.style.position =
     "absolute";
 
+
   button.style.background =
-    schedule.color;
+    schedule.color
+    || defaultColor(
+      schedule.fortress
+    );
+
 
   button.style.color =
     getScheduleTextColor(
       schedule.color
+      || defaultColor(
+        schedule.fortress
+      )
     );
+
 
   button.style.pointerEvents =
     "auto";
+
 
   button.textContent =
     `${fortressIcon(
@@ -1375,8 +1567,10 @@ function createSchedule(
   button.style.left =
     `calc(${segment.startColumn} * (100% / 7) + 4px)`;
 
+
   button.style.width =
     `calc(${segment.endColumn - segment.startColumn + 1} * (100% / 7) - 8px)`;
+
 
   button.style.top =
     `${38 + laneIndex * 34}px`;
@@ -1390,57 +1584,8 @@ function createSchedule(
       )
   );
 
+
   return button;
-
-}
-
-
-/* =========================================================
-   Schedule Text Color
-========================================================= */
-
-function getScheduleTextColor(color) {
-
-  if (!color)
-    return "#ffffff";
-
-  const hex =
-    color.replace(
-      "#",
-      ""
-    );
-
-  if (hex.length !== 6)
-    return "#ffffff";
-
-  const r =
-    parseInt(
-      hex.substring(0, 2),
-      16
-    );
-
-  const g =
-    parseInt(
-      hex.substring(2, 4),
-      16
-    );
-
-  const b =
-    parseInt(
-      hex.substring(4, 6),
-      16
-    );
-
-  const brightness =
-    (
-      r * 299 +
-      g * 587 +
-      b * 114
-    ) / 1000;
-
-  return brightness > 160
-    ? "#111111"
-    : "#ffffff";
 
 }
 
@@ -1450,7 +1595,9 @@ function getScheduleTextColor(color) {
 ========================================================= */
 
 document
-  .getElementById("addScheduleBtn")
+  .getElementById(
+    "addScheduleBtn"
+  )
   .addEventListener(
     "click",
     () => {
@@ -1467,6 +1614,7 @@ function resetForm() {
 
   form.reset();
 
+
   document.getElementById(
     "deleteBtn"
   ).style.display =
@@ -1478,8 +1626,10 @@ function resetForm() {
       "dialogTitle"
     );
 
+
   title.dataset.mode =
     "add";
+
 
   title.textContent =
     isMobile()
@@ -1490,42 +1640,17 @@ function resetForm() {
   selectedSchedule =
     null;
 
-
-  /*
-    New schedule default color
-  */
-
-  const fortress =
-    document.getElementById(
-      "fortress"
-    );
-
-  const scheduleColor =
-    document.getElementById(
-      "scheduleColor"
-    );
-
-  if (
-    fortress &&
-    scheduleColor
-  ) {
-
-    scheduleColor.value =
-      defaultColor(
-        fortress.value
-      );
-
-  }
-
 }
 
 
 /* =========================================================
-   Close Dialog
+   Dialog Close
 ========================================================= */
 
 document
-  .getElementById("closeDialog")
+  .getElementById(
+    "closeDialog"
+  )
   .addEventListener(
     "click",
     () =>
@@ -1534,7 +1659,9 @@ document
 
 
 document
-  .getElementById("cancelBtn")
+  .getElementById(
+    "cancelBtn"
+  )
   .addEventListener(
     "click",
     () =>
@@ -1558,56 +1685,60 @@ form.addEventListener(
         "fortress"
       ).value;
 
+
     const x =
       document.getElementById(
         "coordinateX"
       ).value;
+
 
     const y =
       document.getElementById(
         "coordinateY"
       ).value;
 
+
     const guild =
       document.getElementById(
         "guild"
       ).value.trim();
+
 
     const startDate =
       document.getElementById(
         "startDate"
       ).value;
 
+
     const startGMT =
       document.getElementById(
         "startGMT"
       ).value;
+
 
     const endDate =
       document.getElementById(
         "endDate"
       ).value;
 
+
     const endGMT =
       document.getElementById(
         "endGMT"
       ).value;
+
 
     const description =
       document.getElementById(
         "description"
       ).value.trim();
 
-    const scheduleColor =
-      document.getElementById(
-        "scheduleColor"
-      );
-
 
     const error =
       document.getElementById(
         "formError"
       );
+
 
     error.textContent =
       "";
@@ -1618,10 +1749,31 @@ form.addEventListener(
         `${startDate}T${startGMT}:00Z`
       );
 
+
     const end =
       new Date(
         `${endDate}T${endGMT}:00Z`
       );
+
+
+    if (
+      Number.isNaN(
+        start.getTime()
+      )
+      ||
+      Number.isNaN(
+        end.getTime()
+      )
+    ) {
+
+      error.textContent =
+        isMobile()
+          ? "日時を正しく入力してください。"
+          : "Please enter valid dates and times.";
+
+      return;
+
+    }
 
 
     if (
@@ -1644,6 +1796,7 @@ form.addEventListener(
       new Date(
         `${event.start}T00:00:00Z`
       );
+
 
     const eventEnd =
       new Date(
@@ -1691,14 +1844,10 @@ form.addEventListener(
       description,
 
       color:
-        scheduleColor
-          ? scheduleColor.value
-          : (
-              selectedSchedule
-                ? selectedSchedule.color
-                : defaultColor(
-                    fortress
-                  )
+        selectedSchedule
+          ? selectedSchedule.color
+          : defaultColor(
+              fortress
             ),
 
       creatorId
@@ -1735,6 +1884,7 @@ form.addEventListener(
 
         }
 
+
         await updateSchedule(
           schedule
         );
@@ -1755,6 +1905,7 @@ form.addEventListener(
       console.error(
         saveError
       );
+
 
       error.textContent =
         isMobile()
@@ -1791,6 +1942,7 @@ function showDetails(
     new Date(
       schedule.start
     );
+
 
   const end =
     new Date(
@@ -1918,24 +2070,27 @@ function showDetails(
   `;
 
 
-  const scheduleColor =
+  const colorInput =
     document.getElementById(
       "scheduleColor"
     );
 
-  if (scheduleColor) {
 
-    scheduleColor.value =
-      schedule.color ||
-      defaultColor(
+  if (colorInput) {
+
+    colorInput.value =
+      schedule.color
+      || defaultColor(
         schedule.fortress
       );
 
-    scheduleColor.oninput =
+
+    colorInput.oninput =
       async colorEvent => {
 
         schedule.color =
           colorEvent.target.value;
+
 
         try {
 
@@ -2079,6 +2234,7 @@ function escapeHTML(
 
         };
 
+
         return map[
           character
         ];
@@ -2094,7 +2250,9 @@ function escapeHTML(
 ========================================================= */
 
 document
-  .getElementById("closeDetail")
+  .getElementById(
+    "closeDetail"
+  )
   .addEventListener(
     "click",
     () =>
@@ -2103,7 +2261,9 @@ document
 
 
 document
-  .getElementById("detailClose")
+  .getElementById(
+    "detailClose"
+  )
   .addEventListener(
     "click",
     () =>
@@ -2112,7 +2272,9 @@ document
 
 
 document
-  .getElementById("editSchedule")
+  .getElementById(
+    "editSchedule"
+  )
   .addEventListener(
     "click",
     () => {
@@ -2120,7 +2282,9 @@ document
       if (!selectedSchedule)
         return;
 
+
       detailDialog.close();
+
 
       openEditForm(
         selectedSchedule
@@ -2147,8 +2311,10 @@ function openEditForm(
       "dialogTitle"
     );
 
+
   title.dataset.mode =
     "edit";
+
 
   title.textContent =
     isMobile()
@@ -2184,6 +2350,7 @@ function openEditForm(
     new Date(
       schedule.start
     );
+
 
   const end =
     new Date(
@@ -2237,28 +2404,6 @@ function openEditForm(
     schedule.description || "";
 
 
-  /*
-    Important:
-    Show the existing schedule color
-    when opening the edit form.
-  */
-
-  const scheduleColor =
-    document.getElementById(
-      "scheduleColor"
-    );
-
-  if (scheduleColor) {
-
-    scheduleColor.value =
-      schedule.color ||
-      defaultColor(
-        schedule.fortress
-      );
-
-  }
-
-
   document.getElementById(
     "deleteBtn"
   ).style.display =
@@ -2308,7 +2453,9 @@ function formatTimeJST(
 ========================================================= */
 
 document
-  .getElementById("deleteBtn")
+  .getElementById(
+    "deleteBtn"
+  )
   .addEventListener(
     "click",
     async () => {
@@ -2341,7 +2488,9 @@ document
           selectedSchedule.id
         );
 
+
         await loadSchedules();
+
 
         dialog.close();
 
@@ -2352,6 +2501,7 @@ document
         console.error(
           error
         );
+
 
         alert(
           isMobile()
@@ -2370,7 +2520,9 @@ document
 ========================================================= */
 
 document
-  .getElementById("prevMonth")
+  .getElementById(
+    "prevMonth"
+  )
   .addEventListener(
     "click",
     () => {
@@ -2382,6 +2534,7 @@ document
           1
         );
 
+
       renderCalendar();
 
     }
@@ -2389,7 +2542,9 @@ document
 
 
 document
-  .getElementById("nextMonth")
+  .getElementById(
+    "nextMonth"
+  )
   .addEventListener(
     "click",
     () => {
@@ -2400,6 +2555,7 @@ document
           currentMonth.getMonth() + 1,
           1
         );
+
 
       renderCalendar();
 
@@ -2412,7 +2568,9 @@ document
 ========================================================= */
 
 document
-  .getElementById("refreshBtn")
+  .getElementById(
+    "refreshBtn"
+  )
   .addEventListener(
     "click",
     () =>
@@ -2443,15 +2601,18 @@ const startGMT =
     "startGMT"
   );
 
+
 const startJST =
   document.getElementById(
     "startJST"
   );
 
+
 const endGMT =
   document.getElementById(
     "endGMT"
   );
+
 
 const endJST =
   document.getElementById(
@@ -2459,87 +2620,49 @@ const endJST =
   );
 
 
-startGMT.addEventListener(
-  "input",
-  () =>
-    updateJST(
-      startGMT,
-      startJST
-    )
-);
+if (startGMT && startJST) {
 
-
-startJST.addEventListener(
-  "input",
-  () =>
-    updateGMT(
-      startJST,
-      startGMT
-    )
-);
-
-
-endGMT.addEventListener(
-  "input",
-  () =>
-    updateJST(
-      endGMT,
-      endJST
-    )
-);
-
-
-endJST.addEventListener(
-  "input",
-  () =>
-    updateGMT(
-      endJST,
-      endGMT
-    )
-);
-
-
-/* =========================================================
-   Fortress → Default Color
-========================================================= */
-
-const fortressInput =
-  document.getElementById(
-    "fortress"
-  );
-
-const scheduleColorInput =
-  document.getElementById(
-    "scheduleColor"
+  startGMT.addEventListener(
+    "input",
+    () =>
+      updateJST(
+        startGMT,
+        startJST
+      )
   );
 
 
-if (
-  fortressInput &&
-  scheduleColorInput
-) {
+  startJST.addEventListener(
+    "input",
+    () =>
+      updateGMT(
+        startJST,
+        startGMT
+      )
+  );
 
-  fortressInput.addEventListener(
-    "change",
-    () => {
+}
 
-      /*
-        Only change the color automatically
-        when creating a new schedule.
-      */
 
-      if (
-        !selectedSchedule
-      ) {
+if (endGMT && endJST) {
 
-        scheduleColorInput.value =
-          defaultColor(
-            fortressInput.value
-          );
+  endGMT.addEventListener(
+    "input",
+    () =>
+      updateJST(
+        endGMT,
+        endJST
+      )
+  );
 
-      }
 
-    }
+  endJST.addEventListener(
+    "input",
+    () =>
+      updateGMT(
+        endJST,
+        endGMT
+      )
   );
 
 }
