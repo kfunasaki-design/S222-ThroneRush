@@ -366,10 +366,7 @@ function updateLanguage() {
 
 if (refreshButton) {
 
-  refreshButton.textContent =
-    mobile
-      ? "更新"
-      : "R";
+  refreshButton.textContent = "R";
 
 }
 
