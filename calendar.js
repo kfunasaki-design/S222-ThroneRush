@@ -188,13 +188,13 @@ function getScheduleTextColor(color) {
 
     case "#04FC01":
     case "#FF00FF":
-    case "#02FF00":
+    case "#02FFFF":
     case "#FFFF00":
     case "#FFFFFF":
       return "#111111";
 
     case "#0000FF":
-    case "#FE0000":
+    case "#FF0000":
     case "#000000":
       return "#FFFFFF";
 
