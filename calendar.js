@@ -188,7 +188,111 @@ function defaultColor(level) {
 
 }
 
+/* =========================================================
+   Color Palette
+========================================================= */
 
+function setupColorPalette() {
+
+  const palette =
+    document.getElementById(
+      "scheduleColorPalette"
+    );
+
+  if (!palette)
+    return;
+
+  palette.innerHTML = "";
+
+  SCHEDULE_COLORS.forEach(
+    color => {
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+      button.type =
+        "button";
+
+      button.className =
+        "color-option";
+
+      button.dataset.color =
+        color;
+
+      button.style.background =
+        color;
+
+      button.addEventListener(
+        "click",
+        async () => {
+
+          if (!selectedSchedule)
+            return;
+
+          selectedSchedule.color =
+            color;
+
+          updateSelectedColor(
+            color
+          );
+
+          try {
+
+            await updateSchedule(
+              selectedSchedule
+            );
+
+            await loadSchedules();
+
+          }
+
+          catch (error) {
+
+            console.error(
+              "Color update error:",
+              error
+            );
+
+          }
+
+        }
+      );
+
+      palette.appendChild(
+        button
+      );
+
+    }
+  );
+
+}
+
+
+function updateSelectedColor(
+  color
+) {
+
+  document
+    .querySelectorAll(
+      ".color-option"
+    )
+    .forEach(
+      button => {
+
+        button.classList.toggle(
+          "selected",
+          button.dataset.color
+            .toUpperCase()
+          ===
+          color.toUpperCase()
+        );
+
+      }
+    );
+
+}
 /* =========================================================
    Schedule Text Color
 ========================================================= */
@@ -2665,6 +2769,8 @@ setInterval(
 /* =========================================================
    Initial
 ========================================================= */
+
+setupColorPalette();
 
 updateLanguage();
 
