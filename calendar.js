@@ -1378,6 +1378,35 @@ function createSchedule(
 
   button.style.pointerEvents =
     "auto";
+   
+
+  button.textContent =
+    `${fortressIcon(
+      schedule.fortress
+    )} ${schedule.x}:${schedule.y} ${schedule.guild}`;
+
+
+  button.style.left =
+    `calc(${segment.startColumn} * (100% / 7) + 4px)`;
+
+  button.style.width =
+    `calc(${segment.endColumn - segment.startColumn + 1} * (100% / 7) - 8px)`;
+
+  button.style.top =
+    `${38 + laneIndex * 34}px`;
+
+
+  button.addEventListener(
+    "click",
+    () =>
+      showDetails(
+        schedule
+      )
+  );
+
+  return button;
+
+}
 function getScheduleTextColor(color) {
 
   if (!color)
@@ -1420,34 +1449,6 @@ function getScheduleTextColor(color) {
   return brightness > 160
     ? "#111111"
     : "#ffffff";
-
-}
-
-  button.textContent =
-    `${fortressIcon(
-      schedule.fortress
-    )} ${schedule.x}:${schedule.y} ${schedule.guild}`;
-
-
-  button.style.left =
-    `calc(${segment.startColumn} * (100% / 7) + 4px)`;
-
-  button.style.width =
-    `calc(${segment.endColumn - segment.startColumn + 1} * (100% / 7) - 8px)`;
-
-  button.style.top =
-    `${38 + laneIndex * 34}px`;
-
-
-  button.addEventListener(
-    "click",
-    () =>
-      showDetails(
-        schedule
-      )
-  );
-
-  return button;
 
 }
 
