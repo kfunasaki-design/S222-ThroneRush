@@ -364,14 +364,14 @@ function updateLanguage() {
       "refreshBtn"
     );
 
-  if (refreshButton) {
+if (refreshButton) {
 
-    refreshButton.textContent =
-      mobile
-        ? "🔄 更新"
-        : "🔄 Refresh";
+  refreshButton.textContent =
+    mobile
+      ? "更新"
+      : "R";
 
-  }
+}
 
 
   /* Weekday */
