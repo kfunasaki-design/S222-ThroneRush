@@ -1,1 +1,1515 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
+<title>S222 Image Editor</title>
+
+<style>
+/* =========================================================
+   S222 Image Editor
+   Discord-style draft
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  background: #313338;
+  color: #dbdee1;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* =========================================================
+   Header
+========================================================= */
+
+.header {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  background: #2b2d31;
+  border-bottom: 1px solid #1e1f22;
+  font-weight: 700;
+}
+
+.header-title {
+  font-size: 16px;
+}
+
+.header-subtitle {
+  margin-left: 8px;
+  color: #949ba4;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+/* =========================================================
+   Main
+========================================================= */
+
+.main {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* =========================================================
+   Toolbar
+========================================================= */
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px;
+  background: #2b2d31;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.tool-group {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.tool-button {
+  min-width: 42px;
+  height: 40px;
+  padding: 0 10px;
+
+  border: none;
+  border-radius: 6px;
+
+  background: #383a40;
+  color: #dbdee1;
+
+  font-size: 18px;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.tool-button:hover {
+  background: #404249;
+}
+
+.tool-button.active {
+  background: #5865f2;
+  color: #ffffff;
+}
+
+.color-button {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+
+  border-radius: 50%;
+  border: 3px solid transparent;
+
+  cursor: pointer;
+  padding: 0;
+}
+
+.color-button.active {
+  border-color: #ffffff;
+}
+
+/* =========================================================
+   Canvas Area
+========================================================= */
+
+.canvas-wrapper {
+  width: 100%;
+  background: #1e1f22;
+  border-radius: 8px;
+  padding: 10px;
+
+  overflow: auto;
+  text-align: center;
+}
+
+.canvas-stage {
+  position: relative;
+  display: inline-block;
+
+  max-width: 100%;
+  line-height: 0;
+}
+
+#sourceImage {
+  display: none;
+}
+
+#editorCanvas {
+  display: block;
+
+  max-width: 100%;
+  height: auto;
+
+  background: #111214;
+  border-radius: 4px;
+
+  touch-action: none;
+}
+
+/* =========================================================
+   Empty State
+========================================================= */
+
+.empty-state {
+  min-height: 260px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  gap: 12px;
+
+  color: #949ba4;
+  line-height: 1.5;
+}
+
+.empty-icon {
+  font-size: 42px;
+}
+
+.upload-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 42px;
+  padding: 0 18px;
+
+  border-radius: 6px;
+  border: none;
+
+  background: #5865f2;
+  color: white;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+/* =========================================================
+   Bottom Controls
+========================================================= */
+
+.bottom-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  margin-top: 12px;
+}
+
+.action-button {
+  flex: 1;
+
+  min-width: 100px;
+  height: 42px;
+
+  border: none;
+  border-radius: 6px;
+
+  background: #383a40;
+  color: #dbdee1;
+
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.action-button:hover {
+  background: #404249;
+}
+
+.action-button.primary {
+  background: #248046;
+  color: white;
+}
+
+.action-button.primary:hover {
+  background: #2d8a50;
+}
+
+/* =========================================================
+   Mobile
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .main {
+    padding: 8px;
+  }
+
+  .toolbar {
+    padding: 8px;
+    gap: 6px;
+  }
+
+  .tool-button {
+    height: 38px;
+    min-width: 38px;
+    padding: 0 8px;
+  }
+
+  .canvas-wrapper {
+    padding: 5px;
+  }
+
+  .bottom-bar {
+    gap: 6px;
+  }
+
+  .action-button {
+    min-width: 80px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="header-title">🖼️ S222 Image Editor</div>
+  <div class="header-subtitle">Throne Rush</div>
+</header>
+
+<main class="main">
+
+  <!-- =====================================================
+       Toolbar
+  ====================================================== -->
+
+  <section class="toolbar">
+
+    <div class="tool-group">
+
+      <button
+        class="tool-button"
+        data-tool="select"
+        title="選択">
+        ✋
+      </button>
+
+      <button
+        class="tool-button"
+        data-tool="ellipse"
+        title="円・楕円">
+        ⭕
+      </button>
+
+      <button
+        class="tool-button"
+        data-tool="rect"
+        title="四角">
+        ▢
+      </button>
+
+      <button
+        class="tool-button"
+        data-tool="arrow"
+        title="矢印">
+        ➡️
+      </button>
+
+    </div>
+
+    <div class="tool-group">
+
+      <button
+        class="tool-button"
+        data-tool="number"
+        title="数字">
+        ①
+      </button>
+
+      <button
+        class="tool-button"
+        data-tool="letter"
+        title="拠点">
+        A
+      </button>
+
+    </div>
+
+    <div class="tool-group">
+
+      <button
+        class="color-button active"
+        data-color="#ff3b30"
+        style="background:#ff3b30"
+        title="赤">
+      </button>
+
+      <button
+        class="color-button"
+        data-color="#3498db"
+        style="background:#3498db"
+        title="青">
+      </button>
+
+      <button
+        class="color-button"
+        data-color="#2ecc71"
+        style="background:#2ecc71"
+        title="緑">
+      </button>
+
+      <button
+        class="color-button"
+        data-color="#f1c40f"
+        style="background:#f1c40f"
+        title="黄">
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       Canvas
+  ====================================================== -->
+
+  <section class="canvas-wrapper">
+
+    <div id="emptyState" class="empty-state">
+
+      <div class="empty-icon">
+        🖼️
+      </div>
+
+      <div>
+        ワールドマップ画像をアップロードしてください
+      </div>
+
+      <label class="upload-button">
+        📷 画像を選択
+        <input
+          id="imageInput"
+          type="file"
+          accept="image/*"
+          hidden>
+      </label>
+
+    </div>
+
+    <div
+      id="canvasStage"
+      class="canvas-stage"
+      style="display:none;">
+
+      <canvas id="editorCanvas"></canvas>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       Actions
+  ====================================================== -->
+
+  <div class="bottom-bar">
+
+    <button
+      id="undoButton"
+      class="action-button">
+      ↩️ Undo
+    </button>
+
+    <button
+      id="clearButton"
+      class="action-button">
+      🗑️ 全削除
+    </button>
+
+    <label class="action-button"
+           style="display:flex;align-items:center;justify-content:center;cursor:pointer;">
+
+      📷 画像変更
+
+      <input
+        id="changeImageInput"
+        type="file"
+        accept="image/*"
+        hidden>
+
+    </label>
+
+    <button
+      id="saveButton"
+      class="action-button primary">
+      💾 保存
+    </button>
+
+  </div>
+
+</main>
+
+
+<script>
+
+/* =========================================================
+   State
+========================================================= */
+
+const canvas = document.getElementById("editorCanvas");
+const ctx = canvas.getContext("2d");
+
+const imageInput =
+  document.getElementById("imageInput");
+
+const changeImageInput =
+  document.getElementById("changeImageInput");
+
+const sourceImage =
+  new Image();
+
+const canvasStage =
+  document.getElementById("canvasStage");
+
+const emptyState =
+  document.getElementById("emptyState");
+
+const undoButton =
+  document.getElementById("undoButton");
+
+const clearButton =
+  document.getElementById("clearButton");
+
+const saveButton =
+  document.getElementById("saveButton");
+
+
+let currentTool = "select";
+
+let currentColor = "#ff3b30";
+
+let objects = [];
+
+let selectedObject = null;
+
+let drawing = false;
+
+let startX = 0;
+let startY = 0;
+
+let nextNumber = 1;
+let nextLetter = 0;
+
+
+/* =========================================================
+   Tool Selection
+========================================================= */
+
+document
+  .querySelectorAll(".tool-button")
+  .forEach(button => {
+
+    button.addEventListener("click", () => {
+
+      document
+        .querySelectorAll(".tool-button")
+        .forEach(btn =>
+          btn.classList.remove("active")
+        );
+
+      button.classList.add("active");
+
+      currentTool =
+        button.dataset.tool;
+
+      selectedObject = null;
+
+      redraw();
+
+    });
+
+  });
+
+
+/* =========================================================
+   Color Selection
+========================================================= */
+
+document
+  .querySelectorAll(".color-button")
+  .forEach(button => {
+
+    button.addEventListener("click", () => {
+
+      document
+        .querySelectorAll(".color-button")
+        .forEach(btn =>
+          btn.classList.remove("active")
+        );
+
+      button.classList.add("active");
+
+      currentColor =
+        button.dataset.color;
+
+    });
+
+  });
+
+
+/* =========================================================
+   Image Loading
+========================================================= */
+
+imageInput.addEventListener(
+  "change",
+  handleImageUpload
+);
+
+changeImageInput.addEventListener(
+  "change",
+  handleImageUpload
+);
+
+
+function handleImageUpload(event) {
+
+  const file =
+    event.target.files[0];
+
+  if (!file) return;
+
+  const reader =
+    new FileReader();
+
+  reader.onload = function(e) {
+
+    sourceImage.onload = function() {
+
+      canvas.width =
+        sourceImage.naturalWidth;
+
+      canvas.height =
+        sourceImage.naturalHeight;
+
+      objects = [];
+
+      selectedObject = null;
+
+      nextNumber = 1;
+      nextLetter = 0;
+
+      emptyState.style.display =
+        "none";
+
+      canvasStage.style.display =
+        "inline-block";
+
+      redraw();
+
+    };
+
+    sourceImage.src =
+      e.target.result;
+
+  };
+
+  reader.readAsDataURL(file);
+
+}
+
+
+/* =========================================================
+   Pointer Helpers
+========================================================= */
+
+function getCanvasPoint(event) {
+
+  const rect =
+    canvas.getBoundingClientRect();
+
+  const scaleX =
+    canvas.width / rect.width;
+
+  const scaleY =
+    canvas.height / rect.height;
+
+  return {
+
+    x: (event.clientX - rect.left) * scaleX,
+
+    y: (event.clientY - rect.top) * scaleY
+
+  };
+
+}
+
+
+/* =========================================================
+   Pointer Down
+========================================================= */
+
+canvas.addEventListener(
+  "pointerdown",
+  event => {
+
+    event.preventDefault();
+
+    canvas.setPointerCapture(
+      event.pointerId
+    );
+
+    const point =
+      getCanvasPoint(event);
+
+    startX =
+      point.x;
+
+    startY =
+      point.y;
+
+    drawing = true;
+
+
+    /* -----------------------------------------
+       Select
+    ----------------------------------------- */
+
+    if (currentTool === "select") {
+
+      selectedObject =
+        findObjectAt(
+          point.x,
+          point.y
+        );
+
+      drawing = false;
+
+      redraw();
+
+      return;
+
+    }
+
+
+    /* -----------------------------------------
+       Number
+    ----------------------------------------- */
+
+    if (currentTool === "number") {
+
+      if (nextNumber > 5) {
+
+        drawing = false;
+
+        return;
+
+      }
+
+      objects.push({
+
+        type: "marker",
+
+        value:
+          String(nextNumber),
+
+        x:
+          point.x,
+
+        y:
+          point.y,
+
+        size:
+          64,
+
+        color:
+          currentColor
+
+      });
+
+      nextNumber++;
+
+      drawing = false;
+
+      redraw();
+
+      return;
+
+    }
+
+
+    /* -----------------------------------------
+       Letter
+    ----------------------------------------- */
+
+    if (currentTool === "letter") {
+
+      if (nextLetter >= 5) {
+
+        drawing = false;
+
+        return;
+
+      }
+
+      const letter =
+        String.fromCharCode(
+          65 + nextLetter
+        );
+
+      objects.push({
+
+        type: "marker",
+
+        value:
+          letter,
+
+        x:
+          point.x,
+
+        y:
+          point.y,
+
+        size:
+          64,
+
+        color:
+          currentColor
+
+      });
+
+      nextLetter++;
+
+      drawing = false;
+
+      redraw();
+
+      return;
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   Pointer Move
+========================================================= */
+
+canvas.addEventListener(
+  "pointermove",
+  event => {
+
+    if (!drawing) return;
+
+    const point =
+      getCanvasPoint(event);
+
+    redraw();
+
+    ctx.save();
+
+    ctx.strokeStyle =
+      currentColor;
+
+    ctx.lineWidth =
+      8;
+
+    ctx.setLineDash([10, 8]);
+
+    const width =
+      point.x - startX;
+
+    const height =
+      point.y - startY;
+
+
+    if (currentTool === "ellipse") {
+
+      ctx.beginPath();
+
+      ctx.ellipse(
+
+        startX + width / 2,
+
+        startY + height / 2,
+
+        Math.abs(width / 2),
+
+        Math.abs(height / 2),
+
+        0,
+
+        0,
+
+        Math.PI * 2
+
+      );
+
+      ctx.stroke();
+
+    }
+
+
+    if (currentTool === "rect") {
+
+      ctx.strokeRect(
+
+        startX,
+
+        startY,
+
+        width,
+
+        height
+
+      );
+
+    }
+
+
+    if (currentTool === "arrow") {
+
+      drawArrow(
+
+        startX,
+
+        startY,
+
+        point.x,
+
+        point.y,
+
+        currentColor
+
+      );
+
+    }
+
+    ctx.restore();
+
+  }
+);
+
+
+/* =========================================================
+   Pointer Up
+========================================================= */
+
+canvas.addEventListener(
+  "pointerup",
+  event => {
+
+    if (!drawing) return;
+
+    drawing = false;
+
+    const point =
+      getCanvasPoint(event);
+
+
+    if (currentTool === "ellipse") {
+
+      objects.push({
+
+        type: "ellipse",
+
+        x:
+          startX,
+
+        y:
+          startY,
+
+        width:
+          point.x - startX,
+
+        height:
+          point.y - startY,
+
+        color:
+          currentColor
+
+      });
+
+    }
+
+
+    if (currentTool === "rect") {
+
+      objects.push({
+
+        type: "rect",
+
+        x:
+          startX,
+
+        y:
+          startY,
+
+        width:
+          point.x - startX,
+
+        height:
+          point.y - startY,
+
+        color:
+          currentColor
+
+      });
+
+    }
+
+
+    if (currentTool === "arrow") {
+
+      objects.push({
+
+        type: "arrow",
+
+        x1:
+          startX,
+
+        y1:
+          startY,
+
+        x2:
+          point.x,
+
+        y2:
+          point.y,
+
+        color:
+          currentColor
+
+      });
+
+    }
+
+
+    redraw();
+
+  }
+);
+
+
+/* =========================================================
+   Drawing
+========================================================= */
+
+function redraw() {
+
+  if (!sourceImage.src) return;
+
+  ctx.clearRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  ctx.drawImage(
+    sourceImage,
+    0,
+    0
+  );
+
+  objects.forEach(
+    drawObject
+  );
+
+}
+
+
+/* =========================================================
+   Draw Object
+========================================================= */
+
+function drawObject(object) {
+
+  ctx.save();
+
+  ctx.strokeStyle =
+    object.color;
+
+  ctx.fillStyle =
+    object.color;
+
+  ctx.lineWidth =
+    8;
+
+  ctx.lineCap =
+    "round";
+
+  ctx.lineJoin =
+    "round";
+
+
+  if (object.type === "ellipse") {
+
+    ctx.beginPath();
+
+    ctx.ellipse(
+
+      object.x + object.width / 2,
+
+      object.y + object.height / 2,
+
+      Math.abs(object.width / 2),
+
+      Math.abs(object.height / 2),
+
+      0,
+
+      0,
+
+      Math.PI * 2
+
+    );
+
+    ctx.stroke();
+
+  }
+
+
+  if (object.type === "rect") {
+
+    ctx.strokeRect(
+
+      object.x,
+
+      object.y,
+
+      object.width,
+
+      object.height
+
+    );
+
+  }
+
+
+  if (object.type === "arrow") {
+
+    drawArrow(
+
+      object.x1,
+
+      object.y1,
+
+      object.x2,
+
+      object.y2,
+
+      object.color
+
+    );
+
+  }
+
+
+  if (object.type === "marker") {
+
+    drawMarker(
+      object
+    );
+
+  }
+
+  ctx.restore();
+
+}
+
+
+/* =========================================================
+   Arrow
+========================================================= */
+
+function drawArrow(
+  x1,
+  y1,
+  x2,
+  y2,
+  color
+) {
+
+  const angle =
+    Math.atan2(
+      y2 - y1,
+      x2 - x1
+    );
+
+  const headLength =
+    34;
+
+  ctx.save();
+
+  /* Shadow */
+
+  ctx.strokeStyle =
+    "rgba(0,0,0,0.65)";
+
+  ctx.lineWidth =
+    18;
+
+  ctx.beginPath();
+
+  ctx.moveTo(
+    x1,
+    y1
+  );
+
+  ctx.lineTo(
+    x2,
+    y2
+  );
+
+  ctx.stroke();
+
+
+  /* Main line */
+
+  ctx.strokeStyle =
+    color;
+
+  ctx.lineWidth =
+    10;
+
+  ctx.beginPath();
+
+  ctx.moveTo(
+    x1,
+    y1
+  );
+
+  ctx.lineTo(
+    x2,
+    y2
+  );
+
+  ctx.stroke();
+
+
+  /* Arrow head */
+
+  ctx.fillStyle =
+    color;
+
+  ctx.beginPath();
+
+  ctx.moveTo(
+    x2,
+    y2
+  );
+
+  ctx.lineTo(
+
+    x2 -
+    headLength *
+    Math.cos(
+      angle - Math.PI / 6
+    ),
+
+    y2 -
+    headLength *
+    Math.sin(
+      angle - Math.PI / 6
+    )
+
+  );
+
+  ctx.lineTo(
+
+    x2 -
+    headLength *
+    Math.cos(
+      angle + Math.PI / 6
+    ),
+
+    y2 -
+    headLength *
+    Math.sin(
+      angle + Math.PI / 6
+    )
+
+  );
+
+  ctx.closePath();
+
+  ctx.fill();
+
+  ctx.restore();
+
+}
+
+
+/* =========================================================
+   Marker
+========================================================= */
+
+function drawMarker(object) {
+
+  const radius =
+    object.size / 2;
+
+  ctx.save();
+
+  /* White circular background */
+
+  ctx.fillStyle =
+    "#ffffff";
+
+  ctx.beginPath();
+
+  ctx.arc(
+    object.x,
+    object.y,
+    radius,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.fill();
+
+
+  /* Dark border */
+
+  ctx.strokeStyle =
+    object.color;
+
+  ctx.lineWidth =
+    6;
+
+  ctx.stroke();
+
+
+  /* Number / Letter */
+
+  ctx.fillStyle =
+    "#111214";
+
+  ctx.font =
+    `700 ${object.size * 0.55}px Arial`;
+
+  ctx.textAlign =
+    "center";
+
+  ctx.textBaseline =
+    "middle";
+
+  ctx.fillText(
+
+    object.value,
+
+    object.x,
+
+    object.y
+
+  );
+
+  ctx.restore();
+
+}
+
+
+/* =========================================================
+   Find Object
+========================================================= */
+
+function findObjectAt(
+  x,
+  y
+) {
+
+  for (
+    let i = objects.length - 1;
+    i >= 0;
+    i--
+  ) {
+
+    const object =
+      objects[i];
+
+
+    if (
+      object.type === "marker"
+    ) {
+
+      const dx =
+        x - object.x;
+
+      const dy =
+        y - object.y;
+
+      if (
+        Math.sqrt(
+          dx * dx +
+          dy * dy
+        ) <=
+        object.size / 2
+      ) {
+
+        return object;
+
+      }
+
+    }
+
+
+    if (
+      object.type === "rect"
+    ) {
+
+      if (
+
+        x >= Math.min(
+          object.x,
+          object.x + object.width
+        )
+
+        &&
+
+        x <= Math.max(
+          object.x,
+          object.x + object.width
+        )
+
+        &&
+
+        y >= Math.min(
+          object.y,
+          object.y + object.height
+        )
+
+        &&
+
+        y <= Math.max(
+          object.y,
+          object.y + object.height
+        )
+
+      ) {
+
+        return object;
+
+      }
+
+    }
+
+  }
+
+  return null;
+
+}
+
+
+/* =========================================================
+   Undo
+========================================================= */
+
+undoButton.addEventListener(
+  "click",
+  () => {
+
+    if (
+      objects.length === 0
+    ) return;
+
+    objects.pop();
+
+    redraw();
+
+  }
+);
+
+
+/* =========================================================
+   Clear
+========================================================= */
+
+clearButton.addEventListener(
+  "click",
+  () => {
+
+    if (
+      objects.length === 0
+    ) return;
+
+    if (
+      !confirm(
+        "すべての編集を削除しますか？"
+      )
+    ) return;
+
+    objects = [];
+
+    nextNumber = 1;
+    nextLetter = 0;
+
+    redraw();
+
+  }
+);
+
+
+/* =========================================================
+   Save
+========================================================= */
+
+saveButton.addEventListener(
+  "click",
+  () => {
+
+    if (
+      !sourceImage.src
+    ) {
+
+      alert(
+        "先に画像をアップロードしてください。"
+      );
+
+      return;
+
+    }
+
+    const link =
+      document.createElement("a");
+
+    link.download =
+      "S222-edited.png";
+
+    link.href =
+      canvas.toDataURL(
+        "image/png"
+      );
+
+    link.click();
+
+  }
+);
+
+</script>
+
+</body>
+</html>
