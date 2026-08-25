@@ -8,11 +8,6 @@
 <title>S222 Image Editor</title>
 
 <style>
-/* =========================================================
-   S222 Image Editor
-   Discord-style draft
-========================================================= */
-
 * {
   box-sizing: border-box;
 }
@@ -22,9 +17,10 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
-  min-height: 100%;
-  background: #313338;
-  color: #dbdee1;
+  height: 100%;
+  overflow: hidden;
+  background: #111214;
+  color: #dcddde;
   font-family:
     -apple-system,
     BlinkMacSystemFont,
@@ -33,7 +29,8 @@ body {
 }
 
 body {
-  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 /* =========================================================
@@ -41,35 +38,27 @@ body {
 ========================================================= */
 
 .header {
-  height: 56px;
+  height: 52px;
+  flex-shrink: 0;
+  background: #1e1f22;
+  border-bottom: 1px solid #2b2d31;
+
   display: flex;
   align-items: center;
-  padding: 0 16px;
-  background: #2b2d31;
-  border-bottom: 1px solid #1e1f22;
+  justify-content: space-between;
+
+  padding: 0 14px;
+}
+
+.title {
+  font-size: 15px;
   font-weight: 700;
+  color: #fff;
 }
 
-.header-title {
-  font-size: 16px;
-}
-
-.header-subtitle {
-  margin-left: 8px;
+.subtitle {
+  font-size: 11px;
   color: #949ba4;
-  font-size: 12px;
-  font-weight: 400;
-}
-
-/* =========================================================
-   Main
-========================================================= */
-
-.main {
-  width: 100%;
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 16px;
 }
 
 /* =========================================================
@@ -77,97 +66,125 @@ body {
 ========================================================= */
 
 .toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 12px;
+  min-height: 54px;
+  flex-shrink: 0;
+
   background: #2b2d31;
-  border-radius: 8px;
-  margin-bottom: 12px;
+  border-bottom: 1px solid #18191c;
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+  padding: 7px 10px;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  -webkit-overflow-scrolling: touch;
+}
+
+.toolbar::-webkit-scrollbar {
+  display: none;
 }
 
 .tool-group {
   display: flex;
-  gap: 6px;
-  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
 }
 
-.tool-button {
-  min-width: 42px;
-  height: 40px;
-  padding: 0 10px;
+button {
+  border: none;
+  border-radius: 6px;
+
+  background: #404249;
+  color: #dcddde;
+
+  padding: 8px 10px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+}
+
+button:hover {
+  background: #4a4c53;
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+button.active {
+  background: #5865f2;
+  color: #fff;
+}
+
+button.primary {
+  background: #5865f2;
+  color: #fff;
+}
+
+button.danger {
+  background: #ed4245;
+  color: #fff;
+}
+
+input[type="color"] {
+  width: 34px;
+  height: 34px;
+
+  padding: 2px;
 
   border: none;
   border-radius: 6px;
 
-  background: #383a40;
-  color: #dbdee1;
-
-  font-size: 18px;
-  cursor: pointer;
-  user-select: none;
-  touch-action: manipulation;
-}
-
-.tool-button:hover {
   background: #404249;
-}
-
-.tool-button.active {
-  background: #5865f2;
-  color: #ffffff;
-}
-
-.color-button {
-  width: 32px;
-  height: 32px;
-  min-width: 32px;
-
-  border-radius: 50%;
-  border: 3px solid transparent;
 
   cursor: pointer;
-  padding: 0;
-}
-
-.color-button.active {
-  border-color: #ffffff;
 }
 
 /* =========================================================
-   Canvas Area
+   Editor Area
 ========================================================= */
 
-.canvas-wrapper {
-  width: 100%;
-  background: #1e1f22;
-  border-radius: 8px;
-  padding: 10px;
+.editor {
+  flex: 1;
+  min-height: 0;
 
-  overflow: auto;
-  text-align: center;
-}
+  background: #111214;
 
-.canvas-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   position: relative;
-  display: inline-block;
 
-  max-width: 100%;
-  line-height: 0;
+  overflow: hidden;
 }
 
-#sourceImage {
-  display: none;
+.canvas-wrapper {
+  position: relative;
+
+  max-width: 96%;
+  max-height: 90%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-#editorCanvas {
+#canvas {
   display: block;
 
   max-width: 100%;
-  height: auto;
+  max-height: 100%;
 
-  background: #111214;
-  border-radius: 4px;
+  background: #1e1f22;
 
   touch-action: none;
 }
@@ -176,83 +193,109 @@ body {
    Empty State
 ========================================================= */
 
-.empty-state {
-  min-height: 260px;
+.empty {
+  position: absolute;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+  left: 50%;
+  top: 50%;
 
-  gap: 12px;
+  transform: translate(-50%, -50%);
 
-  color: #949ba4;
-  line-height: 1.5;
+  text-align: center;
+
+  color: #72767d;
+
+  pointer-events: none;
 }
 
-.empty-icon {
-  font-size: 42px;
-}
-
-.upload-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  height: 42px;
-  padding: 0 18px;
-
-  border-radius: 6px;
-  border: none;
-
-  background: #5865f2;
-  color: white;
-
-  font-size: 14px;
+.empty-title {
+  font-size: 18px;
   font-weight: 700;
 
-  cursor: pointer;
+  margin-bottom: 7px;
+}
+
+.empty-text {
+  font-size: 12px;
 }
 
 /* =========================================================
-   Bottom Controls
+   Crop Overlay
 ========================================================= */
 
-.bottom-bar {
+.crop-overlay {
+  position: absolute;
+
+  border: 2px dashed #fff;
+
+  background: rgba(255,255,255,0.08);
+
+  pointer-events: none;
+
+  display: none;
+}
+
+.crop-handle {
+  position: absolute;
+
+  width: 12px;
+  height: 12px;
+
+  background: #fff;
+
+  border: 2px solid #5865f2;
+
+  border-radius: 50%;
+}
+
+.crop-handle.tl {
+  left: -7px;
+  top: -7px;
+}
+
+.crop-handle.tr {
+  right: -7px;
+  top: -7px;
+}
+
+.crop-handle.bl {
+  left: -7px;
+  bottom: -7px;
+}
+
+.crop-handle.br {
+  right: -7px;
+  bottom: -7px;
+}
+
+/* =========================================================
+   Bottom Info
+========================================================= */
+
+.status {
+  height: 32px;
+  flex-shrink: 0;
+
+  background: #1e1f22;
+
+  border-top: 1px solid #2b2d31;
+
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  align-items: center;
 
-  margin-top: 12px;
+  padding: 0 10px;
+
+  font-size: 11px;
+
+  color: #949ba4;
 }
 
-.action-button {
-  flex: 1;
+/* =========================================================
+   File Input
+========================================================= */
 
-  min-width: 100px;
-  height: 42px;
-
-  border: none;
-  border-radius: 6px;
-
-  background: #383a40;
-  color: #dbdee1;
-
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.action-button:hover {
-  background: #404249;
-}
-
-.action-button.primary {
-  background: #248046;
-  color: white;
-}
-
-.action-button.primary:hover {
-  background: #2d8a50;
+#fileInput {
+  display: none;
 }
 
 /* =========================================================
@@ -261,31 +304,31 @@ body {
 
 @media (max-width: 600px) {
 
-  .main {
-    padding: 8px;
+  .header {
+    height: 48px;
+    padding: 0 10px;
+  }
+
+  .title {
+    font-size: 14px;
+  }
+
+  .subtitle {
+    display: none;
   }
 
   .toolbar {
-    padding: 8px;
-    gap: 6px;
+    min-height: 52px;
+    padding: 6px;
   }
 
-  .tool-button {
-    height: 38px;
-    min-width: 38px;
-    padding: 0 8px;
+  button {
+    padding: 8px 9px;
+    font-size: 12px;
   }
 
-  .canvas-wrapper {
-    padding: 5px;
-  }
-
-  .bottom-bar {
-    gap: 6px;
-  }
-
-  .action-button {
-    min-width: 80px;
+  .editor {
+    align-items: center;
   }
 }
 </style>
@@ -293,183 +336,164 @@ body {
 
 <body>
 
+<!-- =========================================================
+     Header
+========================================================= -->
+
 <header class="header">
-  <div class="header-title">🖼️ S222 Image Editor</div>
-  <div class="header-subtitle">Throne Rush</div>
+
+  <div>
+    <div class="title">
+      S222 Image Editor
+    </div>
+
+    <div class="subtitle">
+      Simple Strategy Image Tool
+    </div>
+  </div>
+
+  <button
+    id="saveButton"
+    class="primary">
+    保存
+  </button>
+
 </header>
 
-<main class="main">
 
-  <!-- =====================================================
-       Toolbar
-  ====================================================== -->
+<!-- =========================================================
+     Toolbar
+========================================================= -->
 
-  <section class="toolbar">
+<div class="toolbar">
 
-    <div class="tool-group">
+  <div class="tool-group">
 
-      <button
-        class="tool-button"
-        data-tool="select"
-        title="選択">
-        ✋
+    <label for="fileInput">
+      <button type="button"
+              onclick="document.getElementById('fileInput').click()">
+        画像
       </button>
-
-      <button
-        class="tool-button"
-        data-tool="ellipse"
-        title="円・楕円">
-        ⭕
-      </button>
-
-      <button
-        class="tool-button"
-        data-tool="rect"
-        title="四角">
-        ▢
-      </button>
-
-      <button
-        class="tool-button"
-        data-tool="arrow"
-        title="矢印">
-        ➡️
-      </button>
-
-    </div>
-
-    <div class="tool-group">
-
-      <button
-        class="tool-button"
-        data-tool="number"
-        title="数字">
-        ①
-      </button>
-
-      <button
-        class="tool-button"
-        data-tool="letter"
-        title="拠点">
-        A
-      </button>
-
-    </div>
-
-    <div class="tool-group">
-
-      <button
-        class="color-button active"
-        data-color="#ff3b30"
-        style="background:#ff3b30"
-        title="赤">
-      </button>
-
-      <button
-        class="color-button"
-        data-color="#3498db"
-        style="background:#3498db"
-        title="青">
-      </button>
-
-      <button
-        class="color-button"
-        data-color="#2ecc71"
-        style="background:#2ecc71"
-        title="緑">
-      </button>
-
-      <button
-        class="color-button"
-        data-color="#f1c40f"
-        style="background:#f1c40f"
-        title="黄">
-      </button>
-
-    </div>
-
-  </section>
-
-
-  <!-- =====================================================
-       Canvas
-  ====================================================== -->
-
-  <section class="canvas-wrapper">
-
-    <div id="emptyState" class="empty-state">
-
-      <div class="empty-icon">
-        🖼️
-      </div>
-
-      <div>
-        ワールドマップ画像をアップロードしてください
-      </div>
-
-      <label class="upload-button">
-        📷 画像を選択
-        <input
-          id="imageInput"
-          type="file"
-          accept="image/*"
-          hidden>
-      </label>
-
-    </div>
-
-    <div
-      id="canvasStage"
-      class="canvas-stage"
-      style="display:none;">
-
-      <canvas id="editorCanvas"></canvas>
-
-    </div>
-
-  </section>
-
-
-  <!-- =====================================================
-       Actions
-  ====================================================== -->
-
-  <div class="bottom-bar">
-
-    <button
-      id="undoButton"
-      class="action-button">
-      ↩️ Undo
-    </button>
-
-    <button
-      id="clearButton"
-      class="action-button">
-      🗑️ 全削除
-    </button>
-
-    <label class="action-button"
-           style="display:flex;align-items:center;justify-content:center;cursor:pointer;">
-
-      📷 画像変更
-
-      <input
-        id="changeImageInput"
-        type="file"
-        accept="image/*"
-        hidden>
-
     </label>
 
-    <button
-      id="saveButton"
-      class="action-button primary">
-      💾 保存
+    <button id="cropButton">
+      ✂ 切り抜き
     </button>
 
   </div>
 
+
+  <div class="tool-group">
+
+    <button data-tool="circle">
+      ⭕ 円
+    </button>
+
+    <button data-tool="rect">
+      ▭ 四角
+    </button>
+
+    <button data-tool="arrow">
+      ➜ 矢印
+    </button>
+
+  </div>
+
+
+  <div class="tool-group">
+
+    <button data-tool="number">
+      ①〜⑤
+    </button>
+
+    <button data-tool="letter">
+      A〜E
+    </button>
+
+  </div>
+
+
+  <div class="tool-group">
+
+    <input
+      id="colorInput"
+      type="color"
+      value="#ff0000"
+      title="色">
+
+    <button id="deleteButton">
+      削除
+    </button>
+
+    <button id="clearButton">
+      全消去
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     Editor
+========================================================= -->
+
+<main class="editor">
+
+  <div
+    id="canvasWrapper"
+    class="canvas-wrapper">
+
+    <canvas id="canvas"></canvas>
+
+    <div
+      id="cropOverlay"
+      class="crop-overlay">
+
+      <div class="crop-handle tl"></div>
+      <div class="crop-handle tr"></div>
+      <div class="crop-handle bl"></div>
+      <div class="crop-handle br"></div>
+
+    </div>
+
+  </div>
+
+
+  <div
+    id="emptyState"
+    class="empty">
+
+    <div class="empty-title">
+      画像を読み込んでください
+    </div>
+
+    <div class="empty-text">
+      スクリーンショットを加工できます
+    </div>
+
+  </div>
+
 </main>
+
+
+<!-- =========================================================
+     Status
+========================================================= -->
+
+<div
+  id="status"
+  class="status">
+
+  画像未読み込み
+
+</div>
+
+
+<input
+  id="fileInput"
+  type="file"
+  accept="image/*">
 
 
 <script>
@@ -478,26 +502,32 @@ body {
    State
 ========================================================= */
 
-const canvas = document.getElementById("editorCanvas");
-const ctx = canvas.getContext("2d");
+const canvas =
+  document.getElementById("canvas");
 
-const imageInput =
-  document.getElementById("imageInput");
+const ctx =
+  canvas.getContext("2d");
 
-const changeImageInput =
-  document.getElementById("changeImageInput");
-
-const sourceImage =
-  new Image();
-
-const canvasStage =
-  document.getElementById("canvasStage");
+const wrapper =
+  document.getElementById("canvasWrapper");
 
 const emptyState =
   document.getElementById("emptyState");
 
-const undoButton =
-  document.getElementById("undoButton");
+const status =
+  document.getElementById("status");
+
+const fileInput =
+  document.getElementById("fileInput");
+
+const cropButton =
+  document.getElementById("cropButton");
+
+const colorInput =
+  document.getElementById("colorInput");
+
+const deleteButton =
+  document.getElementById("deleteButton");
 
 const clearButton =
   document.getElementById("clearButton");
@@ -505,22 +535,80 @@ const clearButton =
 const saveButton =
   document.getElementById("saveButton");
 
+const cropOverlay =
+  document.getElementById("cropOverlay");
 
-let currentTool = "select";
 
-let currentColor = "#ff3b30";
+let image = null;
 
 let objects = [];
 
 let selectedObject = null;
 
-let drawing = false;
+let currentTool = null;
 
-let startX = 0;
-let startY = 0;
+let numberCount = 1;
 
-let nextNumber = 1;
-let nextLetter = 0;
+let letterCount = 0;
+
+
+/* =========================================================
+   Image Load
+========================================================= */
+
+fileInput.addEventListener(
+  "change",
+  event => {
+
+    const file =
+      event.target.files[0];
+
+    if (!file) return;
+
+    const reader =
+      new FileReader();
+
+    reader.onload = e => {
+
+      const img =
+        new Image();
+
+      img.onload = () => {
+
+        image = img;
+
+        objects = [];
+
+        selectedObject = null;
+
+        numberCount = 1;
+
+        letterCount = 0;
+
+        canvas.width =
+          img.naturalWidth;
+
+        canvas.height =
+          img.naturalHeight;
+
+        emptyState.style.display =
+          "none";
+
+        status.textContent =
+          `${canvas.width} × ${canvas.height}`;
+
+        draw();
+
+      };
+
+      img.src = e.target.result;
+
+    };
+
+    reader.readAsDataURL(file);
+
+  }
+);
 
 
 /* =========================================================
@@ -528,124 +616,69 @@ let nextLetter = 0;
 ========================================================= */
 
 document
-  .querySelectorAll(".tool-button")
+  .querySelectorAll("[data-tool]")
   .forEach(button => {
 
-    button.addEventListener("click", () => {
+    button.addEventListener(
+      "click",
+      () => {
 
-      document
-        .querySelectorAll(".tool-button")
-        .forEach(btn =>
-          btn.classList.remove("active")
+        if (!image) return;
+
+        currentTool =
+          button.dataset.tool;
+
+        document
+          .querySelectorAll("[data-tool]")
+          .forEach(b =>
+            b.classList.remove("active")
+          );
+
+        button.classList.add("active");
+
+        cropButton.classList.remove(
+          "active"
         );
 
-      button.classList.add("active");
+        status.textContent =
+          `ツール：${currentTool}`;
 
-      currentTool =
-        button.dataset.tool;
-
-      selectedObject = null;
-
-      redraw();
-
-    });
+      }
+    );
 
   });
 
 
 /* =========================================================
-   Color Selection
+   Color
 ========================================================= */
 
-document
-  .querySelectorAll(".color-button")
-  .forEach(button => {
+colorInput.addEventListener(
+  "input",
+  () => {
 
-    button.addEventListener("click", () => {
+    if (
+      selectedObject &&
+      selectedObject.type !== "number" &&
+      selectedObject.type !== "letter"
+    ) {
 
-      document
-        .querySelectorAll(".color-button")
-        .forEach(btn =>
-          btn.classList.remove("active")
-        );
+      selectedObject.color =
+        colorInput.value;
 
-      button.classList.add("active");
+      draw();
 
-      currentColor =
-        button.dataset.color;
+    }
 
-    });
-
-  });
-
-
-/* =========================================================
-   Image Loading
-========================================================= */
-
-imageInput.addEventListener(
-  "change",
-  handleImageUpload
+  }
 );
-
-changeImageInput.addEventListener(
-  "change",
-  handleImageUpload
-);
-
-
-function handleImageUpload(event) {
-
-  const file =
-    event.target.files[0];
-
-  if (!file) return;
-
-  const reader =
-    new FileReader();
-
-  reader.onload = function(e) {
-
-    sourceImage.onload = function() {
-
-      canvas.width =
-        sourceImage.naturalWidth;
-
-      canvas.height =
-        sourceImage.naturalHeight;
-
-      objects = [];
-
-      selectedObject = null;
-
-      nextNumber = 1;
-      nextLetter = 0;
-
-      emptyState.style.display =
-        "none";
-
-      canvasStage.style.display =
-        "inline-block";
-
-      redraw();
-
-    };
-
-    sourceImage.src =
-      e.target.result;
-
-  };
-
-  reader.readAsDataURL(file);
-
-}
 
 
 /* =========================================================
    Pointer Helpers
 ========================================================= */
 
-function getCanvasPoint(event) {
+function getPointer(event) {
 
   const rect =
     canvas.getBoundingClientRect();
@@ -656,11 +689,39 @@ function getCanvasPoint(event) {
   const scaleY =
     canvas.height / rect.height;
 
+  let clientX;
+  let clientY;
+
+  if (
+    event.touches &&
+    event.touches.length
+  ) {
+
+    clientX =
+      event.touches[0].clientX;
+
+    clientY =
+      event.touches[0].clientY;
+
+  } else {
+
+    clientX =
+      event.clientX;
+
+    clientY =
+      event.clientY;
+
+  }
+
   return {
 
-    x: (event.clientX - rect.left) * scaleX,
+    x:
+      (clientX - rect.left) *
+      scaleX,
 
-    y: (event.clientY - rect.top) * scaleY
+    y:
+      (clientY - rect.top) *
+      scaleY
 
   };
 
@@ -668,679 +729,10 @@ function getCanvasPoint(event) {
 
 
 /* =========================================================
-   Pointer Down
+   Object Hit Test
 ========================================================= */
 
-canvas.addEventListener(
-  "pointerdown",
-  event => {
-
-    event.preventDefault();
-
-    canvas.setPointerCapture(
-      event.pointerId
-    );
-
-    const point =
-      getCanvasPoint(event);
-
-    startX =
-      point.x;
-
-    startY =
-      point.y;
-
-    drawing = true;
-
-
-    /* -----------------------------------------
-       Select
-    ----------------------------------------- */
-
-    if (currentTool === "select") {
-
-      selectedObject =
-        findObjectAt(
-          point.x,
-          point.y
-        );
-
-      drawing = false;
-
-      redraw();
-
-      return;
-
-    }
-
-
-    /* -----------------------------------------
-       Number
-    ----------------------------------------- */
-
-    if (currentTool === "number") {
-
-      if (nextNumber > 5) {
-
-        drawing = false;
-
-        return;
-
-      }
-
-      objects.push({
-
-        type: "marker",
-
-        value:
-          String(nextNumber),
-
-        x:
-          point.x,
-
-        y:
-          point.y,
-
-        size:
-          64,
-
-        color:
-          currentColor
-
-      });
-
-      nextNumber++;
-
-      drawing = false;
-
-      redraw();
-
-      return;
-
-    }
-
-
-    /* -----------------------------------------
-       Letter
-    ----------------------------------------- */
-
-    if (currentTool === "letter") {
-
-      if (nextLetter >= 5) {
-
-        drawing = false;
-
-        return;
-
-      }
-
-      const letter =
-        String.fromCharCode(
-          65 + nextLetter
-        );
-
-      objects.push({
-
-        type: "marker",
-
-        value:
-          letter,
-
-        x:
-          point.x,
-
-        y:
-          point.y,
-
-        size:
-          64,
-
-        color:
-          currentColor
-
-      });
-
-      nextLetter++;
-
-      drawing = false;
-
-      redraw();
-
-      return;
-
-    }
-
-  }
-);
-
-
-/* =========================================================
-   Pointer Move
-========================================================= */
-
-canvas.addEventListener(
-  "pointermove",
-  event => {
-
-    if (!drawing) return;
-
-    const point =
-      getCanvasPoint(event);
-
-    redraw();
-
-    ctx.save();
-
-    ctx.strokeStyle =
-      currentColor;
-
-    ctx.lineWidth =
-      8;
-
-    ctx.setLineDash([10, 8]);
-
-    const width =
-      point.x - startX;
-
-    const height =
-      point.y - startY;
-
-
-    if (currentTool === "ellipse") {
-
-      ctx.beginPath();
-
-      ctx.ellipse(
-
-        startX + width / 2,
-
-        startY + height / 2,
-
-        Math.abs(width / 2),
-
-        Math.abs(height / 2),
-
-        0,
-
-        0,
-
-        Math.PI * 2
-
-      );
-
-      ctx.stroke();
-
-    }
-
-
-    if (currentTool === "rect") {
-
-      ctx.strokeRect(
-
-        startX,
-
-        startY,
-
-        width,
-
-        height
-
-      );
-
-    }
-
-
-    if (currentTool === "arrow") {
-
-      drawArrow(
-
-        startX,
-
-        startY,
-
-        point.x,
-
-        point.y,
-
-        currentColor
-
-      );
-
-    }
-
-    ctx.restore();
-
-  }
-);
-
-
-/* =========================================================
-   Pointer Up
-========================================================= */
-
-canvas.addEventListener(
-  "pointerup",
-  event => {
-
-    if (!drawing) return;
-
-    drawing = false;
-
-    const point =
-      getCanvasPoint(event);
-
-
-    if (currentTool === "ellipse") {
-
-      objects.push({
-
-        type: "ellipse",
-
-        x:
-          startX,
-
-        y:
-          startY,
-
-        width:
-          point.x - startX,
-
-        height:
-          point.y - startY,
-
-        color:
-          currentColor
-
-      });
-
-    }
-
-
-    if (currentTool === "rect") {
-
-      objects.push({
-
-        type: "rect",
-
-        x:
-          startX,
-
-        y:
-          startY,
-
-        width:
-          point.x - startX,
-
-        height:
-          point.y - startY,
-
-        color:
-          currentColor
-
-      });
-
-    }
-
-
-    if (currentTool === "arrow") {
-
-      objects.push({
-
-        type: "arrow",
-
-        x1:
-          startX,
-
-        y1:
-          startY,
-
-        x2:
-          point.x,
-
-        y2:
-          point.y,
-
-        color:
-          currentColor
-
-      });
-
-    }
-
-
-    redraw();
-
-  }
-);
-
-
-/* =========================================================
-   Drawing
-========================================================= */
-
-function redraw() {
-
-  if (!sourceImage.src) return;
-
-  ctx.clearRect(
-    0,
-    0,
-    canvas.width,
-    canvas.height
-  );
-
-  ctx.drawImage(
-    sourceImage,
-    0,
-    0
-  );
-
-  objects.forEach(
-    drawObject
-  );
-
-}
-
-
-/* =========================================================
-   Draw Object
-========================================================= */
-
-function drawObject(object) {
-
-  ctx.save();
-
-  ctx.strokeStyle =
-    object.color;
-
-  ctx.fillStyle =
-    object.color;
-
-  ctx.lineWidth =
-    8;
-
-  ctx.lineCap =
-    "round";
-
-  ctx.lineJoin =
-    "round";
-
-
-  if (object.type === "ellipse") {
-
-    ctx.beginPath();
-
-    ctx.ellipse(
-
-      object.x + object.width / 2,
-
-      object.y + object.height / 2,
-
-      Math.abs(object.width / 2),
-
-      Math.abs(object.height / 2),
-
-      0,
-
-      0,
-
-      Math.PI * 2
-
-    );
-
-    ctx.stroke();
-
-  }
-
-
-  if (object.type === "rect") {
-
-    ctx.strokeRect(
-
-      object.x,
-
-      object.y,
-
-      object.width,
-
-      object.height
-
-    );
-
-  }
-
-
-  if (object.type === "arrow") {
-
-    drawArrow(
-
-      object.x1,
-
-      object.y1,
-
-      object.x2,
-
-      object.y2,
-
-      object.color
-
-    );
-
-  }
-
-
-  if (object.type === "marker") {
-
-    drawMarker(
-      object
-    );
-
-  }
-
-  ctx.restore();
-
-}
-
-
-/* =========================================================
-   Arrow
-========================================================= */
-
-function drawArrow(
-  x1,
-  y1,
-  x2,
-  y2,
-  color
-) {
-
-  const angle =
-    Math.atan2(
-      y2 - y1,
-      x2 - x1
-    );
-
-  const headLength =
-    34;
-
-  ctx.save();
-
-  /* Shadow */
-
-  ctx.strokeStyle =
-    "rgba(0,0,0,0.65)";
-
-  ctx.lineWidth =
-    18;
-
-  ctx.beginPath();
-
-  ctx.moveTo(
-    x1,
-    y1
-  );
-
-  ctx.lineTo(
-    x2,
-    y2
-  );
-
-  ctx.stroke();
-
-
-  /* Main line */
-
-  ctx.strokeStyle =
-    color;
-
-  ctx.lineWidth =
-    10;
-
-  ctx.beginPath();
-
-  ctx.moveTo(
-    x1,
-    y1
-  );
-
-  ctx.lineTo(
-    x2,
-    y2
-  );
-
-  ctx.stroke();
-
-
-  /* Arrow head */
-
-  ctx.fillStyle =
-    color;
-
-  ctx.beginPath();
-
-  ctx.moveTo(
-    x2,
-    y2
-  );
-
-  ctx.lineTo(
-
-    x2 -
-    headLength *
-    Math.cos(
-      angle - Math.PI / 6
-    ),
-
-    y2 -
-    headLength *
-    Math.sin(
-      angle - Math.PI / 6
-    )
-
-  );
-
-  ctx.lineTo(
-
-    x2 -
-    headLength *
-    Math.cos(
-      angle + Math.PI / 6
-    ),
-
-    y2 -
-    headLength *
-    Math.sin(
-      angle + Math.PI / 6
-    )
-
-  );
-
-  ctx.closePath();
-
-  ctx.fill();
-
-  ctx.restore();
-
-}
-
-
-/* =========================================================
-   Marker
-========================================================= */
-
-function drawMarker(object) {
-
-  const radius =
-    object.size / 2;
-
-  ctx.save();
-
-  /* White circular background */
-
-  ctx.fillStyle =
-    "#ffffff";
-
-  ctx.beginPath();
-
-  ctx.arc(
-    object.x,
-    object.y,
-    radius,
-    0,
-    Math.PI * 2
-  );
-
-  ctx.fill();
-
-
-  /* Dark border */
-
-  ctx.strokeStyle =
-    object.color;
-
-  ctx.lineWidth =
-    6;
-
-  ctx.stroke();
-
-
-  /* Number / Letter */
-
-  ctx.fillStyle =
-    "#111214";
-
-  ctx.font =
-    `700 ${object.size * 0.55}px Arial`;
-
-  ctx.textAlign =
-    "center";
-
-  ctx.textBaseline =
-    "middle";
-
-  ctx.fillText(
-
-    object.value,
-
-    object.x,
-
-    object.y
-
-  );
-
-  ctx.restore();
-
-}
-
-
-/* =========================================================
-   Find Object
-========================================================= */
-
-function findObjectAt(
-  x,
-  y
-) {
+function hitTest(x, y) {
 
   for (
     let i = objects.length - 1;
@@ -1348,70 +740,79 @@ function findObjectAt(
     i--
   ) {
 
-    const object =
+    const o =
       objects[i];
 
-
-    if (
-      object.type === "marker"
-    ) {
+    if (o.type === "circle") {
 
       const dx =
-        x - object.x;
+        x - o.x;
 
       const dy =
-        y - object.y;
+        y - o.y;
 
       if (
         Math.sqrt(
           dx * dx +
           dy * dy
-        ) <=
-        object.size / 2
+        ) <= o.radius + 15
       ) {
 
-        return object;
+        return o;
 
       }
 
     }
 
-
-    if (
-      object.type === "rect"
-    ) {
+    if (o.type === "rect") {
 
       if (
-
-        x >= Math.min(
-          object.x,
-          object.x + object.width
-        )
-
-        &&
-
-        x <= Math.max(
-          object.x,
-          object.x + object.width
-        )
-
-        &&
-
-        y >= Math.min(
-          object.y,
-          object.y + object.height
-        )
-
-        &&
-
-        y <= Math.max(
-          object.y,
-          object.y + object.height
-        )
-
+        x >= o.x - o.width / 2 - 15 &&
+        x <= o.x + o.width / 2 + 15 &&
+        y >= o.y - o.height / 2 - 15 &&
+        y <= o.y + o.height / 2 + 15
       ) {
 
-        return object;
+        return o;
+
+      }
+
+    }
+
+    if (o.type === "number" ||
+        o.type === "letter") {
+
+      const size =
+        o.size || 70;
+
+      if (
+        x >= o.x - size &&
+        x <= o.x + size &&
+        y >= o.y - size &&
+        y <= o.y + size
+      ) {
+
+        return o;
+
+      }
+
+    }
+
+    if (o.type === "arrow") {
+
+      const distance =
+        pointToLineDistance(
+          x,
+          y,
+          o.x1,
+          o.y1,
+          o.x2,
+          o.y2
+        );
+
+      if (distance < 25) {
+
+        return o;
 
       }
 
@@ -1425,20 +826,1061 @@ function findObjectAt(
 
 
 /* =========================================================
-   Undo
+   Line Distance
 ========================================================= */
 
-undoButton.addEventListener(
+function pointToLineDistance(
+  px,
+  py,
+  x1,
+  y1,
+  x2,
+  y2
+) {
+
+  const A =
+    px - x1;
+
+  const B =
+    py - y1;
+
+  const C =
+    x2 - x1;
+
+  const D =
+    y2 - y1;
+
+  const dot =
+    A * C +
+    B * D;
+
+  const lenSq =
+    C * C +
+    D * D;
+
+  let param =
+    -1;
+
+  if (lenSq !== 0) {
+
+    param =
+      dot / lenSq;
+
+  }
+
+  let xx;
+  let yy;
+
+  if (param < 0) {
+
+    xx = x1;
+    yy = y1;
+
+  } else if (param > 1) {
+
+    xx = x2;
+    yy = y2;
+
+  } else {
+
+    xx =
+      x1 + param * C;
+
+    yy =
+      y1 + param * D;
+
+  }
+
+  const dx =
+    px - xx;
+
+  const dy =
+    py - yy;
+
+  return Math.sqrt(
+    dx * dx +
+    dy * dy
+  );
+
+}
+
+
+/* =========================================================
+   Pointer State
+========================================================= */
+
+let dragging = false;
+
+let dragStart = null;
+
+let dragObject = null;
+
+let resizeStart = null;
+
+
+/* =========================================================
+   Pointer Down
+========================================================= */
+
+canvas.addEventListener(
+  "pointerdown",
+  event => {
+
+    if (!image) return;
+
+    const p =
+      getPointer(event);
+
+    canvas.setPointerCapture(
+      event.pointerId
+    );
+
+
+    /* -----------------------------------------
+       Drawing Tools
+    ----------------------------------------- */
+
+    if (currentTool) {
+
+      if (
+        currentTool === "number" ||
+        currentTool === "letter"
+      ) {
+
+        let text;
+
+        if (
+          currentTool === "number"
+        ) {
+
+          text =
+            ["①","②","③","④","⑤"]
+              [numberCount - 1];
+
+          if (!text) {
+
+            currentTool = null;
+
+            return;
+
+          }
+
+          numberCount++;
+
+        } else {
+
+          text =
+            String.fromCharCode(
+              65 + letterCount
+            );
+
+          if (letterCount >= 5) {
+
+            currentTool = null;
+
+            return;
+
+          }
+
+          letterCount++;
+
+        }
+
+        const obj = {
+
+          type:
+            currentTool,
+
+          x:
+            p.x,
+
+          y:
+            p.y,
+
+          text,
+
+          size:
+            70
+
+        };
+
+        objects.push(obj);
+
+        selectedObject =
+          obj;
+
+        draw();
+
+        return;
+
+      }
+
+
+      dragging = true;
+
+      dragStart = p;
+
+      return;
+
+    }
+
+
+    /* -----------------------------------------
+       Select Existing Object
+    ----------------------------------------- */
+
+    const hit =
+      hitTest(
+        p.x,
+        p.y
+      );
+
+    if (hit) {
+
+      selectedObject =
+        hit;
+
+      dragObject =
+        hit;
+
+      dragging = true;
+
+      dragStart = p;
+
+      resizeStart = {
+
+        x:
+          hit.x,
+
+        y:
+          hit.y
+
+      };
+
+      draw();
+
+      return;
+
+    }
+
+    selectedObject = null;
+
+    draw();
+
+  }
+);
+
+
+/* =========================================================
+   Pointer Move
+========================================================= */
+
+canvas.addEventListener(
+  "pointermove",
+  event => {
+
+    if (!dragging) return;
+
+    const p =
+      getPointer(event);
+
+
+    /* -----------------------------------------
+       Drawing
+    ----------------------------------------- */
+
+    if (
+      currentTool &&
+      dragStart
+    ) {
+
+      if (
+        currentTool === "circle"
+      ) {
+
+        selectedObject = {
+
+          type:
+            "circle",
+
+          x:
+            dragStart.x,
+
+          y:
+            dragStart.y,
+
+          radius:
+            Math.sqrt(
+              Math.pow(
+                p.x -
+                dragStart.x,
+                2
+              ) +
+              Math.pow(
+                p.y -
+                dragStart.y,
+                2
+              )
+            ),
+
+          color:
+            colorInput.value
+
+        };
+
+        drawPreview();
+
+        return;
+
+      }
+
+
+      if (
+        currentTool === "rect"
+      ) {
+
+        selectedObject = {
+
+          type:
+            "rect",
+
+          x:
+            (dragStart.x + p.x) / 2,
+
+          y:
+            (dragStart.y + p.y) / 2,
+
+          width:
+            Math.abs(
+              p.x -
+              dragStart.x
+            ),
+
+          height:
+            Math.abs(
+              p.y -
+              dragStart.y
+            ),
+
+          color:
+            colorInput.value
+
+        };
+
+        drawPreview();
+
+        return;
+
+      }
+
+
+      if (
+        currentTool === "arrow"
+      ) {
+
+        selectedObject = {
+
+          type:
+            "arrow",
+
+          x1:
+            dragStart.x,
+
+          y1:
+            dragStart.y,
+
+          x2:
+            p.x,
+
+          y2:
+            p.y,
+
+          color:
+            colorInput.value
+
+        };
+
+        drawPreview();
+
+        return;
+
+      }
+
+    }
+
+
+    /* -----------------------------------------
+       Move Existing Object
+    ----------------------------------------- */
+
+    if (
+      dragObject &&
+      !currentTool
+    ) {
+
+      const dx =
+        p.x -
+        dragStart.x;
+
+      const dy =
+        p.y -
+        dragStart.y;
+
+      if (
+        dragObject.type === "arrow"
+      ) {
+
+        dragObject.x1 =
+          resizeStart.x1 + dx;
+
+        dragObject.y1 =
+          resizeStart.y1 + dy;
+
+        dragObject.x2 =
+          resizeStart.x2 + dx;
+
+        dragObject.y2 =
+          resizeStart.y2 + dy;
+
+      } else {
+
+        dragObject.x =
+          resizeStart.x + dx;
+
+        dragObject.y =
+          resizeStart.y + dy;
+
+      }
+
+      draw();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   Pointer Up
+========================================================= */
+
+canvas.addEventListener(
+  "pointerup",
+  event => {
+
+    if (!dragging) return;
+
+    const p =
+      getPointer(event);
+
+
+    /* -----------------------------------------
+       Finish Drawing
+    ----------------------------------------- */
+
+    if (
+      currentTool &&
+      dragStart
+    ) {
+
+      let obj = null;
+
+
+      if (
+        currentTool === "circle"
+      ) {
+
+        obj = {
+
+          type:
+            "circle",
+
+          x:
+            dragStart.x,
+
+          y:
+            dragStart.y,
+
+          radius:
+            Math.sqrt(
+              Math.pow(
+                p.x -
+                dragStart.x,
+                2
+              ) +
+              Math.pow(
+                p.y -
+                dragStart.y,
+                2
+              )
+            ),
+
+          color:
+            colorInput.value
+
+        };
+
+      }
+
+
+      if (
+        currentTool === "rect"
+      ) {
+
+        obj = {
+
+          type:
+            "rect",
+
+          x:
+            (dragStart.x + p.x) / 2,
+
+          y:
+            (dragStart.y + p.y) / 2,
+
+          width:
+            Math.abs(
+              p.x -
+              dragStart.x
+            ),
+
+          height:
+            Math.abs(
+              p.y -
+              dragStart.y
+            ),
+
+          color:
+            colorInput.value
+
+        };
+
+      }
+
+
+      if (
+        currentTool === "arrow"
+      ) {
+
+        obj = {
+
+          type:
+            "arrow",
+
+          x1:
+            dragStart.x,
+
+          y1:
+            dragStart.y,
+
+          x2:
+            p.x,
+
+          y2:
+            p.y,
+
+          color:
+            colorInput.value
+
+        };
+
+      }
+
+
+      if (obj) {
+
+        objects.push(obj);
+
+        selectedObject =
+          obj;
+
+      }
+
+      currentTool = null;
+
+      document
+        .querySelectorAll(
+          "[data-tool]"
+        )
+        .forEach(
+          b =>
+            b.classList.remove(
+              "active"
+            )
+        );
+
+    }
+
+
+    dragging = false;
+
+    dragStart = null;
+
+    dragObject = null;
+
+    resizeStart = null;
+
+    draw();
+
+  }
+);
+
+
+/* =========================================================
+   Drawing
+========================================================= */
+
+function draw() {
+
+  ctx.clearRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  if (image) {
+
+    ctx.drawImage(
+      image,
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+  }
+
+
+  objects.forEach(
+    drawObject
+  );
+
+}
+
+
+/* =========================================================
+   Preview
+========================================================= */
+
+function drawPreview() {
+
+  draw();
+
+  if (selectedObject) {
+
+    drawObject(
+      selectedObject
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   Draw Object
+========================================================= */
+
+function drawObject(o) {
+
+  ctx.save();
+
+
+  /* -----------------------------------------
+     Circle
+  ----------------------------------------- */
+
+  if (o.type === "circle") {
+
+    ctx.strokeStyle =
+      o.color || "#ff0000";
+
+    ctx.lineWidth =
+      8;
+
+    ctx.beginPath();
+
+    ctx.arc(
+      o.x,
+      o.y,
+      o.radius,
+      0,
+      Math.PI * 2
+    );
+
+    ctx.stroke();
+
+  }
+
+
+  /* -----------------------------------------
+     Rectangle
+  ----------------------------------------- */
+
+  if (o.type === "rect") {
+
+    ctx.strokeStyle =
+      o.color || "#ff0000";
+
+    ctx.lineWidth =
+      8;
+
+    ctx.strokeRect(
+      o.x -
+        o.width / 2,
+
+      o.y -
+        o.height / 2,
+
+      o.width,
+      o.height
+    );
+
+  }
+
+
+  /* -----------------------------------------
+     Arrow
+  ----------------------------------------- */
+
+  if (o.type === "arrow") {
+
+    drawArrow(o);
+
+  }
+
+
+  /* -----------------------------------------
+     Number / Letter
+  ----------------------------------------- */
+
+  if (
+    o.type === "number" ||
+    o.type === "letter"
+  ) {
+
+    drawMarker(o);
+
+  }
+
+
+  /* -----------------------------------------
+     Selection
+  ----------------------------------------- */
+
+  if (
+    o === selectedObject
+  ) {
+
+    drawSelection(o);
+
+  }
+
+  ctx.restore();
+
+}
+
+
+/* =========================================================
+   Arrow
+========================================================= */
+
+function drawArrow(o) {
+
+  const dx =
+    o.x2 - o.x1;
+
+  const dy =
+    o.y2 - o.y1;
+
+  const angle =
+    Math.atan2(
+      dy,
+      dx
+    );
+
+  const length =
+    Math.sqrt(
+      dx * dx +
+      dy * dy
+    );
+
+  const headLength =
+    Math.min(
+      45,
+      Math.max(
+        24,
+        length * 0.15
+      )
+    );
+
+  ctx.strokeStyle =
+    o.color || "#ff0000";
+
+  ctx.fillStyle =
+    o.color || "#ff0000";
+
+  ctx.lineWidth =
+    10;
+
+  ctx.lineCap =
+    "round";
+
+  ctx.lineJoin =
+    "round";
+
+  /* Shadow */
+
+  ctx.shadowColor =
+    "rgba(0,0,0,0.75)";
+
+  ctx.shadowBlur =
+    8;
+
+  ctx.beginPath();
+
+  ctx.moveTo(
+    o.x1,
+    o.y1
+  );
+
+  ctx.lineTo(
+    o.x2,
+    o.y2
+  );
+
+  ctx.stroke();
+
+  ctx.shadowBlur = 0;
+
+
+  /* Arrow head */
+
+  ctx.beginPath();
+
+  ctx.moveTo(
+    o.x2,
+    o.y2
+  );
+
+  ctx.lineTo(
+    o.x2 -
+      headLength *
+      Math.cos(
+        angle -
+        Math.PI / 6
+      ),
+
+    o.y2 -
+      headLength *
+      Math.sin(
+        angle -
+        Math.PI / 6
+      )
+  );
+
+  ctx.lineTo(
+    o.x2 -
+      headLength *
+      Math.cos(
+        angle +
+        Math.PI / 6
+      ),
+
+    o.y2 -
+      headLength *
+      Math.sin(
+        angle +
+        Math.PI / 6
+      )
+  );
+
+  ctx.closePath();
+
+  ctx.fill();
+
+}
+
+
+/* =========================================================
+   Marker
+========================================================= */
+
+function drawMarker(o) {
+
+  const size =
+    o.size || 70;
+
+  const radius =
+    size * 0.65;
+
+  /* White circle */
+
+  ctx.fillStyle =
+    "#ffffff";
+
+  ctx.beginPath();
+
+  ctx.arc(
+    o.x,
+    o.y,
+    radius,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.fill();
+
+
+  /* Black text */
+
+  ctx.fillStyle =
+    "#000000";
+
+  ctx.font =
+    `bold ${size * 0.75}px sans-serif`;
+
+  ctx.textAlign =
+    "center";
+
+  ctx.textBaseline =
+    "middle";
+
+  ctx.fillText(
+    o.text,
+    o.x,
+    o.y
+  );
+
+}
+
+
+/* =========================================================
+   Selection
+========================================================= */
+
+function drawSelection(o) {
+
+  ctx.strokeStyle =
+    "rgba(88,101,242,0.9)";
+
+  ctx.lineWidth =
+    3;
+
+  ctx.setLineDash(
+    [10, 8]
+  );
+
+
+  if (
+    o.type === "circle"
+  ) {
+
+    ctx.beginPath();
+
+    ctx.arc(
+      o.x,
+      o.y,
+      o.radius + 12,
+      0,
+      Math.PI * 2
+    );
+
+    ctx.stroke();
+
+  }
+
+
+  if (
+    o.type === "rect"
+  ) {
+
+    ctx.strokeRect(
+      o.x -
+        o.width / 2 -
+        10,
+
+      o.y -
+        o.height / 2 -
+        10,
+
+      o.width + 20,
+
+      o.height + 20
+    );
+
+  }
+
+
+  if (
+    o.type === "arrow"
+  ) {
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+      o.x1,
+      o.y1
+    );
+
+    ctx.lineTo(
+      o.x2,
+      o.y2
+    );
+
+    ctx.stroke();
+
+  }
+
+
+  if (
+    o.type === "number" ||
+    o.type === "letter"
+  ) {
+
+    const size =
+      o.size || 70;
+
+    ctx.strokeRect(
+      o.x -
+        size,
+
+      o.y -
+        size,
+
+      size * 2,
+
+      size * 2
+    );
+
+  }
+
+  ctx.setLineDash([]);
+
+}
+
+
+/* =========================================================
+   Delete
+========================================================= */
+
+deleteButton.addEventListener(
   "click",
   () => {
 
-    if (
-      objects.length === 0
-    ) return;
+    if (!selectedObject) return;
 
-    objects.pop();
+    objects =
+      objects.filter(
+        o =>
+          o !== selectedObject
+      );
 
-    redraw();
+    selectedObject =
+      null;
+
+    draw();
 
   }
 );
@@ -1452,62 +1894,508 @@ clearButton.addEventListener(
   "click",
   () => {
 
-    if (
-      objects.length === 0
-    ) return;
+    if (!image) return;
 
     if (
       !confirm(
-        "すべての編集を削除しますか？"
+        "配置したオブジェクトをすべて削除しますか？"
       )
-    ) return;
+    ) {
+
+      return;
+
+    }
 
     objects = [];
 
-    nextNumber = 1;
-    nextLetter = 0;
+    selectedObject =
+      null;
 
-    redraw();
+    numberCount = 1;
+
+    letterCount = 0;
+
+    draw();
 
   }
 );
 
 
 /* =========================================================
-   Save
+   Crop Mode
+========================================================= */
+
+let cropMode = false;
+
+let cropStart = null;
+
+let cropEnd = null;
+
+cropButton.addEventListener(
+  "click",
+  () => {
+
+    if (!image) return;
+
+    cropMode =
+      !cropMode;
+
+    cropButton.classList.toggle(
+      "active",
+      cropMode
+    );
+
+    if (cropMode) {
+
+      currentTool = null;
+
+      document
+        .querySelectorAll(
+          "[data-tool]"
+        )
+        .forEach(
+          b =>
+            b.classList.remove(
+              "active"
+            )
+        );
+
+      status.textContent =
+        "切り抜く範囲をドラッグしてください";
+
+    } else {
+
+      cropOverlay.style.display =
+        "none";
+
+      status.textContent =
+        `${canvas.width} × ${canvas.height}`;
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   Crop Pointer
+========================================================= */
+
+canvas.addEventListener(
+  "pointerdown",
+  event => {
+
+    if (!cropMode) return;
+
+    const p =
+      getPointer(event);
+
+    cropStart =
+      p;
+
+    cropEnd =
+      p;
+
+    cropOverlay.style.display =
+      "block";
+
+    updateCropOverlay();
+
+  }
+);
+
+
+canvas.addEventListener(
+  "pointermove",
+  event => {
+
+    if (
+      !cropMode ||
+      !cropStart
+    ) {
+
+      return;
+
+    }
+
+    cropEnd =
+      getPointer(event);
+
+    updateCropOverlay();
+
+  }
+);
+
+
+canvas.addEventListener(
+  "pointerup",
+  event => {
+
+    if (
+      !cropMode ||
+      !cropStart
+    ) {
+
+      return;
+
+    }
+
+    cropEnd =
+      getPointer(event);
+
+    applyCrop();
+
+  }
+);
+
+
+/* =========================================================
+   Crop Overlay
+========================================================= */
+
+function updateCropOverlay() {
+
+  if (
+    !cropStart ||
+    !cropEnd
+  ) {
+
+    return;
+
+  }
+
+  const rect =
+    canvas.getBoundingClientRect();
+
+  const scaleX =
+    rect.width /
+    canvas.width;
+
+  const scaleY =
+    rect.height /
+    canvas.height;
+
+  const x =
+    Math.min(
+      cropStart.x,
+      cropEnd.x
+    );
+
+  const y =
+    Math.min(
+      cropStart.y,
+      cropEnd.y
+    );
+
+  const width =
+    Math.abs(
+      cropEnd.x -
+      cropStart.x
+    );
+
+  const height =
+    Math.abs(
+      cropEnd.y -
+      cropStart.y
+    );
+
+  cropOverlay.style.left =
+    `${x * scaleX}px`;
+
+  cropOverlay.style.top =
+    `${y * scaleY}px`;
+
+  cropOverlay.style.width =
+    `${width * scaleX}px`;
+
+  cropOverlay.style.height =
+    `${height * scaleY}px`;
+
+}
+
+
+/* =========================================================
+   Apply Crop
+========================================================= */
+
+function applyCrop() {
+
+  const x =
+    Math.max(
+      0,
+      Math.min(
+        cropStart.x,
+        cropEnd.x
+      )
+    );
+
+  const y =
+    Math.max(
+      0,
+      Math.min(
+        cropStart.y,
+        cropEnd.y
+      )
+    );
+
+  const width =
+    Math.min(
+      canvas.width - x,
+      Math.abs(
+        cropEnd.x -
+        cropStart.x
+      )
+    );
+
+  const height =
+    Math.min(
+      canvas.height - y,
+      Math.abs(
+        cropEnd.y -
+        cropStart.y
+      )
+    );
+
+
+  if (
+    width < 10 ||
+    height < 10
+  ) {
+
+    cropStart = null;
+    cropEnd = null;
+
+    cropOverlay.style.display =
+      "none";
+
+    return;
+
+  }
+
+
+  /* -----------------------------------------
+     Create Cropped Image
+  ----------------------------------------- */
+
+  const tempCanvas =
+    document.createElement(
+      "canvas"
+    );
+
+  tempCanvas.width =
+    width;
+
+  tempCanvas.height =
+    height;
+
+  const tempCtx =
+    tempCanvas.getContext(
+      "2d"
+    );
+
+  tempCtx.drawImage(
+    canvas,
+
+    x,
+    y,
+    width,
+    height,
+
+    0,
+    0,
+    width,
+    height
+  );
+
+
+  /* -----------------------------------------
+     Replace Image
+  ----------------------------------------- */
+
+  const croppedImage =
+    new Image();
+
+  croppedImage.onload =
+    () => {
+
+      image =
+        croppedImage;
+
+      canvas.width =
+        width;
+
+      canvas.height =
+        height;
+
+      /*
+       * 現在配置されているオブジェクトは
+       * 切り抜き範囲に合わせて座標を移動。
+       */
+
+      objects.forEach(
+        o => {
+
+          if (
+            o.type === "arrow"
+          ) {
+
+            o.x1 -= x;
+            o.y1 -= y;
+
+            o.x2 -= x;
+            o.y2 -= y;
+
+          } else {
+
+            o.x -= x;
+            o.y -= y;
+
+          }
+
+        }
+      );
+
+
+      objects =
+        objects.filter(
+          o =>
+            objectIsInsideCanvas(
+              o
+            )
+        );
+
+
+      selectedObject =
+        null;
+
+      cropStart = null;
+
+      cropEnd = null;
+
+      cropOverlay.style.display =
+        "none";
+
+      cropMode = false;
+
+      cropButton.classList.remove(
+        "active"
+      );
+
+      status.textContent =
+        `${width} × ${height}`;
+
+      draw();
+
+    };
+
+  croppedImage.src =
+    tempCanvas.toDataURL(
+      "image/png"
+    );
+
+}
+
+
+/* =========================================================
+   Object Visibility After Crop
+========================================================= */
+
+function objectIsInsideCanvas(o) {
+
+  if (
+    o.type === "arrow"
+  ) {
+
+    return (
+      (
+        o.x1 >= 0 &&
+        o.x1 <= canvas.width &&
+        o.y1 >= 0 &&
+        o.y1 <= canvas.height
+      ) ||
+      (
+        o.x2 >= 0 &&
+        o.x2 <= canvas.width &&
+        o.y2 >= 0 &&
+        o.y2 <= canvas.height
+      )
+    );
+
+  }
+
+
+  return (
+    o.x >= -100 &&
+    o.x <= canvas.width + 100 &&
+    o.y >= -100 &&
+    o.y <= canvas.height + 100
+  );
+
+}
+
+
+/* =========================================================
+   Save PNG
 ========================================================= */
 
 saveButton.addEventListener(
   "click",
   () => {
 
-    if (
-      !sourceImage.src
-    ) {
+    if (!image) return;
 
-      alert(
-        "先に画像をアップロードしてください。"
-      );
+    selectedObject =
+      null;
 
-      return;
+    draw();
 
-    }
+    canvas.toBlob(
+      blob => {
 
-    const link =
-      document.createElement("a");
+        if (!blob) return;
 
-    link.download =
-      "S222-edited.png";
+        const url =
+          URL.createObjectURL(
+            blob
+          );
 
-    link.href =
-      canvas.toDataURL(
-        "image/png"
-      );
+        const a =
+          document.createElement(
+            "a"
+          );
 
-    link.click();
+        a.href =
+          url;
+
+        a.download =
+          `S222-image-${Date.now()}.png`;
+
+        document.body.appendChild(
+          a
+        );
+
+        a.click();
+
+        a.remove();
+
+        URL.revokeObjectURL(
+          url
+        );
+
+      },
+      "image/png"
+    );
 
   }
 );
+
+
+/* =========================================================
+   Initial
+========================================================= */
+
+status.textContent =
+  "画像未読み込み";
 
 </script>
 
