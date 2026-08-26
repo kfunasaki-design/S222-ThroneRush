@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -13,6 +14,10 @@
 <title>S222 Image Editor</title>
 
 <style>
+
+/* =========================================================
+   Base
+========================================================= */
 
 * {
   box-sizing: border-box;
@@ -93,6 +98,66 @@ body {
 
 
 /* =========================================================
+   Header
+========================================================= */
+
+.header {
+  position: absolute;
+
+  top: 10px;
+  left: 50%;
+
+  transform:
+    translateX(-50%);
+
+  z-index: 40;
+
+  padding:
+    7px 16px;
+
+  border-radius: 10px;
+
+  background:
+    rgba(
+      30,
+      31,
+      34,
+      0.72
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.10
+    );
+
+  backdrop-filter:
+    blur(10px);
+
+  -webkit-backdrop-filter:
+    blur(10px);
+
+  box-shadow:
+    0 4px 18px
+    rgba(0,0,0,0.28);
+
+  pointer-events: none;
+
+  white-space: nowrap;
+}
+
+.header-title {
+  font-size: 14px;
+  font-weight: 700;
+
+  letter-spacing: 0.3px;
+}
+
+
+/* =========================================================
    Empty
 ========================================================= */
 
@@ -141,7 +206,12 @@ body {
     2px dashed #ffffff;
 
   background:
-    rgba(255,255,255,0.08);
+    rgba(
+      255,
+      255,
+      255,
+      0.08
+    );
 
   pointer-events: none;
 
@@ -196,10 +266,11 @@ body {
   transform:
     translateX(-50%);
 
-  width: min(
-    calc(100% - 16px),
-    620px
-  );
+  width:
+    min(
+      calc(100% - 16px),
+      620px
+    );
 
   padding: 8px;
 
@@ -401,14 +472,27 @@ body {
 
 <div id="app">
 
-
-  <!-- =====================================================
-       Full Screen Editor
-  ====================================================== -->
-
   <main
     id="editor"
     class="editor">
+
+
+    <!-- =====================================================
+         Header
+    ====================================================== -->
+
+    <header class="header">
+
+      <div class="header-title">
+        S222 Image Editor
+      </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         Canvas
+    ====================================================== -->
 
     <canvas
       id="canvas">
@@ -430,7 +514,9 @@ body {
     </div>
 
 
-    <!-- Crop -->
+    <!-- =====================================================
+         Crop
+    ====================================================== -->
 
     <div
       id="cropOverlay">
@@ -454,14 +540,12 @@ body {
     </div>
 
 
-    <!-- ===================================================
-         Floating Toolbar
-    ==================================================== -->
+    <!-- =====================================================
+         Toolbar
+    ====================================================== -->
 
     <nav class="toolbar">
 
-
-      <!-- Row 1 -->
 
       <!-- Undo -->
 
@@ -491,6 +575,20 @@ body {
       </button>
 
 
+      <!-- Crop -->
+
+      <button
+        class="tool-button"
+        id="cropButton"
+        title="切り抜き">
+
+        <img
+          src="image/trim-image-48.png"
+          alt="切り抜き">
+
+      </button>
+
+
       <!-- Color -->
 
       <label
@@ -505,23 +603,9 @@ body {
         <input
           id="colorInput"
           type="color"
-          value="#00ffff">
+          value="#00ff00">
 
       </label>
-
-
-      <!-- Crop -->
-
-      <button
-        class="tool-button"
-        id="cropButton"
-        title="切り抜き">
-
-        <img
-          src="image/trim-image-48.png"
-          alt="切り抜き">
-
-      </button>
 
 
       <!-- Circle -->
@@ -564,9 +648,6 @@ body {
           alt="矢印">
 
       </button>
-
-
-      <!-- Row 2 -->
 
 
       <!-- Numbers -->
@@ -641,7 +722,6 @@ body {
 
     </nav>
 
-
   </main>
 
 
@@ -650,7 +730,6 @@ body {
     type="file"
     accept="image/*"
     hidden>
-
 
 </div>
 
@@ -767,7 +846,12 @@ let viewX = 0;
 
 let viewY = 0;
 
-let minScale = 1;
+/*
+ * 初期表示倍率は「高さ基準」。
+ * ただし、この倍率を縮小限界にはしない。
+ */
+
+let minScale = 0.1;
 
 let maxScale = 5;
 
@@ -843,12 +927,23 @@ function saveHistory() {
 
     numberIndex,
 
-    letterIndex
+    letterIndex,
+
+    imageSrc:
+      image
+        ? getCanvasDataURL()
+        : null,
+
+    canvasWidth:
+      canvas.width,
+
+    canvasHeight:
+      canvas.height
 
   });
 
   if (
-    history.length > 50
+    history.length > 30
   ) {
 
     history.shift();
@@ -858,7 +953,28 @@ function saveHistory() {
 }
 
 
-function undo() {
+/*
+ * 現在のcanvasを画像として保存。
+ *
+ * これにより、
+ * 切り抜き前の画像そのものを
+ * Undoできる。
+ */
+
+function getCanvasDataURL() {
+
+  return canvas.toDataURL(
+    "image/png"
+  );
+
+}
+
+
+/* =========================================================
+   Undo
+========================================================= */
+
+async function undo() {
 
   if (
     !history.length
@@ -882,14 +998,47 @@ function undo() {
 
   selectedObject = null;
 
-  draw();
+
+  /*
+   * 画像状態も復元
+   */
+
+  if (
+    state.imageSrc
+  ) {
+
+    const restored =
+      new Image();
+
+    restored.onload =
+      () => {
+
+        image =
+          restored;
+
+        canvas.width =
+          state.canvasWidth;
+
+        canvas.height =
+          state.canvasHeight;
+
+        fitImage();
+
+        draw();
+
+      };
+
+    restored.src =
+      state.imageSrc;
+
+  } else {
+
+    draw();
+
+  }
 
 }
 
-
-/* =========================================================
-   Undo
-========================================================= */
 
 undoButton.addEventListener(
   "click",
@@ -942,7 +1091,8 @@ fileInput.addEventListener(
         img.onload =
           () => {
 
-            image = img;
+            image =
+              img;
 
             canvas.width =
               img.naturalWidth;
@@ -1003,15 +1153,13 @@ function fitImage() {
     editor.clientHeight;
 
   /*
-   * 画面の高さ基準。
+   * 初期表示は画像の高さを
+   * 画面高さに合わせる。
    */
 
   viewScale =
     height /
     canvas.height;
-
-  minScale =
-    viewScale;
 
   viewX =
     (
@@ -1346,8 +1494,13 @@ editor.addEventListener(
       ) {
 
         obj.text =
-          ["①","②","③","④","⑤"]
-          [numberIndex];
+          [
+            "①",
+            "②",
+            "③",
+            "④",
+            "⑤"
+          ][numberIndex];
 
         numberIndex++;
 
@@ -1387,6 +1540,29 @@ editor.addEventListener(
         obj;
 
       draw();
+
+
+      /*
+       * 重要：
+       * 123 / ABCは一度配置したら
+       * ツールを自動解除。
+       *
+       * これで他の操作ができなくなる
+       * 問題を解消。
+       */
+
+      currentTool = null;
+
+      document
+        .querySelectorAll(
+          "[data-tool]"
+        )
+        .forEach(
+          b =>
+            b.classList.remove(
+              "active"
+            )
+        );
 
       return;
 
@@ -1525,6 +1701,14 @@ editor.addEventListener(
           values[1]
         );
 
+      if (
+        pinchStartDistance <= 0
+      ) {
+
+        return;
+
+      }
+
       const ratio =
         currentDistance /
         pinchStartDistance;
@@ -1532,6 +1716,12 @@ editor.addEventListener(
       let newScale =
         pinchStartScale *
         ratio;
+
+
+      /*
+       * 初期表示倍率以下にも
+       * 縮小できる。
+       */
 
       newScale =
         Math.max(
@@ -1541,6 +1731,7 @@ editor.addEventListener(
             newScale
           )
         );
+
 
       const center =
         midpoint(
@@ -1559,6 +1750,7 @@ editor.addEventListener(
         center.y -
         rect.top;
 
+
       const imageX =
         (
           cx -
@@ -1572,6 +1764,7 @@ editor.addEventListener(
           pinchStartView.y
         ) /
         pinchStartScale;
+
 
       viewScale =
         newScale;
@@ -2450,7 +2643,7 @@ function drawObject(
 
     ctx.strokeStyle =
       o.color ||
-      "#00ffff";
+      "#00ff00";
 
     ctx.lineWidth =
       8;
@@ -2477,7 +2670,7 @@ function drawObject(
 
     ctx.strokeStyle =
       o.color ||
-      "#00ffff";
+      "#00ff00";
 
     ctx.lineWidth =
       8;
@@ -2581,11 +2774,11 @@ function drawArrow(
 
   ctx.strokeStyle =
     color ||
-    "#00ffff";
+    "#00ff00";
 
   ctx.fillStyle =
     color ||
-    "#00ffff";
+    "#00ff00";
 
   ctx.lineWidth =
     10;
@@ -2595,10 +2788,6 @@ function drawArrow(
 
   ctx.lineJoin =
     "round";
-
-  /*
-   * 黒いシャドウ。
-   */
 
   ctx.shadowColor =
     "rgba(0,0,0,0.8)";
@@ -2689,10 +2878,6 @@ function drawMarker(
     size * 0.68;
 
 
-  /*
-   * 白い背景円。
-   */
-
   ctx.fillStyle =
     "#ffffff";
 
@@ -2708,10 +2893,6 @@ function drawMarker(
 
   ctx.fill();
 
-
-  /*
-   * 黒文字。
-   */
 
   ctx.fillStyle =
     "#000000";
@@ -2978,13 +3159,14 @@ function applyCrop() {
   }
 
 
+  /*
+   * ここで切り抜き前を保存。
+   *
+   * これがUndo可能にするポイント。
+   */
+
   saveHistory();
 
-
-  /*
-   * 現在のcanvasを
-   * そのまま切り抜く。
-   */
 
   const tempCanvas =
     document.createElement(
@@ -3001,6 +3183,7 @@ function applyCrop() {
     tempCanvas.getContext(
       "2d"
     );
+
 
   tempCtx.drawImage(
     canvas,
@@ -3031,6 +3214,11 @@ function applyCrop() {
 
       canvas.height =
         height;
+
+      /*
+       * 切り抜き後は画像と一緒に
+       * 描画済みオブジェクトも統合。
+       */
 
       objects = [];
 
@@ -3297,3 +3485,4 @@ window.addEventListener(
 
 </body>
 </html>
+```
