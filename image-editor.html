@@ -957,7 +957,34 @@ body {
 
 
 <script>
+const allowedHost =
+  "kfunasaki-design.github.io";
 
+if (
+  window.location.hostname !== allowedHost
+) {
+  document.body.innerHTML = `
+    <div style="
+      color:white;
+      background:#111214;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      font-family:sans-serif;
+      padding:30px;
+    ">
+      <div>
+        <h2>Access Denied</h2>
+        <p>This tool is available only from the S222 website.</p>
+      </div>
+    </div>
+  `;
+  throw new Error(
+    "Unauthorized host"
+  );
+}
 /* =========================================================
    Elements
 ========================================================= */
