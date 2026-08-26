@@ -341,7 +341,7 @@ body {
   width:
     min(
       calc(100% - 24px),
-      778px
+      620px
     );
 
   padding: 8px;
@@ -378,13 +378,11 @@ body {
   display: grid;
 
   grid-template-columns:
-    repeat(7, minmax(0, 1fr));
+    repeat(7, 1fr);
 
   gap: 6px;
 
   z-index: 30;
-
-  overflow: hidden;
 }
 
 
@@ -395,8 +393,6 @@ body {
 .tool-button {
   width: 100%;
   height: 50px;
-
-  min-width: 0;
 
   border: none;
 
@@ -427,9 +423,6 @@ body {
 .tool-button img {
   width: 40px;
   height: 40px;
-
-  max-width: 100%;
-  max-height: 100%;
 
   display: block;
 
@@ -463,8 +456,6 @@ body {
 
   width: 100%;
   height: 50px;
-
-  min-width: 0;
 
   border: none;
 
@@ -523,8 +514,6 @@ body {
   width: 100%;
   height: 50px;
 
-  min-width: 0;
-
   padding: 5px;
 
   border: none;
@@ -555,9 +544,6 @@ body {
   width: 40px;
   height: 40px;
 
-  max-width: 100%;
-  max-height: 100%;
-
   object-fit: contain;
 
   pointer-events: none;
@@ -570,6 +556,75 @@ body {
 
 
 /* =========================================================
+   Toast
+========================================================= */
+
+.toast {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  transform:
+    translate(-50%, -50%)
+    scale(0.95);
+
+  z-index: 100;
+
+  padding:
+    12px 20px;
+
+  border-radius: 12px;
+
+  background:
+    rgba(
+      30,
+      31,
+      34,
+      0.90
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.12
+    );
+
+  box-shadow:
+    0 8px 30px
+    rgba(0,0,0,0.35);
+
+  color:
+    #ffffff;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+}
+
+.toast.show {
+  opacity: 1;
+
+  transform:
+    translate(-50%, -50%)
+    scale(1);
+}
+
+
+/* =========================================================
    Desktop
 ========================================================= */
 
@@ -578,20 +633,22 @@ body {
   .toolbar {
     bottom: 18px;
 
+    grid-template-columns:
+      repeat(12, 58px);
+
     width:
       min(
         calc(100% - 24px),
-        778px
+        760px
       );
 
-    grid-template-columns:
-      repeat(12, minmax(0, 1fr));
+    justify-content: center;
   }
 
   .tool-button,
   .color-button,
   .save-button {
-    width: 100%;
+    width: 58px;
     height: 58px;
   }
 
@@ -687,6 +744,16 @@ body {
         class="crop-corner crop-br">
       </div>
 
+    </div>
+
+
+    <!-- =====================================================
+         Toast
+    ====================================================== -->
+
+    <div
+      id="toast"
+      class="toast">
     </div>
 
 
@@ -965,6 +1032,11 @@ const cropOverlay =
     "cropOverlay"
   );
 
+const toast =
+  document.getElementById(
+    "toast"
+  );
+
 
 /* =========================================================
    State
@@ -1049,6 +1121,42 @@ colorInput.addEventListener(
 
   }
 );
+
+
+/* =========================================================
+   Toast
+========================================================= */
+
+let toastTimer = null;
+
+function showToast(
+  message
+) {
+
+  toast.textContent =
+    message;
+
+  toast.classList.add(
+    "show"
+  );
+
+  clearTimeout(
+    toastTimer
+  );
+
+  toastTimer =
+    setTimeout(
+      () => {
+
+        toast.classList.remove(
+          "show"
+        );
+
+      },
+      1500
+    );
+
+}
 
 
 /* =========================================================
@@ -1618,6 +1726,9 @@ editor.addEventListener(
       ) ||
       event.target.closest(
         ".header"
+      ) ||
+      event.target.closest(
+        ".toast"
       )
     ) {
 
@@ -3093,18 +3204,16 @@ function drawMarker(
 
   /* -------------------------------------------------------
      Numbers
-     白丸＋黒文字で1〜5を表示
+     白い円背景 ＋ 黒文字
   ------------------------------------------------------- */
 
   if (
     o.type === "number"
   ) {
 
-    const circleRadius =
-      size * 0.68;
+    ctx.save();
 
-
-    /* 白い円 */
+    /* 白丸 */
 
     ctx.fillStyle =
       "#ffffff";
@@ -3114,7 +3223,7 @@ function drawMarker(
     ctx.arc(
       o.x,
       o.y,
-      circleRadius,
+      size * 0.62,
       0,
       Math.PI * 2
     );
@@ -3122,7 +3231,7 @@ function drawMarker(
     ctx.fill();
 
 
-    /* 黒い数字 */
+    /* 黒文字 */
 
     ctx.fillStyle =
       "#000000";
@@ -3141,6 +3250,8 @@ function drawMarker(
       o.x,
       o.y
     );
+
+    ctx.restore();
 
     return;
 
@@ -3387,6 +3498,10 @@ clearButton.addEventListener(
     letterIndex = 0;
 
     draw();
+
+    showToast(
+      "すべて削除しました"
+    );
 
   }
 );
@@ -3682,6 +3797,10 @@ saveButton.addEventListener(
 
         URL.revokeObjectURL(
           url
+        );
+
+        showToast(
+          "保存しました ✓"
         );
 
       },
