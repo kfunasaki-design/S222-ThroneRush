@@ -37,56 +37,20 @@ body {
     sans-serif;
 }
 
+
 /* =========================================================
    App
 ========================================================= */
 
 #app {
+  position: relative;
+
   width: 100%;
   height: 100%;
 
-  display: flex;
-  flex-direction: column;
+  overflow: hidden;
 
   background: #111214;
-}
-
-
-/* =========================================================
-   Header
-========================================================= */
-
-.header {
-  height: 48px;
-
-  flex-shrink: 0;
-
-  background: #1e1f22;
-
-  border-bottom:
-    1px solid #2b2d31;
-
-  display: flex;
-  align-items: center;
-
-  justify-content: space-between;
-
-  padding: 0 12px;
-
-  z-index: 20;
-}
-
-.title {
-  font-size: 14px;
-  font-weight: 700;
-
-  color: #fff;
-}
-
-.status {
-  font-size: 11px;
-
-  color: #949ba4;
 }
 
 
@@ -95,11 +59,12 @@ body {
 ========================================================= */
 
 .editor {
-  position: relative;
+  position: absolute;
 
-  flex: 1;
+  inset: 0;
 
-  min-height: 0;
+  width: 100%;
+  height: 100%;
 
   overflow: hidden;
 
@@ -139,6 +104,8 @@ body {
 
   transform:
     translate(-50%, -50%);
+
+  width: 90%;
 
   text-align: center;
 
@@ -217,41 +184,62 @@ body {
 
 
 /* =========================================================
-   Bottom Toolbar
+   Floating Toolbar
 ========================================================= */
 
 .toolbar {
-  height: 70px;
+  position: absolute;
 
-  flex-shrink: 0;
+  left: 50%;
+  bottom: 12px;
 
-  background: #1e1f22;
+  transform:
+    translateX(-50%);
 
-  border-top:
-    1px solid #2b2d31;
+  width: min(
+    calc(100% - 16px),
+    620px
+  );
 
-  display: flex;
+  padding: 8px;
 
-  align-items: center;
+  background:
+    rgba(
+      30,
+      31,
+      34,
+      0.72
+    );
 
-  justify-content: center;
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.10
+    );
+
+  border-radius: 14px;
+
+  backdrop-filter:
+    blur(10px);
+
+  -webkit-backdrop-filter:
+    blur(10px);
+
+  box-shadow:
+    0 6px 24px
+    rgba(0,0,0,0.35);
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(7, 1fr);
 
   gap: 6px;
 
-  padding:
-    7px 8px;
-
-  overflow-x: auto;
-
-  overflow-y: hidden;
-
-  -webkit-overflow-scrolling: touch;
-
   z-index: 30;
-}
-
-.toolbar::-webkit-scrollbar {
-  display: none;
 }
 
 
@@ -260,17 +248,20 @@ body {
 ========================================================= */
 
 .tool-button {
-  width: 52px;
-  height: 52px;
-
-  flex:
-    0 0 52px;
+  width: 100%;
+  height: 50px;
 
   border: none;
 
   border-radius: 9px;
 
-  background: #2b2d31;
+  background:
+    rgba(
+      43,
+      45,
+      49,
+      0.78
+    );
 
   display: flex;
 
@@ -278,7 +269,7 @@ body {
 
   justify-content: center;
 
-  padding: 6px;
+  padding: 5px;
 
   cursor: pointer;
 
@@ -298,11 +289,18 @@ body {
 }
 
 .tool-button.active {
-  background: #5865f2;
+  background:
+    rgba(
+      88,
+      101,
+      242,
+      0.88
+    );
 }
 
 .tool-button:active {
-  transform: scale(0.94);
+  transform:
+    scale(0.94);
 }
 
 
@@ -310,29 +308,56 @@ body {
    Color Button
 ========================================================= */
 
-.color-wrap {
+.color-button {
   position: relative;
 
-  width: 52px;
-  height: 52px;
-
-  flex:
-    0 0 52px;
-}
-
-#colorInput {
-  position: absolute;
-
-  width: 52px;
-  height: 52px;
-
-  padding: 5px;
+  width: 100%;
+  height: 50px;
 
   border: none;
 
   border-radius: 9px;
 
-  background: #2b2d31;
+  background:
+    rgba(
+      43,
+      45,
+      49,
+      0.78
+    );
+
+  padding: 5px;
+
+  cursor: pointer;
+
+  overflow: hidden;
+}
+
+.color-preview {
+  width: 100%;
+  height: 100%;
+
+  border-radius: 6px;
+
+  border:
+    2px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.65
+    );
+}
+
+#colorInput {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  opacity: 0;
 
   cursor: pointer;
 }
@@ -345,25 +370,25 @@ body {
 @media (min-width: 700px) {
 
   .toolbar {
-    gap: 8px;
+    bottom: 18px;
+
+    grid-template-columns:
+      repeat(7, 58px);
+
+    width: auto;
+
+    justify-content: center;
   }
 
-  .tool-button {
-    width: 56px;
-    height: 56px;
-
-    flex-basis: 56px;
+  .tool-button,
+  .color-button {
+    width: 58px;
+    height: 58px;
   }
 
   .tool-button img {
-    width: 42px;
-    height: 42px;
-  }
-
-  .color-wrap,
-  #colorInput {
-    width: 56px;
-    height: 56px;
+    width: 44px;
+    height: 44px;
   }
 
 }
@@ -378,28 +403,7 @@ body {
 
 
   <!-- =====================================================
-       Header
-  ====================================================== -->
-
-  <header class="header">
-
-    <div class="title">
-      S222 Image Editor
-    </div>
-
-    <div
-      id="status"
-      class="status">
-
-      画像未読み込み
-
-    </div>
-
-  </header>
-
-
-  <!-- =====================================================
-       Editor
+       Full Screen Editor
   ====================================================== -->
 
   <main
@@ -449,185 +453,196 @@ body {
 
     </div>
 
+
+    <!-- ===================================================
+         Floating Toolbar
+    ==================================================== -->
+
+    <nav class="toolbar">
+
+
+      <!-- Row 1 -->
+
+      <!-- Undo -->
+
+      <button
+        class="tool-button"
+        id="undoButton"
+        title="一つ前に戻す">
+
+        <img
+          src="image/undo-48.png"
+          alt="Undo">
+
+      </button>
+
+
+      <!-- Load -->
+
+      <button
+        class="tool-button"
+        id="loadButton"
+        title="画像読み込み">
+
+        <img
+          src="image/add-image-48.png"
+          alt="画像">
+
+      </button>
+
+
+      <!-- Color -->
+
+      <label
+        class="color-button"
+        title="カラー">
+
+        <div
+          id="colorPreview"
+          class="color-preview">
+        </div>
+
+        <input
+          id="colorInput"
+          type="color"
+          value="#00ffff">
+
+      </label>
+
+
+      <!-- Crop -->
+
+      <button
+        class="tool-button"
+        id="cropButton"
+        title="切り抜き">
+
+        <img
+          src="image/trim-image-48.png"
+          alt="切り抜き">
+
+      </button>
+
+
+      <!-- Circle -->
+
+      <button
+        class="tool-button"
+        data-tool="circle"
+        title="円">
+
+        <img
+          src="image/circle-48.png"
+          alt="円">
+
+      </button>
+
+
+      <!-- Square -->
+
+      <button
+        class="tool-button"
+        data-tool="rect"
+        title="四角">
+
+        <img
+          src="image/square-48.png"
+          alt="四角">
+
+      </button>
+
+
+      <!-- Arrow -->
+
+      <button
+        class="tool-button"
+        data-tool="arrow"
+        title="矢印">
+
+        <img
+          src="image/up-right-48.png"
+          alt="矢印">
+
+      </button>
+
+
+      <!-- Row 2 -->
+
+
+      <!-- Numbers -->
+
+      <button
+        class="tool-button"
+        data-tool="number"
+        title="①〜⑤">
+
+        <img
+          src="image/numbers-48.png"
+          alt="数字">
+
+      </button>
+
+
+      <!-- ABC -->
+
+      <button
+        class="tool-button"
+        data-tool="letter"
+        title="A〜E">
+
+        <img
+          src="image/abc-48.png"
+          alt="ABC">
+
+      </button>
+
+
+      <!-- Delete -->
+
+      <button
+        class="tool-button"
+        id="deleteButton"
+        title="削除">
+
+        <img
+          src="image/close-48.png"
+          alt="削除">
+
+      </button>
+
+
+      <!-- Clear -->
+
+      <button
+        class="tool-button"
+        id="clearButton"
+        title="全消去">
+
+        <img
+          src="image/dl-48.png"
+          alt="全消去">
+
+      </button>
+
+
+      <!-- Save -->
+
+      <button
+        class="tool-button"
+        id="saveButton"
+        title="保存">
+
+        <img
+          src="image/save-48.png"
+          alt="保存">
+
+      </button>
+
+
+    </nav>
+
+
   </main>
-
-
-  <!-- =====================================================
-       Toolbar
-  ====================================================== -->
-
-  <nav class="toolbar">
-
-
-    <!-- Image -->
-
-    <button
-      class="tool-button"
-      id="loadButton"
-      title="画像読み込み">
-
-      <img
-        src="image/add-image-48.png"
-        alt="画像">
-
-    </button>
-
-
-    <!-- Crop -->
-
-    <button
-      class="tool-button"
-      id="cropButton"
-      title="切り抜き">
-
-      <img
-        src="image/trim-image-48.png"
-        alt="切り抜き">
-
-    </button>
-
-
-    <!-- Circle -->
-
-    <button
-      class="tool-button"
-      data-tool="circle"
-      title="円">
-
-      <img
-        src="image/circle-48.png"
-        alt="円">
-
-    </button>
-
-
-    <!-- Square -->
-
-    <button
-      class="tool-button"
-      data-tool="rect"
-      title="四角">
-
-      <img
-        src="image/square-48.png"
-        alt="四角">
-
-    </button>
-
-
-    <!-- Arrow -->
-
-    <button
-      class="tool-button"
-      data-tool="arrow"
-      title="矢印">
-
-      <img
-        src="image/up-right-48.png"
-        alt="矢印">
-
-    </button>
-
-
-    <!-- Numbers -->
-
-    <button
-      class="tool-button"
-      data-tool="number"
-      title="①〜⑤">
-
-      <img
-        src="image/numbers-48.png"
-        alt="数字">
-
-    </button>
-
-
-    <!-- ABC -->
-
-    <button
-      class="tool-button"
-      data-tool="letter"
-      title="A〜E">
-
-      <img
-        src="image/abc-48.png"
-        alt="ABC">
-
-    </button>
-
-
-    <!-- Delete -->
-
-    <button
-      class="tool-button"
-      id="deleteButton"
-      title="削除">
-
-      <img
-        src="image/close-48.png"
-        alt="削除">
-
-    </button>
-
-
-    <!-- Clear -->
-
-    <button
-      class="tool-button"
-      id="clearButton"
-      title="全消去">
-
-      <img
-        src="image/dl-48.png"
-        alt="全消去">
-
-    </button>
-
-
-    <!-- Undo -->
-
-    <button
-      class="tool-button"
-      id="undoButton"
-      title="一つ前に戻す">
-
-      <img
-        src="image/undo-48.png"
-        alt="Undo">
-
-    </button>
-
-
-    <!-- Color -->
-
-    <div
-      class="color-wrap"
-      title="色">
-
-      <input
-        id="colorInput"
-        type="color"
-        value="#ff0000">
-
-    </div>
-
-
-    <!-- Save -->
-
-    <button
-      class="tool-button"
-      id="saveButton"
-      title="保存">
-
-      <img
-        src="image/save-48.png"
-        alt="保存">
-
-    </button>
-
-
-  </nav>
 
 
   <input
@@ -647,46 +662,74 @@ body {
 ========================================================= */
 
 const editor =
-  document.getElementById("editor");
+  document.getElementById(
+    "editor"
+  );
 
 const canvas =
-  document.getElementById("canvas");
+  document.getElementById(
+    "canvas"
+  );
 
 const ctx =
-  canvas.getContext("2d");
+  canvas.getContext(
+    "2d"
+  );
 
 const empty =
-  document.getElementById("empty");
-
-const status =
-  document.getElementById("status");
+  document.getElementById(
+    "empty"
+  );
 
 const fileInput =
-  document.getElementById("fileInput");
+  document.getElementById(
+    "fileInput"
+  );
 
 const loadButton =
-  document.getElementById("loadButton");
+  document.getElementById(
+    "loadButton"
+  );
 
 const cropButton =
-  document.getElementById("cropButton");
+  document.getElementById(
+    "cropButton"
+  );
 
 const deleteButton =
-  document.getElementById("deleteButton");
+  document.getElementById(
+    "deleteButton"
+  );
 
 const clearButton =
-  document.getElementById("clearButton");
+  document.getElementById(
+    "clearButton"
+  );
 
 const undoButton =
-  document.getElementById("undoButton");
+  document.getElementById(
+    "undoButton"
+  );
 
 const saveButton =
-  document.getElementById("saveButton");
+  document.getElementById(
+    "saveButton"
+  );
 
 const colorInput =
-  document.getElementById("colorInput");
+  document.getElementById(
+    "colorInput"
+  );
+
+const colorPreview =
+  document.getElementById(
+    "colorPreview"
+  );
 
 const cropOverlay =
-  document.getElementById("cropOverlay");
+  document.getElementById(
+    "cropOverlay"
+  );
 
 
 /* =========================================================
@@ -730,18 +773,19 @@ let maxScale = 5;
 
 
 /* =========================================================
-   Interaction
+   Pointer
 ========================================================= */
 
 let pointerMode = null;
-
-let activePointerId = null;
 
 let startPointer = null;
 
 let lastPointer = null;
 
 let startObjectState = null;
+
+const pointers =
+  new Map();
 
 let pinchStartDistance = 0;
 
@@ -751,17 +795,40 @@ let pinchStartCenter = null;
 
 let pinchStartView = null;
 
-const pointers = new Map();
+
+/* =========================================================
+   Color
+========================================================= */
+
+function updateColorPreview() {
+
+  colorPreview.style.background =
+    colorInput.value;
+
+}
+
+updateColorPreview();
+
+colorInput.addEventListener(
+  "input",
+  () => {
+
+    updateColorPreview();
+
+  }
+);
 
 
 /* =========================================================
-   Helpers
+   History
 ========================================================= */
 
 function cloneObjects() {
 
   return JSON.parse(
-    JSON.stringify(objects)
+    JSON.stringify(
+      objects
+    )
   );
 
 }
@@ -770,15 +837,19 @@ function cloneObjects() {
 function saveHistory() {
 
   history.push({
+
     objects:
       cloneObjects(),
 
     numberIndex,
 
     letterIndex
+
   });
 
-  if (history.length > 50) {
+  if (
+    history.length > 50
+  ) {
 
     history.shift();
 
@@ -789,7 +860,9 @@ function saveHistory() {
 
 function undo() {
 
-  if (!history.length) {
+  if (
+    !history.length
+  ) {
 
     return;
 
@@ -831,7 +904,7 @@ undoButton.addEventListener(
 
 
 /* =========================================================
-   Load Image
+   Load
 ========================================================= */
 
 loadButton.addEventListener(
@@ -879,9 +952,9 @@ fileInput.addEventListener(
 
             objects = [];
 
-            selectedObject = null;
-
             history = [];
+
+            selectedObject = null;
 
             numberIndex = 0;
 
@@ -894,8 +967,6 @@ fileInput.addEventListener(
 
             draw();
 
-            updateStatus();
-
           };
 
         img.src =
@@ -903,7 +974,9 @@ fileInput.addEventListener(
 
       };
 
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(
+      file
+    );
 
     fileInput.value = "";
 
@@ -912,7 +985,7 @@ fileInput.addEventListener(
 
 
 /* =========================================================
-   Initial Image Fit
+   Fit Image
 ========================================================= */
 
 function fitImage() {
@@ -923,41 +996,26 @@ function fitImage() {
 
   }
 
-  const editorWidth =
+  const width =
     editor.clientWidth;
 
-  const editorHeight =
+  const height =
     editor.clientHeight;
 
   /*
-   * 画面の高さに合わせる。
-   * 上端に配置する。
+   * 画面の高さ基準。
    */
 
   viewScale =
-    editorHeight /
+    height /
     canvas.height;
 
   minScale =
     viewScale;
 
-  if (
-    viewScale < 0.1
-  ) {
-
-    viewScale = 0.1;
-    minScale = 0.1;
-
-  }
-
-  /*
-   * 横方向は中央。
-   * 縦方向は上端。
-   */
-
   viewX =
     (
-      editorWidth -
+      width -
       canvas.width *
       viewScale
     ) / 2;
@@ -976,8 +1034,13 @@ function fitImage() {
 function applyCanvasTransform() {
 
   canvas.style.transform =
-    `translate(${viewX}px, ${viewY}px)
-     scale(${viewScale})`;
+    `translate(
+      ${viewX}px,
+      ${viewY}px
+    )
+    scale(
+      ${viewScale}
+    )`;
 
   updateCropOverlay();
 
@@ -985,7 +1048,7 @@ function applyCanvasTransform() {
 
 
 /* =========================================================
-   Screen -> Image Coordinates
+   Screen -> Image
 ========================================================= */
 
 function screenToImage(
@@ -1003,14 +1066,16 @@ function screenToImage(
         clientX -
         rect.left -
         viewX
-      ) / viewScale,
+      ) /
+      viewScale,
 
     y:
       (
         clientY -
         rect.top -
         viewY
-      ) / viewScale
+      ) /
+      viewScale
 
   };
 
@@ -1018,7 +1083,7 @@ function screenToImage(
 
 
 /* =========================================================
-   Image -> Screen Coordinates
+   Image -> Screen
 ========================================================= */
 
 function imageToScreen(
@@ -1088,8 +1153,6 @@ document
             "active"
           );
 
-          updateStatus();
-
         }
       );
 
@@ -1098,7 +1161,7 @@ document
 
 
 /* =========================================================
-   Crop Button
+   Crop
 ========================================================= */
 
 cropButton.addEventListener(
@@ -1133,12 +1196,11 @@ cropButton.addEventListener(
     );
 
     cropStart = null;
+
     cropEnd = null;
 
     cropOverlay.style.display =
       "none";
-
-    updateStatus();
 
   }
 );
@@ -1175,7 +1237,9 @@ editor.addEventListener(
        Pinch
     ====================================================== */
 
-    if (pointers.size === 2) {
+    if (
+      pointers.size === 2
+    ) {
 
       const values =
         [...pointers.values()];
@@ -1196,8 +1260,10 @@ editor.addEventListener(
         );
 
       pinchStartView = {
+
         x: viewX,
         y: viewY
+
       };
 
       pointerMode =
@@ -1240,7 +1306,7 @@ editor.addEventListener(
 
 
     /* =====================================================
-       Number / Letter
+       Marker
     ====================================================== */
 
     if (
@@ -1275,8 +1341,15 @@ editor.addEventListener(
 
 
       if (
-        currentTool === "number"
+        currentTool ===
+        "number"
       ) {
+
+        obj.text =
+          ["①","②","③","④","⑤"]
+          [numberIndex];
+
+        numberIndex++;
 
         if (
           numberIndex >= 5
@@ -1286,21 +1359,7 @@ editor.addEventListener(
 
         }
 
-        obj.text =
-          ["①","②","③","④","⑤"]
-            [numberIndex];
-
-        numberIndex++;
-
       } else {
-
-        if (
-          letterIndex >= 5
-        ) {
-
-          letterIndex = 0;
-
-        }
 
         obj.text =
           String.fromCharCode(
@@ -1310,9 +1369,19 @@ editor.addEventListener(
 
         letterIndex++;
 
+        if (
+          letterIndex >= 5
+        ) {
+
+          letterIndex = 0;
+
+        }
+
       }
 
-      objects.push(obj);
+      objects.push(
+        obj
+      );
 
       selectedObject =
         obj;
@@ -1325,7 +1394,7 @@ editor.addEventListener(
 
 
     /* =====================================================
-       Shape / Arrow
+       Shapes
     ====================================================== */
 
     if (
@@ -1366,7 +1435,9 @@ editor.addEventListener(
 
       startObjectState =
         JSON.parse(
-          JSON.stringify(hit)
+          JSON.stringify(
+            hit
+          )
         );
 
       startPointer =
@@ -1390,8 +1461,13 @@ editor.addEventListener(
       "pan";
 
     lastPointer = {
-      x: event.clientX,
-      y: event.clientY
+
+      x:
+        event.clientX,
+
+      y:
+        event.clientY
+
     };
 
   }
@@ -1472,10 +1548,6 @@ editor.addEventListener(
           values[1]
         );
 
-      /*
-       * ズーム中心を維持
-       */
-
       const rect =
         editor.getBoundingClientRect();
 
@@ -1520,12 +1592,6 @@ editor.addEventListener(
 
     }
 
-
-    if (!pointerMode) {
-
-      return;
-
-    }
 
     const point =
       screenToImage(
@@ -1572,13 +1638,12 @@ editor.addEventListener(
 
 
     /* =====================================================
-       Move Object
+       Object
     ====================================================== */
 
     if (
       pointerMode === "object" &&
-      selectedObject &&
-      startPointer
+      selectedObject
     ) {
 
       const dx =
@@ -1592,8 +1657,10 @@ editor.addEventListener(
       const original =
         startObjectState;
 
+
       if (
-        selectedObject.type === "arrow"
+        selectedObject.type ===
+        "arrow"
       ) {
 
         selectedObject.x1 =
@@ -1642,28 +1709,35 @@ editor.addEventListener(
       if (!lastPointer) {
 
         lastPointer = {
-          x: event.clientX,
-          y: event.clientY
+
+          x:
+            event.clientX,
+
+          y:
+            event.clientY
+
         };
 
         return;
 
       }
 
-      const dx =
+      viewX +=
         event.clientX -
         lastPointer.x;
 
-      const dy =
+      viewY +=
         event.clientY -
         lastPointer.y;
 
-      viewX += dx;
-      viewY += dy;
-
       lastPointer = {
-        x: event.clientX,
-        y: event.clientY
+
+        x:
+          event.clientX,
+
+        y:
+          event.clientY
+
       };
 
       applyCanvasTransform();
@@ -1687,12 +1761,9 @@ editor.addEventListener(
     );
 
 
-    /* =====================================================
-       Pinch End
-    ====================================================== */
-
     if (
-      pointerMode === "pinch"
+      pointerMode ===
+      "pinch"
     ) {
 
       if (
@@ -1708,12 +1779,9 @@ editor.addEventListener(
     }
 
 
-    /* =====================================================
-       Crop
-    ====================================================== */
-
     if (
-      pointerMode === "crop"
+      pointerMode ===
+      "crop"
     ) {
 
       if (
@@ -1732,12 +1800,9 @@ editor.addEventListener(
     }
 
 
-    /* =====================================================
-       Draw
-    ====================================================== */
-
     if (
-      pointerMode === "draw"
+      pointerMode ===
+      "draw"
     ) {
 
       const point =
@@ -1757,12 +1822,9 @@ editor.addEventListener(
     }
 
 
-    /* =====================================================
-       Object
-    ====================================================== */
-
     if (
-      pointerMode === "object"
+      pointerMode ===
+      "object"
     ) {
 
       pointerMode = null;
@@ -1778,12 +1840,9 @@ editor.addEventListener(
     }
 
 
-    /* =====================================================
-       Pan
-    ====================================================== */
-
     if (
-      pointerMode === "pan"
+      pointerMode ===
+      "pan"
     ) {
 
       pointerMode = null;
@@ -1815,7 +1874,7 @@ editor.addEventListener(
 
 
 /* =========================================================
-   Draw Preview
+   Preview
 ========================================================= */
 
 function drawPreview(
@@ -1839,8 +1898,7 @@ function drawPreview(
     colorInput.value;
 
   ctx.lineWidth =
-    8 /
-    viewScale;
+    8;
 
   ctx.lineCap =
     "round";
@@ -1850,21 +1908,14 @@ function drawPreview(
 
 
   if (
-    currentTool === "circle"
+    currentTool ===
+    "circle"
   ) {
 
     const radius =
-      Math.sqrt(
-        Math.pow(
-          endPoint.x -
-          startPointer.x,
-          2
-        ) +
-        Math.pow(
-          endPoint.y -
-          startPointer.y,
-          2
-        )
+      distance(
+        startPointer,
+        endPoint
       );
 
     ctx.beginPath();
@@ -1883,7 +1934,8 @@ function drawPreview(
 
 
   if (
-    currentTool === "rect"
+    currentTool ===
+    "rect"
   ) {
 
     const x =
@@ -1921,7 +1973,8 @@ function drawPreview(
 
 
   if (
-    currentTool === "arrow"
+    currentTool ===
+    "arrow"
   ) {
 
     drawArrow(
@@ -1957,24 +2010,19 @@ function finishDrawing(
 
 
   if (
-    currentTool === "circle"
+    currentTool ===
+    "circle"
   ) {
 
     const radius =
-      Math.sqrt(
-        Math.pow(
-          endPoint.x -
-          startPointer.x,
-          2
-        ) +
-        Math.pow(
-          endPoint.y -
-          startPointer.y,
-          2
-        )
+      distance(
+        startPointer,
+        endPoint
       );
 
-    if (radius > 5) {
+    if (
+      radius > 5
+    ) {
 
       obj = {
 
@@ -2000,7 +2048,8 @@ function finishDrawing(
 
 
   if (
-    currentTool === "rect"
+    currentTool ===
+    "rect"
   ) {
 
     const width =
@@ -2052,17 +2101,15 @@ function finishDrawing(
 
 
   if (
-    currentTool === "arrow"
+    currentTool ===
+    "arrow"
   ) {
 
-    const distanceValue =
+    if (
       distance(
         startPointer,
         endPoint
-      );
-
-    if (
-      distanceValue > 10
+      ) > 10
     ) {
 
       obj = {
@@ -2094,7 +2141,9 @@ function finishDrawing(
 
   if (obj) {
 
-    objects.push(obj);
+    objects.push(
+      obj
+    );
 
     selectedObject =
       obj;
@@ -2141,28 +2190,25 @@ function hitTest(
 
 
     if (
-      o.type === "circle"
+      o.type ===
+      "circle"
     ) {
 
-      const dx =
-        x - o.x;
-
-      const dy =
-        y - o.y;
-
-      const distanceValue =
-        Math.sqrt(
-          dx * dx +
-          dy * dy
+      const d =
+        distance(
+          {
+            x,
+            y
+          },
+          {
+            x: o.x,
+            y: o.y
+          }
         );
 
       if (
-        Math.abs(
-          distanceValue -
-          o.radius
-        ) < 25 ||
-        distanceValue <
-          o.radius
+        d <=
+        o.radius + 20
       ) {
 
         return o;
@@ -2173,7 +2219,8 @@ function hitTest(
 
 
     if (
-      o.type === "rect"
+      o.type ===
+      "rect"
     ) {
 
       const left =
@@ -2207,7 +2254,8 @@ function hitTest(
 
 
     if (
-      o.type === "arrow"
+      o.type ===
+      "arrow"
     ) {
 
       if (
@@ -2238,17 +2286,13 @@ function hitTest(
 
       if (
         x >=
-          o.x -
-          size &&
+          o.x - size &&
         x <=
-          o.x +
-          size &&
+          o.x + size &&
         y >=
-          o.y -
-          size &&
+          o.y - size &&
         y <=
-          o.y +
-          size
+          o.y + size
       ) {
 
         return o;
@@ -2300,7 +2344,9 @@ function pointToLineDistance(
   let parameter =
     -1;
 
-  if (length !== 0) {
+  if (
+    length !== 0
+  ) {
 
     parameter =
       dot /
@@ -2367,7 +2413,6 @@ function draw() {
     canvas.height
   );
 
-
   if (image) {
 
     ctx.drawImage(
@@ -2379,7 +2424,6 @@ function draw() {
     );
 
   }
-
 
   objects.forEach(
     drawObject
@@ -2400,12 +2444,13 @@ function drawObject(
 
 
   if (
-    o.type === "circle"
+    o.type ===
+    "circle"
   ) {
 
     ctx.strokeStyle =
       o.color ||
-      "#ff0000";
+      "#00ffff";
 
     ctx.lineWidth =
       8;
@@ -2426,12 +2471,13 @@ function drawObject(
 
 
   if (
-    o.type === "rect"
+    o.type ===
+    "rect"
   ) {
 
     ctx.strokeStyle =
       o.color ||
-      "#ff0000";
+      "#00ffff";
 
     ctx.lineWidth =
       8;
@@ -2452,7 +2498,8 @@ function drawObject(
 
 
   if (
-    o.type === "arrow"
+    o.type ===
+    "arrow"
   ) {
 
     drawArrow(
@@ -2477,7 +2524,8 @@ function drawObject(
 
 
   if (
-    o === selectedObject
+    o ===
+    selectedObject
   ) {
 
     drawSelection(o);
@@ -2521,28 +2569,23 @@ function drawArrow(
 
   const headLength =
     Math.min(
-      50,
+      55,
       Math.max(
-        25,
-        length * 0.16
+        28,
+        length * 0.17
       )
     );
 
-
-  /*
-   * 背景に埋もれないよう
-   * シャドウを入れる。
-   */
 
   ctx.save();
 
   ctx.strokeStyle =
     color ||
-    "#ff0000";
+    "#00ffff";
 
   ctx.fillStyle =
     color ||
-    "#ff0000";
+    "#00ffff";
 
   ctx.lineWidth =
     10;
@@ -2553,8 +2596,12 @@ function drawArrow(
   ctx.lineJoin =
     "round";
 
+  /*
+   * 黒いシャドウ。
+   */
+
   ctx.shadowColor =
-    "rgba(0,0,0,0.75)";
+    "rgba(0,0,0,0.8)";
 
   ctx.shadowBlur =
     8;
@@ -2575,7 +2622,8 @@ function drawArrow(
   ctx.stroke();
 
 
-  ctx.shadowBlur = 0;
+  ctx.shadowBlur =
+    0;
 
 
   ctx.beginPath();
@@ -2642,7 +2690,7 @@ function drawMarker(
 
 
   /*
-   * 白丸
+   * 白い背景円。
    */
 
   ctx.fillStyle =
@@ -2662,7 +2710,7 @@ function drawMarker(
 
 
   /*
-   * 黒文字
+   * 黒文字。
    */
 
   ctx.fillStyle =
@@ -2697,7 +2745,7 @@ function drawSelection(
   ctx.save();
 
   ctx.strokeStyle =
-    "rgba(88,101,242,0.95)";
+    "#5865f2";
 
   ctx.lineWidth =
     3;
@@ -2708,7 +2756,8 @@ function drawSelection(
 
 
   if (
-    o.type === "circle"
+    o.type ===
+    "circle"
   ) {
 
     ctx.beginPath();
@@ -2727,7 +2776,8 @@ function drawSelection(
 
 
   if (
-    o.type === "rect"
+    o.type ===
+    "rect"
   ) {
 
     ctx.strokeRect(
@@ -2748,7 +2798,8 @@ function drawSelection(
 
 
   if (
-    o.type === "arrow"
+    o.type ===
+    "arrow"
   ) {
 
     ctx.beginPath();
@@ -2777,14 +2828,9 @@ function drawSelection(
       o.size || 70;
 
     ctx.strokeRect(
-      o.x -
-        size,
-
-      o.y -
-        size,
-
+      o.x - size,
+      o.y - size,
       size * 2,
-
       size * 2
     );
 
@@ -2796,7 +2842,7 @@ function drawSelection(
 
 
 /* =========================================================
-   Delete Selected
+   Delete
 ========================================================= */
 
 deleteButton.addEventListener(
@@ -2827,7 +2873,7 @@ deleteButton.addEventListener(
 
 
 /* =========================================================
-   Clear All
+   Clear
 ========================================================= */
 
 clearButton.addEventListener(
@@ -2849,42 +2895,6 @@ clearButton.addEventListener(
     numberIndex = 0;
 
     letterIndex = 0;
-
-    draw();
-
-  }
-);
-
-
-/* =========================================================
-   Color
-========================================================= */
-
-colorInput.addEventListener(
-  "input",
-  () => {
-
-    if (!selectedObject) {
-
-      return;
-
-    }
-
-    if (
-      selectedObject.type ===
-        "number" ||
-      selectedObject.type ===
-        "letter"
-    ) {
-
-      return;
-
-    }
-
-    saveHistory();
-
-    selectedObject.color =
-      colorInput.value;
 
     draw();
 
@@ -2957,6 +2967,7 @@ function applyCrop() {
   ) {
 
     cropStart = null;
+
     cropEnd = null;
 
     cropOverlay.style.display =
@@ -2969,6 +2980,11 @@ function applyCrop() {
 
   saveHistory();
 
+
+  /*
+   * 現在のcanvasを
+   * そのまま切り抜く。
+   */
 
   const tempCanvas =
     document.createElement(
@@ -2985,12 +3001,6 @@ function applyCrop() {
     tempCanvas.getContext(
       "2d"
     );
-
-
-  /*
-   * 画像＋既存オブジェクトを
-   * 一度描画してから切り抜く。
-   */
 
   tempCtx.drawImage(
     canvas,
@@ -3010,7 +3020,6 @@ function applyCrop() {
   const cropped =
     new Image();
 
-
   cropped.onload =
     () => {
 
@@ -3023,17 +3032,9 @@ function applyCrop() {
       canvas.height =
         height;
 
-
-      /*
-       * オブジェクトは
-       * 既に画像へ焼き込まれているので
-       * 一旦クリア。
-       */
-
       objects = [];
 
       selectedObject = null;
-
 
       cropMode = false;
 
@@ -3048,15 +3049,11 @@ function applyCrop() {
       cropOverlay.style.display =
         "none";
 
-
       fitImage();
 
       draw();
 
-      updateStatus();
-
     };
-
 
   cropped.src =
     tempCanvas.toDataURL(
@@ -3085,7 +3082,6 @@ function updateCropOverlay() {
 
   }
 
-
   const a =
     imageToScreen(
       cropStart.x,
@@ -3098,7 +3094,7 @@ function updateCropOverlay() {
       cropEnd.y
     );
 
-  const editorRect =
+  const rect =
     editor.getBoundingClientRect();
 
   const left =
@@ -3125,14 +3121,13 @@ function updateCropOverlay() {
       a.y
     );
 
-
   cropOverlay.style.left =
     `${left -
-      editorRect.left}px`;
+      rect.left}px`;
 
   cropOverlay.style.top =
     `${top -
-      editorRect.top}px`;
+      rect.top}px`;
 
   cropOverlay.style.width =
     `${width}px`;
@@ -3147,7 +3142,7 @@ function updateCropOverlay() {
 
 
 /* =========================================================
-   Save PNG
+   Save
 ========================================================= */
 
 saveButton.addEventListener(
@@ -3160,20 +3155,9 @@ saveButton.addEventListener(
 
     }
 
-    /*
-     * 選択枠を消す。
-     */
-
     selectedObject = null;
 
     draw();
-
-
-    /*
-     * 現在のcanvasは
-     * 元画像サイズなので、
-     * そのままPNG保存する。
-     */
 
     canvas.toBlob(
       blob => {
@@ -3221,7 +3205,7 @@ saveButton.addEventListener(
 
 
 /* =========================================================
-   Distance
+   Helpers
 ========================================================= */
 
 function distance(
@@ -3243,10 +3227,6 @@ function distance(
 }
 
 
-/* =========================================================
-   Midpoint
-========================================================= */
-
 function midpoint(
   a,
   b
@@ -3264,10 +3244,6 @@ function midpoint(
 
 }
 
-
-/* =========================================================
-   Clamp Point
-========================================================= */
 
 function clampPoint(
   p
@@ -3299,64 +3275,6 @@ function clampPoint(
 
 
 /* =========================================================
-   Status
-========================================================= */
-
-function updateStatus() {
-
-  if (!image) {
-
-    status.textContent =
-      "画像未読み込み";
-
-    return;
-
-  }
-
-  if (cropMode) {
-
-    status.textContent =
-      "切り抜く範囲をドラッグ";
-
-    return;
-
-  }
-
-  if (currentTool) {
-
-    const names = {
-
-      circle:
-        "円",
-
-      rect:
-        "四角",
-
-      arrow:
-        "矢印",
-
-      number:
-        "①〜⑤",
-
-      letter:
-        "A〜E"
-
-    };
-
-    status.textContent =
-      names[currentTool];
-
-    return;
-
-  }
-
-  status.textContent =
-    `${canvas.width} × ${canvas.height}`;
-
-}
-
-
-/* =========================================================
    Resize
 ========================================================= */
 
@@ -3370,22 +3288,10 @@ window.addEventListener(
 
     }
 
-    /*
-     * 画面サイズが変わった場合でも
-     * 現在の画像位置は基本維持。
-     */
-
     applyCanvasTransform();
 
   }
 );
-
-
-/* =========================================================
-   Initial
-========================================================= */
-
-updateStatus();
 
 </script>
 
