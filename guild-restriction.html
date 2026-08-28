@@ -1,104 +1,194 @@
+```html id="z6q1mp"
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
 <title>S222TR Guild Restriction</title>
 
+
 <style>
+
+/* =========================================
+   BASE
+========================================= */
 
 * {
   box-sizing: border-box;
 }
 
 body {
+
   margin: 0;
+
   background: #111214;
+
   color: #e5e7eb;
-  font-family: Arial, sans-serif;
+
+  font-family:
+    Arial,
+    sans-serif;
+
 }
 
 .container {
+
   width: min(1100px, 94%);
+
   margin: 30px auto 60px;
+
 }
 
+
+/* =========================================
+   HEADER
+========================================= */
+
 h1 {
+
   margin-bottom: 6px;
+
   font-size: 28px;
+
 }
 
 .subtitle {
+
   color: #9ca3af;
+
   margin-bottom: 30px;
+
 }
 
+
+/* =========================================
+   SECTION
+========================================= */
+
 .section {
+
   background: #1a1b1e;
+
   border: 1px solid #2b2d31;
+
   border-radius: 10px;
+
   padding: 20px;
+
   margin-bottom: 20px;
+
 }
 
 .section h2 {
+
   margin-top: 0;
+
   font-size: 20px;
+
 }
 
 
-/* ==============================
+/* =========================================
+   NOTICE
+========================================= */
+
+.notice {
+
+  padding: 10px 12px;
+
+  border-radius: 6px;
+
+  background: #202227;
+
+  color: #aaa;
+
+  font-size: 13px;
+
+  margin-bottom: 15px;
+
+}
+
+
+/* =========================================
    SEARCH
-============================== */
+========================================= */
 
 .search-box {
+
   margin: 15px 0;
+
 }
 
 .search-box input {
+
   width: 100%;
+
   max-width: 420px;
 
   padding: 9px 11px;
 
   border-radius: 6px;
+
   border: 1px solid #34363b;
 
   background: #101113;
+
   color: #eee;
 
   font-size: 14px;
+
 }
 
 
-/* ==============================
+/* =========================================
    TABLE
-============================== */
+========================================= */
 
 .records-table {
+
   width: auto;
+
   border-collapse: collapse;
+
   margin-top: 8px;
+
 }
 
 .records-table th,
 .records-table td {
 
-  padding: 8px 10px 8px 0;
+  padding:
 
-  border-bottom: 1px solid #2b2d31;
+    8px
+    10px
+    8px
+    0;
+
+  border-bottom:
+
+    1px solid
+    #2b2d31;
 
   text-align: left;
 
   white-space: nowrap;
+
 }
 
 
 /* STATUS */
 
-.records-table th:first-child,
-.records-table td:first-child {
+.records-table
+th:first-child,
+.records-table
+td:first-child {
 
   width: 85px;
 
@@ -107,8 +197,10 @@ h1 {
 
 /* PLAYER */
 
-.records-table th:nth-child(2),
-.records-table td:nth-child(2) {
+.records-table
+th:nth-child(2),
+.records-table
+td:nth-child(2) {
 
   min-width: 180px;
 
@@ -117,8 +209,10 @@ h1 {
 
 /* DATE */
 
-.records-table th:nth-child(3),
-.records-table td:nth-child(3) {
+.records-table
+th:nth-child(3),
+.records-table
+td:nth-child(3) {
 
   width: 110px;
 
@@ -135,7 +229,6 @@ h1 {
 
 }
 
-
 .records-table td {
 
   font-size: 14px;
@@ -143,9 +236,9 @@ h1 {
 }
 
 
-/* ==============================
-   SORT BUTTON
-============================== */
+/* =========================================
+   SORT
+========================================= */
 
 .sort-button {
 
@@ -172,9 +265,9 @@ h1 {
 }
 
 
-/* ==============================
+/* =========================================
    STATUS
-============================== */
+========================================= */
 
 .status-cell {
 
@@ -183,9 +276,9 @@ h1 {
 }
 
 
-/* ==============================
-   PLAYER LINK
-============================== */
+/* =========================================
+   PLAYER
+========================================= */
 
 .player-link {
 
@@ -206,56 +299,78 @@ h1 {
 }
 
 
-/* ==============================
-   BUTTONS
-============================== */
+/* =========================================
+   DETAILS
+========================================= */
 
-button {
+.detail-row {
 
-  border: none;
-
-  border-radius: 6px;
-
-  padding: 9px 14px;
-
-  cursor: pointer;
-
-  background: #5865f2;
-
-  color: white;
-
-  font-weight: bold;
+  margin-bottom: 15px;
 
 }
 
-button:hover {
+.detail-label {
 
-  opacity: 0.85;
+  color: #888;
 
-}
+  font-size: 12px;
 
-button.secondary {
-
-  background: #3a3d43;
+  margin-bottom: 4px;
 
 }
 
-button.danger {
+.detail-value {
 
-  background: #b3261e;
+  font-size: 15px;
+
+  white-space: normal;
+
+  overflow-wrap: anywhere;
+
+  word-break: break-word;
+
+}
+
+.record-history {
+
+  margin-top: 20px;
+
+}
+
+.history-item {
+
+  padding: 12px;
+
+  border:
+
+    1px solid
+    #2b2d31;
+
+  border-radius: 7px;
+
+  margin-bottom: 8px;
+
+  background: #151619;
+
+  white-space: normal;
+
+  overflow-wrap: anywhere;
+
+  word-break: break-word;
 
 }
 
 
-/* ==============================
+/* =========================================
    FORM
-============================== */
+========================================= */
 
 .form-grid {
 
   display: grid;
 
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns:
+    1fr 1fr;
 
   gap: 15px;
 
@@ -295,7 +410,10 @@ textarea {
 
   border-radius: 6px;
 
-  border: 1px solid #34363b;
+  border:
+
+    1px solid
+    #34363b;
 
   background: #101113;
 
@@ -314,74 +432,44 @@ textarea {
 }
 
 
-/* ==============================
-   DETAILS
-============================== */
+/* =========================================
+   BUTTON
+========================================= */
 
-.detail-row {
+button {
 
-  margin-bottom: 15px;
-
-}
-
-.detail-label {
-
-  color: #888;
-
-  font-size: 12px;
-
-  margin-bottom: 4px;
-
-}
-
-.detail-value {
-  font-size: 15px;
-  white-space: normal;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-.record-history {
-
-  margin-top: 20px;
-
-}
-
-.history-item {
-  padding: 12px;
-  border: 1px solid #2b2d31;
-  border-radius: 7px;
-  margin-bottom: 8px;
-  background: #151619;
-
-  white-space: normal;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-.empty {
-
-  color: #777;
-
-  padding: 20px 0;
-
-}
-
-.notice {
-
-  padding: 10px 12px;
+  border: none;
 
   border-radius: 6px;
 
-  background: #202227;
+  padding: 9px 14px;
 
-  color: #aaa;
+  cursor: pointer;
 
-  font-size: 13px;
+  background: #5865f2;
 
-  margin-bottom: 15px;
+  color: white;
+
+  font-weight: bold;
 
 }
+
+button:hover {
+
+  opacity: 0.85;
+
+}
+
+button.secondary {
+
+  background: #3a3d43;
+
+}
+
+
+/* =========================================
+   ACTIONS
+========================================= */
 
 .actions {
 
@@ -395,16 +483,145 @@ textarea {
 
 }
 
+
+/* =========================================
+   HIDDEN
+========================================= */
+
 .hidden {
 
   display: none;
 
 }
 
+.empty {
 
-/* ==============================
+  color: #777;
+
+  padding: 20px 0;
+
+}
+
+
+/* =========================================
+   COLLAPSIBLE DETAILS
+========================================= */
+
+details {
+
+  background: #1a1b1e;
+
+  border:
+
+    1px solid
+    #2b2d31;
+
+  border-radius: 10px;
+
+  margin-bottom: 20px;
+
+}
+
+details summary {
+
+  cursor: pointer;
+
+  padding: 18px 20px;
+
+  color: #e5e7eb;
+
+  font-size: 16px;
+
+  font-weight: bold;
+
+  list-style-position: inside;
+
+}
+
+details summary:hover {
+
+  color: white;
+
+}
+
+.details-content {
+
+  padding:
+
+    0
+    20px
+    20px
+    20px;
+
+}
+
+.details-content h3 {
+
+  font-size: 15px;
+
+  color: #aaa;
+
+  margin-top: 20px;
+
+}
+
+.details-content p {
+
+  color: #ccc;
+
+  font-size: 14px;
+
+  line-height: 1.7;
+
+  white-space: normal;
+
+  overflow-wrap: anywhere;
+
+  word-break: break-word;
+
+}
+
+
+/* =========================================
+   ADMIN LOCK
+========================================= */
+
+.admin-lock {
+
+  padding-top: 5px;
+
+}
+
+.lock-message {
+
+  color: #888;
+
+  font-size: 13px;
+
+  margin-bottom: 12px;
+
+}
+
+.unlock-row {
+
+  display: flex;
+
+  gap: 8px;
+
+  flex-wrap: wrap;
+
+}
+
+.unlock-row input {
+
+  max-width: 260px;
+
+}
+
+
+/* =========================================
    MOBILE
-============================== */
+========================================= */
 
 @media (max-width: 650px) {
 
@@ -422,35 +639,28 @@ textarea {
 
   }
 
-  .records-table {
-
-    width: auto;
-
-  }
-
-  .records-table th,
-  .records-table td {
-
-    padding: 8px 8px 8px 0;
-
-  }
-
-  .records-table th:first-child,
-  .records-table td:first-child {
+  .records-table
+  th:first-child,
+  .records-table
+  td:first-child {
 
     width: 70px;
 
   }
 
-  .records-table th:nth-child(2),
-  .records-table td:nth-child(2) {
+  .records-table
+  th:nth-child(2),
+  .records-table
+  td:nth-child(2) {
 
     min-width: 120px;
 
   }
 
-  .records-table th:nth-child(3),
-  .records-table td:nth-child(3) {
+  .records-table
+  th:nth-child(3),
+  .records-table
+  td:nth-child(3) {
 
     width: 95px;
 
@@ -471,30 +681,39 @@ textarea {
 }
 
 </style>
+
 </head>
+
 
 
 <body>
 
+
 <div class="container">
 
 
-<h1>Participation Restriction Record</h1>
+<!-- =========================================
+     HEADER
+========================================= -->
+
+<h1>
+GUILD RESTRICTION／ギルド制限
+</h1>
 
 <div class="subtitle">
-S222 Throne Rush ／ 参加制限記録
+S222 Throne Rush ／ Participation Restriction Record
 </div>
 
 
 
-<!-- ==================================================
-     ① LIST
-================================================== -->
+<!-- =========================================
+     CURRENT RECORDS
+========================================= -->
 
 <section class="section">
 
 <h2>
-① Restricted Players／参加制限プレイヤー
+Restricted Players／参加制限プレイヤー
 </h2>
 
 
@@ -506,13 +725,19 @@ Current participation restriction records are displayed below.
 </div>
 
 
+
 <div class="search-box">
 
 <input
+
   type="text"
+
   id="searchInput"
+
   placeholder="Search player..."
+
   oninput="renderList()"
+
 >
 
 </div>
@@ -526,35 +751,44 @@ Current participation restriction records are displayed below.
 <tr>
 
 <th>
+
 STATUS
+
 <button
   class="sort-button"
   onclick="sortBy('status')"
 >
 ▼▲
 </button>
+
 </th>
 
 
 <th>
+
 PLAYER
+
 <button
   class="sort-button"
   onclick="sortBy('player')"
 >
 ▼▲
 </button>
+
 </th>
 
 
 <th>
+
 DATE
+
 <button
   class="sort-button"
   onclick="sortBy('date')"
 >
 ▼▲
 </button>
+
 </th>
 
 </tr>
@@ -562,8 +796,9 @@ DATE
 </thead>
 
 
-<tbody id="playerList">
-
+<tbody
+  id="playerList"
+>
 </tbody>
 
 </table>
@@ -572,18 +807,21 @@ DATE
 
 
 
-<!-- ==================================================
-     ② DETAILS
-================================================== -->
+<!-- =========================================
+     PLAYER DETAILS
+========================================= -->
 
 <section class="section">
 
 <h2>
-② Player Details／プレイヤー詳細
+Player Details／プレイヤー詳細
 </h2>
 
 
-<div id="detailEmpty" class="empty">
+<div
+  id="detailEmpty"
+  class="empty"
+>
 
 Select a player from the list above.
 ／上のリストからプレイヤーを選択してください。
@@ -591,7 +829,10 @@ Select a player from the list above.
 </div>
 
 
-<div id="detailContent" class="hidden">
+<div
+  id="detailContent"
+  class="hidden"
+>
 
 
 <div class="detail-row">
@@ -608,6 +849,7 @@ STATUS／状態
 </div>
 
 
+
 <div class="detail-row">
 
 <div class="detail-label">
@@ -620,6 +862,7 @@ PLAYER／プレイヤー
 ></div>
 
 </div>
+
 
 
 <div class="detail-row">
@@ -636,6 +879,7 @@ DATE／記録日
 </div>
 
 
+
 <div class="detail-row">
 
 <div class="detail-label">
@@ -650,13 +894,16 @@ DETAILS／記録内容
 </div>
 
 
+
 <div class="record-history">
 
 <h3>
 RECORD HISTORY／記録履歴
 </h3>
 
-<div id="historyList"></div>
+<div
+  id="historyList"
+></div>
 
 </div>
 
@@ -666,23 +913,65 @@ RECORD HISTORY／記録履歴
 
 
 
-<!-- ==================================================
-     ③ ADMINISTRATION
-================================================== -->
+<!-- =========================================
+     ADMINISTRATION
+========================================= -->
 
-<section class="section">
+<details>
 
-<h2>
-③ Administration／管理入力
-</h2>
+<summary>
+🔒 ADMINISTRATION／管理入力
+</summary>
 
 
-<div class="notice">
+<div class="details-content">
 
-For administration use only.
-／管理者用
+
+<div
+  id="adminLock"
+  class="admin-lock"
+>
+
+
+<div class="lock-message">
+
+Administrator access required.
+／管理者のみ利用できます。
 
 </div>
+
+
+<div class="unlock-row">
+
+
+<input
+
+  type="password"
+
+  id="adminPassword"
+
+  placeholder="Password"
+
+>
+
+
+<button
+  onclick="unlockAdmin()"
+>
+UNLOCK
+</button>
+
+
+</div>
+
+</div>
+
+
+
+<div
+  id="adminContent"
+  class="hidden"
+>
 
 
 <div class="form-grid">
@@ -710,7 +999,9 @@ PLAYER／プレイヤー
 STATUS／状態
 </label>
 
-<select id="statusInput">
+<select
+  id="statusInput"
+>
 
 <option value="🚫">
 🚫 Restricted
@@ -764,7 +1055,10 @@ DETAILS／記録内容
 
 <div class="actions">
 
-<button onclick="addRecord()">
+
+<button
+  onclick="addRecord()"
+>
 Add Record／記録追加
 </button>
 
@@ -776,9 +1070,85 @@ Add Record／記録追加
 Clear
 </button>
 
+
 </div>
 
-</section>
+</div>
+
+</div>
+
+</details>
+
+
+
+<!-- =========================================
+     PARTICIPATION RESTRICTION DETAILS
+========================================= -->
+
+<details>
+
+<summary>
+PARTICIPATION RESTRICTION DETAILS／参加制限詳細
+</summary>
+
+
+<div class="details-content">
+
+
+<h3>
+PURPOSE／目的
+</h3>
+
+<p>
+Details regarding the participation restriction system will be provided here.
+／参加制限制度についての詳細をここに記載します。
+</p>
+
+
+<h3>
+RESTRICTION／制限
+</h3>
+
+<p>
+Details of the restrictions applied to guild alliance features will be provided here.
+／ギルドの同盟機能に適用される制限について記載します。
+</p>
+
+
+<h3>
+RECORD／記録
+</h3>
+
+<p>
+Information regarding how participation restriction records are created and maintained will be provided here.
+／参加制限の記録方法および管理について記載します。
+</p>
+
+
+<h3>
+REVIEW & RELEASE／見直し・解除
+</h3>
+
+<p>
+Details regarding review, partial restoration, and release of restrictions will be provided here.
+／制限の見直し、一部機能の回復、解除について記載します。
+</p>
+
+
+<h3>
+REPEAT CASES／再発時の扱い
+</h3>
+
+<p>
+Details regarding repeated cases will be provided here.
+／再発した場合の扱いについて記載します。
+</p>
+
+
+</div>
+
+</details>
+
 
 </div>
 
@@ -786,9 +1156,9 @@ Clear
 
 <script>
 
-/* =====================================================
+/* =========================================
    DATA
-===================================================== */
+========================================= */
 
 const STORAGE_KEY =
   "s222_participation_restrictions";
@@ -839,9 +1209,9 @@ const sampleData = [
 
 
 
-/* =====================================================
-   SORT STATE
-===================================================== */
+/* =========================================
+   SORT
+========================================= */
 
 let currentSort = "date";
 
@@ -849,14 +1219,16 @@ let sortDirection = "desc";
 
 
 
-/* =====================================================
+/* =========================================
    LOAD
-===================================================== */
+========================================= */
 
 function loadRecords() {
 
   const saved =
-    localStorage.getItem(STORAGE_KEY);
+    localStorage.getItem(
+      STORAGE_KEY
+    );
 
 
   if (saved) {
@@ -870,7 +1242,9 @@ function loadRecords() {
 
     STORAGE_KEY,
 
-    JSON.stringify(sampleData)
+    JSON.stringify(
+      sampleData
+    )
 
   );
 
@@ -881,9 +1255,9 @@ function loadRecords() {
 
 
 
-/* =====================================================
+/* =========================================
    SAVE
-===================================================== */
+========================================= */
 
 function saveRecords(records) {
 
@@ -899,20 +1273,24 @@ function saveRecords(records) {
 
 
 
-/* =====================================================
+/* =========================================
    SORT
-===================================================== */
+========================================= */
 
 function sortBy(type) {
 
-  if (currentSort === type) {
+  if (
+    currentSort === type
+  ) {
 
     sortDirection =
       sortDirection === "asc"
         ? "desc"
         : "asc";
 
-  } else {
+  }
+
+  else {
 
     currentSort = type;
 
@@ -927,9 +1305,9 @@ function sortBy(type) {
 
 
 
-/* =====================================================
+/* =========================================
    STATUS ORDER
-===================================================== */
+========================================= */
 
 function statusValue(status) {
 
@@ -944,24 +1322,29 @@ function statusValue(status) {
   };
 
 
-  return order[status] || 99;
+  return (
+    order[status] || 99
+  );
 
 }
 
 
 
-/* =====================================================
+/* =========================================
    RENDER LIST
-===================================================== */
+========================================= */
 
 function renderList() {
 
-  let records = loadRecords();
+  let records =
+    loadRecords();
 
 
   const search =
     document
-      .getElementById("searchInput")
+      .getElementById(
+        "searchInput"
+      )
       .value
       .trim()
       .toLowerCase();
@@ -969,73 +1352,100 @@ function renderList() {
 
   if (search) {
 
-    records = records.filter(
+    records =
+      records.filter(
 
-      record =>
-        record.player
-          .toLowerCase()
-          .includes(search)
+        record =>
+          record.player
+            .toLowerCase()
+            .includes(search)
 
-    );
+      );
 
   }
 
 
 
-  records.sort((a, b) => {
+  records.sort(
 
-    let result = 0;
+    (a, b) => {
+
+      let result = 0;
 
 
-    if (currentSort === "status") {
+      if (
+        currentSort === "status"
+      ) {
 
-      result =
-        statusValue(a.status) -
-        statusValue(b.status);
+        result =
+          statusValue(
+            a.status
+          )
+          -
+          statusValue(
+            b.status
+          );
+
+      }
+
+
+      else if (
+        currentSort === "player"
+      ) {
+
+        result =
+          a.player.localeCompare(
+
+            b.player,
+
+            undefined,
+
+            {
+              sensitivity:
+                "base"
+            }
+
+          );
+
+      }
+
+
+      else if (
+        currentSort === "date"
+      ) {
+
+        result =
+          new Date(a.date)
+          -
+          new Date(b.date);
+
+      }
+
+
+      return
+        sortDirection === "asc"
+          ? result
+          : -result;
 
     }
 
-
-    else if (currentSort === "player") {
-
-      result =
-        a.player.localeCompare(
-          b.player,
-          undefined,
-          {
-            sensitivity: "base"
-          }
-        );
-
-    }
-
-
-    else if (currentSort === "date") {
-
-      result =
-        new Date(a.date) -
-        new Date(b.date);
-
-    }
-
-
-    return sortDirection === "asc"
-      ? result
-      : -result;
-
-  });
+  );
 
 
 
   const list =
-    document.getElementById("playerList");
+    document.getElementById(
+      "playerList"
+    );
 
 
   list.innerHTML = "";
 
 
 
-  if (records.length === 0) {
+  if (
+    records.length === 0
+  ) {
 
     list.innerHTML = `
 
@@ -1058,60 +1468,65 @@ function renderList() {
 
 
 
-  records.forEach(record => {
+  records.forEach(
 
-    const row =
-      document.createElement("tr");
+    record => {
 
-
-    row.innerHTML = `
-
-      <td class="status-cell">
-
-        ${record.status}
-
-      </td>
+      const row =
+        document.createElement(
+          "tr"
+        );
 
 
-      <td>
+      row.innerHTML = `
 
-        <span
-
-          class="player-link"
-
-          onclick="showDetails('${record.id}')"
-
+        <td
+          class="status-cell"
         >
-
-          ${escapeHtml(
-            record.player
-          )}
-
-        </span>
-
-      </td>
+          ${record.status}
+        </td>
 
 
-      <td>
+        <td>
 
-        ${record.date}
+          <span
 
-      </td>
+            class="player-link"
 
-    `;
+            onclick=
+              "showDetails('${record.id}')"
+
+          >
+
+            ${escapeHtml(
+              record.player
+            )}
+
+          </span>
+
+        </td>
 
 
-    list.appendChild(row);
+        <td>
+          ${record.date}
+        </td>
 
-  });
+      `;
+
+
+      list.appendChild(row);
+
+    }
+
+  );
 
 }
 
 
 
-/* =====================================================
+/* =========================================
    DETAILS
-===================================================== */
+========================================= */
 
 function showDetails(id) {
 
@@ -1121,7 +1536,10 @@ function showDetails(id) {
 
   const record =
     records.find(
-      item => item.id === id
+
+      item =>
+        item.id === id
+
     );
 
 
@@ -1130,36 +1548,50 @@ function showDetails(id) {
 
 
   document
-    .getElementById("detailEmpty")
-    .classList.add("hidden");
+    .getElementById(
+      "detailEmpty"
+    )
+    .classList
+    .add("hidden");
 
 
   document
-    .getElementById("detailContent")
-    .classList.remove("hidden");
+    .getElementById(
+      "detailContent"
+    )
+    .classList
+    .remove("hidden");
 
 
 
   document
-    .getElementById("detailStatus")
+    .getElementById(
+      "detailStatus"
+    )
     .textContent =
       record.status;
 
 
   document
-    .getElementById("detailPlayer")
+    .getElementById(
+      "detailPlayer"
+    )
     .textContent =
       record.player;
 
 
   document
-    .getElementById("detailDate")
+    .getElementById(
+      "detailDate"
+    )
     .textContent =
       record.date;
 
 
   document
-    .getElementById("detailDescription")
+    .getElementById(
+      "detailDescription"
+    )
     .textContent =
       record.description ||
       "No details.";
@@ -1168,11 +1600,12 @@ function showDetails(id) {
 
   const history =
     records.filter(
+
       item =>
         item.player ===
         record.player
-    );
 
+    );
 
 
   const historyList =
@@ -1185,69 +1618,141 @@ function showDetails(id) {
 
 
 
-  history.forEach(item => {
+  history.forEach(
 
-    const div =
-      document.createElement("div");
+    item => {
 
-
-    div.className =
-      "history-item";
-
-
-    div.innerHTML = `
-
-      <strong>
-        ${item.status}
-      </strong>
-
-      &nbsp;
-
-      ${item.date}
-
-      <br>
-
-      <small>
-
-        ${escapeHtml(
-          item.description || ""
-        )}
-
-      </small>
-
-    `;
+      const div =
+        document.createElement(
+          "div"
+        );
 
 
-    historyList.appendChild(div);
+      div.className =
+        "history-item";
 
-  });
+
+      div.innerHTML = `
+
+        <strong>
+          ${item.status}
+        </strong>
+
+        &nbsp;
+
+        ${item.date}
+
+        <br>
+
+        <small>
+
+          ${escapeHtml(
+            item.description || ""
+          )}
+
+        </small>
+
+      `;
+
+
+      historyList.appendChild(
+        div
+      );
+
+    }
+
+  );
 
 }
 
 
 
-/* =====================================================
+/* =========================================
+   ADMIN UNLOCK
+========================================= */
+
+/*
+   TEMPORARY PASSWORD
+   For prototype testing only.
+*/
+
+const ADMIN_PASSWORD =
+  "S222";
+
+
+
+function unlockAdmin() {
+
+  const password =
+    document
+      .getElementById(
+        "adminPassword"
+      )
+      .value;
+
+
+  if (
+    password ===
+    ADMIN_PASSWORD
+  ) {
+
+    document
+      .getElementById(
+        "adminLock"
+      )
+      .classList
+      .add("hidden");
+
+
+    document
+      .getElementById(
+        "adminContent"
+      )
+      .classList
+      .remove("hidden");
+
+  }
+
+  else {
+
+    alert(
+      "Incorrect password."
+    );
+
+  }
+
+}
+
+
+
+/* =========================================
    ADD RECORD
-===================================================== */
+========================================= */
 
 function addRecord() {
 
   const player =
     document
-      .getElementById("playerInput")
+      .getElementById(
+        "playerInput"
+      )
       .value
       .trim();
 
 
   const status =
     document
-      .getElementById("statusInput")
+      .getElementById(
+        "statusInput"
+      )
       .value;
 
 
   const date =
     document
-      .getElementById("dateInput")
+      .getElementById(
+        "dateInput"
+      )
       .value;
 
 
@@ -1288,10 +1793,10 @@ function addRecord() {
     loadRecords();
 
 
-
   records.unshift({
 
-    id: crypto.randomUUID(),
+    id:
+      crypto.randomUUID(),
 
     player,
 
@@ -1302,7 +1807,6 @@ function addRecord() {
     description
 
   });
-
 
 
   saveRecords(records);
@@ -1322,25 +1826,31 @@ function addRecord() {
 
 
 
-/* =====================================================
-   CLEAR
-===================================================== */
+/* =========================================
+   CLEAR FORM
+========================================= */
 
 function clearForm() {
 
   document
-    .getElementById("playerInput")
+    .getElementById(
+      "playerInput"
+    )
     .value = "";
 
 
   document
-    .getElementById("statusInput")
+    .getElementById(
+      "statusInput"
+    )
     .value =
       "🚫";
 
 
   document
-    .getElementById("dateInput")
+    .getElementById(
+      "dateInput"
+    )
     .value = "";
 
 
@@ -1354,14 +1864,16 @@ function clearForm() {
 
 
 
-/* =====================================================
+/* =========================================
    ESCAPE HTML
-===================================================== */
+========================================= */
 
 function escapeHtml(text) {
 
   const div =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
 
   div.textContent = text;
@@ -1373,13 +1885,16 @@ function escapeHtml(text) {
 
 
 
-/* =====================================================
+/* =========================================
    INITIALIZE
-===================================================== */
+========================================= */
 
 renderList();
 
 </script>
 
+
 </body>
+
 </html>
+```
