@@ -1,11 +1,14 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Participation Restriction Record</title>
+
+<title>S222TR Guild Restriction</title>
 
 <style>
+
 * {
   box-sizing: border-box;
 }
@@ -45,374 +48,742 @@ h1 {
   font-size: 20px;
 }
 
-.section h3 {
-  margin-top: 25px;
-  font-size: 15px;
-  color: #aaa;
+
+/* ==============================
+   SEARCH
+============================== */
+
+.search-box {
+  margin: 15px 0;
 }
 
-table {
+.search-box input {
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 15px;
-}
+  max-width: 420px;
 
-th,
-td {
-  padding: 11px 10px;
-  border-bottom: 1px solid #2b2d31;
-  text-align: left;
-}
+  padding: 9px 11px;
 
-th {
-  color: #9ca3af;
-  font-size: 13px;
-}
+  border-radius: 6px;
+  border: 1px solid #34363b;
 
-td {
+  background: #101113;
+  color: #eee;
+
   font-size: 14px;
 }
 
-.status {
-  font-size: 18px;
-  width: 70px;
-  text-align: center;
+
+/* ==============================
+   TABLE
+============================== */
+
+.records-table {
+  width: auto;
+  border-collapse: collapse;
+  margin-top: 8px;
 }
 
-.player-link {
-  color: #fff;
+.records-table th,
+.records-table td {
+
+  padding: 8px 10px 8px 0;
+
+  border-bottom: 1px solid #2b2d31;
+
+  text-align: left;
+
+  white-space: nowrap;
+}
+
+
+/* STATUS */
+
+.records-table th:first-child,
+.records-table td:first-child {
+
+  width: 75px;
+
+}
+
+
+/* PLAYER */
+
+.records-table th:nth-child(2),
+.records-table td:nth-child(2) {
+
+  min-width: 180px;
+
+}
+
+
+/* DATE */
+
+.records-table th:nth-child(3),
+.records-table td:nth-child(3) {
+
+  width: 110px;
+
+}
+
+
+.records-table th {
+
+  color: #9ca3af;
+
+  font-size: 12px;
+
+  font-weight: normal;
+
+}
+
+
+.records-table td {
+
+  font-size: 14px;
+
+}
+
+
+/* ==============================
+   SORT BUTTON
+============================== */
+
+.sort-button {
+
+  border: none;
+
+  background: none;
+
+  color: #9ca3af;
+
+  padding: 0;
+
+  margin-left: 2px;
+
   cursor: pointer;
+
+  font-size: 11px;
+
+}
+
+.sort-button:hover {
+
+  color: white;
+
+}
+
+
+/* ==============================
+   STATUS
+============================== */
+
+.status-cell {
+
+  font-size: 18px;
+
+}
+
+
+/* ==============================
+   PLAYER LINK
+============================== */
+
+.player-link {
+
+  color: #fff;
+
+  cursor: pointer;
+
   text-decoration: underline;
-  text-decoration-color: #555;
+
+  text-decoration-color: #444;
+
 }
 
 .player-link:hover {
+
   text-decoration-color: #fff;
+
 }
 
+
+/* ==============================
+   BUTTONS
+============================== */
+
 button {
+
   border: none;
+
   border-radius: 6px;
+
   padding: 9px 14px;
+
   cursor: pointer;
+
   background: #5865f2;
+
   color: white;
+
   font-weight: bold;
+
 }
 
 button:hover {
+
   opacity: 0.85;
+
 }
 
 button.secondary {
+
   background: #3a3d43;
+
 }
 
 button.danger {
+
   background: #b3261e;
+
 }
 
+
+/* ==============================
+   FORM
+============================== */
+
 .form-grid {
+
   display: grid;
+
   grid-template-columns: 1fr 1fr;
+
   gap: 15px;
+
 }
 
 .form-group {
+
   display: flex;
+
   flex-direction: column;
+
   gap: 6px;
+
 }
 
 .form-group.full {
+
   grid-column: 1 / -1;
+
 }
 
 label {
+
   font-size: 13px;
+
   color: #aaa;
+
 }
 
 input,
 select,
 textarea {
+
   width: 100%;
+
   padding: 10px;
+
   border-radius: 6px;
+
   border: 1px solid #34363b;
+
   background: #101113;
+
   color: #eee;
+
   font-size: 14px;
+
 }
 
 textarea {
+
   min-height: 120px;
+
   resize: vertical;
+
 }
 
-.actions {
-  display: flex;
-  gap: 8px;
-  margin-top: 15px;
-  flex-wrap: wrap;
-}
 
-.hidden {
-  display: none;
-}
+/* ==============================
+   DETAILS
+============================== */
 
 .detail-row {
+
   margin-bottom: 15px;
+
 }
 
 .detail-label {
+
   color: #888;
+
   font-size: 12px;
+
   margin-bottom: 4px;
+
 }
 
 .detail-value {
+
   font-size: 15px;
+
 }
 
 .record-history {
+
   margin-top: 20px;
+
 }
 
 .history-item {
+
   padding: 12px;
+
   border: 1px solid #2b2d31;
+
   border-radius: 7px;
+
   margin-bottom: 8px;
+
   background: #151619;
+
 }
 
 .empty {
+
   color: #777;
+
   padding: 20px 0;
+
 }
 
 .notice {
+
   padding: 10px 12px;
+
   border-radius: 6px;
+
   background: #202227;
+
   color: #aaa;
+
   font-size: 13px;
+
   margin-bottom: 15px;
+
 }
+
+.actions {
+
+  display: flex;
+
+  gap: 8px;
+
+  margin-top: 15px;
+
+  flex-wrap: wrap;
+
+}
+
+.hidden {
+
+  display: none;
+
+}
+
+
+/* ==============================
+   MOBILE
+============================== */
 
 @media (max-width: 650px) {
 
   .container {
+
     width: 96%;
+
     margin-top: 15px;
+
   }
 
   .section {
+
     padding: 15px;
+
+  }
+
+  .records-table {
+
+    width: auto;
+
+  }
+
+  .records-table th,
+  .records-table td {
+
+    padding: 8px 8px 8px 0;
+
+  }
+
+  .records-table th:first-child,
+  .records-table td:first-child {
+
+    width: 55px;
+
+  }
+
+  .records-table th:nth-child(2),
+  .records-table td:nth-child(2) {
+
+    min-width: 120px;
+
+  }
+
+  .records-table th:nth-child(3),
+  .records-table td:nth-child(3) {
+
+    width: 95px;
+
   }
 
   .form-grid {
+
     grid-template-columns: 1fr;
+
   }
 
   .form-group.full {
+
     grid-column: auto;
+
   }
 
-  th,
-  td {
-    padding: 9px 6px;
-  }
-
-  th:nth-child(3),
-  td:nth-child(3) {
-    width: 95px;
-  }
 }
+
 </style>
 </head>
+
 
 <body>
 
 <div class="container">
 
-  <h1>Participation Restriction Record</h1>
-  <div class="subtitle">
-    S222 Throne Rush ／ 参加制限記録
-  </div>
+
+<h1>Participation Restriction Record</h1>
+
+<div class="subtitle">
+S222 Throne Rush ／ 参加制限記録
+</div>
 
 
-  <!-- ==================================================
-       ① LIST
-  ================================================== -->
 
-  <section class="section">
+<!-- ==================================================
+     ① LIST
+================================================== -->
 
-    <h2>① Restricted Players／参加制限プレイヤー</h2>
+<section class="section">
 
-    <div class="notice">
-      Current participation restriction records are displayed below.
-      ／現在の参加制限記録を表示しています。
-    </div>
-
-    <table>
-
-      <thead>
-        <tr>
-          <th>STATUS</th>
-          <th>PLAYER</th>
-          <th>DATE</th>
-        </tr>
-      </thead>
-
-      <tbody id="playerList">
-      </tbody>
-
-    </table>
-
-  </section>
+<h2>
+① Restricted Players／参加制限プレイヤー
+</h2>
 
 
-  <!-- ==================================================
-       ② DETAILS
-  ================================================== -->
+<div class="notice">
 
-  <section class="section">
-
-    <h2>② Player Details／プレイヤー詳細</h2>
-
-    <div id="detailEmpty" class="empty">
-      Select a player from the list above.
-      ／上のリストからプレイヤーを選択してください。
-    </div>
-
-    <div id="detailContent" class="hidden">
-
-      <div class="detail-row">
-        <div class="detail-label">STATUS／状態</div>
-        <div id="detailStatus" class="detail-value"></div>
-      </div>
-
-      <div class="detail-row">
-        <div class="detail-label">PLAYER／プレイヤー</div>
-        <div id="detailPlayer" class="detail-value"></div>
-      </div>
-
-      <div class="detail-row">
-        <div class="detail-label">DATE／記録日</div>
-        <div id="detailDate" class="detail-value"></div>
-      </div>
-
-      <div class="detail-row">
-        <div class="detail-label">DETAILS／記録内容</div>
-        <div id="detailDescription" class="detail-value"></div>
-      </div>
-
-      <div class="record-history">
-
-        <h3>RECORD HISTORY／記録履歴</h3>
-
-        <div id="historyList"></div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- ==================================================
-       ③ ADMINISTRATION
-  ================================================== -->
-
-  <section class="section">
-
-    <h2>③ Administration／管理入力</h2>
-
-    <div class="notice">
-      For administration use only.
-      ／管理者用
-    </div>
-
-    <div class="form-grid">
-
-      <div class="form-group">
-        <label for="playerInput">
-          PLAYER／プレイヤー
-        </label>
-
-        <input
-          type="text"
-          id="playerInput"
-          placeholder="Player Name"
-        >
-      </div>
-
-
-      <div class="form-group">
-
-        <label for="statusInput">
-          STATUS／状態
-        </label>
-
-        <select id="statusInput">
-          <option value="🚫">🚫 Restricted</option>
-          <option value="⚠️">⚠️ Partial / Review</option>
-          <option value="✅">✅ Released</option>
-        </select>
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label for="dateInput">
-          DATE／記録日
-        </label>
-
-        <input
-          type="date"
-          id="dateInput"
-        >
-
-      </div>
-
-
-      <div class="form-group full">
-
-        <label for="descriptionInput">
-          DETAILS／記録内容
-        </label>
-
-        <textarea
-          id="descriptionInput"
-          placeholder="Record details..."
-        ></textarea>
-
-      </div>
-
-    </div>
-
-
-    <div class="actions">
-
-      <button onclick="addRecord()">
-        Add Record／記録追加
-      </button>
-
-      <button
-        class="secondary"
-        onclick="clearForm()"
-      >
-        Clear
-      </button>
-
-    </div>
-
-  </section>
+Current participation restriction records are displayed below.
+／現在の参加制限記録を表示しています。
 
 </div>
+
+
+<div class="search-box">
+
+<input
+  type="text"
+  id="searchInput"
+  placeholder="Search player..."
+  oninput="renderList()"
+>
+
+</div>
+
+
+
+<table class="records-table">
+
+<thead>
+
+<tr>
+
+<th>
+STATUS
+<button
+  class="sort-button"
+  onclick="sortBy('status')"
+>
+▼▲
+</button>
+</th>
+
+
+<th>
+PLAYER
+<button
+  class="sort-button"
+  onclick="sortBy('player')"
+>
+▼▲
+</button>
+</th>
+
+
+<th>
+DATE
+<button
+  class="sort-button"
+  onclick="sortBy('date')"
+>
+▼▲
+</button>
+</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="playerList">
+
+</tbody>
+
+</table>
+
+</section>
+
+
+
+<!-- ==================================================
+     ② DETAILS
+================================================== -->
+
+<section class="section">
+
+<h2>
+② Player Details／プレイヤー詳細
+</h2>
+
+
+<div id="detailEmpty" class="empty">
+
+Select a player from the list above.
+／上のリストからプレイヤーを選択してください。
+
+</div>
+
+
+<div id="detailContent" class="hidden">
+
+
+<div class="detail-row">
+
+<div class="detail-label">
+STATUS／状態
+</div>
+
+<div
+  id="detailStatus"
+  class="detail-value"
+></div>
+
+</div>
+
+
+<div class="detail-row">
+
+<div class="detail-label">
+PLAYER／プレイヤー
+</div>
+
+<div
+  id="detailPlayer"
+  class="detail-value"
+></div>
+
+</div>
+
+
+<div class="detail-row">
+
+<div class="detail-label">
+DATE／記録日
+</div>
+
+<div
+  id="detailDate"
+  class="detail-value"
+></div>
+
+</div>
+
+
+<div class="detail-row">
+
+<div class="detail-label">
+DETAILS／記録内容
+</div>
+
+<div
+  id="detailDescription"
+  class="detail-value"
+></div>
+
+</div>
+
+
+<div class="record-history">
+
+<h3>
+RECORD HISTORY／記録履歴
+</h3>
+
+<div id="historyList"></div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- ==================================================
+     ③ ADMINISTRATION
+================================================== -->
+
+<section class="section">
+
+<h2>
+③ Administration／管理入力
+</h2>
+
+
+<div class="notice">
+
+For administration use only.
+／管理者用
+
+</div>
+
+
+<div class="form-grid">
+
+
+<div class="form-group">
+
+<label>
+PLAYER／プレイヤー
+</label>
+
+<input
+  type="text"
+  id="playerInput"
+  placeholder="Player Name"
+>
+
+</div>
+
+
+
+<div class="form-group">
+
+<label>
+STATUS／状態
+</label>
+
+<select id="statusInput">
+
+<option value="🚫">
+🚫 Restricted
+</option>
+
+<option value="⚠️">
+⚠️ Partial / Review
+</option>
+
+<option value="✅">
+✅ Released
+</option>
+
+</select>
+
+</div>
+
+
+
+<div class="form-group">
+
+<label>
+DATE／記録日
+</label>
+
+<input
+  type="date"
+  id="dateInput"
+>
+
+</div>
+
+
+
+<div class="form-group full">
+
+<label>
+DETAILS／記録内容
+</label>
+
+<textarea
+  id="descriptionInput"
+  placeholder="Record details..."
+></textarea>
+
+</div>
+
+</div>
+
+
+
+<div class="actions">
+
+<button onclick="addRecord()">
+Add Record／記録追加
+</button>
+
+
+<button
+  class="secondary"
+  onclick="clearForm()"
+>
+Clear
+</button>
+
+</div>
+
+</section>
+
+</div>
+
 
 
 <script>
@@ -421,122 +792,316 @@ textarea {
    DATA
 ===================================================== */
 
-const STORAGE_KEY = "s222_participation_restrictions";
+const STORAGE_KEY =
+  "s222_participation_restrictions";
+
 
 const sampleData = [
 
-  {
-    id: crypto.randomUUID(),
-    player: "Player A",
-    status: "🚫",
-    date: "2026-08-28",
-    description: "Sample record."
-  },
+{
+  id: crypto.randomUUID(),
 
-  {
-    id: crypto.randomUUID(),
-    player: "Player B",
-    status: "⚠️",
-    date: "2026-08-25",
-    description: "Sample record."
-  },
+  player: "Player A",
 
-  {
-    id: crypto.randomUUID(),
-    player: "Player C",
-    status: "✅",
-    date: "2026-07-12",
-    description: "Sample record."
-  }
+  status: "🚫",
+
+  date: "2026-08-28",
+
+  description:
+    "Sample restriction record."
+},
+
+{
+  id: crypto.randomUUID(),
+
+  player: "Player B",
+
+  status: "⚠️",
+
+  date: "2026-08-25",
+
+  description:
+    "Sample review record."
+},
+
+{
+  id: crypto.randomUUID(),
+
+  player: "Player C",
+
+  status: "✅",
+
+  date: "2026-07-12",
+
+  description:
+    "Sample released record."
+}
 
 ];
 
 
+
 /* =====================================================
-   LOAD DATA
+   SORT STATE
+===================================================== */
+
+let currentSort = "date";
+
+let sortDirection = "desc";
+
+
+
+/* =====================================================
+   LOAD
 ===================================================== */
 
 function loadRecords() {
 
-  const saved = localStorage.getItem(STORAGE_KEY);
+  const saved =
+    localStorage.getItem(STORAGE_KEY);
+
 
   if (saved) {
+
     return JSON.parse(saved);
+
   }
 
+
   localStorage.setItem(
+
     STORAGE_KEY,
+
     JSON.stringify(sampleData)
+
   );
 
+
   return sampleData;
+
 }
 
 
+
 /* =====================================================
-   SAVE DATA
+   SAVE
 ===================================================== */
 
 function saveRecords(records) {
 
   localStorage.setItem(
+
     STORAGE_KEY,
+
     JSON.stringify(records)
+
   );
 
 }
 
 
+
 /* =====================================================
-   DISPLAY LIST
+   SORT
+===================================================== */
+
+function sortBy(type) {
+
+  if (currentSort === type) {
+
+    sortDirection =
+      sortDirection === "asc"
+        ? "desc"
+        : "asc";
+
+  } else {
+
+    currentSort = type;
+
+    sortDirection = "asc";
+
+  }
+
+
+  renderList();
+
+}
+
+
+
+/* =====================================================
+   STATUS ORDER
+===================================================== */
+
+function statusValue(status) {
+
+  const order = {
+
+    "🚫": 1,
+
+    "⚠️": 2,
+
+    "✅": 3
+
+  };
+
+
+  return order[status] || 99;
+
+}
+
+
+
+/* =====================================================
+   RENDER LIST
 ===================================================== */
 
 function renderList() {
 
-  const records = loadRecords();
+  let records = loadRecords();
 
-  const list = document.getElementById("playerList");
+
+  const search =
+    document
+      .getElementById("searchInput")
+      .value
+      .trim()
+      .toLowerCase();
+
+
+  if (search) {
+
+    records = records.filter(
+
+      record =>
+        record.player
+          .toLowerCase()
+          .includes(search)
+
+    );
+
+  }
+
+
+
+  records.sort((a, b) => {
+
+    let result = 0;
+
+
+    if (currentSort === "status") {
+
+      result =
+        statusValue(a.status) -
+        statusValue(b.status);
+
+    }
+
+
+    else if (currentSort === "player") {
+
+      result =
+        a.player.localeCompare(
+          b.player,
+          undefined,
+          {
+            sensitivity: "base"
+          }
+        );
+
+    }
+
+
+    else if (currentSort === "date") {
+
+      result =
+        new Date(a.date) -
+        new Date(b.date);
+
+    }
+
+
+    return sortDirection === "asc"
+      ? result
+      : -result;
+
+  });
+
+
+
+  const list =
+    document.getElementById("playerList");
+
 
   list.innerHTML = "";
+
+
 
   if (records.length === 0) {
 
     list.innerHTML = `
+
       <tr>
-        <td colspan="3" class="empty">
-          No records.
+
+        <td
+          colspan="3"
+          class="empty"
+        >
+          No records found.
         </td>
+
       </tr>
+
     `;
 
     return;
+
   }
+
 
 
   records.forEach(record => {
 
-    const row = document.createElement("tr");
+    const row =
+      document.createElement("tr");
+
 
     row.innerHTML = `
 
-      <td class="status">
+      <td class="status-cell">
+
         ${record.status}
+
       </td>
 
+
       <td>
+
         <span
+
           class="player-link"
+
           onclick="showDetails('${record.id}')"
+
         >
-          ${escapeHtml(record.player)}
+
+          ${escapeHtml(
+            record.player
+          )}
+
         </span>
+
       </td>
 
+
       <td>
+
         ${record.date}
+
       </td>
 
     `;
+
 
     list.appendChild(row);
 
@@ -545,19 +1110,25 @@ function renderList() {
 }
 
 
+
 /* =====================================================
-   SHOW DETAILS
+   DETAILS
 ===================================================== */
 
 function showDetails(id) {
 
-  const records = loadRecords();
+  const records =
+    loadRecords();
 
-  const record = records.find(
-    item => item.id === id
-  );
+
+  const record =
+    records.find(
+      item => item.id === id
+    );
+
 
   if (!record) return;
+
 
 
   document
@@ -570,37 +1141,50 @@ function showDetails(id) {
     .classList.remove("hidden");
 
 
-  document.getElementById("detailStatus")
-    .textContent = record.status;
 
-
-  document.getElementById("detailPlayer")
-    .textContent = record.player;
-
-
-  document.getElementById("detailDate")
-    .textContent = record.date;
-
-
-  document.getElementById("detailDescription")
+  document
+    .getElementById("detailStatus")
     .textContent =
-      record.description || "No details.";
+      record.status;
 
 
-  /*
-     今後ここに同一プレイヤーの
-     過去レコードを表示する。
-  */
+  document
+    .getElementById("detailPlayer")
+    .textContent =
+      record.player;
 
-  const history = records.filter(
-    item => item.player === record.player
-  );
+
+  document
+    .getElementById("detailDate")
+    .textContent =
+      record.date;
+
+
+  document
+    .getElementById("detailDescription")
+    .textContent =
+      record.description ||
+      "No details.";
+
+
+
+  const history =
+    records.filter(
+      item =>
+        item.player ===
+        record.player
+    );
+
 
 
   const historyList =
-    document.getElementById("historyList");
+    document.getElementById(
+      "historyList"
+    );
+
 
   historyList.innerHTML = "";
+
 
 
   history.forEach(item => {
@@ -608,7 +1192,10 @@ function showDetails(id) {
     const div =
       document.createElement("div");
 
-    div.className = "history-item";
+
+    div.className =
+      "history-item";
+
 
     div.innerHTML = `
 
@@ -623,18 +1210,22 @@ function showDetails(id) {
       <br>
 
       <small>
+
         ${escapeHtml(
           item.description || ""
         )}
+
       </small>
 
     `;
+
 
     historyList.appendChild(div);
 
   });
 
 }
+
 
 
 /* =====================================================
@@ -664,9 +1255,12 @@ function addRecord() {
 
   const description =
     document
-      .getElementById("descriptionInput")
+      .getElementById(
+        "descriptionInput"
+      )
       .value
       .trim();
+
 
 
   if (!player) {
@@ -691,29 +1285,36 @@ function addRecord() {
   }
 
 
-  const records = loadRecords();
+
+  const records =
+    loadRecords();
+
 
 
   records.unshift({
 
     id: crypto.randomUUID(),
 
-    player: player,
+    player,
 
-    status: status,
+    status,
 
-    date: date,
+    date,
 
-    description: description
+    description
 
   });
 
 
+
   saveRecords(records);
+
 
   renderList();
 
+
   clearForm();
+
 
   alert(
     "Record added."
@@ -722,8 +1323,9 @@ function addRecord() {
 }
 
 
+
 /* =====================================================
-   CLEAR FORM
+   CLEAR
 ===================================================== */
 
 function clearForm() {
@@ -735,7 +1337,8 @@ function clearForm() {
 
   document
     .getElementById("statusInput")
-    .value = "🚫";
+    .value =
+      "🚫";
 
 
   document
@@ -744,14 +1347,17 @@ function clearForm() {
 
 
   document
-    .getElementById("descriptionInput")
+    .getElementById(
+      "descriptionInput"
+    )
     .value = "";
 
 }
 
 
+
 /* =====================================================
-   HTML ESCAPE
+   ESCAPE HTML
 ===================================================== */
 
 function escapeHtml(text) {
@@ -759,11 +1365,14 @@ function escapeHtml(text) {
   const div =
     document.createElement("div");
 
+
   div.textContent = text;
+
 
   return div.innerHTML;
 
 }
+
 
 
 /* =====================================================
@@ -776,3 +1385,4 @@ renderList();
 
 </body>
 </html>
+```
