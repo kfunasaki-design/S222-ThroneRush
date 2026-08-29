@@ -58,12 +58,17 @@ body {
 ================================ */
 
 .page-header {
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
   margin-bottom: 28px;
+
+  border-bottom: 1px solid #2a2a2a;
+  padding-bottom: 14px;
 }
 
-.page-header h1 {
+.page-title h1 {
   margin: 0;
 
   font-size: 24px;
@@ -72,46 +77,41 @@ body {
   color: #ffffff;
 }
 
-.page-header p {
-  margin: 6px 0 0;
+.page-title p {
+  margin: 4px 0 0;
 
-  font-size: 14px;
-  color: #999;
+  font-size: 13px;
+  color: #888;
 }
 
 
 /* ===============================
-   DISCORD BUTTON
+   BACK BUTTON
 ================================ */
 
-.discord-link {
-  display: flex;
-  justify-content: center;
-
-  margin-bottom: 32px;
-}
-
-.discord-button {
+.back-button {
   display: inline-block;
 
-  padding: 10px 18px;
+  padding: 7px 12px;
 
   border: 1px solid #444;
-  border-radius: 8px;
+  border-radius: 6px;
 
   background: #1a1a1a;
-  color: #ddd;
+  color: #ccc;
 
   text-decoration: none;
 
   font-size: 13px;
+
+  white-space: nowrap;
 
   transition:
     background 0.2s,
     border-color 0.2s;
 }
 
-.discord-button:hover {
+.back-button:hover {
   background: #252525;
   border-color: #666;
 }
@@ -119,17 +119,11 @@ body {
 
 /* ===============================
    MARKDOWN CONTENT
+   Discord-like layout
 ================================ */
 
 .markdown-content {
-
-  background: #151515;
-
-  border: 1px solid #2a2a2a;
-  border-radius: 10px;
-
-  padding: 26px 22px;
-
+  width: 100%;
 }
 
 
@@ -140,50 +134,37 @@ body {
   margin:
     0
     0
-    28px;
+    18px;
 
-  padding-bottom: 12px;
-
-  font-size: 22px;
+  font-size: 20px;
 
   color: #ffffff;
-
-  border-bottom:
-    1px solid #333;
-
 }
 
 
 .markdown-content h2 {
 
   margin:
-    34px
+    26px
     0
-    14px;
+    8px;
 
-  padding-bottom: 8px;
-
-  font-size: 18px;
+  font-size: 16px;
 
   color: #ffffff;
-
-  border-bottom:
-    1px solid #2a2a2a;
-
 }
 
 
 .markdown-content h3 {
 
   margin:
-    24px
+    18px
     0
-    10px;
+    4px;
 
-  font-size: 15px;
+  font-size: 14px;
 
   color: #dddddd;
-
 }
 
 
@@ -194,14 +175,13 @@ body {
   margin:
     0
     0
-    16px;
+    6px;
 
   font-size: 14px;
 
-  line-height: 1.8;
+  line-height: 1.55;
 
   color: #bbbbbb;
-
 }
 
 
@@ -211,25 +191,23 @@ body {
 .markdown-content ol {
 
   margin:
+    4px
     0
-    0
-    18px;
+    10px;
 
-  padding-left: 22px;
-
+  padding-left: 20px;
 }
 
 
 .markdown-content li {
 
-  margin-bottom: 8px;
+  margin-bottom: 3px;
 
   font-size: 14px;
 
-  line-height: 1.7;
+  line-height: 1.5;
 
   color: #bbbbbb;
-
 }
 
 
@@ -249,7 +227,7 @@ body {
   border-top:
     1px solid #2a2a2a;
 
-  margin: 32px 0;
+  margin: 24px 0;
 
 }
 
@@ -260,8 +238,7 @@ body {
 
   color: #cccccc;
 
-  text-decoration:
-    underline;
+  text-decoration: underline;
 
 }
 
@@ -290,24 +267,38 @@ body {
 @media (max-width: 600px) {
 
   .container {
-
-    padding:
-      20px 12px
-      50px;
-
+    padding: 18px 14px 50px;
   }
 
 
-  .page-header h1 {
-    font-size: 21px;
+  .page-header {
+    margin-bottom: 22px;
   }
 
 
-  .markdown-content {
+  .page-title h1 {
+    font-size: 19px;
+  }
 
-    padding:
-      20px 16px;
 
+  .page-title p {
+    font-size: 12px;
+  }
+
+
+  .back-button {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+
+  .markdown-content h1 {
+    font-size: 18px;
+  }
+
+
+  .markdown-content h2 {
+    font-size: 15px;
   }
 
 }
@@ -327,33 +318,29 @@ body {
 
   <header class="page-header">
 
-    <h1>
-      PARTICIPATION RESTRICTION
-    </h1>
+    <div class="page-title">
 
-    <p>
-      参加制限
-    </p>
+      <h1>
+        PARTICIPATION RESTRICTION
+      </h1>
 
-  </header>
+      <p>
+        参加制限
+      </p>
+
+    </div>
 
 
-  <!-- ===============================
-       BACK TO DISCORD
-  ================================ -->
-
-  <div class="discord-link">
-
-    <!-- Discord URLを設定 -->
+    <!-- BACK TO DISCORD -->
 
     <a
-      href="#"
-      class="discord-button"
+      href="https://discord.com/channels/1532246363260194866/1532542629726785597"
+      class="back-button"
     >
-      ← BACK TO DISCORD／Discordへ戻る
+      ←戻る
     </a>
 
-  </div>
+  </header>
 
 
   <!-- ===============================
