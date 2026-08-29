@@ -65,7 +65,7 @@
 
             fill: none;
 
-            stroke-width: 7;
+            stroke-width: 6;
 
             stroke-linecap: round;
 
@@ -111,7 +111,7 @@
 
             fill: none;
 
-            stroke-width: 5;
+            stroke-width: 4;
 
             stroke-linecap: round;
 
@@ -181,15 +181,14 @@
 
         /* =====================================
            MAIN NODES
-           Centered on route coordinates
            ===================================== */
 
         .tr-main-node {
 
             position: absolute;
 
-            width: 72px;
-            height: 72px;
+            width: 64px;
+            height: 64px;
 
             display: flex;
 
@@ -198,17 +197,15 @@
 
             border-radius: 50%;
 
-            background: #111;
+            background: #090909;
 
-            border: 3px solid #ffffff;
-
-            color: #ffffff;
+            border: 2px solid;
 
             text-decoration: none;
 
-            font-size: 18px;
+            font-size: 16px;
 
-            font-weight: 800;
+            font-weight: 400;
 
             line-height: 1;
 
@@ -222,12 +219,40 @@
 
             transform: translate(-50%, -50%);
 
-            box-shadow:
-                0 0 10px rgba(255, 255, 255, 0.15);
-
             transition:
                 transform 0.15s ease,
                 background 0.15s ease;
+
+        }
+
+
+        /* =====================================
+           MAIN NODE COLORS
+           ===================================== */
+
+        .tr-node-magenta {
+
+            color: #ff00cc;
+
+            border-color: #ff00cc;
+
+        }
+
+
+        .tr-node-lime {
+
+            color: #aaff00;
+
+            border-color: #aaff00;
+
+        }
+
+
+        .tr-node-cyan {
+
+            color: #00eaff;
+
+            border-color: #00eaff;
 
         }
 
@@ -236,31 +261,86 @@
 
             transform:
                 translate(-50%, -50%)
-                scale(1.08);
+                scale(1.06);
 
-            background: #222;
+            background: #111;
 
         }
 
 
         /* =====================================
-           TEXT ONLY
-           START / NO LINK
+           START / TEXT ONLY
            ===================================== */
 
         .tr-road-text {
 
             position: absolute;
 
-            color: #ffffff;
+            color: #ff00cc;
 
-            font-size: 22px;
+            font-size: 17px;
 
-            font-weight: 900;
+            font-weight: 400;
 
             letter-spacing: 1px;
 
             z-index: 10;
+
+        }
+
+
+        /* =====================================
+           START / OVERVIEW SQUARE NODES
+           ===================================== */
+
+        .tr-square-node {
+
+            position: absolute;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            width: 82px;
+            height: 42px;
+
+            box-sizing: border-box;
+
+            background: #090909;
+
+            border: 2px solid #ff00cc;
+
+            color: #ff00cc;
+
+            text-decoration: none;
+
+            font-size: 15px;
+
+            font-weight: 400;
+
+            line-height: 1;
+
+            white-space: nowrap;
+
+            z-index: 10;
+
+            transform: translate(-50%, -50%);
+
+            transition:
+                transform 0.15s ease,
+                background 0.15s ease;
+
+        }
+
+
+        .tr-square-node:hover {
+
+            transform:
+                translate(-50%, -50%)
+                scale(1.06);
+
+            background: #111;
 
         }
 
@@ -278,15 +358,15 @@
             align-items: center;
             justify-content: center;
 
-            padding: 4px 7px;
+            padding: 4px 8px;
 
-            background: transparent;
+            background: #090909;
 
             text-decoration: none;
 
-            font-size: 17px;
+            font-size: 15px;
 
-            font-weight: 800;
+            font-weight: 400;
 
             line-height: 1.1;
 
@@ -299,6 +379,8 @@
             box-sizing: border-box;
 
             z-index: 10;
+
+            transform: translate(-50%, -50%);
 
             transition:
                 transform 0.15s ease,
@@ -339,33 +421,23 @@
 
 
         /* =====================================
-           INNER DOTTED BORDER
+           NO INNER DOTTED BORDER
            ===================================== */
 
-        .tr-link-magenta::after,
-        .tr-link-lime::after,
-        .tr-link-cyan::after {
+        .tr-branch-link::after {
 
-            content: "";
-
-            position: absolute;
-
-            inset: 3px;
-
-            border: 1px dashed currentColor;
-
-            border-radius: 2px;
-
-            pointer-events: none;
+            display: none;
 
         }
 
 
         .tr-branch-link:hover {
 
-            background: rgba(255, 255, 255, 0.04);
+            background: #111;
 
-            transform: scale(1.05);
+            transform:
+                translate(-50%, -50%)
+                scale(1.05);
 
         }
 
@@ -391,9 +463,9 @@
 
             color: #aaa;
 
-            font-size: 14px;
+            font-size: 12px;
 
-            font-weight: 800;
+            font-weight: 400;
 
             z-index: 5;
 
@@ -406,7 +478,7 @@
 
             flex: 1;
 
-            height: 4px;
+            height: 3px;
 
             background: #444;
 
@@ -423,8 +495,8 @@
 
             top: 50%;
 
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
 
             transform: translate(-50%, -50%);
 
@@ -450,17 +522,27 @@
 
             .tr-main-node {
 
-                width: 58px;
-                height: 58px;
+                width: 54px;
+                height: 54px;
 
-                font-size: 15px;
+                font-size: 13px;
+
+            }
+
+
+            .tr-square-node {
+
+                width: 68px;
+                height: 36px;
+
+                font-size: 12px;
 
             }
 
 
             .tr-road-text {
 
-                font-size: 18px;
+                font-size: 15px;
 
             }
 
@@ -469,14 +551,14 @@
 
                 padding: 3px 5px;
 
-                font-size: 13px;
+                font-size: 11px;
 
             }
 
 
             .tr-season {
 
-                font-size: 10px;
+                font-size: 9px;
 
             }
 
@@ -548,9 +630,9 @@
         <path
             class="tr-route-magenta"
             d="
-                M 65 555
-                L 180 465
-                L 295 380
+                M 85 540
+                L 205 450
+                L 325 360
             "
         />
 
@@ -560,25 +642,24 @@
         <path
             class="tr-route-lime"
             d="
-                M 70 560
-                L 185 470
-                L 300 385
-                L 415 300
+                M 92 548
+                L 212 458
+                L 332 368
+                L 452 278
             "
         />
 
 
-        <!-- CYAN MAIN ROUTE
-             STOPS AT Lv6 -->
+        <!-- CYAN MAIN ROUTE -->
 
         <path
             class="tr-route-cyan"
             d="
-                M 75 565
-                L 190 475
-                L 305 390
-                L 420 305
-                L 540 215
+                M 99 556
+                L 219 466
+                L 339 376
+                L 459 286
+                L 579 196
             "
         />
 
@@ -588,44 +669,45 @@
              ===================================== -->
 
 
-        <!-- Lv4 → LEFT -->
+        <!-- Lv4 → RESTRICTION -->
 
         <path
             class="tr-branch-magenta"
             d="
-                M 295 380
-                L 200 300
-                L 80 250
+                M 325 360
+                L 235 285
+                L 115 225
             "
         />
 
 
-        <!-- LEFT → FAQ -->
+        <!-- BRANCH → FAQ -->
 
         <path
             class="tr-branch-magenta"
             d="
-                M 200 300
-                L 190 195
-                L 90 125
+                M 235 285
+                L 225 180
+                L 115 110
             "
         />
 
 
-        <!-- LEFT → RESTRICTION -->
+        <!-- BRANCH → RULES -->
 
         <path
             class="tr-branch-magenta"
             d="
-                M 200 300
-                L 280 220
-                L 365 145
+                M 235 285
+                L 315 205
+                L 405 135
             "
         />
 
 
         <!-- =====================================
              LIME BRANCHES
+             Moved toward lower-right
              ===================================== -->
 
 
@@ -634,9 +716,9 @@
         <path
             class="tr-branch-lime"
             d="
-                M 415 300
-                L 510 355
-                L 650 400
+                M 452 278
+                L 535 335
+                L 650 405
             "
         />
 
@@ -646,9 +728,9 @@
         <path
             class="tr-branch-lime"
             d="
-                M 510 355
-                L 565 465
-                L 670 520
+                M 535 335
+                L 590 445
+                L 675 535
             "
         />
 
@@ -658,251 +740,251 @@
         <path
             class="tr-branch-lime"
             d="
-                M 510 355
-                L 620 290
-                L 710 270
+                M 535 335
+                L 625 365
+                L 700 430
             "
         />
 
 
         <!-- =====================================
-             CYAN BRANCHES
+             CYAN BRANCH
+             Lv6 → Lv7 ONLY
              ===================================== -->
 
-
-        <!-- Lv6 → FORUM -->
 
         <path
             class="tr-branch-cyan"
             d="
-                M 540 215
-                L 650 300
-                L 705 430
-                L 710 555
+                M 579 196
+                L 670 105
+                L 690 70
             "
         />
 
 
-        <!-- Lv6 → Lv7
-             Simple direct branch -->
+        <!-- =====================================
+             CYAN FORUM BRANCH
+             ===================================== -->
+
 
         <path
             class="tr-branch-cyan"
             d="
-                M 540 215
-                L 690 95
+                M 579 196
+                L 655 250
+                L 710 330
             "
         />
 
 
         <!-- =====================================
              ROUTE POINTS
-             Every start / corner / end
              ===================================== -->
 
 
-        <!-- MAGENTA POINTS -->
+        <!-- MAGENTA -->
 
         <circle
             class="tr-route-point tr-point-magenta"
-            cx="65"
-            cy="555"
-            r="7"
+            cx="85"
+            cy="540"
+            r="6"
         />
 
         <circle
             class="tr-route-point tr-point-magenta"
-            cx="180"
-            cy="465"
-            r="7"
+            cx="205"
+            cy="450"
+            r="6"
         />
 
         <circle
             class="tr-route-point tr-point-magenta"
-            cx="295"
-            cy="380"
-            r="7"
+            cx="325"
+            cy="360"
+            r="6"
         />
 
         <circle
             class="tr-route-point tr-point-magenta"
-            cx="200"
-            cy="300"
-            r="7"
+            cx="235"
+            cy="285"
+            r="6"
         />
 
         <circle
             class="tr-route-point tr-point-magenta"
-            cx="80"
-            cy="250"
-            r="7"
+            cx="115"
+            cy="225"
+            r="6"
         />
 
         <circle
             class="tr-route-point tr-point-magenta"
-            cx="190"
-            cy="195"
-            r="7"
+            cx="225"
+            cy="180"
+            r="6"
         />
 
         <circle
             class="tr-route-point tr-point-magenta"
-            cx="90"
-            cy="125"
-            r="7"
+            cx="115"
+            cy="110"
+            r="6"
         />
 
         <circle
             class="tr-route-point tr-point-magenta"
-            cx="280"
-            cy="220"
-            r="7"
+            cx="315"
+            cy="205"
+            r="6"
         />
 
         <circle
             class="tr-route-point tr-point-magenta"
-            cx="365"
-            cy="145"
-            r="7"
+            cx="405"
+            cy="135"
+            r="6"
         />
 
 
-        <!-- LIME POINTS -->
+        <!-- LIME -->
 
         <circle
             class="tr-route-point tr-point-lime"
-            cx="70"
-            cy="560"
-            r="7"
-        />
-
-        <circle
-            class="tr-route-point tr-point-lime"
-            cx="185"
-            cy="470"
-            r="7"
+            cx="92"
+            cy="548"
+            r="6"
         />
 
         <circle
             class="tr-route-point tr-point-lime"
-            cx="300"
-            cy="385"
-            r="7"
+            cx="212"
+            cy="458"
+            r="6"
         />
 
         <circle
             class="tr-route-point tr-point-lime"
-            cx="415"
-            cy="300"
-            r="7"
+            cx="332"
+            cy="368"
+            r="6"
         />
 
         <circle
             class="tr-route-point tr-point-lime"
-            cx="510"
-            cy="355"
-            r="7"
+            cx="452"
+            cy="278"
+            r="6"
+        />
+
+        <circle
+            class="tr-route-point tr-point-lime"
+            cx="535"
+            cy="335"
+            r="6"
         />
 
         <circle
             class="tr-route-point tr-point-lime"
             cx="650"
-            cy="400"
-            r="7"
+            cy="405"
+            r="6"
         />
 
         <circle
             class="tr-route-point tr-point-lime"
-            cx="565"
-            cy="465"
-            r="7"
+            cx="590"
+            cy="445"
+            r="6"
         />
 
         <circle
             class="tr-route-point tr-point-lime"
-            cx="670"
-            cy="520"
-            r="7"
+            cx="675"
+            cy="535"
+            r="6"
         />
 
         <circle
             class="tr-route-point tr-point-lime"
-            cx="620"
-            cy="290"
-            r="7"
+            cx="625"
+            cy="365"
+            r="6"
         />
 
         <circle
             class="tr-route-point tr-point-lime"
-            cx="710"
-            cy="270"
-            r="7"
-        />
-
-
-        <!-- CYAN POINTS -->
-
-        <circle
-            class="tr-route-point tr-point-cyan"
-            cx="75"
-            cy="565"
-            r="7"
-        />
-
-        <circle
-            class="tr-route-point tr-point-cyan"
-            cx="190"
-            cy="475"
-            r="7"
-        />
-
-        <circle
-            class="tr-route-point tr-point-cyan"
-            cx="305"
-            cy="390"
-            r="7"
-        />
-
-        <circle
-            class="tr-route-point tr-point-cyan"
-            cx="420"
-            cy="305"
-            r="7"
-        />
-
-        <circle
-            class="tr-route-point tr-point-cyan"
-            cx="540"
-            cy="215"
-            r="7"
-        />
-
-        <circle
-            class="tr-route-point tr-point-cyan"
-            cx="650"
-            cy="300"
-            r="7"
-        />
-
-        <circle
-            class="tr-route-point tr-point-cyan"
-            cx="705"
+            cx="700"
             cy="430"
-            r="7"
+            r="6"
+        />
+
+
+        <!-- CYAN -->
+
+        <circle
+            class="tr-route-point tr-point-cyan"
+            cx="99"
+            cy="556"
+            r="6"
+        />
+
+        <circle
+            class="tr-route-point tr-point-cyan"
+            cx="219"
+            cy="466"
+            r="6"
+        />
+
+        <circle
+            class="tr-route-point tr-point-cyan"
+            cx="339"
+            cy="376"
+            r="6"
+        />
+
+        <circle
+            class="tr-route-point tr-point-cyan"
+            cx="459"
+            cy="286"
+            r="6"
+        />
+
+        <circle
+            class="tr-route-point tr-point-cyan"
+            cx="579"
+            cy="196"
+            r="6"
+        />
+
+        <circle
+            class="tr-route-point tr-point-cyan"
+            cx="655"
+            cy="250"
+            r="6"
         />
 
         <circle
             class="tr-route-point tr-point-cyan"
             cx="710"
-            cy="555"
-            r="7"
+            cy="330"
+            r="6"
+        />
+
+        <circle
+            class="tr-route-point tr-point-cyan"
+            cx="670"
+            cy="105"
+            r="6"
         />
 
         <circle
             class="tr-route-point tr-point-cyan"
             cx="690"
-            cy="95"
-            r="7"
+            cy="70"
+            r="6"
         />
 
 
@@ -914,24 +996,26 @@
          START
          ===================================== -->
 
-    <div
-        class="tr-road-text"
-        style="left: 4%; top: 84%;"
+    <a
+        class="tr-square-node"
+        style="left: 11.18%; top: 83.08%;"
+        href="#overview"
+        onclick="openSection('overview'); return false;"
     >
         START
-    </div>
+    </a>
 
 
 
     <!-- =====================================
          MAIN NODES
-         Center = route coordinate
+         Equal spacing
          ===================================== -->
 
 
     <a
-        class="tr-main-node"
-        style="left: 23.684%; top: 71.538%;"
+        class="tr-square-node"
+        style="left: 26.97%; top: 69.23%;"
         href="#overview"
         onclick="openSection('overview'); return false;"
     >
@@ -940,8 +1024,8 @@
 
 
     <a
-        class="tr-main-node"
-        style="left: 38.816%; top: 58.462%;"
+        class="tr-main-node tr-node-magenta"
+        style="left: 42.76%; top: 55.38%;"
         href="#lv1-4"
         onclick="openSection('lv1-4'); return false;"
     >
@@ -950,8 +1034,8 @@
 
 
     <a
-        class="tr-main-node"
-        style="left: 54.605%; top: 46.154%;"
+        class="tr-main-node tr-node-lime"
+        style="left: 58.55%; top: 41.54%;"
         href="#lv5"
         onclick="openSection('lv5'); return false;"
     >
@@ -960,8 +1044,8 @@
 
 
     <a
-        class="tr-main-node"
-        style="left: 71.053%; top: 33.077%;"
+        class="tr-main-node tr-node-cyan"
+        style="left: 74.34%; top: 27.69%;"
         href="#lv6"
         onclick="openSection('lv6'); return false;"
     >
@@ -970,8 +1054,8 @@
 
 
     <a
-        class="tr-main-node"
-        style="left: 90.789%; top: 14.615%;"
+        class="tr-main-node tr-node-cyan"
+        style="left: 90.13%; top: 13.85%;"
         href="#lv7"
         onclick="openSection('lv7'); return false;"
     >
@@ -987,7 +1071,7 @@
 
     <a
         class="tr-branch-link tr-link-magenta"
-        style="left: 3%; top: 35%;"
+        style="left: 15.13%; top: 34.62%;"
         href="guild-restriction.html"
     >
         RESTRICTION
@@ -996,7 +1080,7 @@
 
     <a
         class="tr-branch-link tr-link-magenta"
-        style="left: 3%; top: 12%;"
+        style="left: 15.13%; top: 16.92%;"
         href="#faq"
         onclick="openSection('faq'); return false;"
     >
@@ -1006,7 +1090,7 @@
 
     <a
         class="tr-branch-link tr-link-magenta"
-        style="left: 40%; top: 14%;"
+        style="left: 53.29%; top: 20.77%;"
         href="rules.html"
     >
         RULES
@@ -1016,12 +1100,13 @@
 
     <!-- =====================================
          LIME LINKS
+         Placed on branch endpoints
          ===================================== -->
 
 
     <a
         class="tr-branch-link tr-link-lime"
-        style="left: 68%; top: 59%;"
+        style="left: 88.82%; top: 82.31%;"
         href="calendar.html"
     >
         CALENDAR
@@ -1030,7 +1115,7 @@
 
     <a
         class="tr-branch-link tr-link-lime"
-        style="left: 78%; top: 39%;"
+        style="left: 92.11%; top: 66.15%;"
         href="image-editor.html"
     >
         IMAGE EDITOR
@@ -1045,7 +1130,7 @@
 
     <a
         class="tr-branch-link tr-link-cyan"
-        style="left: 78%; top: 81%;"
+        style="left: 90.79%; top: 50.77%;"
         href="#"
     >
         FORUM
