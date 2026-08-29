@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Participation Restriction | S222 Throne Rush</title>
+
+<!-- Markdown Parser -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<style>
+
+/* ===============================
+   BASE
+================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #0f0f0f;
+  color: #eaeaea;
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    sans-serif;
+}
+
+
+/* ===============================
+   CONTAINER
+================================ */
+
+.container {
+  width: 100%;
+  max-width: 900px;
+
+  margin: 0 auto;
+
+  padding: 24px 16px 60px;
+}
+
+
+/* ===============================
+   HEADER
+================================ */
+
+.page-header {
+  text-align: center;
+
+  margin-bottom: 28px;
+}
+
+.page-header h1 {
+  margin: 0;
+
+  font-size: 24px;
+  letter-spacing: 1px;
+
+  color: #ffffff;
+}
+
+.page-header p {
+  margin: 6px 0 0;
+
+  font-size: 14px;
+  color: #999;
+}
+
+
+/* ===============================
+   DISCORD BUTTON
+================================ */
+
+.discord-link {
+  display: flex;
+  justify-content: center;
+
+  margin-bottom: 32px;
+}
+
+.discord-button {
+  display: inline-block;
+
+  padding: 10px 18px;
+
+  border: 1px solid #444;
+  border-radius: 8px;
+
+  background: #1a1a1a;
+  color: #ddd;
+
+  text-decoration: none;
+
+  font-size: 13px;
+
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+
+.discord-button:hover {
+  background: #252525;
+  border-color: #666;
+}
+
+
+/* ===============================
+   MARKDOWN CONTENT
+================================ */
+
+.markdown-content {
+
+  background: #151515;
+
+  border: 1px solid #2a2a2a;
+  border-radius: 10px;
+
+  padding: 26px 22px;
+
+}
+
+
+/* Headings */
+
+.markdown-content h1 {
+
+  margin:
+    0
+    0
+    28px;
+
+  padding-bottom: 12px;
+
+  font-size: 22px;
+
+  color: #ffffff;
+
+  border-bottom:
+    1px solid #333;
+
+}
+
+
+.markdown-content h2 {
+
+  margin:
+    34px
+    0
+    14px;
+
+  padding-bottom: 8px;
+
+  font-size: 18px;
+
+  color: #ffffff;
+
+  border-bottom:
+    1px solid #2a2a2a;
+
+}
+
+
+.markdown-content h3 {
+
+  margin:
+    24px
+    0
+    10px;
+
+  font-size: 15px;
+
+  color: #dddddd;
+
+}
+
+
+/* Paragraph */
+
+.markdown-content p {
+
+  margin:
+    0
+    0
+    16px;
+
+  font-size: 14px;
+
+  line-height: 1.8;
+
+  color: #bbbbbb;
+
+}
+
+
+/* Lists */
+
+.markdown-content ul,
+.markdown-content ol {
+
+  margin:
+    0
+    0
+    18px;
+
+  padding-left: 22px;
+
+}
+
+
+.markdown-content li {
+
+  margin-bottom: 8px;
+
+  font-size: 14px;
+
+  line-height: 1.7;
+
+  color: #bbbbbb;
+
+}
+
+
+/* Strong */
+
+.markdown-content strong {
+  color: #ffffff;
+}
+
+
+/* Horizontal Rule */
+
+.markdown-content hr {
+
+  border: none;
+
+  border-top:
+    1px solid #2a2a2a;
+
+  margin: 32px 0;
+
+}
+
+
+/* Links */
+
+.markdown-content a {
+
+  color: #cccccc;
+
+  text-decoration:
+    underline;
+
+}
+
+
+/* ===============================
+   FOOTER
+================================ */
+
+.footer {
+
+  text-align: center;
+
+  margin-top: 40px;
+
+  font-size: 12px;
+
+  color: #555;
+
+}
+
+
+/* ===============================
+   MOBILE
+================================ */
+
+@media (max-width: 600px) {
+
+  .container {
+
+    padding:
+      20px 12px
+      50px;
+
+  }
+
+
+  .page-header h1 {
+    font-size: 21px;
+  }
+
+
+  .markdown-content {
+
+    padding:
+      20px 16px;
+
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+  <!-- ===============================
+       HEADER
+  ================================ -->
+
+  <header class="page-header">
+
+    <h1>
+      PARTICIPATION RESTRICTION
+    </h1>
+
+    <p>
+      参加制限
+    </p>
+
+  </header>
+
+
+  <!-- ===============================
+       BACK TO DISCORD
+  ================================ -->
+
+  <div class="discord-link">
+
+    <!-- Discord URLを設定 -->
+
+    <a
+      href="#"
+      class="discord-button"
+    >
+      ← BACK TO DISCORD／Discordへ戻る
+    </a>
+
+  </div>
+
+
+  <!-- ===============================
+       MARKDOWN CONTENT
+  ================================ -->
+
+  <main
+    id="markdown-content"
+    class="markdown-content"
+  >
+
+    Loading...
+
+  </main>
+
+
+  <!-- ===============================
+       FOOTER
+  ================================ -->
+
+  <footer class="footer">
+
+    S222 THRONE RUSH
+
+  </footer>
+
+
+</div>
+
+
+<!-- ===============================
+     LOAD MARKDOWN
+================================ -->
+
+<script>
+
+fetch("restriction.md")
+
+  .then(response => {
+
+    if (!response.ok) {
+      throw new Error(
+        "Failed to load restriction.md"
+      );
+    }
+
+    return response.text();
+
+  })
+
+  .then(markdown => {
+
+    document
+      .getElementById("markdown-content")
+      .innerHTML = marked.parse(markdown);
+
+  })
+
+  .catch(error => {
+
+    document
+      .getElementById("markdown-content")
+      .innerHTML = `
+        <p>
+          Failed to load content.
+        </p>
+      `;
+
+    console.error(error);
+
+  });
+
+</script>
+
+
+</body>
+</html>
