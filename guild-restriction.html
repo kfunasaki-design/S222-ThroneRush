@@ -1,4 +1,3 @@
-```html id="z6q1mp"
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,7 +41,7 @@ body {
 
   width: min(1100px, 94%);
 
-  margin: 30px auto 60px;
+  margin: 24px auto 60px;
 
 }
 
@@ -51,19 +50,71 @@ body {
    HEADER
 ========================================= */
 
-h1 {
+.page-header {
 
-  margin-bottom: 6px;
+  display: flex;
 
-  font-size: 28px;
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-bottom: 28px;
+
+  border-bottom:
+    1px solid #2a2a2a;
+
+  padding-bottom: 14px;
 
 }
 
-.subtitle {
+.page-title h1 {
 
-  color: #9ca3af;
+  margin: 0;
 
-  margin-bottom: 30px;
+  font-size: 24px;
+
+  letter-spacing: 1px;
+
+  color: #ffffff;
+
+}
+
+
+/* =========================================
+   BACK BUTTON
+========================================= */
+
+.back-button {
+
+  display: inline-block;
+
+  padding: 7px 12px;
+
+  border: 1px solid #444;
+
+  border-radius: 6px;
+
+  background: #1a1a1a;
+
+  color: #ccc;
+
+  text-decoration: none;
+
+  font-size: 13px;
+
+  white-space: nowrap;
+
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+
+}
+
+.back-button:hover {
+
+  background: #252525;
+
+  border-color: #666;
 
 }
 
@@ -629,7 +680,21 @@ details summary:hover {
 
     width: 96%;
 
-    margin-top: 15px;
+    margin-top: 18px;
+
+  }
+
+  .page-title h1 {
+
+    font-size: 19px;
+
+  }
+
+  .back-button {
+
+    padding: 6px 10px;
+
+    font-size: 12px;
 
   }
 
@@ -696,13 +761,25 @@ details summary:hover {
      HEADER
 ========================================= -->
 
-<h1>
-GUILD RESTRICTION／ギルド制限
-</h1>
+<header class="page-header">
 
-<div class="subtitle">
-S222 Throne Rush ／ Participation Restriction Record
-</div>
+  <div class="page-title">
+
+    <h1>
+      GUILD RESTRICTION
+    </h1>
+
+  </div>
+
+
+  <a
+    href="https://discord.com/channels/1532246363260194866/1532542629726785597"
+    class="back-button"
+  >
+    ← BACK
+  </a>
+
+</header>
 
 
 
@@ -716,15 +793,12 @@ S222 Throne Rush ／ Participation Restriction Record
 Restricted Players／参加制限プレイヤー
 </h2>
 
-
 <div class="notice">
 
 Current participation restriction records are displayed below.
 ／現在の参加制限記録を表示しています。
 
 </div>
-
-
 
 <div class="search-box">
 
@@ -741,8 +815,6 @@ Current participation restriction records are displayed below.
 >
 
 </div>
-
-
 
 <table class="records-table">
 
@@ -763,7 +835,6 @@ STATUS
 
 </th>
 
-
 <th>
 
 PLAYER
@@ -776,7 +847,6 @@ PLAYER
 </button>
 
 </th>
-
 
 <th>
 
@@ -794,7 +864,6 @@ DATE
 </tr>
 
 </thead>
-
 
 <tbody
   id="playerList"
@@ -817,7 +886,6 @@ DATE
 Player Details／プレイヤー詳細
 </h2>
 
-
 <div
   id="detailEmpty"
   class="empty"
@@ -828,12 +896,10 @@ Select a player from the list above.
 
 </div>
 
-
 <div
   id="detailContent"
   class="hidden"
 >
-
 
 <div class="detail-row">
 
@@ -848,8 +914,6 @@ STATUS／状態
 
 </div>
 
-
-
 <div class="detail-row">
 
 <div class="detail-label">
@@ -862,8 +926,6 @@ PLAYER／プレイヤー
 ></div>
 
 </div>
-
-
 
 <div class="detail-row">
 
@@ -878,8 +940,6 @@ DATE／記録日
 
 </div>
 
-
-
 <div class="detail-row">
 
 <div class="detail-label">
@@ -892,8 +952,6 @@ DETAILS／記録内容
 ></div>
 
 </div>
-
-
 
 <div class="record-history">
 
@@ -923,15 +981,12 @@ RECORD HISTORY／記録履歴
 🔒 ADMINISTRATION／管理入力
 </summary>
 
-
 <div class="details-content">
-
 
 <div
   id="adminLock"
   class="admin-lock"
 >
-
 
 <div class="lock-message">
 
@@ -940,9 +995,7 @@ Administrator access required.
 
 </div>
 
-
 <div class="unlock-row">
-
 
 <input
 
@@ -954,28 +1007,22 @@ Administrator access required.
 
 >
 
-
 <button
   onclick="unlockAdmin()"
 >
 UNLOCK
 </button>
 
-
 </div>
 
 </div>
-
-
 
 <div
   id="adminContent"
   class="hidden"
 >
 
-
 <div class="form-grid">
-
 
 <div class="form-group">
 
@@ -990,8 +1037,6 @@ PLAYER／プレイヤー
 >
 
 </div>
-
-
 
 <div class="form-group">
 
@@ -1019,8 +1064,6 @@ STATUS／状態
 
 </div>
 
-
-
 <div class="form-group">
 
 <label>
@@ -1033,8 +1076,6 @@ DATE／記録日
 >
 
 </div>
-
-
 
 <div class="form-group full">
 
@@ -1051,10 +1092,7 @@ DETAILS／記録内容
 
 </div>
 
-
-
 <div class="actions">
-
 
 <button
   onclick="addRecord()"
@@ -1062,14 +1100,12 @@ DETAILS／記録内容
 Add Record／記録追加
 </button>
 
-
 <button
   class="secondary"
   onclick="clearForm()"
 >
 Clear
 </button>
-
 
 </div>
 
@@ -1091,9 +1127,7 @@ Clear
 PARTICIPATION RESTRICTION DETAILS／参加制限詳細
 </summary>
 
-
 <div class="details-content">
-
 
 <h3>
 PURPOSE／目的
@@ -1104,7 +1138,6 @@ Details regarding the participation restriction system will be provided here.
 ／参加制限制度についての詳細をここに記載します。
 </p>
 
-
 <h3>
 RESTRICTION／制限
 </h3>
@@ -1113,7 +1146,6 @@ RESTRICTION／制限
 Details of the restrictions applied to guild alliance features will be provided here.
 ／ギルドの同盟機能に適用される制限について記載します。
 </p>
-
 
 <h3>
 RECORD／記録
@@ -1124,7 +1156,6 @@ Information regarding how participation restriction records are created and main
 ／参加制限の記録方法および管理について記載します。
 </p>
 
-
 <h3>
 REVIEW & RELEASE／見直し・解除
 </h3>
@@ -1134,7 +1165,6 @@ Details regarding review, partial restoration, and release of restrictions will 
 ／制限の見直し、一部機能の回復、解除について記載します。
 </p>
 
-
 <h3>
 REPEAT CASES／再発時の扱い
 </h3>
@@ -1143,7 +1173,6 @@ REPEAT CASES／再発時の扱い
 Details regarding repeated cases will be provided here.
 ／再発した場合の扱いについて記載します。
 </p>
-
 
 </div>
 
@@ -1208,7 +1237,6 @@ const sampleData = [
 ];
 
 
-
 /* =========================================
    SORT
 ========================================= */
@@ -1216,7 +1244,6 @@ const sampleData = [
 let currentSort = "date";
 
 let sortDirection = "desc";
-
 
 
 /* =========================================
@@ -1230,13 +1257,11 @@ function loadRecords() {
       STORAGE_KEY
     );
 
-
   if (saved) {
 
     return JSON.parse(saved);
 
   }
-
 
   localStorage.setItem(
 
@@ -1248,11 +1273,9 @@ function loadRecords() {
 
   );
 
-
   return sampleData;
 
 }
-
 
 
 /* =========================================
@@ -1270,7 +1293,6 @@ function saveRecords(records) {
   );
 
 }
-
 
 
 /* =========================================
@@ -1298,11 +1320,9 @@ function sortBy(type) {
 
   }
 
-
   renderList();
 
 }
-
 
 
 /* =========================================
@@ -1321,13 +1341,11 @@ function statusValue(status) {
 
   };
 
-
   return (
     order[status] || 99
   );
 
 }
-
 
 
 /* =========================================
@@ -1339,7 +1357,6 @@ function renderList() {
   let records =
     loadRecords();
 
-
   const search =
     document
       .getElementById(
@@ -1348,7 +1365,6 @@ function renderList() {
       .value
       .trim()
       .toLowerCase();
-
 
   if (search) {
 
@@ -1364,14 +1380,11 @@ function renderList() {
 
   }
 
-
-
   records.sort(
 
     (a, b) => {
 
       let result = 0;
-
 
       if (
         currentSort === "status"
@@ -1387,7 +1400,6 @@ function renderList() {
           );
 
       }
-
 
       else if (
         currentSort === "player"
@@ -1409,7 +1421,6 @@ function renderList() {
 
       }
 
-
       else if (
         currentSort === "date"
       ) {
@@ -1421,7 +1432,6 @@ function renderList() {
 
       }
 
-
       return
         sortDirection === "asc"
           ? result
@@ -1431,17 +1441,12 @@ function renderList() {
 
   );
 
-
-
   const list =
     document.getElementById(
       "playerList"
     );
 
-
   list.innerHTML = "";
-
-
 
   if (
     records.length === 0
@@ -1466,8 +1471,6 @@ function renderList() {
 
   }
 
-
-
   records.forEach(
 
     record => {
@@ -1477,7 +1480,6 @@ function renderList() {
           "tr"
         );
 
-
       row.innerHTML = `
 
         <td
@@ -1485,7 +1487,6 @@ function renderList() {
         >
           ${record.status}
         </td>
-
 
         <td>
 
@@ -1506,13 +1507,11 @@ function renderList() {
 
         </td>
 
-
         <td>
           ${record.date}
         </td>
 
       `;
-
 
       list.appendChild(row);
 
@@ -1521,7 +1520,6 @@ function renderList() {
   );
 
 }
-
 
 
 /* =========================================
@@ -1533,7 +1531,6 @@ function showDetails(id) {
   const records =
     loadRecords();
 
-
   const record =
     records.find(
 
@@ -1542,10 +1539,7 @@ function showDetails(id) {
 
     );
 
-
   if (!record) return;
-
-
 
   document
     .getElementById(
@@ -1554,15 +1548,12 @@ function showDetails(id) {
     .classList
     .add("hidden");
 
-
   document
     .getElementById(
       "detailContent"
     )
     .classList
     .remove("hidden");
-
-
 
   document
     .getElementById(
@@ -1571,14 +1562,12 @@ function showDetails(id) {
     .textContent =
       record.status;
 
-
   document
     .getElementById(
       "detailPlayer"
     )
     .textContent =
       record.player;
-
 
   document
     .getElementById(
@@ -1587,7 +1576,6 @@ function showDetails(id) {
     .textContent =
       record.date;
 
-
   document
     .getElementById(
       "detailDescription"
@@ -1595,8 +1583,6 @@ function showDetails(id) {
     .textContent =
       record.description ||
       "No details.";
-
-
 
   const history =
     records.filter(
@@ -1607,16 +1593,12 @@ function showDetails(id) {
 
     );
 
-
   const historyList =
     document.getElementById(
       "historyList"
     );
 
-
   historyList.innerHTML = "";
-
-
 
   history.forEach(
 
@@ -1627,10 +1609,8 @@ function showDetails(id) {
           "div"
         );
 
-
       div.className =
         "history-item";
-
 
       div.innerHTML = `
 
@@ -1654,7 +1634,6 @@ function showDetails(id) {
 
       `;
 
-
       historyList.appendChild(
         div
       );
@@ -1666,19 +1645,12 @@ function showDetails(id) {
 }
 
 
-
 /* =========================================
    ADMIN UNLOCK
 ========================================= */
 
-/*
-   TEMPORARY PASSWORD
-   For prototype testing only.
-*/
-
 const ADMIN_PASSWORD =
   "S222";
-
 
 
 function unlockAdmin() {
@@ -1689,7 +1661,6 @@ function unlockAdmin() {
         "adminPassword"
       )
       .value;
-
 
   if (
     password ===
@@ -1702,7 +1673,6 @@ function unlockAdmin() {
       )
       .classList
       .add("hidden");
-
 
     document
       .getElementById(
@@ -1724,7 +1694,6 @@ function unlockAdmin() {
 }
 
 
-
 /* =========================================
    ADD RECORD
 ========================================= */
@@ -1739,14 +1708,12 @@ function addRecord() {
       .value
       .trim();
 
-
   const status =
     document
       .getElementById(
         "statusInput"
       )
       .value;
-
 
   const date =
     document
@@ -1755,7 +1722,6 @@ function addRecord() {
       )
       .value;
 
-
   const description =
     document
       .getElementById(
@@ -1763,8 +1729,6 @@ function addRecord() {
       )
       .value
       .trim();
-
-
 
   if (!player) {
 
@@ -1776,7 +1740,6 @@ function addRecord() {
 
   }
 
-
   if (!date) {
 
     alert(
@@ -1787,11 +1750,8 @@ function addRecord() {
 
   }
 
-
-
   const records =
     loadRecords();
-
 
   records.unshift({
 
@@ -1808,22 +1768,17 @@ function addRecord() {
 
   });
 
-
   saveRecords(records);
-
 
   renderList();
 
-
   clearForm();
-
 
   alert(
     "Record added."
   );
 
 }
-
 
 
 /* =========================================
@@ -1838,7 +1793,6 @@ function clearForm() {
     )
     .value = "";
 
-
   document
     .getElementById(
       "statusInput"
@@ -1846,13 +1800,11 @@ function clearForm() {
     .value =
       "🚫";
 
-
   document
     .getElementById(
       "dateInput"
     )
     .value = "";
-
 
   document
     .getElementById(
@@ -1861,7 +1813,6 @@ function clearForm() {
     .value = "";
 
 }
-
 
 
 /* =========================================
@@ -1875,14 +1826,11 @@ function escapeHtml(text) {
       "div"
     );
 
-
   div.textContent = text;
-
 
   return div.innerHTML;
 
 }
-
 
 
 /* =========================================
@@ -1897,4 +1845,3 @@ renderList();
 </body>
 
 </html>
-```
