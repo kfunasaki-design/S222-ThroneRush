@@ -259,138 +259,224 @@
 <!-- S222TR Navigation Roadmap -->
 <section class="tr-roadmap">
 
-    <!-- Roadmap paths -->
     <svg
         class="tr-roadmap-svg"
-        viewBox="0 0 1000 562"
+        viewBox="0 0 1000 650"
         preserveAspectRatio="none"
         aria-hidden="true"
     >
 
-        <!-- Main route -->
+        <!-- =========================
+             MAIN ROUTE
+             START → A → B → C → GOAL
+             ========================= -->
+
         <path
             class="tr-road"
             d="
-                M 90 70
-                L 260 160
-                L 450 250
-                L 680 350
-                L 850 450
+                M 100 560
+                L 230 470
+                L 360 390
+                L 500 300
+                L 650 210
+                L 850 90
             "
         />
 
-        <!-- Branch: Image Editor -->
+
+        <!-- =========================
+             BRANCH ①
+             Main route → LEFT
+             ========================= -->
+
         <path
             class="tr-road"
             d="
-                M 450 250
-                L 340 360
-                L 260 430
+                M 360 390
+                L 250 300
+                L 120 240
             "
         />
 
-        <!-- Branch: Forum -->
+        <!-- LEFT BRANCH → further branches -->
+
         <path
             class="tr-road"
             d="
-                M 680 350
-                L 570 430
-                L 500 470
+                M 250 300
+                L 250 180
+                L 130 110
             "
         />
 
-        <!-- Branch: Calendar -->
         <path
             class="tr-road"
             d="
-                M 680 350
-                L 770 430
-                L 830 470
+                M 250 300
+                L 330 180
+                L 430 120
             "
         />
 
-        <!-- Main nodes -->
-        <circle class="tr-node" cx="90" cy="70" r="17" />
-        <circle class="tr-node" cx="260" cy="160" r="17" />
-        <circle class="tr-node" cx="450" cy="250" r="17" />
-        <circle class="tr-node" cx="680" cy="350" r="17" />
-        <circle class="tr-node" cx="850" cy="450" r="17" />
 
-        <!-- Branch nodes -->
-        <circle class="tr-node" cx="260" cy="430" r="14" />
-        <circle class="tr-node" cx="500" cy="470" r="14" />
-        <circle class="tr-node" cx="830" cy="470" r="14" />
+        <!-- =========================
+             BRANCH ②
+             Main route → RIGHT
+             ========================= -->
+
+        <path
+            class="tr-road"
+            d="
+                M 500 300
+                L 610 360
+                L 760 400
+            "
+        />
+
+        <!-- RIGHT BRANCH → further branches -->
+
+        <path
+            class="tr-road"
+            d="
+                M 610 360
+                L 680 470
+                L 800 520
+            "
+        />
+
+        <path
+            class="tr-road"
+            d="
+                M 610 360
+                L 720 300
+                L 860 280
+            "
+        />
+
+
+        <!-- =========================
+             NODES
+             ========================= -->
+
+        <!-- START -->
+        <circle class="tr-node" cx="100" cy="560" r="18" />
+
+        <!-- Main -->
+        <circle class="tr-node" cx="230" cy="470" r="18" />
+        <circle class="tr-node" cx="360" cy="390" r="18" />
+        <circle class="tr-node" cx="500" cy="300" r="18" />
+        <circle class="tr-node" cx="650" cy="210" r="18" />
+        <circle class="tr-node" cx="850" cy="90" r="18" />
+
+        <!-- Left branch -->
+        <circle class="tr-node" cx="250" cy="300" r="15" />
+        <circle class="tr-node" cx="120" cy="240" r="15" />
+
+        <!-- Left sub-branches -->
+        <circle class="tr-node" cx="130" cy="110" r="14" />
+        <circle class="tr-node" cx="430" cy="120" r="14" />
+
+        <!-- Right branch -->
+        <circle class="tr-node" cx="610" cy="360" r="15" />
+        <circle class="tr-node" cx="760" cy="400" r="15" />
+
+        <!-- Right sub-branches -->
+        <circle class="tr-node" cx="800" cy="520" r="14" />
+        <circle class="tr-node" cx="860" cy="280" r="14" />
 
     </svg>
 
 
-    <!-- HTML links -->
-    <a
-        class="tr-road-link tr-start"
-        href="#overview"
-        onclick="openSection('overview'); return false;"
-    >
+    <!-- =========================
+         LINK LABELS
+         ========================= -->
+
+    <a class="tr-road-link tr-start"
+       href="#overview"
+       onclick="openSection('overview'); return false;">
         START
     </a>
 
-    <a
-        class="tr-road-link tr-manual"
-        href="#overview"
-        onclick="openSection('overview'); return false;"
-    >
-        MANUAL
+    <a class="tr-road-link"
+       style="left: 20%; top: 66%;"
+       href="#overview"
+       onclick="openSection('overview'); return false;">
+        OVERVIEW
     </a>
 
-    <a
-        class="tr-road-link tr-rules"
-        href="rules.html"
-    >
-        RULES
+    <a class="tr-road-link"
+       style="left: 32%; top: 50%;"
+       href="#lv1-4"
+       onclick="openSection('lv1-4'); return false;">
+        LV1–4
     </a>
 
-    <a
-        class="tr-road-link tr-restriction"
-        href="guild-restriction.html"
-    >
+    <a class="tr-road-link"
+       style="left: 47%; top: 34%;"
+       href="#lv5"
+       onclick="openSection('lv5'); return false;">
+        LV5
+    </a>
+
+    <a class="tr-road-link"
+       style="left: 62%; top: 20%;"
+       href="#lv6"
+       onclick="openSection('lv6'); return false;">
+        LV6
+    </a>
+
+    <a class="tr-road-link"
+       style="left: 78%; top: 6%;"
+       href="#lv7"
+       onclick="openSection('lv7'); return false;">
+        LV7
+    </a>
+
+    <!-- Left branch -->
+
+    <a class="tr-road-link"
+       style="left: 12%; top: 31%;"
+       href="guild-restriction.html">
         RESTRICTION
     </a>
 
-    <a
-        class="tr-road-link tr-calendar"
-        href="calendar.html"
-    >
+    <a class="tr-road-link"
+       style="left: 8%; top: 12%;"
+       href="#faq"
+       onclick="openSection('faq'); return false;">
+        FAQ
+    </a>
+
+    <a class="tr-road-link"
+       style="left: 38%; top: 12%;"
+       href="rules.html">
+        RULES
+    </a>
+
+    <!-- Right branch -->
+
+    <a class="tr-road-link"
+       style="left: 68%; top: 58%;"
+       href="calendar.html">
         CALENDAR
     </a>
 
-    <a
-        class="tr-road-link tr-forum"
-        href="https://discord.com/channels/1532246363260194866/1540555073082359871"
-    >
-        FORUM
-    </a>
-
-    <a
-        class="tr-road-link tr-editor"
-        href="image-editor.html"
-    >
+    <a class="tr-road-link"
+       style="left: 79%; top: 39%;"
+       href="image-editor.html">
         IMAGE EDITOR
     </a>
 
-
-    <!-- 56 day season indicator -->
-    <div class="tr-season">
-
-        <span>DAY 1</span>
-
-        <div class="tr-season-line">
-            <div class="tr-season-current"></div>
-        </div>
-
-        <span>DAY 56</span>
-
-    </div>
+    <a class="tr-road-link"
+       style="left: 78%; top: 78%;"
+       href="#">
+        FORUM
+    </a>
 
 </section>
+
+
+
   
 <main>
 
