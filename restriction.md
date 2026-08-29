@@ -1,64 +1,66 @@
-# PARTICIPATION RESTRICTION／参加制限
+# PARTICIPATION RESTRICTION
 
-## ① PERFORMANCE／遂行能力
+## ① PERFORMANCE
 
-同盟関係を構築するうえで、合意した協力内容や役割を実際に遂行できることを基本とします。
+The ability to actually carry out agreed cooperation and responsibilities is a basic requirement for participation in the alliance.
 
-同盟登録は、ギルドマスター本人が行うものとします。実際の連携や運用については、将軍など他のメンバーが担当することができます。
+The Guild Master must personally register the guild for alliance participation. Other members, such as Generals, may handle actual coordination and operations after registration.
 
-## ② RELATIONSHIP／関係構築
+## ② RELATIONSHIP
 
-同盟関係を構築・維持するため、必要なコミュニケーションおよび連携を継続して行えることを基本とします。
+Alliance participation requires the ability to build and maintain cooperative relationships through communication and coordination.
 
-情報共有・交渉・予定調整・共闘など、S222TRにおける同盟活動を適切に行えることが求められます。
+Information sharing, negotiation, scheduling, joint operations, and other activities within S222TR should be handled appropriately and continuously.
 
-## ③ RISK／悪要因
+## ③ RISK
 
-①遂行能力および②関係構築を妨げる可能性のある要因を、同盟活動上のリスクとして確認・管理します。
+Factors that may obstruct the establishment or maintenance of an alliance relationship are considered risks to alliance activities.
 
-問題行動、情報漏洩、同盟活動への継続的な支障など、協力関係に影響を及ぼす要因が対象となります。
+This may include problematic behavior, information leakage, repeated disruption of alliance activities, or other circumstances that may affect cooperation.
 
-所属プレイヤーに起因するリスクについては、必要に応じて対象プレイヤーを特定し、記録します。
+When necessary, individual players may be identified and recorded as part of the risk management process.
 
-## ④ ADMINISTRATIVE CONTACT／管理者からの連絡
+## ④ ADMINISTRATIVE CONTACT
 
-同盟運営上必要な確認・情報提示・対応について、管理者からギルド側へ連絡する場合があります。
+Administrators may contact a guild when confirmation, information, or other necessary action is required for alliance operations.
 
-求められた内容について、指定された期限までに回答または必要な対応を行うことを基本とします。
+Guilds are expected to provide an appropriate response or take the requested action within the specified period.
 
-連絡に対する対応がない場合、同盟活動に必要なコミュニケーションが成立していないものとして、注意または参加制限の対象となる場合があります。
+Failure to respond to administrative requests may be considered a failure to maintain the communication necessary for alliance activities and may result in a warning or participation restriction.
 
-## ⑤ RECORD & STATUS／記録・状態
+## ⑤ RECORD & STATUS
 
-参加制限に関する記録は、現在の状態だけでなく、過去の経緯を確認し、今後の判断材料とするために履歴として保持します。
+Participation restriction records are maintained as a history to provide a reference for determining the current status and reviewing past circumstances.
 
-状態は以下を基本とします。
+The status may change during a season depending on the circumstances.
 
 **✅ OK**
-同盟参加に問題がない状態。
+No current issue affecting alliance participation.
 
 **⚠️ WARNING**
-注意・確認・改善を求める状態。必要な対応が行われない場合、参加制限へ移行することがあります。
+A warning, confirmation, or improvement is required. Failure to take the necessary action may result in a participation restriction.
 
 **🚫 RESTRICTED**
-S222TR上の同盟機能への参加を制限している状態。
+Participation in S222TR alliance functions is restricted.
 
-状態はシーズン途中でも変更される場合があります。特に、注意・改善要求を無視した場合や、重大な問題が発生した場合には、参加制限を適用することがあります。
+Ignoring a warning or failing to make the required improvement may result in a participation restriction.
 
-## ⑥ REPEAT CASES／再発時の扱い
+Serious matters may result in an immediate restriction without a prior warning.
 
-同一または類似する問題が再発した場合は、過去の経緯、発生状況、ギルド側の対応、改善状況、今後の協力関係への影響などを勘案し、今後の扱いを同盟内で協議します。
+## ⑥ REPEAT CASES
 
-再発したことのみを理由として、一律により重い制限を適用するものではありません。
+When the same or a similar issue occurs again, future treatment will be discussed within the alliance based on the circumstances and previous history.
 
-問題の発生そのものだけでなく、ギルドとして適切に対応・改善できるかどうかを含めて判断します。
+The nature of the issue, circumstances, response by the guild, improvement status, and potential impact on future cooperation may be taken into consideration.
 
-## ⑦ REVIEW & RE-PARTICIPATION／見直し・再参加
+A repeated case does not automatically result in a predetermined heavier restriction. Future treatment will be determined through discussion within the alliance.
 
-参加制限は、原則として当該シーズン中は解除しません。
+## ⑦ REVIEW & RE-PARTICIPATION
 
-制限の原因が解消された場合でも、シーズン途中で通常の同盟参加状態へ戻すことはありません。これは、シーズン途中からの参加によって、既存のスケジュールや同盟運営に影響が生じることを避けるためです。
+Participation restrictions will generally remain in effect for the current season and will not be removed during the season.
 
-再びS222TRの同盟機能への参加を希望する場合は、次シーズン開始時に改めて参加申請を行う必要があります。
+Even if the cause of the restriction has been resolved, the guild will not return to normal alliance participation during the current season. This is to avoid disrupting existing schedules and alliance operations by allowing participation partway through a season.
 
-再申請時には、その時点での状況および過去の記録を含め、改めて参加可否を判断します。
+A guild wishing to participate in S222TR alliance functions again must submit a new application at the beginning of the next season.
+
+Participation will be reviewed again based on the circumstances and previous records at the time of re-application.
