@@ -7,6 +7,234 @@
     
     <title>S222 ThroneRush</title>
     <link rel="stylesheet" href="style.css">
+<style>
+/* =========================
+   S222TR ROADMAP
+   ========================= */
+
+.tr-roadmap {
+    position: relative;
+    width: 100%;
+    max-width: 1100px;
+    margin: 24px auto 36px;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #f4f5f7;
+    border-radius: 14px;
+}
+
+/* SVG background */
+.tr-roadmap-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.tr-road {
+    fill: none;
+    stroke: #b9bec7;
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.tr-node {
+    fill: #ffffff;
+    stroke: #555;
+    stroke-width: 4;
+}
+
+/* Link buttons */
+.tr-road-link {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 135px;
+    min-height: 44px;
+    padding: 9px 16px;
+
+    background: #5865f2;
+    color: #ffffff !important;
+
+    border-radius: 9px;
+    text-decoration: none !important;
+
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+
+    box-shadow: 0 3px 8px rgba(0,0,0,0.16);
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.tr-road-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+}
+
+.tr-road-link:active {
+    transform: scale(0.97);
+}
+
+/* Link positions */
+
+.tr-start {
+    left: 5%;
+    top: 7%;
+}
+
+.tr-manual {
+    left: 23%;
+    top: 22%;
+}
+
+.tr-rules {
+    left: 43%;
+    top: 37%;
+}
+
+.tr-restriction {
+    left: 67%;
+    top: 51%;
+}
+
+.tr-calendar {
+    left: 69%;
+    top: 72%;
+}
+
+.tr-forum {
+    left: 43%;
+    top: 72%;
+}
+
+.tr-editor {
+    left: 20%;
+    top: 55%;
+}
+
+/* 56 day timeline */
+
+.tr-season {
+    position: absolute;
+    left: 7%;
+    right: 7%;
+    bottom: 5%;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    color: #666;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.tr-season-line {
+    position: relative;
+    flex: 1;
+    height: 5px;
+
+    background: #c8ccd2;
+    border-radius: 10px;
+}
+
+.tr-season-current {
+    position: absolute;
+    top: 50%;
+    left: 58%;
+
+    width: 15px;
+    height: 15px;
+
+    transform: translate(-50%, -50%);
+
+    background: #5865f2;
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .tr-roadmap {
+        aspect-ratio: 9 / 13;
+        margin: 18px auto 28px;
+        border-radius: 10px;
+    }
+
+    .tr-road {
+        stroke-width: 4;
+    }
+
+    .tr-road-link {
+        min-width: 112px;
+        min-height: 42px;
+        padding: 8px 12px;
+
+        font-size: 13px;
+        border-radius: 8px;
+    }
+
+    .tr-start {
+        left: 6%;
+        top: 7%;
+    }
+
+    .tr-manual {
+        left: 23%;
+        top: 22%;
+    }
+
+    .tr-rules {
+        left: 45%;
+        top: 37%;
+    }
+
+    .tr-restriction {
+        left: 48%;
+        top: 52%;
+    }
+
+    .tr-calendar {
+        left: 50%;
+        top: 72%;
+    }
+
+    .tr-forum {
+        left: 8%;
+        top: 72%;
+    }
+
+    .tr-editor {
+        left: 7%;
+        top: 53%;
+    }
+
+    .tr-season {
+        left: 6%;
+        right: 6%;
+        bottom: 3%;
+
+        font-size: 9px;
+    }
+}
+</style>
+
+
+
+
+  
 </head>
 
 <body>
@@ -28,6 +256,142 @@
     <a href="#faq" onclick="openSection('faq'); return false;">FAQ</a>
 </nav>
 
+<!-- S222TR Navigation Roadmap -->
+<section class="tr-roadmap">
+
+    <!-- Roadmap paths -->
+    <svg
+        class="tr-roadmap-svg"
+        viewBox="0 0 1000 562"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+    >
+
+        <!-- Main route -->
+        <path
+            class="tr-road"
+            d="
+                M 90 70
+                L 260 160
+                L 450 250
+                L 680 350
+                L 850 450
+            "
+        />
+
+        <!-- Branch: Image Editor -->
+        <path
+            class="tr-road"
+            d="
+                M 450 250
+                L 340 360
+                L 260 430
+            "
+        />
+
+        <!-- Branch: Forum -->
+        <path
+            class="tr-road"
+            d="
+                M 680 350
+                L 570 430
+                L 500 470
+            "
+        />
+
+        <!-- Branch: Calendar -->
+        <path
+            class="tr-road"
+            d="
+                M 680 350
+                L 770 430
+                L 830 470
+            "
+        />
+
+        <!-- Main nodes -->
+        <circle class="tr-node" cx="90" cy="70" r="17" />
+        <circle class="tr-node" cx="260" cy="160" r="17" />
+        <circle class="tr-node" cx="450" cy="250" r="17" />
+        <circle class="tr-node" cx="680" cy="350" r="17" />
+        <circle class="tr-node" cx="850" cy="450" r="17" />
+
+        <!-- Branch nodes -->
+        <circle class="tr-node" cx="260" cy="430" r="14" />
+        <circle class="tr-node" cx="500" cy="470" r="14" />
+        <circle class="tr-node" cx="830" cy="470" r="14" />
+
+    </svg>
+
+
+    <!-- HTML links -->
+    <a
+        class="tr-road-link tr-start"
+        href="#overview"
+        onclick="openSection('overview'); return false;"
+    >
+        START
+    </a>
+
+    <a
+        class="tr-road-link tr-manual"
+        href="#overview"
+        onclick="openSection('overview'); return false;"
+    >
+        MANUAL
+    </a>
+
+    <a
+        class="tr-road-link tr-rules"
+        href="rules.html"
+    >
+        RULES
+    </a>
+
+    <a
+        class="tr-road-link tr-restriction"
+        href="guild-restriction.html"
+    >
+        RESTRICTION
+    </a>
+
+    <a
+        class="tr-road-link tr-calendar"
+        href="calendar.html"
+    >
+        CALENDAR
+    </a>
+
+    <a
+        class="tr-road-link tr-forum"
+        href="https://discord.com/channels/1532246363260194866/1540555073082359871"
+    >
+        FORUM
+    </a>
+
+    <a
+        class="tr-road-link tr-editor"
+        href="image-editor.html"
+    >
+        IMAGE EDITOR
+    </a>
+
+
+    <!-- 56 day season indicator -->
+    <div class="tr-season">
+
+        <span>DAY 1</span>
+
+        <div class="tr-season-line">
+            <div class="tr-season-current"></div>
+        </div>
+
+        <span>DAY 56</span>
+
+    </div>
+
+</section>
+  
 <main>
 
     <!-- Overview -->
