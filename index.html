@@ -31,12 +31,60 @@
     height: 100%;
 }
 
-.tr-road {
+/* =========================
+   MAIN ROUTE
+   ========================= */
+
+.tr-main-magenta,
+.tr-main-cyan,
+.tr-main-lime {
     fill: none;
-    stroke: #b9bec7;
-    stroke-width: 5;
+    stroke-width: 6;
     stroke-linecap: round;
     stroke-linejoin: round;
+}
+
+.tr-main-magenta {
+    stroke: #ff2bd6;
+}
+
+.tr-main-cyan {
+    stroke: #00e5ff;
+}
+
+.tr-main-lime {
+    stroke: #b6ff00;
+}
+
+
+/* =========================
+   BRANCHES
+   ========================= */
+
+.tr-branch,
+.tr-branch-return {
+    fill: none;
+    stroke: #777;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+/* =========================
+   NODES
+   ========================= */
+
+.tr-node-main {
+    fill: #111;
+    stroke: #ffffff;
+    stroke-width: 4;
+}
+
+.tr-node-branch {
+    fill: #111;
+    stroke: #aaa;
+    stroke-width: 3;
 }
 
 .tr-node {
