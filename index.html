@@ -1,608 +1,572 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+```
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>S222 ThroneRush</title>
+<title>S222 ThroneRush</title>
 
-    <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
 
 
-    <style>
+<style>
 
-        /* =====================================
-           S222TR NAVIGATION ROADMAP
-           ===================================== */
+    /* =====================================
+       S222TR NAVIGATION ROADMAP
+       ===================================== */
+
+    .tr-roadmap {
+
+        position: relative;
+
+        width: 100%;
+        max-width: 760px;
+
+        aspect-ratio: 760 / 650;
+
+        margin: 20px auto 40px;
+
+        background: #090909;
+
+        overflow: hidden;
+
+        border-radius: 14px;
+
+    }
+
+
+    /* =====================================
+       SVG
+       ===================================== */
+
+    .tr-roadmap-svg {
+
+        position: absolute;
+
+        inset: 0;
+
+        width: 100%;
+        height: 100%;
+
+        pointer-events: none;
+
+    }
+
+
+    /* =====================================
+       MAIN ROUTES
+       ===================================== */
+
+    .tr-route-magenta,
+    .tr-route-lime,
+    .tr-route-cyan {
+
+        fill: none;
+
+        stroke-width: 6;
+
+        stroke-linecap: round;
+
+        stroke-linejoin: round;
+
+    }
+
+
+    .tr-route-magenta {
+
+        stroke: #ff00cc;
+
+        filter: drop-shadow(0 0 4px #ff00cc);
+
+    }
+
+
+    .tr-route-lime {
+
+        stroke: #aaff00;
+
+        filter: drop-shadow(0 0 4px #aaff00);
+
+    }
+
+
+    .tr-route-cyan {
+
+        stroke: #00eaff;
+
+        filter: drop-shadow(0 0 4px #00eaff);
+
+    }
+
+
+    /* =====================================
+       BRANCH ROUTES
+       ===================================== */
+
+    .tr-branch-magenta,
+    .tr-branch-lime,
+    .tr-branch-cyan {
+
+        fill: none;
+
+        stroke-width: 4;
+
+        stroke-linecap: round;
+
+        stroke-linejoin: round;
+
+    }
+
+
+    .tr-branch-magenta {
+
+        stroke: #ff00cc;
+
+        filter: drop-shadow(0 0 3px #ff00cc);
+
+    }
+
+
+    .tr-branch-lime {
+
+        stroke: #aaff00;
+
+        filter: drop-shadow(0 0 3px #aaff00);
+
+    }
+
+
+    .tr-branch-cyan {
+
+        stroke: #00eaff;
+
+        filter: drop-shadow(0 0 3px #00eaff);
+
+    }
+
+
+    /* =====================================
+       ROUTE POINTS
+       ===================================== */
+
+    .tr-route-point {
+
+        stroke: none;
+
+    }
+
+
+    .tr-point-magenta {
+
+        fill: #ff00cc;
+
+    }
+
+
+    .tr-point-lime {
+
+        fill: #aaff00;
+
+    }
+
+
+    .tr-point-cyan {
+
+        fill: #00eaff;
+
+    }
+
+
+    /* =====================================
+       MAIN NODES
+       ===================================== */
+
+    .tr-main-node {
+
+        position: absolute;
+
+        width: 64px;
+        height: 64px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 50%;
+
+        background: #090909;
+
+        border: 4px solid;
+
+        text-decoration: none;
+
+        font-size: 16px;
+
+        font-weight: 400;
+
+        line-height: 1;
+
+        white-space: nowrap;
+
+        text-align: center;
+
+        z-index: 10;
+
+        box-sizing: border-box;
+
+        transform: translate(-50%, -50%);
+
+        transition:
+            transform 0.15s ease,
+            background 0.15s ease;
+
+    }
+
+
+    /* =====================================
+       MAIN NODE COLORS
+       ===================================== */
+
+    .tr-node-magenta {
+
+        color: #ff00cc;
+
+        border-color: #ff00cc;
+
+    }
+
+
+    .tr-node-lime {
+
+        color: #aaff00;
+
+        border-color: #aaff00;
+
+    }
+
+
+    .tr-node-cyan {
+
+        color: #00eaff;
+
+        border-color: #00eaff;
+
+    }
+
+
+    .tr-main-node:hover {
+
+        transform:
+            translate(-50%, -50%)
+            scale(1.06);
+
+        background: #111;
+
+    }
+
+
+    /* =====================================
+       START / OVERVIEW SQUARE NODES
+       ===================================== */
+
+    .tr-square-node {
+
+        position: absolute;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        width: 82px;
+        height: 42px;
+
+        box-sizing: border-box;
+
+        background: #090909;
+
+        border: 4px solid #ff00cc;
+
+        color: #ff00cc;
+
+        text-decoration: none;
+
+        font-size: 15px;
+
+        font-weight: 400;
+
+        line-height: 1;
+
+        white-space: nowrap;
+
+        z-index: 10;
+
+        transform: translate(-50%, -50%);
+
+        transition:
+            transform 0.15s ease,
+            background 0.15s ease;
+
+    }
+
+
+    .tr-square-node:hover {
+
+        transform:
+            translate(-50%, -50%)
+            scale(1.06);
+
+        background: #111;
+
+    }
+
+
+    /* =====================================
+       BRANCH LINKS
+       ===================================== */
+
+    .tr-branch-link {
+
+        position: absolute;
+
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        padding: 4px 8px;
+
+        background: #090909;
+
+        text-decoration: none;
+
+        font-size: 15px;
+
+        font-weight: 400;
+
+        line-height: 1.1;
+
+        white-space: nowrap;
+
+        border: 2px solid;
+
+        border-radius: 5px;
+
+        box-sizing: border-box;
+
+        z-index: 10;
+
+        transform: translate(-50%, -50%);
+
+        transition:
+            transform 0.15s ease,
+            background 0.15s ease;
+
+    }
+
+
+    /* =====================================
+       LINK COLORS
+       ===================================== */
+
+    .tr-link-magenta {
+
+        color: #ff00cc;
+
+        border-color: #ff00cc;
+
+    }
+
+
+    .tr-link-lime {
+
+        color: #aaff00;
+
+        border-color: #aaff00;
+
+    }
+
+
+    .tr-link-cyan {
+
+        color: #00eaff;
+
+        border-color: #00eaff;
+
+    }
+
+
+    .tr-branch-link:hover {
+
+        background: #111;
+
+        transform:
+            translate(-50%, -50%)
+            scale(1.05);
+
+    }
+
+
+    /* =====================================
+       SEASON TIMELINE
+       ===================================== */
+
+    .tr-season {
+
+        position: absolute;
+
+        left: 8%;
+        right: 8%;
+
+        bottom: 3%;
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 10px;
+
+        color: #aaa;
+
+        font-size: 12px;
+
+        font-weight: 400;
+
+        z-index: 5;
+
+    }
+
+
+    .tr-season-line {
+
+        position: relative;
+
+        flex: 1;
+
+        height: 3px;
+
+        background: #444;
+
+        border-radius: 10px;
+
+    }
+
+
+    .tr-season-current {
+
+        position: absolute;
+
+        left: 50%;
+
+        top: 50%;
+
+        width: 10px;
+        height: 10px;
+
+        transform: translate(-50%, -50%);
+
+        background: #ffffff;
+
+        border-radius: 50%;
+
+    }
+
+
+    /* =====================================
+       MOBILE
+       ===================================== */
+
+    @media (max-width: 600px) {
 
         .tr-roadmap {
 
-            position: relative;
-
-            width: 100%;
-            max-width: 760px;
-
-            aspect-ratio: 760 / 650;
-
-            margin: 20px auto 40px;
-
-            background: #090909;
-
-            overflow: hidden;
-
-            border-radius: 14px;
+            border-radius: 8px;
 
         }
 
-
-        /* =====================================
-           SVG
-           ===================================== */
-
-        .tr-roadmap-svg {
-
-            position: absolute;
-
-            inset: 0;
-
-            width: 100%;
-            height: 100%;
-
-            pointer-events: none;
-
-        }
-
-
-        /* =====================================
-           MAIN ROUTES
-           ===================================== */
-
-        .tr-route-magenta,
-        .tr-route-lime,
-        .tr-route-cyan {
-
-            fill: none;
-
-            stroke-width: 6;
-
-            stroke-linecap: round;
-
-            stroke-linejoin: round;
-
-        }
-
-
-        .tr-route-magenta {
-
-            stroke: #ff00cc;
-
-            filter: drop-shadow(0 0 4px #ff00cc);
-
-        }
-
-
-        .tr-route-lime {
-
-            stroke: #aaff00;
-
-            filter: drop-shadow(0 0 4px #aaff00);
-
-        }
-
-
-        .tr-route-cyan {
-
-            stroke: #00eaff;
-
-            filter: drop-shadow(0 0 4px #00eaff);
-
-        }
-
-
-        /* =====================================
-           BRANCH ROUTES
-           ===================================== */
-
-        .tr-branch-magenta,
-        .tr-branch-lime,
-        .tr-branch-cyan {
-
-            fill: none;
-
-            stroke-width: 4;
-
-            stroke-linecap: round;
-
-            stroke-linejoin: round;
-
-        }
-
-
-        .tr-branch-magenta {
-
-            stroke: #ff00cc;
-
-            filter: drop-shadow(0 0 3px #ff00cc);
-
-        }
-
-
-        .tr-branch-lime {
-
-            stroke: #aaff00;
-
-            filter: drop-shadow(0 0 3px #aaff00);
-
-        }
-
-
-        .tr-branch-cyan {
-
-            stroke: #00eaff;
-
-            filter: drop-shadow(0 0 3px #00eaff);
-
-        }
-
-
-        /* =====================================
-           ROUTE POINTS
-           ===================================== */
-
-        .tr-route-point {
-
-            stroke: none;
-
-        }
-
-
-        .tr-point-magenta {
-
-            fill: #ff00cc;
-
-        }
-
-
-        .tr-point-lime {
-
-            fill: #aaff00;
-
-        }
-
-
-        .tr-point-cyan {
-
-            fill: #00eaff;
-
-        }
-
-
-        /* =====================================
-           MAIN NODES
-           ===================================== */
 
         .tr-main-node {
 
-            position: absolute;
+            width: 54px;
+            height: 54px;
 
-            width: 64px;
-            height: 64px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 50%;
-
-            background: #090909;
-
-            border: 2px solid;
-
-            text-decoration: none;
-
-            font-size: 16px;
-
-            font-weight: 400;
-
-            line-height: 1;
-
-            white-space: nowrap;
-
-            text-align: center;
-
-            z-index: 10;
-
-            box-sizing: border-box;
-
-            transform: translate(-50%, -50%);
-
-            transition:
-                transform 0.15s ease,
-                background 0.15s ease;
+            font-size: 13px;
 
         }
 
-
-        /* =====================================
-           MAIN NODE COLORS
-           ===================================== */
-
-        .tr-node-magenta {
-
-            color: #ff00cc;
-
-            border-color: #ff00cc;
-
-        }
-
-
-        .tr-node-lime {
-
-            color: #aaff00;
-
-            border-color: #aaff00;
-
-        }
-
-
-        .tr-node-cyan {
-
-            color: #00eaff;
-
-            border-color: #00eaff;
-
-        }
-
-
-        .tr-main-node:hover {
-
-            transform:
-                translate(-50%, -50%)
-                scale(1.06);
-
-            background: #111;
-
-        }
-
-
-        /* =====================================
-           START / TEXT ONLY
-           ===================================== */
-
-        .tr-road-text {
-
-            position: absolute;
-
-            color: #ff00cc;
-
-            font-size: 17px;
-
-            font-weight: 400;
-
-            letter-spacing: 1px;
-
-            z-index: 10;
-
-        }
-
-
-        /* =====================================
-           START / OVERVIEW SQUARE NODES
-           ===================================== */
 
         .tr-square-node {
 
-            position: absolute;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            width: 82px;
-            height: 42px;
-
-            box-sizing: border-box;
-
-            background: #090909;
-
-            border: 2px solid #ff00cc;
-
-            color: #ff00cc;
-
-            text-decoration: none;
-
-            font-size: 15px;
-
-            font-weight: 400;
-
-            line-height: 1;
-
-            white-space: nowrap;
-
-            z-index: 10;
-
-            transform: translate(-50%, -50%);
-
-            transition:
-                transform 0.15s ease,
-                background 0.15s ease;
-
-        }
-
-
-        .tr-square-node:hover {
-
-            transform:
-                translate(-50%, -50%)
-                scale(1.06);
-
-            background: #111;
-
-        }
-
-
-        /* =====================================
-           BRANCH LINKS
-           ===================================== */
-
-        .tr-branch-link {
-
-            position: absolute;
-
-            display: inline-flex;
-
-            align-items: center;
-            justify-content: center;
-
-            padding: 4px 8px;
-
-            background: #090909;
-
-            text-decoration: none;
-
-            font-size: 15px;
-
-            font-weight: 400;
-
-            line-height: 1.1;
-
-            white-space: nowrap;
-
-            border: 2px solid;
-
-            border-radius: 5px;
-
-            box-sizing: border-box;
-
-            z-index: 10;
-
-            transform: translate(-50%, -50%);
-
-            transition:
-                transform 0.15s ease,
-                background 0.15s ease;
-
-        }
-
-
-        /* =====================================
-           LINK COLORS
-           ===================================== */
-
-        .tr-link-magenta {
-
-            color: #ff00cc;
-
-            border-color: #ff00cc;
-
-        }
-
-
-        .tr-link-lime {
-
-            color: #aaff00;
-
-            border-color: #aaff00;
-
-        }
-
-
-        .tr-link-cyan {
-
-            color: #00eaff;
-
-            border-color: #00eaff;
-
-        }
-
-
-        /* =====================================
-           NO INNER DOTTED BORDER
-           ===================================== */
-
-        .tr-branch-link::after {
-
-            display: none;
-
-        }
-
-
-        .tr-branch-link:hover {
-
-            background: #111;
-
-            transform:
-                translate(-50%, -50%)
-                scale(1.05);
-
-        }
-
-
-        /* =====================================
-           SEASON TIMELINE
-           ===================================== */
-
-        .tr-season {
-
-            position: absolute;
-
-            left: 8%;
-            right: 8%;
-
-            bottom: 3%;
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 10px;
-
-            color: #aaa;
+            width: 68px;
+            height: 36px;
 
             font-size: 12px;
 
-            font-weight: 400;
+        }
 
-            z-index: 5;
+
+        .tr-branch-link {
+
+            padding: 3px 5px;
+
+            font-size: 11px;
 
         }
 
 
-        .tr-season-line {
+        .tr-season {
 
-            position: relative;
-
-            flex: 1;
-
-            height: 3px;
-
-            background: #444;
-
-            border-radius: 10px;
+            font-size: 9px;
 
         }
 
+    }
 
-        .tr-season-current {
-
-            position: absolute;
-
-            left: 50%;
-
-            top: 50%;
-
-            width: 10px;
-            height: 10px;
-
-            transform: translate(-50%, -50%);
-
-            background: #ffffff;
-
-            border-radius: 50%;
-
-        }
-
-
-        /* =====================================
-           MOBILE
-           ===================================== */
-
-        @media (max-width: 600px) {
-
-            .tr-roadmap {
-
-                border-radius: 8px;
-
-            }
-
-
-            .tr-main-node {
-
-                width: 54px;
-                height: 54px;
-
-                font-size: 13px;
-
-            }
-
-
-            .tr-square-node {
-
-                width: 68px;
-                height: 36px;
-
-                font-size: 12px;
-
-            }
-
-
-            .tr-road-text {
-
-                font-size: 15px;
-
-            }
-
-
-            .tr-branch-link {
-
-                padding: 3px 5px;
-
-                font-size: 11px;
-
-            }
-
-
-            .tr-season {
-
-                font-size: 9px;
-
-            }
-
-        }
-
-    </style>
+</style>
+```
 
 </head>
 
-
 <body>
-
 
 <header>
 
-    <h1>
+```
+<h1>
 
-        <a href="https://discord.com/channels/1532246363260194866/1532542629726785597">
+    <a href="https://discord.com/channels/1532246363260194866/1532542629726785597">
 
-            S222 ThroneRush
+        S222 ThroneRush
 
-        </a>
+    </a>
 
-    </h1>
+</h1>
+```
 
 </header>
 
-
 <nav class="index">
 
-    <a href="#overview" onclick="openSection('overview'); return false;">Overview</a>
+```
+<a href="#overview" onclick="openSection('overview'); return false;">Overview</a>
 
-    <a href="#lv7" onclick="openSection('lv7'); return false;">Lv7</a>
+<a href="#lv7" onclick="openSection('lv7'); return false;">Lv7</a>
 
-    <a href="#lv6" onclick="openSection('lv6'); return false;">Lv6</a>
+<a href="#lv6" onclick="openSection('lv6'); return false;">Lv6</a>
 
-    <a href="#lv5" onclick="openSection('lv5'); return false;">Lv5</a>
+<a href="#lv5" onclick="openSection('lv5'); return false;">Lv5</a>
 
-    <a href="#lv1-4" onclick="openSection('lv1-4'); return false;">Lv1–4</a>
+<a href="#lv1-4" onclick="openSection('lv1-4'); return false;">Lv1–4</a>
 
-    <a href="#faq" onclick="openSection('faq'); return false;">FAQ</a>
+<a href="#faq" onclick="openSection('faq'); return false;">FAQ</a>
+```
 
 </nav>
-
 
 <!-- =====================================
      S222TR NAVIGATION ROADMAP
@@ -610,1104 +574,845 @@
 
 <section class="tr-roadmap">
 
-
-    <svg
-        class="tr-roadmap-svg"
-        viewBox="0 0 760 650"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-    >
-
-
-        <!-- =====================================
-             MAIN ROUTES
-             START → Lv6
-             ===================================== -->
-
-
-        <!-- MAGENTA MAIN ROUTE -->
-
-        <path
-            class="tr-route-magenta"
-            d="
-                M 85 540
-                L 205 450
-                L 325 360
-            "
-        />
-
-
-        <!-- LIME MAIN ROUTE -->
-
-        <path
-            class="tr-route-lime"
-            d="
-                M 92 548
-                L 212 458
-                L 332 368
-                L 452 278
-            "
-        />
-
-
-        <!-- CYAN MAIN ROUTE -->
-
-        <path
-            class="tr-route-cyan"
-            d="
-                M 99 556
-                L 219 466
-                L 339 376
-                L 459 286
-                L 579 196
-            "
-        />
-
-
-        <!-- =====================================
-             MAGENTA BRANCHES
-             ===================================== -->
-
-
-        <!-- Lv4 → RESTRICTION -->
-
-        <path
-            class="tr-branch-magenta"
-            d="
-                M 325 360
-                L 235 285
-                L 115 225
-            "
-        />
-
-
-        <!-- BRANCH → FAQ -->
-
-        <path
-            class="tr-branch-magenta"
-            d="
-                M 235 285
-                L 225 180
-                L 115 110
-            "
-        />
-
-
-        <!-- BRANCH → RULES -->
-
-        <path
-            class="tr-branch-magenta"
-            d="
-                M 235 285
-                L 315 205
-                L 405 135
-            "
-        />
-
-
-        <!-- =====================================
-             LIME BRANCHES
-             Moved toward lower-right
-             ===================================== -->
-
-
-        <!-- Lv5 → RIGHT -->
-
-        <path
-            class="tr-branch-lime"
-            d="
-                M 452 278
-                L 535 335
-                L 480 505
-            "
-        />
-
-
-        <!-- RIGHT → CALENDAR -->
-
-
-
-
-        <!-- RIGHT → IMAGE EDITOR -->
-
-        <path
-            class="tr-branch-lime"
-            d="
-                M 535 335
-                L 625 365
-                L 650 430
-            "
-        />
-
-
-        <!-- =====================================
-             CYAN BRANCH
-             Lv6 → Lv7 ONLY
-             ===================================== -->
-
-
-
-
-
-        <!-- =====================================
-             CYAN FORUM BRANCH
-             ===================================== -->
-
-
-        <path
-            class="tr-branch-cyan"
-            d="
-                M 579 196
-                L 655 250
-                L 690 70
-            "
-        />
-
-
-        <!-- =====================================
-             ROUTE POINTS
-             ===================================== -->
-
-
-        <!-- MAGENTA -->
-
-        <circle
-            class="tr-route-point tr-point-magenta"
-            cx="85"
-            cy="540"
-            r="6"
-        />
-
-        <circle
-            class="tr-route-point tr-point-magenta"
-            cx="205"
-            cy="450"
-            r="6"
-        />
-
-        <circle
-            class="tr-route-point tr-point-magenta"
-            cx="325"
-            cy="360"
-            r="6"
-        />
-
-        <circle
-            class="tr-route-point tr-point-magenta"
-            cx="235"
-            cy="285"
-            r="6"
-        />
-
-        <circle
-            class="tr-route-point tr-point-magenta"
-            cx="115"
-            cy="225"
-            r="6"
-        />
-
-        <circle
-            class="tr-route-point tr-point-magenta"
-            cx="225"
-            cy="180"
-            r="6"
-        />
-
-        <circle
-            class="tr-route-point tr-point-magenta"
-            cx="115"
-            cy="110"
-            r="6"
-        />
-
-        <circle
-            class="tr-route-point tr-point-magenta"
-            cx="315"
-            cy="205"
-            r="6"
-        />
-
-        <circle
-            class="tr-route-point tr-point-magenta"
-            cx="405"
-            cy="135"
-            r="6"
-        />
-
-
-        <!-- LIME -->
-
-        <circle
-            class="tr-route-point tr-point-lime"
-            cx="92"
-            cy="448"
-            r="6"
-        />
-
-        <circle
-            class="tr-route-point tr-point-lime"
-            cx="212"
-            cy="458"
-            r="6"
-        />
-
-        <circle
-            class="tr-route-point tr-point-lime"
-            cx="332"
-            cy="368"
-            r="6"
-        />
-
-        <circle
-            class="tr-route-point tr-point-lime"
-            cx="452"
-            cy="278"
-            r="6"
-        />
-
-        <circle
-            class="tr-route-point tr-point-lime"
-            cx="535"
-            cy="335"
-            r="6"
-        />
-
-        <circle
-            class="tr-route-point tr-point-lime"
-            cx="650"
-            cy="405"
-            r="6"
-        />
-
-        <circle
-            class="tr-route-point tr-point-lime"
-            cx="590"
-            cy="445"
-            r="6"
-        />
-
-        <circle
-            class="tr-route-point tr-point-lime"
-            cx="675"
-            cy="535"
-            r="6"
-        />
-
-        <circle
-            class="tr-route-point tr-point-lime"
-            cx="625"
-            cy="365"
-            r="6"
-        />
-
-        <circle
-            class="tr-route-point tr-point-lime"
-            cx="700"
-            cy="430"
-            r="6"
-        />
-
-
-        <!-- CYAN -->
-
-        <circle
-            class="tr-route-point tr-point-cyan"
-            cx="99"
-            cy="556"
-            r="6"
-        />
-
-        <circle
-            class="tr-route-point tr-point-cyan"
-            cx="219"
-            cy="466"
-            r="6"
-        />
-
-        <circle
-            class="tr-route-point tr-point-cyan"
-            cx="339"
-            cy="376"
-            r="6"
-        />
-
-        <circle
-            class="tr-route-point tr-point-cyan"
-            cx="459"
-            cy="286"
-            r="6"
-        />
-
-        <circle
-            class="tr-route-point tr-point-cyan"
-            cx="579"
-            cy="196"
-            r="6"
-        />
-
-        <circle
-            class="tr-route-point tr-point-cyan"
-            cx="655"
-            cy="250"
-            r="6"
-        />
-
-        <circle
-            class="tr-route-point tr-point-cyan"
-            cx="710"
-            cy="330"
-            r="6"
-        />
-
-        <circle
-            class="tr-route-point tr-point-cyan"
-            cx="670"
-            cy="105"
-            r="6"
-        />
-
-        <circle
-            class="tr-route-point tr-point-cyan"
-            cx="690"
-            cy="70"
-            r="6"
-        />
-
-
-    </svg>
-
+```
+<svg
+    class="tr-roadmap-svg"
+    viewBox="0 0 760 650"
+    preserveAspectRatio="none"
+    aria-hidden="true"
+>
 
 
     <!-- =====================================
-         START
+         MAIN ROUTES
+         Slightly lowered
          ===================================== -->
 
-    <a
-        class="tr-square-node"
-        style="left: 11.18%; top: 83.08%;"
-        href="#overview"
-        onclick="openSection('overview'); return false;"
-    >
-        START
-    </a>
 
+    <!-- MAGENTA -->
+
+    <path
+        class="tr-route-magenta"
+        d="
+            M 85 550
+            L 205 460
+            L 325 370
+        "
+    />
+
+
+    <!-- LIME -->
+
+    <path
+        class="tr-route-lime"
+        d="
+            M 92 558
+            L 212 468
+            L 332 378
+            L 452 288
+        "
+    />
+
+
+    <!-- CYAN -->
+
+    <path
+        class="tr-route-cyan"
+        d="
+            M 99 566
+            L 219 476
+            L 339 386
+            L 459 296
+            L 579 206
+        "
+    />
 
 
     <!-- =====================================
-         MAIN NODES
-         Equal spacing
+         MAGENTA BRANCHES
          ===================================== -->
 
 
-    <a
-        class="tr-square-node"
-        style="left: 26.97%; top: 69.23%;"
-        href="#overview"
-        onclick="openSection('overview'); return false;"
-    >
-        OVERVIEW
-    </a>
+    <path
+        class="tr-branch-magenta"
+        d="
+            M 325 370
+            L 235 285
+            L 115 225
+        "
+    />
 
 
-    <a
-        class="tr-main-node tr-node-magenta"
-        style="left: 42.76%; top: 55.38%;"
-        href="#lv1-4"
-        onclick="openSection('lv1-4'); return false;"
-    >
-        Lv4
-    </a>
+    <path
+        class="tr-branch-magenta"
+        d="
+            M 235 285
+            L 225 180
+            L 115 110
+        "
+    />
 
 
-    <a
-        class="tr-main-node tr-node-lime"
-        style="left: 58.55%; top: 41.54%;"
-        href="#lv5"
-        onclick="openSection('lv5'); return false;"
-    >
-        Lv5
-    </a>
-
-
-    <a
-        class="tr-main-node tr-node-cyan"
-        style="left: 74.34%; top: 27.69%;"
-        href="#lv6"
-        onclick="openSection('lv6'); return false;"
-    >
-        Lv6
-    </a>
-
-
-    <a
-        class="tr-main-node tr-node-cyan"
-        style="left: 90.13%; top: 13.85%;"
-        href="#lv7"
-        onclick="openSection('lv7'); return false;"
-    >
-        Lv7
-    </a>
-
+    <path
+        class="tr-branch-magenta"
+        d="
+            M 235 285
+            L 315 205
+            L 405 135
+        "
+    />
 
 
     <!-- =====================================
-         MAGENTA LINKS
+         LIME BRANCHES
          ===================================== -->
 
 
-    <a
-        class="tr-branch-link tr-link-magenta"
-        style="left: 15.13%; top: 34.62%;"
-        href="guild-restriction.html"
-    >
-        RESTRICTION
-    </a>
+    <!-- Lv5 → CALENDAR -->
+
+    <path
+        class="tr-branch-lime"
+        d="
+            M 452 288
+            L 535 335
+            L 480 505
+        "
+    />
 
 
-    <a
-        class="tr-branch-link tr-link-magenta"
-        style="left: 15.13%; top: 16.92%;"
-        href="#faq"
-        onclick="openSection('faq'); return false;"
-    >
-        FAQ
-    </a>
+    <!-- Lv5 → IMAGE EDITOR -->
 
-
-    <a
-        class="tr-branch-link tr-link-magenta"
-        style="left: 53.29%; top: 20.77%;"
-        href="rules.html"
-    >
-        RULES
-    </a>
-
+    <path
+        class="tr-branch-lime"
+        d="
+            M 535 335
+            L 625 365
+            L 650 430
+        "
+    />
 
 
     <!-- =====================================
-         LIME LINKS
-         Placed on branch endpoints
+         CYAN BRANCH
+         Lv6 → Lv7 / FORUM
          ===================================== -->
 
 
-    <a
-        class="tr-branch-link tr-link-lime"
-        style="left: 63.82%; top: 74.31%;"
-        href="calendar.html"
-    >
-        CALENDAR
-    </a>
-
-
-    <a
-        class="tr-branch-link tr-link-lime"
-        style="left: 87.11%; top: 66.15%;"
-        href="image-editor.html"
-    >
-        IMAGE EDITOR
-    </a>
-
+    <path
+        class="tr-branch-cyan"
+        d="
+            M 579 206
+            L 655 250
+            L 690 70
+        "
+    />
 
 
     <!-- =====================================
-         CYAN LINKS
+         ROUTE POINTS
          ===================================== -->
 
 
-    <a
-        class="tr-branch-link tr-link-cyan"
-        style="left: 86.79%; top: 37.77%;"
-        href="#"
-    >
-        FORUM
-    </a>
+    <!-- MAGENTA -->
+
+    <circle class="tr-route-point tr-point-magenta" cx="85" cy="550" r="6" />
+
+    <circle class="tr-route-point tr-point-magenta" cx="205" cy="460" r="6" />
+
+    <circle class="tr-route-point tr-point-magenta" cx="325" cy="370" r="6" />
+
+    <circle class="tr-route-point tr-point-magenta" cx="235" cy="285" r="6" />
+
+    <circle class="tr-route-point tr-point-magenta" cx="115" cy="225" r="6" />
+
+    <circle class="tr-route-point tr-point-magenta" cx="225" cy="180" r="6" />
+
+    <circle class="tr-route-point tr-point-magenta" cx="115" cy="110" r="6" />
+
+    <circle class="tr-route-point tr-point-magenta" cx="315" cy="205" r="6" />
+
+    <circle class="tr-route-point tr-point-magenta" cx="405" cy="135" r="6" />
+
+
+    <!-- LIME -->
+
+    <circle class="tr-route-point tr-point-lime" cx="92" cy="558" r="6" />
+
+    <circle class="tr-route-point tr-point-lime" cx="212" cy="468" r="6" />
+
+    <circle class="tr-route-point tr-point-lime" cx="332" cy="378" r="6" />
+
+    <circle class="tr-route-point tr-point-lime" cx="452" cy="288" r="6" />
+
+    <circle class="tr-route-point tr-point-lime" cx="535" cy="335" r="6" />
+
+    <circle class="tr-route-point tr-point-lime" cx="480" cy="505" r="6" />
+
+    <circle class="tr-route-point tr-point-lime" cx="625" cy="365" r="6" />
+
+    <circle class="tr-route-point tr-point-lime" cx="650" cy="430" r="6" />
+
+
+    <!-- CYAN -->
+
+    <circle class="tr-route-point tr-point-cyan" cx="99" cy="566" r="6" />
+
+    <circle class="tr-route-point tr-point-cyan" cx="219" cy="476" r="6" />
+
+    <circle class="tr-route-point tr-point-cyan" cx="339" cy="386" r="6" />
+
+    <circle class="tr-route-point tr-point-cyan" cx="459" cy="296" r="6" />
+
+    <circle class="tr-route-point tr-point-cyan" cx="579" cy="206" r="6" />
+
+    <circle class="tr-route-point tr-point-cyan" cx="655" cy="250" r="6" />
+
+    <circle class="tr-route-point tr-point-cyan" cx="690" cy="70" r="6" />
+
+
+</svg>
 
 
 
-    <!-- =====================================
-         SEASON TIMELINE
-         ===================================== -->
+<!-- =====================================
+     START
+     ===================================== -->
 
-    <div class="tr-season">
+<a
+    class="tr-square-node"
+    style="left: 11.18%; top: 83.08%;"
+    href="#overview"
+    onclick="openSection('overview'); return false;"
+>
+    START
+</a>
 
-        <span>DAY 1</span>
 
-        <div class="tr-season-line">
+<!-- =====================================
+     MAIN NODES
+     ===================================== -->
 
-            <div class="tr-season-current"></div>
+<a
+    class="tr-square-node"
+    style="left: 26.97%; top: 69.23%;"
+    href="#overview"
+    onclick="openSection('overview'); return false;"
+>
+    OVERVIEW
+</a>
 
-        </div>
 
-        <span>DAY 56</span>
+<a
+    class="tr-main-node tr-node-magenta"
+    style="left: 42.76%; top: 55.38%;"
+    href="#lv1-4"
+    onclick="openSection('lv1-4'); return false;"
+>
+    Lv4
+</a>
+
+
+<a
+    class="tr-main-node tr-node-lime"
+    style="left: 58.55%; top: 41.54%;"
+    href="#lv5"
+    onclick="openSection('lv5'); return false;"
+>
+    Lv5
+</a>
+
+
+<a
+    class="tr-main-node tr-node-cyan"
+    style="left: 74.34%; top: 27.69%;"
+    href="#lv6"
+    onclick="openSection('lv6'); return false;"
+>
+    Lv6
+</a>
+
+
+<a
+    class="tr-main-node tr-node-cyan"
+    style="left: 90.13%; top: 13.85%;"
+    href="#lv7"
+    onclick="openSection('lv7'); return false;"
+>
+    Lv7
+</a>
+
+
+<!-- =====================================
+     MAGENTA LINKS
+     ===================================== -->
+
+<a
+    class="tr-branch-link tr-link-magenta"
+    style="left: 15.13%; top: 34.62%;"
+    href="guild-restriction.html"
+>
+    RESTRICTION
+</a>
+
+
+<a
+    class="tr-branch-link tr-link-magenta"
+    style="left: 15.13%; top: 16.92%;"
+    href="#faq"
+    onclick="openSection('faq'); return false;"
+>
+    FAQ
+</a>
+
+
+<a
+    class="tr-branch-link tr-link-magenta"
+    style="left: 53.29%; top: 20.77%;"
+    href="rules.html"
+>
+    RULES
+</a>
+
+
+<!-- =====================================
+     LIME LINKS
+     ===================================== -->
+
+<a
+    class="tr-branch-link tr-link-lime"
+    style="left: 63.82%; top: 74.31%;"
+    href="calendar.html"
+>
+    CALENDAR
+</a>
+
+
+<a
+    class="tr-branch-link tr-link-lime"
+    style="left: 87.11%; top: 66.15%;"
+    href="image-editor.html"
+>
+    IMAGE EDITOR
+</a>
+
+
+<!-- =====================================
+     CYAN LINKS
+     ===================================== -->
+
+<a
+    class="tr-branch-link tr-link-cyan"
+    style="left: 86.79%; top: 37.77%;"
+    href="#"
+>
+    FORUM
+</a>
+
+
+<!-- =====================================
+     SEASON TIMELINE
+     ===================================== -->
+
+<div class="tr-season">
+
+    <span>DAY 1</span>
+
+    <div class="tr-season-line">
+
+        <div class="tr-season-current"></div>
 
     </div>
 
+    <span>DAY 56</span>
+
+</div>
+```
+
+</section>
+
+<main>
+
+```
+<!-- Overview -->
+
+<section id="overview">
+
+    <h2 onclick="openSection('overview')">Overview</h2>
+
+    <div class="section-content">
+
+        <p>
+            This guide provides reference information and suggested strategies
+            for allied guilds within S222 to coordinate their actions during
+            ThroneRush.
+        </p>
+
+        <p>
+            The purpose of this guide is to help guilds understand fortress
+            levels, coordinate attacks, and avoid unnecessary conflicts
+            between allied guilds.
+        </p>
+
+        <p>
+            The information presented here is based on the current game
+            environment and practical experience. It should be treated as
+            a reference rather than a set of mandatory rules.
+        </p>
+
+    </div>
 
 </section>
 
 
+<!-- Lv7 -->
 
-<main>
+<section id="lv7">
 
+    <h2 onclick="openSection('lv7')">Lv7 Fortress</h2>
 
-    <!-- Overview -->
+    <div class="section-content">
 
-    <section id="overview">
+        <p>
+            <strong>Target League:</strong> Gold League
+        </p>
 
-        <h2 onclick="openSection('overview')">Overview</h2>
+        <p>
+            Lv7 is the highest-level fortress and is the most limited
+            strategic location on the map.
+        </p>
 
+        <p>
+            Because only one Lv7 Fortress exists, guilds should coordinate
+            carefully before declaring war.
+        </p>
 
-        <div class="section-content">
+        <p>
+            Please use the Schedule Coordination system on Discord to
+            communicate your intended attack time and avoid unnecessary
+            conflicts with allied guilds.
+        </p>
 
-            <p>
-                This guide provides reference information and suggested strategies
-                for allied guilds within S222 to coordinate their actions during
-                ThroneRush.
-            </p>
+    </div>
 
+</section>
 
-            <p>
-                The purpose of this guide is to help guilds understand fortress
-                levels, coordinate attacks, and avoid unnecessary conflicts
-                between allied guilds.
-            </p>
 
+<!-- Lv6 -->
 
-            <p>
-                The information presented here is based on the current game
-                environment and practical experience. It should be treated as
-                a reference rather than a set of mandatory rules.
-            </p>
+<section id="lv6">
 
-        </div>
+    <h2 onclick="openSection('lv6')">Lv6 Fortress</h2>
 
-    </section>
+    <div class="section-content">
 
+        <p>
+            <strong>Target League:</strong> Silver League
+        </p>
 
+        <p>
+            Lv6 Fortresses are limited in number, with only three available
+            on the map.
+        </p>
 
-    <!-- Lv7 -->
+        <p>
+            Because several guilds may compete for the same fortress,
+            coordination between allied guilds is especially important.
+        </p>
 
-    <section id="lv7">
+        <p>
+            Before declaring war, check the Schedule Coordination calendar
+            and confirm that another allied guild is not already planning
+            to attack the same fortress.
+        </p>
 
-        <h2 onclick="openSection('lv7')">Lv7 Fortress</h2>
+    </div>
 
+</section>
 
-        <div class="section-content">
 
-            <p>
-                <strong>Target League:</strong> Gold League
-            </p>
+<!-- Lv5 -->
 
+<section id="lv5">
 
-            <p>
-                Lv7 is the highest-level fortress and is the most limited
-                strategic location on the map.
-            </p>
+    <h2 onclick="openSection('lv5')">Lv5 Fortress</h2>
 
+    <div class="section-content">
 
-            <p>
-                Because only one Lv7 Fortress exists, guilds should coordinate
-                carefully before declaring war.
-            </p>
+        <p>
+            <strong>Target League:</strong> Bronze League
+        </p>
 
+        <p>
+            Before proceeding, make sure you understand the basic rules
+            for Fortress Levels 1–4.
+        </p>
 
-            <p>
-                Please use the Schedule Coordination system on Discord to
-                communicate your intended attack time and avoid unnecessary
-                conflicts with allied guilds.
-            </p>
+        <h3>How to Capture a Lv5 Fortress</h3>
 
-        </div>
+        <p>
+            Starting from Lv5 Fortresses, the number of Imperial Guards
+            increases significantly. Each Lv5 Fortress has
+            <strong>120 Imperial Guards</strong>.
+        </p>
 
-    </section>
+        <p>
+            For this reason, coordinating with an allied guild can make
+            the capture process much more efficient.
+        </p>
 
+        <p>
+            One useful method is to coordinate the timing of the
+            declarations of war between two allied guilds.
+        </p>
 
+        <img
+            src="image/lv5-example.png"
+            alt="Example of coordinated declaration of war timing for a Lv5 Fortress"
+            style="max-width: 100%; height: auto;"
+        >
+
+        <h3>Example</h3>
 
-    <!-- Lv6 -->
+        <p>
+            <strong>1. Assign the attacking guild</strong>
+        </p>
 
-    <section id="lv6">
+        <p>
+            Guild ①, located near the Lv5 Fortress, is designated as the
+            main attacking guild.
+        </p>
+
+        <p>
+            After discussing the plan through the alliance site,
+            Guild ① declares war at the agreed time.
+        </p>
+
+        <p>
+            <strong>2. Delay the supporting guild's declaration</strong>
+        </p>
+
+        <p>
+            Guild ② acts as the supporting guild and declares war
+            <strong>later than Guild ①</strong>.
+        </p>
+
+        <p>
+            The exact delay should be discussed and agreed upon by both
+            guilds in advance.
+        </p>
 
-        <h2 onclick="openSection('lv6')">Lv6 Fortress</h2>
+        <p>
+            <strong>3. Divide the Imperial Guards</strong>
+        </p>
 
+        <p>
+            A Lv5 Fortress has <strong>120 Imperial Guards</strong>.
+        </p>
 
-        <div class="section-content">
+        <p>
+            The guild that defeats the greater number of Guards gains the
+            right to occupy the fortress.
+        </p>
 
-            <p>
-                <strong>Target League:</strong> Silver League
-            </p>
+        <p>
+            Therefore, Guild ① should defeat at least
+            <strong>61 Guards</strong>.
+        </p>
 
+        <p>
+            Guild ② can then assist by defeating the remaining Guards.
+            This allows Guild ① to secure the occupation rights while
+            Guild ② helps complete the capture efficiently.
+        </p>
 
-            <p>
-                Lv6 Fortresses are limited in number, with only three available
-                on the map.
-            </p>
+    </div>
 
+</section>
 
-            <p>
-                Because several guilds may compete for the same fortress,
-                coordination between allied guilds is especially important.
-            </p>
 
+<!-- Lv1–4 -->
 
-            <p>
-                Before declaring war, check the Schedule Coordination calendar
-                and confirm that another allied guild is not already planning
-                to attack the same fortress.
-            </p>
+<section id="lv1-4">
 
-        </div>
+    <h2 onclick="openSection('lv1-4')">Lv1–4 Fortresses</h2>
 
-    </section>
+    <div class="section-content">
 
+        <p>
+            <strong>Target League:</strong> No specific GW League requirement.
+        </p>
 
+        <p>
+            Please prioritize fortresses located as close as possible
+            to your initial deployment area.
+        </p>
 
-    <!-- Lv5 -->
+        <p>
+            Since the number of fortresses becomes more limited at higher
+            levels, please focus on occupying
+            <strong>one fortress at a time</strong>, even when targeting
+            a lower-level fortress.
+        </p>
 
-    <section id="lv5">
+        <p>
+            For Lv4 Fortresses, please use the
+            <strong>Schedule Coordination</strong> calendar on Discord
+            to clearly indicate which fortress your guild plans to attack
+            and when.
+        </p>
 
-        <h2 onclick="openSection('lv5')">Lv5 Fortress</h2>
+        <p>
+            If two or more guilds have overlapping plans for the same
+            fortress, please discuss the situation directly with the
+            other guilds and reach an agreement.
+        </p>
 
+        <p>
+            If an agreement cannot be reached, priority will be given
+            to the guild that <strong>registered its attack plan first</strong>.
+        </p>
 
-        <div class="section-content">
+        <ul>
 
-            <p>
-                <strong>Target League:</strong> Bronze League
-            </p>
+            <li>
+                Do not attempt to recapture a fortress already occupied
+                by an allied guild.
+            </li>
 
+            <li>
+                If recapture is necessary, negotiate with the occupying
+                guild beforehand.
+            </li>
 
-            <p>
-                Before proceeding, make sure you understand the basic rules
-                for Fortress Levels 1–4.
-            </p>
+            <li>
+                If multiple guilds accidentally declare war on the same
+                fortress, resolve the situation through communication.
+            </li>
 
+            <li>
+                One guild may voluntarily withdraw if necessary to avoid
+                unnecessary conflict.
+            </li>
 
-            <h3>How to Capture a Lv5 Fortress</h3>
+        </ul>
 
+    </div>
 
-            <p>
-                Starting from Lv5 Fortresses, the number of Imperial Guards
-                increases significantly. Each Lv5 Fortress has
-                <strong>120 Imperial Guards</strong>.
-            </p>
+</section>
 
 
-            <p>
-                For this reason, coordinating with an allied guild can make
-                the capture process much more efficient.
-            </p>
+<!-- FAQ -->
 
+<section id="faq">
 
-            <p>
-                One useful method is to coordinate the timing of the
-                declarations of war between two allied guilds.
-            </p>
+    <h2 onclick="openSection('faq')">FAQ</h2>
 
+    <div class="section-content">
 
-            <img
-                src="image/lv5-example.png"
-                alt="Example of coordinated declaration of war timing for a Lv5 Fortress"
-                style="max-width: 100%; height: auto;"
-            >
+        <div class="faq-list">
 
 
-            <h3>Example</h3>
+            <div class="faq-item">
 
+                <div class="faq-question">
 
-            <p>
-                <strong>1. Assign the attacking guild</strong>
-            </p>
+                    <span class="faq-label">Q</span>
 
+                    <span>I want to teleport, but I cannot.</span>
 
-            <p>
-                Guild ①, located near the Lv5 Fortress, is designated as the
-                main attacking guild.
-            </p>
+                </div>
 
+                <div class="faq-answer">
 
-            <p>
-                After discussing the plan through the alliance site,
-                Guild ① declares war at the agreed time.
-            </p>
+                    <span class="faq-label">A</span>
 
+                    <div>
 
-            <p>
-                <strong>2. Delay the supporting guild's declaration</strong>
-            </p>
+                        Please return all troops to your castle before teleporting.
 
+                        <div class="faq-note">
 
-            <p>
-                Guild ② acts as the supporting guild and declares war
-                <strong>later than Guild ①</strong>.
-            </p>
-
-
-            <p>
-                The exact delay should be discussed and agreed upon by both
-                guilds in advance.
-            </p>
-
-
-            <p>
-                <strong>3. Divide the Imperial Guards</strong>
-            </p>
-
-
-            <p>
-                A Lv5 Fortress has <strong>120 Imperial Guards</strong>.
-            </p>
-
-
-            <p>
-                The guild that defeats the greater number of Guards gains the
-                right to occupy the fortress.
-            </p>
-
-
-            <p>
-                Therefore, Guild ① should defeat at least
-                <strong>61 Guards</strong>.
-            </p>
-
-
-            <p>
-                Guild ② can then assist by defeating the remaining Guards.
-                This allows Guild ① to secure the occupation rights while
-                Guild ② helps complete the capture efficiently.
-            </p>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- Lv1–4 -->
-
-    <section id="lv1-4">
-
-        <h2 onclick="openSection('lv1-4')">Lv1–4 Fortresses</h2>
-
-
-        <div class="section-content">
-
-            <p>
-                <strong>Target League:</strong> No specific GW League requirement.
-            </p>
-
-
-            <p>
-                Please prioritize fortresses located as close as possible
-                to your initial deployment area.
-            </p>
-
-
-            <p>
-                Since the number of fortresses becomes more limited at higher
-                levels, please focus on occupying
-                <strong>one fortress at a time</strong>, even when targeting
-                a lower-level fortress.
-            </p>
-
-
-            <p>
-                For Lv4 Fortresses, please use the
-                <strong>Schedule Coordination</strong> calendar on Discord
-                to clearly indicate which fortress your guild plans to attack
-                and when.
-            </p>
-
-
-            <p>
-                If two or more guilds have overlapping plans for the same
-                fortress, please discuss the situation directly with the
-                other guilds and reach an agreement.
-            </p>
-
-
-            <p>
-                If an agreement cannot be reached, priority will be given
-                to the guild that <strong>registered its attack plan first</strong>.
-            </p>
-
-
-            <ul>
-
-                <li>
-                    Do not attempt to recapture a fortress already occupied
-                    by an allied guild.
-                </li>
-
-
-                <li>
-                    If recapture is necessary, negotiate with the occupying
-                    guild beforehand.
-                </li>
-
-
-                <li>
-                    If multiple guilds accidentally declare war on the same
-                    fortress, resolve the situation through communication.
-                </li>
-
-
-                <li>
-                    One guild may voluntarily withdraw if necessary to avoid
-                    unnecessary conflict.
-                </li>
-
-            </ul>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- FAQ -->
-
-    <section id="faq">
-
-        <h2 onclick="openSection('faq')">FAQ</h2>
-
-
-        <div class="section-content">
-
-            <div class="faq-list">
-
-
-                <!-- FAQ 1 -->
-
-                <div class="faq-item">
-
-                    <div class="faq-question">
-
-                        <span class="faq-label">Q</span>
-
-                        <span>I want to teleport, but I cannot.</span>
-
-                    </div>
-
-
-                    <div class="faq-answer">
-
-                        <span class="faq-label">A</span>
-
-
-                        <div>
-
-                            Please return all troops to your castle before teleporting.
-
-
-                            <div class="faq-note">
-
-                                You cannot teleport while troops are outside your castle, such as when attacking monsters, gathering resources, or defending a stronghold.
-                                You also cannot teleport to a location on the world map if there are obstacles such as monsters or bosses. Remove the obstacle first, and you will be able to teleport there.
-
-                            </div>
+                            You cannot teleport while troops are outside your castle, such as when attacking monsters, gathering resources, or defending a stronghold.
+                            You also cannot teleport to a location on the world map if there are obstacles such as monsters or bosses. Remove the obstacle first, and you will be able to teleport there.
 
                         </div>
 
                     </div>
 
                 </div>
-
-
-
-                <!-- FAQ 2 -->
-
-                <div class="faq-item">
-
-                    <div class="faq-question">
-
-                        <span class="faq-label">Q</span>
-
-                        <span>When should I teleport?</span>
-
-                    </div>
-
-
-                    <div class="faq-answer">
-
-                        <span class="faq-label">A</span>
-
-
-                        <div>
-
-                            Please complete your teleport before the event
-                            starts.
-
-
-                            <div class="faq-note">
-
-                                If you relocate after the event begins,
-                                you may not be able to capture the location
-                                as planned.
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- FAQ 3 -->
-
-                <div class="faq-item">
-
-                    <div class="faq-question">
-
-                        <span class="faq-label">Q</span>
-
-                        <span>
-                            How many fortresses are there at each level?
-                        </span>
-
-                    </div>
-
-
-                    <div class="faq-answer">
-
-                        <span class="faq-label">A</span>
-
-
-                        <div>
-
-                            Lv1 (38), Lv2 (22), Lv3 (12), Lv4 (7),
-                            Lv5 (4), Lv6 (3), Lv7 (1)
-
-
-                            <div class="faq-note">
-
-                                Because the number of fortresses decreases
-                                significantly at higher levels, coordination
-                                becomes increasingly important from Lv4 onward.
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- FAQ 4 -->
-
-                <div class="faq-item">
-
-                    <div class="faq-question">
-
-                        <span class="faq-label">Q</span>
-
-                        <span>
-                            What happens to the Imperial Guards if an
-                            occupation attempt fails?
-                        </span>
-
-                    </div>
-
-
-                    <div class="faq-answer">
-
-                        <span class="faq-label">A</span>
-
-
-                        <div>
-
-                            The number of Imperial Guards returns to its
-                            original amount.
-
-
-                            <div class="faq-note">
-
-                                For example, if you attack a fortress with
-                                90 Imperial Guards and defeat 89 of them,
-                                the number will return to 90 if the
-                                occupation attempt fails.
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- FAQ 5 -->
-
-                <div class="faq-item">
-
-                    <div class="faq-question">
-
-                        <span class="faq-label">Q</span>
-
-                        <span>
-                            Which league can challenge each fortress level?
-                        </span>
-
-                    </div>
-
-
-                    <div class="faq-answer">
-
-                        <span class="faq-label">A</span>
-
-
-                        <div>
-
-                            The required league depends on the fortress level.
-
-
-                            <ul class="faq-level-list">
-
-                                <li><strong>Lv5:</strong> Bronze League</li>
-
-                                <li><strong>Lv6:</strong> Silver League</li>
-
-                                <li><strong>Lv7:</strong> Gold League</li>
-
-                            </ul>
-
-
-                            <div class="faq-note">
-
-                                Tap the castle in-game to check which leagues
-                                are eligible to attack it.
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
 
             </div>
 
+
+            <div class="faq-item">
+
+                <div class="faq-question">
+
+                    <span class="faq-label">Q</span>
+
+                    <span>When should I teleport?</span>
+
+                </div>
+
+                <div class="faq-answer">
+
+                    <span class="faq-label">A</span>
+
+                    <div>
+
+                        Please complete your teleport before the event starts.
+
+                        <div class="faq-note">
+
+                            If you relocate after the event begins,
+                            you may not be able to capture the location
+                            as planned.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="faq-item">
+
+                <div class="faq-question">
+
+                    <span class="faq-label">Q</span>
+
+                    <span>
+                        How many fortresses are there at each level?
+                    </span>
+
+                </div>
+
+                <div class="faq-answer">
+
+                    <span class="faq-label">A</span>
+
+                    <div>
+
+                        Lv1 (38), Lv2 (22), Lv3 (12), Lv4 (7),
+                        Lv5 (4), Lv6 (3), Lv7 (1)
+
+                        <div class="faq-note">
+
+                            Because the number of fortresses decreases
+                            significantly at higher levels, coordination
+                            becomes increasingly important from Lv4 onward.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="faq-item">
+
+                <div class="faq-question">
+
+                    <span class="faq-label">Q</span>
+
+                    <span>
+                        What happens to the Imperial Guards if an
+                        occupation attempt fails?
+                    </span>
+
+                </div>
+
+                <div class="faq-answer">
+
+                    <span class="faq-label">A</span>
+
+                    <div>
+
+                        The number of Imperial Guards returns to its
+                        original amount.
+
+                        <div class="faq-note">
+
+                            For example, if you attack a fortress with
+                            90 Imperial Guards and defeat 89 of them,
+                            the number will return to 90 if the
+                            occupation attempt fails.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="faq-item">
+
+                <div class="faq-question">
+
+                    <span class="faq-label">Q</span>
+
+                    <span>
+                        Which league can challenge each fortress level?
+                    </span>
+
+                </div>
+
+                <div class="faq-answer">
+
+                    <span class="faq-label">A</span>
+
+                    <div>
+
+                        The required league depends on the fortress level.
+
+                        <ul class="faq-level-list">
+
+                            <li><strong>Lv5:</strong> Bronze League</li>
+
+                            <li><strong>Lv6:</strong> Silver League</li>
+
+                            <li><strong>Lv7:</strong> Gold League</li>
+
+                        </ul>
+
+                        <div class="faq-note">
+
+                            Tap the castle in-game to check which leagues
+                            are eligible to attack it.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
         </div>
 
-    </section>
+    </div>
 
+</section>
+```
 
 </main>
 
-
 <footer>
 
-    <p>S222 ThroneRush</p>
+```
+<p>S222 ThroneRush</p>
+```
 
 </footer>
 
-
 <script src="script.js"></script>
-
 
 </body>
 
