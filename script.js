@@ -473,5 +473,4 @@ if (searchInput) {
 
 }
 
-
 });
