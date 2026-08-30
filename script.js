@@ -1,486 +1,478 @@
 // =====================================
 // S222 ThroneRush Manual
-// Markdown Loader
+// Markdown Loader + Section Control
 // =====================================
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    const markdownContainer =
-        document.getElementById("markdown-content");
+```
+const markdownContainer =
+    document.getElementById("markdown-content");
 
-    const searchInput =
-        document.getElementById("manual-search");
+const searchInput =
+    document.getElementById("manual-search");
 
-    const resultsBox =
-        document.getElementById("manual-search-results");
+const resultsBox =
+    document.getElementById("manual-search-results");
 
 
-    // =====================================
-    // SECTION ID MAP
-    // ロードマップのリンク先と完全一致
-    // =====================================
+// =====================================
+// SECTION ID MAP
+// =====================================
 
-    const sectionIdMap = {
+const sectionIdMap = {
 
-        "Overview": "overview",
+    "Overview": "overview",
+    "Rules": "rules",
+    "Restriction": "restriction",
+    "Faq": "faq",
+    "FAQ": "faq",
 
-        "Rules": "rules",
+    "Lv7 Fortress": "lv7",
+    "Lv6 Fortress": "lv6",
+    "Lv5 Fortress": "lv5",
 
-        "Restriction": "restriction",
+    "Lv1–4 Fortresses": "lv1-4",
+    "Lv1-4 Fortresses": "lv1-4",
 
-        "Faq": "faq",
+    "Calendar": "calendar",
+    "Image Editor": "image-editor",
+    "Forum": "forum"
 
-        "FAQ": "faq",
+};
 
-        "Lv7 Fortress": "lv7",
 
-        "Lv6 Fortress": "lv6",
+// =====================================
+// OPEN SECTION
+// Roadmap / Search
+// =====================================
 
-        "Lv5 Fortress": "lv5",
+window.openSection = function (sectionId) {
 
-        "Lv1–4 Fortresses": "lv1-4",
+    const target =
+        document.getElementById(sectionId);
 
-        "Lv1-4 Fortresses": "lv1-4",
+    if (!target) {
 
-        "Calendar": "calendar",
+        console.warn(
+            "Section not found:",
+            sectionId
+        );
 
-        "Image Editor": "image-editor",
-
-        "Forum": "forum"
-
-    };
-
-
-    // =====================================
-    // OPEN SECTION
-    // グローバル化
-    // ロードマップ onclick から呼び出す
-    // =====================================
-
-    window.openSection = function (sectionId) {
-
-        const target =
-            document.getElementById(sectionId);
-
-        if (!target) {
-
-            console.warn(
-                "Section not found:",
-                sectionId
-            );
-
-            return;
-
-        }
-
-
-        // 他を閉じる
-        document
-            .querySelectorAll(
-                "#markdown-content section"
-            )
-            .forEach(function (section) {
-
-                section.classList.remove("open");
-
-            });
-
-
-        // 対象を開く
-        target.classList.add("open");
-
-
-        // 少し待ってからスクロール
-        setTimeout(function () {
-
-            target.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
-
-        }, 50);
-
-    };
-
-
-    // =====================================
-    // CREATE SECTIONS
-    // h2単位で安全に構築
-    // =====================================
-
-    function buildSections() {
-
-        // markedが生成したHTMLを一旦退避
-        const nodes =
-            Array.from(
-                markdownContainer.childNodes
-            );
-
-
-        // コンテナを空にする
-        markdownContainer.innerHTML = "";
-
-
-        let currentSection = null;
-        let currentContent = null;
-
-
-        nodes.forEach(function (node) {
-
-            // H2なら新しいsection開始
-            if (
-                node.nodeType === 1 &&
-                node.tagName === "H2"
-            ) {
-
-                currentSection =
-                    document.createElement("section");
-
-
-                const title =
-                    node.textContent.trim();
-
-
-                // ID決定
-                const sectionId =
-                    sectionIdMap[title] ||
-                    title
-                        .toLowerCase()
-                        .replace(/[–—]/g, "-")
-                        .replace(/\s+/g, "-");
-
-
-                currentSection.id =
-                    sectionId;
-
-
-                // h2をsectionに追加
-                currentSection.appendChild(node);
-
-
-                // section-content作成
-                currentContent =
-                    document.createElement("div");
-
-                currentContent.className =
-                    "section-content";
-
-
-                currentSection.appendChild(
-                    currentContent
-                );
-
-
-                markdownContainer.appendChild(
-                    currentSection
-                );
-
-
-                // 見出しクリックイベント
-                node.style.cursor = "pointer";
-
-
-                node.addEventListener(
-                    "click",
-                    function () {
-
-                        currentSection.classList.toggle(
-                            "open"
-                        );
-
-                    }
-                );
-
-
-                return;
-
-            }
-
-
-            // H2以降の要素を
-            // 現在のsection-contentへ追加
-            if (
-                currentContent
-            ) {
-
-                currentContent.appendChild(
-                    node
-                );
-
-            }
-
-        });
+        return;
 
     }
 
 
-    // =====================================
-    // MARKDOWN LOAD
-    // =====================================
+    document
+        .querySelectorAll("#markdown-content section")
+        .forEach(function (section) {
 
-    fetch("manual.md")
-
-        .then(function (response) {
-
-            if (!response.ok) {
-
-                throw new Error(
-                    "Failed to load manual.md"
-                );
-
-            }
-
-
-            return response.text();
-
-        })
-
-
-        .then(function (markdown) {
-
-            // Markdown → HTML
-            markdownContainer.innerHTML =
-                marked.parse(markdown);
-
-
-            // section構築
-            buildSections();
-
-
-            // URL Hash対応
-            const hash =
-                window.location.hash
-                    .replace("#", "");
-
-
-            if (hash) {
-
-                openSection(hash);
-
-            }
-
-        })
-
-
-        .catch(function (error) {
-
-            console.error(
-                "Markdown loading error:",
-                error
-            );
-
-
-            markdownContainer.innerHTML =
-                "<p>Failed to load manual content.</p>";
+            section.classList.remove("open");
 
         });
 
 
-    // =====================================
-    // SEARCH
-    // =====================================
-
-    function normalize(text) {
-
-        return text
-            .toLowerCase()
-            .replace(/\s+/g, " ")
-            .trim();
-
-    }
+    target.classList.add("open");
 
 
-    function clearHighlights() {
+    setTimeout(function () {
 
-        document
-            .querySelectorAll(
-                "#markdown-content section"
-            )
-            .forEach(function (section) {
+        target.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
 
-                section.classList.remove(
-                    "manual-highlight"
-                );
+    }, 50);
 
-            });
-
-    }
+};
 
 
-    function showResults(query) {
+// =====================================
+// BUILD SECTIONS FROM MARKDOWN
+// =====================================
 
-        resultsBox.innerHTML = "";
+function buildSections() {
 
-
-        if (!query) {
-
-            resultsBox.style.display = "none";
-
-            clearHighlights();
-
-            return;
-
-        }
+    const nodes =
+        Array.from(
+            markdownContainer.childNodes
+        );
 
 
-        const normalizedQuery =
-            normalize(query);
+    markdownContainer.innerHTML = "";
 
 
-        const sections =
-            Array.from(
-                document.querySelectorAll(
-                    "#markdown-content section"
-                )
-            );
+    let currentSection = null;
+    let currentContent = null;
 
 
-        const matches =
-            sections.filter(function (section) {
+    nodes.forEach(function (node) {
 
-                return normalize(
-                    section.innerText
-                ).includes(
-                    normalizedQuery
-                );
+        if (
+            node.nodeType === Node.ELEMENT_NODE &&
+            node.tagName === "H2"
+        ) {
 
-            });
-
-
-        resultsBox.style.display =
-            "block";
-
-
-        if (matches.length === 0) {
-
-            resultsBox.innerHTML =
-                '<div class="manual-search-empty">No results found.</div>';
-
-            return;
-
-        }
-
-
-        matches.forEach(function (section) {
-
-            const heading =
-                section.querySelector("h2");
+            currentSection =
+                document.createElement("section");
 
 
             const title =
-                heading
-                    ? heading.textContent.trim()
-                    : "Section";
+                node.textContent.trim();
 
 
-            const result =
-                document.createElement("a");
+            const sectionId =
+                sectionIdMap[title] ||
+                title
+                    .toLowerCase()
+                    .replace(/[–—]/g, "-")
+                    .replace(/\s+/g, "-");
 
 
-            result.href =
-                "#" + section.id;
+            currentSection.id = sectionId;
 
 
-            result.className =
-                "manual-search-result";
+            currentSection.appendChild(node);
 
 
-            result.innerHTML = `
+            currentContent =
+                document.createElement("div");
 
-                <span class="manual-search-result-title">
-                    ${title}
-                </span>
-
-                <span class="manual-search-result-text">
-                    ${normalize(section.innerText)
-                        .substring(0, 120)}
-                </span>
-
-            `;
+            currentContent.className =
+                "section-content";
 
 
-            result.addEventListener(
-                "click",
-                function (event) {
-
-                    event.preventDefault();
-
-
-                    openSection(
-                        section.id
-                    );
-
-
-                    clearHighlights();
-
-
-                    setTimeout(function () {
-
-                        section.classList.add(
-                            "manual-highlight"
-                        );
-
-                    }, 300);
-
-
-                    setTimeout(function () {
-
-                        section.classList.remove(
-                            "manual-highlight"
-                        );
-
-                    }, 2100);
-
-                }
+            currentSection.appendChild(
+                currentContent
             );
 
 
-            resultsBox.appendChild(
-                result
+            markdownContainer.appendChild(
+                currentSection
+            );
+
+        }
+
+        else if (currentContent) {
+
+            currentContent.appendChild(
+                node
+            );
+
+        }
+
+    });
+
+
+    // =====================================
+    // SECTION TITLE CLICK
+    // DOM構築完了後に一括登録
+    // =====================================
+
+    const sectionHeadings =
+        markdownContainer.querySelectorAll(
+            "section > h2"
+        );
+
+
+    sectionHeadings.forEach(function (heading) {
+
+        heading.style.cursor = "pointer";
+
+
+        heading.addEventListener(
+            "click",
+            function () {
+
+                const section =
+                    heading.parentElement;
+
+
+                const isOpen =
+                    section.classList.contains("open");
+
+
+                // 一旦すべて閉じる
+                document
+                    .querySelectorAll(
+                        "#markdown-content section"
+                    )
+                    .forEach(function (item) {
+
+                        item.classList.remove("open");
+
+                    });
+
+
+                // 閉じていた場合のみ開く
+                if (!isOpen) {
+
+                    section.classList.add("open");
+
+                }
+
+            }
+        );
+
+    });
+
+}
+
+
+// =====================================
+// MARKDOWN LOAD
+// =====================================
+
+fetch("manual.md")
+
+    .then(function (response) {
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Failed to load manual.md"
+            );
+
+        }
+
+
+        return response.text();
+
+    })
+
+
+    .then(function (markdown) {
+
+        markdownContainer.innerHTML =
+            marked.parse(markdown);
+
+
+        buildSections();
+
+
+        const hash =
+            window.location.hash.replace("#", "");
+
+
+        if (hash) {
+
+            openSection(hash);
+
+        }
+
+    })
+
+
+    .catch(function (error) {
+
+        console.error(
+            "Markdown loading error:",
+            error
+        );
+
+
+        markdownContainer.innerHTML =
+            "<p>Failed to load manual content.</p>";
+
+    });
+
+
+// =====================================
+// SEARCH
+// =====================================
+
+function normalize(text) {
+
+    return text
+        .toLowerCase()
+        .replace(/\s+/g, " ")
+        .trim();
+
+}
+
+
+function clearHighlights() {
+
+    document
+        .querySelectorAll("#markdown-content section")
+        .forEach(function (section) {
+
+            section.classList.remove(
+                "manual-highlight"
             );
 
         });
 
+}
+
+
+function showResults(query) {
+
+    resultsBox.innerHTML = "";
+
+
+    if (!query) {
+
+        resultsBox.style.display = "none";
+
+        clearHighlights();
+
+        return;
+
     }
 
 
-    // =====================================
-    // SEARCH EVENTS
-    // =====================================
+    const normalizedQuery =
+        normalize(query);
 
-    if (searchInput) {
 
-        searchInput.addEventListener(
-            "input",
-            function () {
-
-                showResults(
-                    this.value
-                );
-
-            }
+    const sections =
+        Array.from(
+            document.querySelectorAll(
+                "#markdown-content section"
+            )
         );
 
 
-        searchInput.addEventListener(
-            "keydown",
+    const matches =
+        sections.filter(function (section) {
+
+            return normalize(
+                section.innerText
+            ).includes(
+                normalizedQuery
+            );
+
+        });
+
+
+    resultsBox.style.display = "block";
+
+
+    if (matches.length === 0) {
+
+        resultsBox.innerHTML =
+            '<div class="manual-search-empty">No results found.</div>';
+
+        return;
+
+    }
+
+
+    matches.forEach(function (section) {
+
+        const heading =
+            section.querySelector("h2");
+
+
+        const title =
+            heading
+                ? heading.textContent.trim()
+                : "Section";
+
+
+        const result =
+            document.createElement("a");
+
+
+        result.href =
+            "#" + section.id;
+
+
+        result.className =
+            "manual-search-result";
+
+
+        result.innerHTML = `
+
+            <span class="manual-search-result-title">
+                ${title}
+            </span>
+
+            <span class="manual-search-result-text">
+                ${normalize(section.innerText)
+                    .substring(0, 120)}
+            </span>
+
+        `;
+
+
+        result.addEventListener(
+            "click",
             function (event) {
 
-                if (
-                    event.key === "Escape"
-                ) {
+                event.preventDefault();
 
-                    this.value = "";
 
-                    showResults("");
+                openSection(section.id);
 
-                    this.blur();
 
-                }
+                clearHighlights();
+
+
+                setTimeout(function () {
+
+                    section.classList.add(
+                        "manual-highlight"
+                    );
+
+                }, 300);
+
+
+                setTimeout(function () {
+
+                    section.classList.remove(
+                        "manual-highlight"
+                    );
+
+                }, 2100);
 
             }
         );
 
-    }
+
+        resultsBox.appendChild(result);
+
+    });
+
+}
+
+
+// =====================================
+// SEARCH EVENTS
+// =====================================
+
+if (searchInput) {
+
+    searchInput.addEventListener(
+        "input",
+        function () {
+
+            showResults(this.value);
+
+        }
+    );
+
+
+    searchInput.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (event.key === "Escape") {
+
+                this.value = "";
+
+                showResults("");
+
+                this.blur();
+
+            }
+
+        }
+    );
+
+}
+```
 
 });
