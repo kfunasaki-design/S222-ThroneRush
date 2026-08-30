@@ -54,6 +54,8 @@
 
         pointer-events: none;
 
+        transform: translateY(20pt);
+
     }
 
 
@@ -220,7 +222,7 @@
 
         box-sizing: border-box;
 
-        transform: translate(-50%, calc(-50% + 11pt));
+        transform: translate(-50%, calc(-50% + 31pt));
 
         filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.85));
 
@@ -265,7 +267,7 @@
     .tr-main-node:hover {
 
         transform:
-            translate(-50%, calc(-50% + 11pt))
+            translate(-50%, calc(-50% + 31pt))
             scale(1.06);
 
         background: #111;
@@ -309,7 +311,7 @@
 
         z-index: 10;
 
-        transform: translate(-50%, calc(-50% + 11pt));
+        transform: translate(-50%, calc(-50% + 31pt));
 
         filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.85));
 
@@ -338,7 +340,7 @@
     .tr-square-node:hover {
 
         transform:
-            translate(-50%, calc(-50% + 11pt))
+            translate(-50%, calc(-50% + 31pt))
             scale(1.06);
 
         background: #111;
@@ -381,7 +383,7 @@
 
         z-index: 10;
 
-        transform: translate(-50%, -50%);
+        transform: translate(-50%, calc(-50% + 20pt));
 
         transition:
             transform 0.15s ease,
@@ -426,7 +428,7 @@
         background: #111;
 
         transform:
-            translate(-50%, -50%)
+            translate(-50%, calc(-50% + 20pt))
             scale(1.05);
 
     }
@@ -440,10 +442,10 @@
 
         position: absolute;
 
-        left: 8%;
-        right: 8%;
+        left: calc(8% - 10pt);
+        right: calc(8% - 10pt);
 
-        bottom: 3%;
+        bottom: calc(3% + 10pt);
 
         display: flex;
 
@@ -530,38 +532,98 @@
         }
 
 
+        /* Main nodes:
+           keep text size fixed,
+           adjust object size only */
+
         .tr-main-node {
 
-            width: 54px;
-            height: 54px;
+            width: 52px;
+            height: 52px;
 
-            font-size: 13px;
+            padding: 3px;
 
         }
 
+
+        /* Square nodes:
+           keep text size fixed,
+           adjust object size only */
 
         .tr-square-node {
 
             width: 78px;
             height: 36px;
 
-            font-size: 12px;
+            padding: 2px;
 
         }
 
+
+        /* Branch links:
+           keep text size fixed,
+           reduce surrounding space */
 
         .tr-branch-link {
 
-            padding: 3px 5px;
-
-            font-size: 11px;
+            padding: 2px 4px;
 
         }
 
 
+        /* Slightly pull the branch objects
+           inward on mobile */
+
+        .tr-roadmap .tr-branch-link[href="guild-restriction.html"] {
+
+            left: 18% !important;
+
+        }
+
+
+        .tr-roadmap .tr-branch-link[href="#faq"] {
+
+            left: 18% !important;
+
+        }
+
+
+        .tr-roadmap .tr-branch-link[href="rules.html"] {
+
+            left: 54% !important;
+
+        }
+
+
+        .tr-roadmap .tr-branch-link[href="calendar.html"] {
+
+            left: 61% !important;
+
+        }
+
+
+        .tr-roadmap .tr-branch-link[href="image-editor.html"] {
+
+            left: 83% !important;
+
+        }
+
+
+        .tr-roadmap .tr-branch-link[href="#"] {
+
+            left: 83% !important;
+
+        }
+
+
+        /* Keep timeline text size fixed */
+
         .tr-season {
 
-            font-size: 9px;
+            left: calc(8% - 10pt);
+            right: calc(8% - 10pt);
+
+            bottom: calc(3% + 10pt);
 
         }
 
@@ -577,16 +639,17 @@
 
 <h1>
 
-    <a href="https://discord.com/channels/1532246363260194866/1532542629726785597">
+```
+<a href="https://discord.com/channels/1532246363260194866/1532542629726785597">
 
-        S222 ThroneRush
+    S222 ThroneRush
 
-    </a>
+</a>
+```
 
 </h1>
 
 </header>
-
 
 <nav class="index">
 
@@ -616,7 +679,6 @@
 
 </nav>
 
-
 <!-- =====================================
      S222TR NAVIGATION ROADMAP
      ===================================== -->
@@ -624,325 +686,374 @@
 <section class="tr-roadmap notranslate">
 
 <svg
-    class="tr-roadmap-svg"
-    viewBox="0 0 760 650"
-    preserveAspectRatio="none"
-    aria-hidden="true"
+class="tr-roadmap-svg"
+viewBox="0 0 760 650"
+preserveAspectRatio="none"
+aria-hidden="true"
+
 >
 
-    <!-- =====================================
-         MAIN ROUTES
-         Slightly lowered
-         ===================================== -->
+```
+<!-- =====================================
+     MAIN ROUTES
+     ===================================== -->
 
-    <!-- MAGENTA -->
+<!-- MAGENTA -->
 
-    <path
-        class="tr-route-magenta"
-        d="
-            M 85 550
-            L 205 460
-            L 325 370
-        "
-    />
+<path
+    class="tr-route-magenta"
+    d="
+        M 85 550
+        L 205 460
+        L 325 370
+    "
+/>
 
-    <!-- LIME -->
+<!-- LIME -->
 
-    <path
-        class="tr-route-lime"
-        d="
-            M 92 558
-            L 212 468
-            L 332 378
-            L 452 288
-        "
-    />
+<path
+    class="tr-route-lime"
+    d="
+        M 92 558
+        L 212 468
+        L 332 378
+        L 452 288
+    "
+/>
 
-    <!-- CYAN -->
+<!-- CYAN -->
 
-    <path
-        class="tr-route-cyan"
-        d="
-            M 99 566
-            L 219 476
-            L 339 386
-            L 459 296
-            L 579 206
-        "
-    />
-
-
-    <!-- =====================================
-         MAGENTA BRANCHES
-         ===================================== -->
-
-    <path
-        class="tr-branch-magenta"
-        d="
-            M 325 370
-            L 235 285
-            L 115 225
-        "
-    />
-
-    <path
-        class="tr-branch-magenta"
-        d="
-            M 235 285
-            L 225 180
-            L 115 110
-        "
-    />
-
-    <path
-        class="tr-branch-magenta"
-        d="
-            M 235 285
-            L 315 205
-            L 405 135
-        "
-    />
+<path
+    class="tr-route-cyan"
+    d="
+        M 99 566
+        L 219 476
+        L 339 386
+        L 459 296
+        L 579 206
+    "
+/>
 
 
-    <!-- =====================================
-         LIME BRANCHES
-         ===================================== -->
+<!-- =====================================
+     MAGENTA BRANCHES
+     ===================================== -->
 
-    <!-- Lv5 → Calendar -->
+<path
+    class="tr-branch-magenta"
+    d="
+        M 325 370
+        L 235 285
+        L 115 225
+    "
+/>
 
-    <path
-        class="tr-branch-lime"
-        d="
-            M 452 288
-            L 535 335
-            L 460 490
-        "
-    />
+<path
+    class="tr-branch-magenta"
+    d="
+        M 235 285
+        L 225 180
+        L 115 110
+    "
+/>
 
-    <!-- Lv5 → Image Editor -->
-
-    <path
-        class="tr-branch-lime"
-        d="
-            M 535 335
-            L 625 365
-            L 650 430
-        "
-    />
-
-
-    <!-- =====================================
-         CYAN BRANCH
-         Lv6 → Lv7 / Forum
-         ===================================== -->
-
-    <path
-        class="tr-branch-cyan"
-        d="
-            M 579 206
-            L 655 250
-            L 690 80
-        "
-    />
+<path
+    class="tr-branch-magenta"
+    d="
+        M 235 285
+        L 315 205
+        L 405 135
+    "
+/>
 
 
-    <!-- =====================================
-         ROUTE POINTS
-         ===================================== -->
+<!-- =====================================
+     LIME BRANCHES
+     ===================================== -->
 
-    <!-- MAGENTA -->
+<!-- Lv5 → Calendar -->
 
-    <circle class="tr-route-point tr-point-magenta" cx="85" cy="550" r="6" />
+<path
+    class="tr-branch-lime"
+    d="
+        M 452 288
+        L 535 335
+        L 460 490
+    "
+/>
 
-    <circle class="tr-route-point tr-point-magenta" cx="205" cy="460" r="6" />
+<!-- Lv5 → Image Editor -->
 
-    <circle class="tr-route-point tr-point-magenta" cx="325" cy="370" r="6" />
-
-    <circle class="tr-route-point tr-point-magenta" cx="235" cy="285" r="6" />
-
-    <circle class="tr-route-point tr-point-magenta" cx="115" cy="225" r="6" />
-
-    <circle class="tr-route-point tr-point-magenta" cx="225" cy="180" r="6" />
-
-    <circle class="tr-route-point tr-point-magenta" cx="115" cy="110" r="6" />
-
-    <circle class="tr-route-point tr-point-magenta" cx="315" cy="205" r="6" />
-
-    <circle class="tr-route-point tr-point-magenta" cx="405" cy="135" r="6" />
-
-
-    <!-- LIME -->
-
-    <circle class="tr-route-point tr-point-lime" cx="92" cy="558" r="6" />
-
-    <circle class="tr-route-point tr-point-lime" cx="212" cy="468" r="6" />
-
-    <circle class="tr-route-point tr-point-lime" cx="332" cy="378" r="6" />
-
-    <circle class="tr-route-point tr-point-lime" cx="452" cy="288" r="6" />
-
-    <circle class="tr-route-point tr-point-lime" cx="535" cy="335" r="6" />
-
-    <circle class="tr-route-point tr-point-lime" cx="460" cy="490" r="6" />
-
-    <circle class="tr-route-point tr-point-lime" cx="625" cy="365" r="6" />
-
-    <circle class="tr-route-point tr-point-lime" cx="650" cy="430" r="6" />
+<path
+    class="tr-branch-lime"
+    d="
+        M 535 335
+        L 625 365
+        L 650 430
+    "
+/>
 
 
-    <!-- CYAN -->
+<!-- =====================================
+     CYAN BRANCH
+     Lv6 → Lv7 / Forum
+     ===================================== -->
 
-    <circle class="tr-route-point tr-point-cyan" cx="99" cy="566" r="6" />
+<path
+    class="tr-branch-cyan"
+    d="
+        M 579 206
+        L 655 250
+        L 690 80
+    "
+/>
 
-    <circle class="tr-route-point tr-point-cyan" cx="219" cy="476" r="6" />
 
-    <circle class="tr-route-point tr-point-cyan" cx="339" cy="386" r="6" />
+<!-- =====================================
+     ROUTE POINTS
+     ===================================== -->
 
-    <circle class="tr-route-point tr-point-cyan" cx="459" cy="296" r="6" />
+<!-- MAGENTA -->
 
-    <circle class="tr-route-point tr-point-cyan" cx="579" cy="206" r="6" />
+<circle class="tr-route-point tr-point-magenta" cx="85" cy="550" r="6" />
 
-    <circle class="tr-route-point tr-point-cyan" cx="655" cy="250" r="6" />
+<circle class="tr-route-point tr-point-magenta" cx="205" cy="460" r="6" />
 
-    <circle class="tr-route-point tr-point-cyan" cx="690" cy="80" r="6" />
+<circle class="tr-route-point tr-point-magenta" cx="325" cy="370" r="6" />
+
+<circle class="tr-route-point tr-point-magenta" cx="235" cy="285" r="6" />
+
+<circle class="tr-route-point tr-point-magenta" cx="115" cy="225" r="6" />
+
+<circle class="tr-route-point tr-point-magenta" cx="225" cy="180" r="6" />
+
+<circle class="tr-route-point tr-point-magenta" cx="115" cy="110" r="6" />
+
+<circle class="tr-route-point tr-point-magenta" cx="315" cy="205" r="6" />
+
+<circle class="tr-route-point tr-point-magenta" cx="405" cy="135" r="6" />
+
+
+<!-- LIME -->
+
+<circle class="tr-route-point tr-point-lime" cx="92" cy="558" r="6" />
+
+<circle class="tr-route-point tr-point-lime" cx="212" cy="468" r="6" />
+
+<circle class="tr-route-point tr-point-lime" cx="332" cy="378" r="6" />
+
+<circle class="tr-route-point tr-point-lime" cx="452" cy="288" r="6" />
+
+<circle class="tr-route-point tr-point-lime" cx="535" cy="335" r="6" />
+
+<circle class="tr-route-point tr-point-lime" cx="460" cy="490" r="6" />
+
+<circle class="tr-route-point tr-point-lime" cx="625" cy="365" r="6" />
+
+<circle class="tr-route-point tr-point-lime" cx="650" cy="430" r="6" />
+
+
+<!-- CYAN -->
+
+<circle class="tr-route-point tr-point-cyan" cx="99" cy="566" r="6" />
+
+<circle class="tr-route-point tr-point-cyan" cx="219" cy="476" r="6" />
+
+<circle class="tr-route-point tr-point-cyan" cx="339" cy="386" r="6" />
+
+<circle class="tr-route-point tr-point-cyan" cx="459" cy="296" r="6" />
+
+<circle class="tr-route-point tr-point-cyan" cx="579" cy="206" r="6" />
+
+<circle class="tr-route-point tr-point-cyan" cx="655" cy="250" r="6" />
+
+<circle class="tr-route-point tr-point-cyan" cx="690" cy="80" r="6" />
+```
 
 </svg>
-
 
 <!-- =====================================
      START
      ===================================== -->
 
 <a
-    class="tr-square-node tr-start"
-    style="left: 11.18%; top: 83.08%;"
-    href="#overview"
-    onclick="openSection('overview'); return false;"
->
-    START
-</a>
+class="tr-square-node tr-start"
+style="left: 11.18%; top: 83.08%;"
+href="#overview"
+onclick="openSection('overview'); return false;"
 
+>
+
+```
+START
+```
+
+</a>
 
 <!-- =====================================
      MAIN NODES
      ===================================== -->
 
 <a
-    class="tr-square-node"
-    style="left: 26.97%; top: 69.23%;"
-    href="#overview"
-    onclick="openSection('overview'); return false;"
->
-    Overview
-</a>
+class="tr-square-node"
+style="left: 26.97%; top: 69.23%;"
+href="#overview"
+onclick="openSection('overview'); return false;"
 
+>
+
+```
+Overview
+```
+
+</a>
 
 <a
-    class="tr-main-node tr-node-magenta"
-    style="left: 42.76%; top: 55.38%;"
-    href="#lv1-4"
-    onclick="openSection('lv1-4'); return false;"
->
-    Lv4
-</a>
+class="tr-main-node tr-node-magenta"
+style="left: 42.76%; top: 55.38%;"
+href="#lv1-4"
+onclick="openSection('lv1-4'); return false;"
 
+>
+
+```
+Lv4
+```
+
+</a>
 
 <a
-    class="tr-main-node tr-node-lime"
-    style="left: 58.55%; top: 41.54%;"
-    href="#lv5"
-    onclick="openSection('lv5'); return false;"
->
-    Lv5
-</a>
+class="tr-main-node tr-node-lime"
+style="left: 58.55%; top: 41.54%;"
+href="#lv5"
+onclick="openSection('lv5'); return false;"
 
+>
+
+```
+Lv5
+```
+
+</a>
 
 <a
-    class="tr-main-node tr-node-cyan"
-    style="left: 74.34%; top: 27.69%;"
-    href="#lv6"
-    onclick="openSection('lv6'); return false;"
->
-    Lv6
-</a>
+class="tr-main-node tr-node-cyan"
+style="left: 74.34%; top: 27.69%;"
+href="#lv6"
+onclick="openSection('lv6'); return false;"
 
+>
+
+```
+Lv6
+```
+
+</a>
 
 <a
-    class="tr-main-node tr-node-cyan"
-    style="left: 90.13%; top: 13.85%;"
-    href="#lv7"
-    onclick="openSection('lv7'); return false;"
->
-    Lv7
-</a>
+class="tr-main-node tr-node-cyan"
+style="left: 90.13%; top: 13.85%;"
+href="#lv7"
+onclick="openSection('lv7'); return false;"
 
+>
+
+```
+Lv7
+```
+
+</a>
 
 <!-- =====================================
      MAGENTA LINKS
      ===================================== -->
 
 <a
-    class="tr-branch-link tr-link-magenta"
-    style="left: 15.13%; top: 34.62%;"
-    href="guild-restriction.html"
->
-    Restriction
-</a>
+class="tr-branch-link tr-link-magenta"
+style="left: 15.13%; top: 34.62%;"
+href="guild-restriction.html"
 
+>
+
+```
+Restriction
+```
+
+</a>
 
 <a
-    class="tr-branch-link tr-link-magenta"
-    style="left: 15.13%; top: 16.92%;"
-    href="#faq"
-    onclick="openSection('faq'); return false;"
->
-    Faq
-</a>
+class="tr-branch-link tr-link-magenta"
+style="left: 15.13%; top: 16.92%;"
+href="#faq"
+onclick="openSection('faq'); return false;"
 
+>
+
+```
+Faq
+```
+
+</a>
 
 <a
-    class="tr-branch-link tr-link-magenta"
-    style="left: 53.29%; top: 20.77%;"
-    href="rules.html"
->
-    Rules
-</a>
+class="tr-branch-link tr-link-magenta"
+style="left: 53.29%; top: 20.77%;"
+href="rules.html"
 
+>
+
+```
+Rules
+```
+
+</a>
 
 <!-- =====================================
      LIME LINKS
      ===================================== -->
 
 <a
-    class="tr-branch-link tr-link-lime"
-    style="left: 63.82%; top: 74.31%;"
-    href="calendar.html"
->
-    Calendar
-</a>
+class="tr-branch-link tr-link-lime"
+style="left: 63.82%; top: 74.31%;"
+href="calendar.html"
 
+>
+
+```
+Calendar
+```
+
+</a>
 
 <a
-    class="tr-branch-link tr-link-lime"
-    style="left: 87.11%; top: 66.15%;"
-    href="image-editor.html"
->
-    Image Editor
-</a>
+class="tr-branch-link tr-link-lime"
+style="left: 87.11%; top: 66.15%;"
+href="image-editor.html"
 
+>
+
+```
+Image Editor
+```
+
+</a>
 
 <!-- =====================================
      CYAN LINKS
      ===================================== -->
 
 <a
-    class="tr-branch-link tr-link-cyan"
-    style="left: 86.79%; top: 37.77%;"
-    href="#"
->
-    Forum
-</a>
+class="tr-branch-link tr-link-cyan"
+style="left: 86.79%; top: 37.77%;"
+href="#"
 
+>
+
+```
+Forum
+```
+
+</a>
 
 <!-- =====================================
      SEASON TIMELINE
@@ -950,542 +1061,546 @@
 
 <div class="tr-season">
 
-    <span>Day 1</span>
+```
+<span>Day 1</span>
 
-    <div class="tr-season-line">
+<div class="tr-season-line">
 
-        <div class="tr-season-current"></div>
-
-    </div>
-
-    <span>Day 56</span>
+    <div class="tr-season-current"></div>
 
 </div>
 
+<span>Day 56</span>
+```
+
+</div>
 
 </section>
 
-
 <main>
-
 
 <!-- Overview -->
 
 <section id="overview">
 
-    <h2 onclick="openSection('overview')">
-        Overview
-    </h2>
+```
+<h2 onclick="openSection('overview')">
+    Overview
+</h2>
 
-    <div class="section-content">
+<div class="section-content">
 
-        <p>
-            This guide provides reference information and suggested strategies
-            for allied guilds within S222 to coordinate their actions during
-            ThroneRush.
-        </p>
+    <p>
+        This guide provides reference information and suggested strategies
+        for allied guilds within S222 to coordinate their actions during
+        ThroneRush.
+    </p>
 
-        <p>
-            The purpose of this guide is to help guilds understand fortress
-            levels, coordinate attacks, and avoid unnecessary conflicts
-            between allied guilds.
-        </p>
+    <p>
+        The purpose of this guide is to help guilds understand fortress
+        levels, coordinate attacks, and avoid unnecessary conflicts
+        between allied guilds.
+    </p>
 
-        <p>
-            The information presented here is based on the current game
-            environment and practical experience. It should be treated as
-            a reference rather than a set of mandatory rules.
-        </p>
+    <p>
+        The information presented here is based on the current game
+        environment and practical experience. It should be treated as
+        a reference rather than a set of mandatory rules.
+    </p>
 
-    </div>
+</div>
+```
 
 </section>
-
 
 <!-- Lv7 -->
 
 <section id="lv7">
 
-    <h2 onclick="openSection('lv7')">
-        Lv7 Fortress
-    </h2>
+```
+<h2 onclick="openSection('lv7')">
+    Lv7 Fortress
+</h2>
 
-    <div class="section-content">
+<div class="section-content">
 
-        <p>
-            <strong>Target League:</strong> Gold League
-        </p>
+    <p>
+        <strong>Target League:</strong> Gold League
+    </p>
 
-        <p>
-            Lv7 is the highest-level fortress and is the most limited
-            strategic location on the map.
-        </p>
+    <p>
+        Lv7 is the highest-level fortress and is the most limited
+        strategic location on the map.
+    </p>
 
-        <p>
-            Because only one Lv7 Fortress exists, guilds should coordinate
-            carefully before declaring war.
-        </p>
+    <p>
+        Because only one Lv7 Fortress exists, guilds should coordinate
+        carefully before declaring war.
+    </p>
 
-        <p>
-            Please use the Schedule Coordination system on Discord to
-            communicate your intended attack time and avoid unnecessary
-            conflicts with allied guilds.
-        </p>
+    <p>
+        Please use the Schedule Coordination system on Discord to
+        communicate your intended attack time and avoid unnecessary
+        conflicts with allied guilds.
+    </p>
 
-    </div>
+</div>
+```
 
 </section>
-
 
 <!-- Lv6 -->
 
 <section id="lv6">
 
-    <h2 onclick="openSection('lv6')">
-        Lv6 Fortress
-    </h2>
+```
+<h2 onclick="openSection('lv6')">
+    Lv6 Fortress
+</h2>
 
-    <div class="section-content">
+<div class="section-content">
 
-        <p>
-            <strong>Target League:</strong> Silver League
-        </p>
+    <p>
+        <strong>Target League:</strong> Silver League
+    </p>
 
-        <p>
-            Lv6 Fortresses are limited in number, with only three available
-            on the map.
-        </p>
+    <p>
+        Lv6 Fortresses are limited in number, with only three available
+        on the map.
+    </p>
 
-        <p>
-            Because several guilds may compete for the same fortress,
-            coordination between allied guilds is especially important.
-        </p>
+    <p>
+        Because several guilds may compete for the same fortress,
+        coordination between allied guilds is especially important.
+    </p>
 
-        <p>
-            Before declaring war, check the Schedule Coordination calendar
-            and confirm that another allied guild is not already planning
-            to attack the same fortress.
-        </p>
+    <p>
+        Before declaring war, check the Schedule Coordination calendar
+        and confirm that another allied guild is not already planning
+        to attack the same fortress.
+    </p>
 
-    </div>
+</div>
+```
 
 </section>
-
 
 <!-- Lv5 -->
 
 <section id="lv5">
 
-    <h2 onclick="openSection('lv5')">
-        Lv5 Fortress
-    </h2>
+```
+<h2 onclick="openSection('lv5')">
+    Lv5 Fortress
+</h2>
 
-    <div class="section-content">
+<div class="section-content">
 
-        <p>
-            <strong>Target League:</strong> Bronze League
-        </p>
+    <p>
+        <strong>Target League:</strong> Bronze League
+    </p>
 
-        <p>
-            Before proceeding, make sure you understand the basic rules
-            for Fortress Levels 1–4.
-        </p>
+    <p>
+        Before proceeding, make sure you understand the basic rules
+        for Fortress Levels 1–4.
+    </p>
 
-        <h3>
-            How to Capture a Lv5 Fortress
-        </h3>
+    <h3>
+        How to Capture a Lv5 Fortress
+    </h3>
 
-        <p>
-            Starting from Lv5 Fortresses, the number of Imperial Guards
-            increases significantly. Each Lv5 Fortress has
-            <strong>120 Imperial Guards</strong>.
-        </p>
+    <p>
+        Starting from Lv5 Fortresses, the number of Imperial Guards
+        increases significantly. Each Lv5 Fortress has
+        <strong>120 Imperial Guards</strong>.
+    </p>
 
-        <p>
-            For this reason, coordinating with an allied guild can make
-            the capture process much more efficient.
-        </p>
+    <p>
+        For this reason, coordinating with an allied guild can make
+        the capture process much more efficient.
+    </p>
 
-        <p>
-            One useful method is to coordinate the timing of the
-            declarations of war between two allied guilds.
-        </p>
+    <p>
+        One useful method is to coordinate the timing of the
+        declarations of war between two allied guilds.
+    </p>
 
-        <img
-            src="image/lv5-example.png"
-            alt="Example of coordinated declaration of war timing for a Lv5 Fortress"
-            style="max-width: 100%; height: auto;"
-        >
+    <img
+        src="image/lv5-example.png"
+        alt="Example of coordinated declaration of war timing for a Lv5 Fortress"
+        style="max-width: 100%; height: auto;"
+    >
 
-        <h3>
-            Example
-        </h3>
+    <h3>
+        Example
+    </h3>
 
-        <p>
-            <strong>1. Assign the attacking guild</strong>
-        </p>
+    <p>
+        <strong>1. Assign the attacking guild</strong>
+    </p>
 
-        <p>
-            Guild ①, located near the Lv5 Fortress, is designated as the
-            main attacking guild.
-        </p>
+    <p>
+        Guild ①, located near the Lv5 Fortress, is designated as the
+        main attacking guild.
+    </p>
 
-        <p>
-            After discussing the plan through the alliance site,
-            Guild ① declares war at the agreed time.
-        </p>
+    <p>
+        After discussing the plan through the alliance site,
+        Guild ① declares war at the agreed time.
+    </p>
 
-        <p>
-            <strong>2. Delay the supporting guild's declaration</strong>
-        </p>
+    <p>
+        <strong>2. Delay the supporting guild's declaration</strong>
+    </p>
 
-        <p>
-            Guild ② acts as the supporting guild and declares war
-            <strong>later than Guild ①</strong>.
-        </p>
+    <p>
+        Guild ② acts as the supporting guild and declares war
+        <strong>later than Guild ①</strong>.
+    </p>
 
-        <p>
-            The exact delay should be discussed and agreed upon by both
-            guilds in advance.
-        </p>
+    <p>
+        The exact delay should be discussed and agreed upon by both
+        guilds in advance.
+    </p>
 
-        <p>
-            <strong>3. Divide the Imperial Guards</strong>
-        </p>
+    <p>
+        <strong>3. Divide the Imperial Guards</strong>
+    </p>
 
-        <p>
-            A Lv5 Fortress has <strong>120 Imperial Guards</strong>.
-        </p>
+    <p>
+        A Lv5 Fortress has <strong>120 Imperial Guards</strong>.
+    </p>
 
-        <p>
-            The guild that defeats the greater number of Guards gains the
-            right to occupy the fortress.
-        </p>
+    <p>
+        The guild that defeats the greater number of Guards gains the
+        right to occupy the fortress.
+    </p>
 
-        <p>
-            Therefore, Guild ① should defeat at least
-            <strong>61 Guards</strong>.
-        </p>
+    <p>
+        Therefore, Guild ① should defeat at least
+        <strong>61 Guards</strong>.
+    </p>
 
-        <p>
-            Guild ② can then assist by defeating the remaining Guards.
-            This allows Guild ① to secure the occupation rights while
-            Guild ② helps complete the capture efficiently.
-        </p>
+    <p>
+        Guild ② can then assist by defeating the remaining Guards.
+        This allows Guild ① to secure the occupation rights while
+        Guild ② helps complete the capture efficiently.
+    </p>
 
-    </div>
+</div>
+```
 
 </section>
-
 
 <!-- Lv1–4 -->
 
 <section id="lv1-4">
 
-    <h2 onclick="openSection('lv1-4')">
-        Lv1–4 Fortresses
-    </h2>
+```
+<h2 onclick="openSection('lv1-4')">
+    Lv1–4 Fortresses
+</h2>
 
-    <div class="section-content">
+<div class="section-content">
 
-        <p>
-            <strong>Target League:</strong> No specific GW League requirement.
-        </p>
+    <p>
+        <strong>Target League:</strong> No specific GW League requirement.
+    </p>
 
-        <p>
-            Please prioritize fortresses located as close as possible
-            to your initial deployment area.
-        </p>
+    <p>
+        Please prioritize fortresses located as close as possible
+        to your initial deployment area.
+    </p>
 
-        <p>
-            Since the number of fortresses becomes more limited at higher
-            levels, please focus on occupying
-            <strong>one fortress at a time</strong>, even when targeting
-            a lower-level fortress.
-        </p>
+    <p>
+        Since the number of fortresses becomes more limited at higher
+        levels, please focus on occupying
+        <strong>one fortress at a time</strong>, even when targeting
+        a lower-level fortress.
+    </p>
 
-        <p>
-            For Lv4 Fortresses, please use the
-            <strong>Schedule Coordination</strong> calendar on Discord
-            to clearly indicate which fortress your guild plans to attack
-            and when.
-        </p>
+    <p>
+        For Lv4 Fortresses, please use the
+        <strong>Schedule Coordination</strong> calendar on Discord
+        to clearly indicate which fortress your guild plans to attack
+        and when.
+    </p>
 
-        <p>
-            If two or more guilds have overlapping plans for the same
-            fortress, please discuss the situation directly with the
-            other guilds and reach an agreement.
-        </p>
+    <p>
+        If two or more guilds have overlapping plans for the same
+        fortress, please discuss the situation directly with the
+        other guilds and reach an agreement.
+    </p>
 
-        <p>
-            If an agreement cannot be reached, priority will be given
-            to the guild that <strong>registered its attack plan first</strong>.
-        </p>
+    <p>
+        If an agreement cannot be reached, priority will be given
+        to the guild that <strong>registered its attack plan first</strong>.
+    </p>
 
-        <ul>
+    <ul>
 
-            <li>
-                Do not attempt to recapture a fortress already occupied
-                by an allied guild.
-            </li>
+        <li>
+            Do not attempt to recapture a fortress already occupied
+            by an allied guild.
+        </li>
 
-            <li>
-                If recapture is necessary, negotiate with the occupying
-                guild beforehand.
-            </li>
+        <li>
+            If recapture is necessary, negotiate with the occupying
+            guild beforehand.
+        </li>
 
-            <li>
-                If multiple guilds accidentally declare war on the same
-                fortress, resolve the situation through communication.
-            </li>
+        <li>
+            If multiple guilds accidentally declare war on the same
+            fortress, resolve the situation through communication.
+        </li>
 
-            <li>
-                One guild may voluntarily withdraw if necessary to avoid
-                unnecessary conflict.
-            </li>
+        <li>
+            One guild may voluntarily withdraw if necessary to avoid
+            unnecessary conflict.
+        </li>
 
-        </ul>
+    </ul>
 
-    </div>
+</div>
+```
 
 </section>
-
 
 <!-- Faq -->
 
 <section id="faq">
 
-    <h2 onclick="openSection('faq')">
-        Faq
-    </h2>
+```
+<h2 onclick="openSection('faq')">
+    Faq
+</h2>
 
-    <div class="section-content">
+<div class="section-content">
 
-        <div class="faq-list">
+    <div class="faq-list">
 
 
-            <div class="faq-item">
+        <div class="faq-item">
 
-                <div class="faq-question">
+            <div class="faq-question">
 
-                    <span class="faq-label">
-                        Q
-                    </span>
+                <span class="faq-label">
+                    Q
+                </span>
 
-                    <span>
-                        I want to teleport, but I cannot.
-                    </span>
+                <span>
+                    I want to teleport, but I cannot.
+                </span>
 
-                </div>
+            </div>
 
-                <div class="faq-answer">
+            <div class="faq-answer">
 
-                    <span class="faq-label">
-                        A
-                    </span>
+                <span class="faq-label">
+                    A
+                </span>
 
-                    <div>
+                <div>
 
-                        Please return all troops to your castle before teleporting.
+                    Please return all troops to your castle before teleporting.
 
-                        <div class="faq-note">
+                    <div class="faq-note">
 
-                            You cannot teleport while troops are outside your castle, such as when attacking monsters, gathering resources, or defending a stronghold.
-                            You also cannot teleport to a location on the world map if there are obstacles such as monsters or bosses. Remove the obstacle first, and you will be able to teleport there.
-
-                        </div>
+                        You cannot teleport while troops are outside your castle, such as when attacking monsters, gathering resources, or defending a stronghold.
+                        You also cannot teleport to a location on the world map if there are obstacles such as monsters or bosses. Remove the obstacle first, and you will be able to teleport there.
 
                     </div>
 
                 </div>
 
             </div>
-
-
-            <div class="faq-item">
-
-                <div class="faq-question">
-
-                    <span class="faq-label">
-                        Q
-                    </span>
-
-                    <span>
-                        When should I teleport?
-                    </span>
-
-                </div>
-
-                <div class="faq-answer">
-
-                    <span class="faq-label">
-                        A
-                    </span>
-
-                    <div>
-
-                        Please complete your teleport before the event starts.
-
-                        <div class="faq-note">
-
-                            If you relocate after the event begins,
-                            you may not be able to capture the location
-                            as planned.
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="faq-item">
-
-                <div class="faq-question">
-
-                    <span class="faq-label">
-                        Q
-                    </span>
-
-                    <span>
-                        How many fortresses are there at each level?
-                    </span>
-
-                </div>
-
-                <div class="faq-answer">
-
-                    <span class="faq-label">
-                        A
-                    </span>
-
-                    <div>
-
-                        Lv1 (38), Lv2 (22), Lv3 (12), Lv4 (7),
-                        Lv5 (4), Lv6 (3), Lv7 (1)
-
-                        <div class="faq-note">
-
-                            Because the number of fortresses decreases
-                            significantly at higher levels, coordination
-                            becomes increasingly important from Lv4 onward.
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="faq-item">
-
-                <div class="faq-question">
-
-                    <span class="faq-label">
-                        Q
-                    </span>
-
-                    <span>
-                        What happens to the Imperial Guards if an
-                        occupation attempt fails?
-                    </span>
-
-                </div>
-
-                <div class="faq-answer">
-
-                    <span class="faq-label">
-                        A
-                    </span>
-
-                    <div>
-
-                        The number of Imperial Guards returns to its
-                        original amount.
-
-                        <div class="faq-note">
-
-                            For example, if you attack a fortress with
-                            90 Imperial Guards and defeat 89 of them,
-                            the number will return to 90 if the
-                            occupation attempt fails.
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="faq-item">
-
-                <div class="faq-question">
-
-                    <span class="faq-label">
-                        Q
-                    </span>
-
-                    <span>
-                        Which league can challenge each fortress level?
-                    </span>
-
-                </div>
-
-                <div class="faq-answer">
-
-                    <span class="faq-label">
-                        A
-                    </span>
-
-                    <div>
-
-                        The required league depends on the fortress level.
-
-                        <ul class="faq-level-list">
-
-                            <li>
-                                <strong>Lv5:</strong> Bronze League
-                            </li>
-
-                            <li>
-                                <strong>Lv6:</strong> Silver League
-                            </li>
-
-                            <li>
-                                <strong>Lv7:</strong> Gold League
-                            </li>
-
-                        </ul>
-
-                        <div class="faq-note">
-
-                            Tap the castle in-game to check which leagues
-                            are eligible to attack it.
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
 
         </div>
 
+
+        <div class="faq-item">
+
+            <div class="faq-question">
+
+                <span class="faq-label">
+                    Q
+                </span>
+
+                <span>
+                    When should I teleport?
+                </span>
+
+            </div>
+
+            <div class="faq-answer">
+
+                <span class="faq-label">
+                    A
+                </span>
+
+                <div>
+
+                    Please complete your teleport before the event starts.
+
+                    <div class="faq-note">
+
+                        If you relocate after the event begins,
+                        you may not be able to capture the location
+                        as planned.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="faq-item">
+
+            <div class="faq-question">
+
+                <span class="faq-label">
+                    Q
+                </span>
+
+                <span>
+                    How many fortresses are there at each level?
+                </span>
+
+            </div>
+
+            <div class="faq-answer">
+
+                <span class="faq-label">
+                    A
+                </span>
+
+                <div>
+
+                    Lv1 (38), Lv2 (22), Lv3 (12), Lv4 (7),
+                    Lv5 (4), Lv6 (3), Lv7 (1)
+
+                    <div class="faq-note">
+
+                        Because the number of fortresses decreases
+                        significantly at higher levels, coordination
+                        becomes increasingly important from Lv4 onward.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="faq-item">
+
+            <div class="faq-question">
+
+                <span class="faq-label">
+                    Q
+                </span>
+
+                <span>
+                    What happens to the Imperial Guards if an
+                    occupation attempt fails?
+                </span>
+
+            </div>
+
+            <div class="faq-answer">
+
+                <span class="faq-label">
+                    A
+                </span>
+
+                <div>
+
+                    The number of Imperial Guards returns to its
+                    original amount.
+
+                    <div class="faq-note">
+
+                        For example, if you attack a fortress with
+                        90 Imperial Guards and defeat 89 of them,
+                        the number will return to 90 if the
+                        occupation attempt fails.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="faq-item">
+
+            <div class="faq-question">
+
+                <span class="faq-label">
+                    Q
+                </span>
+
+                <span>
+                    Which league can challenge each fortress level?
+                </span>
+
+            </div>
+
+            <div class="faq-answer">
+
+                <span class="faq-label">
+                    A
+                </span>
+
+                <div>
+
+                    The required league depends on the fortress level.
+
+                    <ul class="faq-level-list">
+
+                        <li>
+                            <strong>Lv5:</strong> Bronze League
+                        </li>
+
+                        <li>
+                            <strong>Lv6:</strong> Silver League
+                        </li>
+
+                        <li>
+                            <strong>Lv7:</strong> Gold League
+                        </li>
+
+                    </ul>
+
+                    <div class="faq-note">
+
+                        Tap the castle in-game to check which leagues
+                        are eligible to attack it.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
     </div>
+
+</div>
+```
 
 </section>
 
-
 </main>
-
 
 <footer>
 
@@ -1494,7 +1609,6 @@
 </p>
 
 </footer>
-
 
 <script src="script.js"></script>
 
