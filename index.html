@@ -2015,19 +2015,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         sections.forEach(function (section) {
 
+            const title = section.querySelector("h2");
+
             const content = section.querySelector(".section-content");
 
 
-            if (!content) {
-
-                section.classList.remove("manual-search-hidden");
-
-                return;
-
-            }
+            if (!content) return;
 
 
-            /* 検索対象は本文のみ */
             const text = content.textContent.toLowerCase();
 
 
