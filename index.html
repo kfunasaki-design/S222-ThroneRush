@@ -1997,53 +1997,61 @@
 
 <script src="script.js"></script>
 <script>
-
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
 
     const searchInput = document.getElementById("manual-search");
 
-    const sections = document.querySelectorAll("main > section");
-
-
     if (!searchInput) return;
 
+    searchInput.addEventListener("input", () => {
 
-    searchInput.addEventListener("input", function () {
+        const keyword = searchInput.value
+            .trim()
+            .toLowerCase();
 
-        const keyword = this.value.trim().toLowerCase();
+        const sections = document.querySelectorAll("main section");
 
+        sections.forEach(section => {
 
-        sections.forEach(function (section) {
+            /* タイトルは常に表示 */
+            section.style.display = "";
 
-            const title = section.querySelector("h2");
+            const contents = section.querySelectorAll(
+                ".section-content > p, " +
+                ".section-content > h3, " +
+                ".section-content > ul, " +
+                ".faq-item, " +
+                ".section-content > img"
+            );
 
-            const content = section.querySelector(".section-content");
+            /* 検索が空なら全部戻す */
+            if (keyword === "") {
 
+                contents.forEach(item => {
+                    item.style.display = "";
+                });
 
-            if (!content) return;
-
-
-            const text = content.textContent.toLowerCase();
-
-
-            if (keyword === "" || text.includes(keyword)) {
-
-                section.classList.remove("manual-search-hidden");
-
-            } else {
-
-                section.classList.add("manual-search-hidden");
-
+                return;
             }
+
+            contents.forEach(item => {
+
+                const text = item.textContent.toLowerCase();
+
+                if (text.includes(keyword)) {
+                    item.style.display = "";
+                } else {
+                    item.style.display = "none";
+                }
+
+            });
 
         });
 
     });
 
 });
-
 </script>
-
 <!-- =====================================
      MANUAL SEARCH SCRIPT
      ===================================== -->
