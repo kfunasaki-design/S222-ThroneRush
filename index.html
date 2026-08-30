@@ -4,14 +4,12 @@
 
 <head>
 
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>S222 ThroneRush</title>
 
 <link rel="stylesheet" href="style.css">
-
 
 <style>
 
@@ -220,13 +218,9 @@
 
         box-sizing: border-box;
 
-        /*
-         * Move object 3pt downward
-         * and add black outer shadow
-         */
-        transform: translate(-50%, calc(-50% + 3pt));
+        transform: translate(-50%, calc(-50% + 8pt));
 
-        box-shadow: 0 0 0 3px #000;
+        filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.85));
 
         transition:
             transform 0.15s ease,
@@ -269,7 +263,7 @@
     .tr-main-node:hover {
 
         transform:
-            translate(-50%, calc(-50% + 3pt))
+            translate(-50%, calc(-50% + 8pt))
             scale(1.06);
 
         background: #111;
@@ -313,13 +307,9 @@
 
         z-index: 10;
 
-        /*
-         * Move object 3pt downward
-         * and add black outer shadow
-         */
-        transform: translate(-50%, calc(-50% + 3pt));
+        transform: translate(-50%, calc(-50% + 8pt));
 
-        box-shadow: 0 0 0 3px #000;
+        filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.85));
 
         transition:
             transform 0.15s ease,
@@ -346,7 +336,7 @@
     .tr-square-node:hover {
 
         transform:
-            translate(-50%, calc(-50% + 3pt))
+            translate(-50%, calc(-50% + 8pt))
             scale(1.06);
 
         background: #111;
@@ -559,12 +549,9 @@
 
 </head>
 
-
 <body>
 
-
 <header>
-
 
 <h1>
 
@@ -576,12 +563,10 @@
 
 </h1>
 
-
 </header>
 
 
 <nav class="index">
-
 
 <a href="#overview" onclick="openSection('overview'); return false;">
     Overview
@@ -607,7 +592,6 @@
     Faq
 </a>
 
-
 </nav>
 
 
@@ -617,7 +601,6 @@
 
 <section class="tr-roadmap">
 
-
 <svg
     class="tr-roadmap-svg"
     viewBox="0 0 760 650"
@@ -625,12 +608,10 @@
     aria-hidden="true"
 >
 
-
     <!-- =====================================
          MAIN ROUTES
          Slightly lowered
          ===================================== -->
-
 
     <!-- MAGENTA -->
 
@@ -643,7 +624,6 @@
         "
     />
 
-
     <!-- LIME -->
 
     <path
@@ -655,7 +635,6 @@
             L 452 288
         "
     />
-
 
     <!-- CYAN -->
 
@@ -675,7 +654,6 @@
          MAGENTA BRANCHES
          ===================================== -->
 
-
     <path
         class="tr-branch-magenta"
         d="
@@ -685,7 +663,6 @@
         "
     />
 
-
     <path
         class="tr-branch-magenta"
         d="
@@ -694,7 +671,6 @@
             L 115 110
         "
     />
-
 
     <path
         class="tr-branch-magenta"
@@ -710,7 +686,6 @@
          LIME BRANCHES
          ===================================== -->
 
-
     <!-- Lv5 → Calendar -->
 
     <path
@@ -721,7 +696,6 @@
             L 460 490
         "
     />
-
 
     <!-- Lv5 → Image Editor -->
 
@@ -740,7 +714,6 @@
          Lv6 → Lv7 / Forum
          ===================================== -->
 
-
     <path
         class="tr-branch-cyan"
         d="
@@ -755,183 +728,61 @@
          ROUTE POINTS
          ===================================== -->
 
-
     <!-- MAGENTA -->
 
-    <circle
-        class="tr-route-point tr-point-magenta"
-        cx="85"
-        cy="550"
-        r="6"
-    />
+    <circle class="tr-route-point tr-point-magenta" cx="85" cy="550" r="6" />
 
-    <circle
-        class="tr-route-point tr-point-magenta"
-        cx="205"
-        cy="460"
-        r="6"
-    />
+    <circle class="tr-route-point tr-point-magenta" cx="205" cy="460" r="6" />
 
-    <circle
-        class="tr-route-point tr-point-magenta"
-        cx="325"
-        cy="370"
-        r="6"
-    />
+    <circle class="tr-route-point tr-point-magenta" cx="325" cy="370" r="6" />
 
-    <circle
-        class="tr-route-point tr-point-magenta"
-        cx="235"
-        cy="285"
-        r="6"
-    />
+    <circle class="tr-route-point tr-point-magenta" cx="235" cy="285" r="6" />
 
-    <circle
-        class="tr-route-point tr-point-magenta"
-        cx="115"
-        cy="225"
-        r="6"
-    />
+    <circle class="tr-route-point tr-point-magenta" cx="115" cy="225" r="6" />
 
-    <circle
-        class="tr-route-point tr-point-magenta"
-        cx="225"
-        cy="180"
-        r="6"
-    />
+    <circle class="tr-route-point tr-point-magenta" cx="225" cy="180" r="6" />
 
-    <circle
-        class="tr-route-point tr-point-magenta"
-        cx="115"
-        cy="110"
-        r="6"
-    />
+    <circle class="tr-route-point tr-point-magenta" cx="115" cy="110" r="6" />
 
-    <circle
-        class="tr-route-point tr-point-magenta"
-        cx="315"
-        cy="205"
-        r="6"
-    />
+    <circle class="tr-route-point tr-point-magenta" cx="315" cy="205" r="6" />
 
-    <circle
-        class="tr-route-point tr-point-magenta"
-        cx="405"
-        cy="135"
-        r="6"
-    />
+    <circle class="tr-route-point tr-point-magenta" cx="405" cy="135" r="6" />
 
 
     <!-- LIME -->
 
-    <circle
-        class="tr-route-point tr-point-lime"
-        cx="92"
-        cy="558"
-        r="6"
-    />
+    <circle class="tr-route-point tr-point-lime" cx="92" cy="558" r="6" />
 
-    <circle
-        class="tr-route-point tr-point-lime"
-        cx="212"
-        cy="468"
-        r="6"
-    />
+    <circle class="tr-route-point tr-point-lime" cx="212" cy="468" r="6" />
 
-    <circle
-        class="tr-route-point tr-point-lime"
-        cx="332"
-        cy="378"
-        r="6"
-    />
+    <circle class="tr-route-point tr-point-lime" cx="332" cy="378" r="6" />
 
-    <circle
-        class="tr-route-point tr-point-lime"
-        cx="452"
-        cy="288"
-        r="6"
-    />
+    <circle class="tr-route-point tr-point-lime" cx="452" cy="288" r="6" />
 
-    <circle
-        class="tr-route-point tr-point-lime"
-        cx="535"
-        cy="335"
-        r="6"
-    />
+    <circle class="tr-route-point tr-point-lime" cx="535" cy="335" r="6" />
 
-    <circle
-        class="tr-route-point tr-point-lime"
-        cx="460"
-        cy="490"
-        r="6"
-    />
+    <circle class="tr-route-point tr-point-lime" cx="460" cy="490" r="6" />
 
-    <circle
-        class="tr-route-point tr-point-lime"
-        cx="625"
-        cy="365"
-        r="6"
-    />
+    <circle class="tr-route-point tr-point-lime" cx="625" cy="365" r="6" />
 
-    <circle
-        class="tr-route-point tr-point-lime"
-        cx="650"
-        cy="430"
-        r="6"
-    />
+    <circle class="tr-route-point tr-point-lime" cx="650" cy="430" r="6" />
 
 
     <!-- CYAN -->
 
-    <circle
-        class="tr-route-point tr-point-cyan"
-        cx="99"
-        cy="566"
-        r="6"
-    />
+    <circle class="tr-route-point tr-point-cyan" cx="99" cy="566" r="6" />
 
-    <circle
-        class="tr-route-point tr-point-cyan"
-        cx="219"
-        cy="476"
-        r="6"
-    />
+    <circle class="tr-route-point tr-point-cyan" cx="219" cy="476" r="6" />
 
-    <circle
-        class="tr-route-point tr-point-cyan"
-        cx="339"
-        cy="386"
-        r="6"
-    />
+    <circle class="tr-route-point tr-point-cyan" cx="339" cy="386" r="6" />
 
-    <circle
-        class="tr-route-point tr-point-cyan"
-        cx="459"
-        cy="296"
-        r="6"
-    />
+    <circle class="tr-route-point tr-point-cyan" cx="459" cy="296" r="6" />
 
-    <circle
-        class="tr-route-point tr-point-cyan"
-        cx="579"
-        cy="206"
-        r="6"
-    />
+    <circle class="tr-route-point tr-point-cyan" cx="579" cy="206" r="6" />
 
-    <circle
-        class="tr-route-point tr-point-cyan"
-        cx="655"
-        cy="250"
-        r="6"
-    />
+    <circle class="tr-route-point tr-point-cyan" cx="655" cy="250" r="6" />
 
-    <circle
-        class="tr-route-point tr-point-cyan"
-        cx="690"
-        cy="70"
-        r="6"
-    />
-
+    <circle class="tr-route-point tr-point-cyan" cx="690" cy="70" r="6" />
 
 </svg>
 
@@ -1620,12 +1471,10 @@
     S222 ThroneRush
 </p>
 
-
 </footer>
 
 
 <script src="script.js"></script>
-
 
 </body>
 
