@@ -796,7 +796,167 @@
         }
 
     }
+/* =====================================
+   MANUAL HEADER
+   ===================================== */
 
+.manual-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+}
+
+
+.manual-header h1 {
+
+    margin: 0;
+
+    text-align: left;
+
+    flex-shrink: 0;
+
+}
+
+
+.manual-tools {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-left: auto;
+
+}
+
+
+#manual-search {
+
+    width: 180px;
+
+    height: 34px;
+
+    box-sizing: border-box;
+
+    padding: 0 10px;
+
+    border: 1px solid #444;
+
+    border-radius: 6px;
+
+    background: #111;
+
+    color: #fff;
+
+    font-size: 14px;
+
+    outline: none;
+
+}
+
+
+#manual-search::placeholder {
+
+    color: #888;
+
+}
+
+
+#manual-search:focus {
+
+    border-color: #777;
+
+}
+
+
+.manual-back {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    height: 34px;
+
+    padding: 0 4px;
+
+    color: #aaa;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    white-space: nowrap;
+
+}
+
+
+.manual-back:hover {
+
+    color: #fff;
+
+}
+
+
+/* =====================================
+   SEARCH RESULT
+   ===================================== */
+
+.manual-search-hidden {
+
+    display: none !important;
+
+}
+
+
+/* =====================================
+   MOBILE HEADER
+   ===================================== */
+
+@media (max-width: 600px) {
+
+    .manual-header {
+
+        gap: 10px;
+
+    }
+
+
+    .manual-tools {
+
+        gap: 7px;
+
+    }
+
+
+    #manual-search {
+
+        width: 130px;
+
+    }
+
+
+    .manual-back {
+
+        font-size: 13px;
+
+    }
+
+}
 </style>
 
 </head>
@@ -1812,7 +1972,58 @@
 
 
 <script src="script.js"></script>
+<script>
 
+document.addEventListener("DOMContentLoaded", function () {
+
+    const searchInput = document.getElementById("manual-search");
+
+    const sections = document.querySelectorAll("main > section");
+
+
+    if (!searchInput) return;
+
+
+    searchInput.addEventListener("input", function () {
+
+        const keyword = this.value.trim().toLowerCase();
+
+
+        sections.forEach(function (section) {
+
+            const content = section.querySelector(".section-content");
+
+
+            if (!content) {
+
+                section.classList.remove("manual-search-hidden");
+
+                return;
+
+            }
+
+
+            /* 検索対象は本文のみ */
+            const text = content.textContent.toLowerCase();
+
+
+            if (keyword === "" || text.includes(keyword)) {
+
+                section.classList.remove("manual-search-hidden");
+
+            } else {
+
+                section.classList.add("manual-search-hidden");
+
+            }
+
+        });
+
+    });
+
+});
+
+</script>
 
 <!-- =====================================
      MANUAL SEARCH SCRIPT
