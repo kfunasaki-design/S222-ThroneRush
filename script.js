@@ -8,6 +8,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     const content =
         document.getElementById("markdown-content");
 
+
+    /* =====================================
+       LOAD MARKDOWN
+       ===================================== */
+
     try {
 
         const response =
@@ -24,14 +29,41 @@ document.addEventListener("DOMContentLoaded", async function () {
         const markdown =
             await response.text();
 
+
         content.innerHTML =
             marked.parse(markdown);
 
+
+        /* =====================================
+           PREPARE SECTIONS
+           ===================================== */
+
         prepareSections();
+
+
+        /* =====================================
+           SEARCH
+           ===================================== */
 
         setupSearch();
 
-        openSection("overview");
+
+        /* =====================================
+           OPEN INITIAL SECTION
+           ===================================== */
+
+        const hash =
+            window.location.hash.substring(1);
+
+        if (hash) {
+
+            openSection(hash);
+
+        } else {
+
+            openSection("overview");
+
+        }
 
     }
 
@@ -42,11 +74,15 @@ document.addEventListener("DOMContentLoaded", async function () {
         content.innerHTML = `
             <section class="open">
                 <h2>Manual</h2>
+
                 <div class="section-content">
+
                     <p>
                         Failed to load manual content.
                     </p>
+
                 </div>
+
             </section>
         `;
 
@@ -56,54 +92,137 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 
 /* =====================================
-   MARKDOWN SECTIONS
+   PREPARE MARKDOWN SECTIONS
    ===================================== */
 
 function prepareSections() {
 
     const content =
-        document.getElementById("markdown-content");
+        document.getElementById(
+            "markdown-content"
+        );
+
 
     const headings =
         Array.from(
             content.querySelectorAll("h2")
         );
 
+
     headings.forEach(function (heading) {
+
+        /* ---------------------------------
+           CREATE SECTION
+           --------------------------------- */
 
         const section =
             document.createElement("section");
 
+
+        /* ---------------------------------
+           ASSIGN ORIGINAL SECTION ID
+           --------------------------------- */
+
+        const title =
+            heading.textContent
+                .trim()
+                .toLowerCase();
+
+
+        const sectionIds = {
+
+            "overview":
+                "overview",
+
+            "rules":
+                "rules",
+
+            "restriction":
+                "restriction",
+
+            "faq":
+                "faq",
+
+            "lv7 fortress":
+                "lv7",
+
+            "lv6 fortress":
+                "lv6",
+
+            "lv5 fortress":
+                "lv5",
+
+            "lv1–4 fortresses":
+                "lv1-4",
+
+            "lv1-4 fortresses":
+                "lv1-4",
+
+            "calendar":
+                "calendar",
+
+            "image editor":
+                "image-editor",
+
+            "forum":
+                "forum"
+
+        };
+
+
         const sectionId =
-            createSectionId(
-                heading.textContent
-            );
+            sectionIds[title]
+            || createSectionId(title);
+
 
         section.id =
             sectionId;
+
+
+        /* ---------------------------------
+           INSERT SECTION
+           --------------------------------- */
 
         heading.parentNode.insertBefore(
             section,
             heading
         );
 
+
+        /* ---------------------------------
+           MOVE HEADING
+           --------------------------------- */
+
         section.appendChild(
             heading
         );
 
+
+        /* ---------------------------------
+           CREATE CONTENT WRAPPER
+           --------------------------------- */
+
         const wrapper =
             document.createElement("div");
+
 
         wrapper.className =
             "section-content";
 
+
+        /* ---------------------------------
+           MOVE CONTENT UNTIL NEXT H2
+           --------------------------------- */
+
         let current =
             heading.nextSibling;
+
 
         while (current) {
 
             const next =
                 current.nextSibling;
+
 
             if (
                 current.nodeType === 1 &&
@@ -114,19 +233,34 @@ function prepareSections() {
 
             }
 
-            wrapper.appendChild(current);
 
-            current = next;
+            wrapper.appendChild(
+                current
+            );
+
+
+            current =
+                next;
 
         }
 
-        section.appendChild(wrapper);
+
+        section.appendChild(
+            wrapper
+        );
+
+
+        /* ---------------------------------
+           HEADING CLICK
+           --------------------------------- */
 
         heading.addEventListener(
             "click",
             function () {
 
-                openSection(sectionId);
+                openSection(
+                    sectionId
+                );
 
             }
         );
@@ -137,19 +271,16 @@ function prepareSections() {
 
 
 /* =====================================
-   SECTION ID
+   CREATE FALLBACK SECTION ID
    ===================================== */
 
 function createSectionId(text) {
 
-    const id =
-        text
-            .toLowerCase()
-            .trim()
-            .replace(/[^\w\s-]/g, "")
-            .replace(/\s+/g, "-");
-
-    return id;
+    return text
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g, "")
+        .replace(/\s+/g, "-");
 
 }
 
@@ -165,20 +296,77 @@ function openSection(sectionId) {
             "main section"
         );
 
-    sections.forEach(function (section) {
 
-        section.classList.remove("open");
+    /* ---------------------------------
+       CLOSE ALL SECTIONS
+       --------------------------------- */
 
-    });
+    sections.forEach(
+        function (section) {
+
+            section.classList.remove(
+                "open"
+            );
+
+        }
+    );
+
+
+    /* ---------------------------------
+       FIND TARGET
+       --------------------------------- */
 
     const target =
-        document.getElementById(sectionId);
+        document.getElementById(
+            sectionId
+        );
 
-    if (target) {
 
-        target.classList.add("open");
+    if (!target) {
 
-        setTimeout(function () {
+        console.warn(
+            "Section not found:",
+            sectionId
+        );
+
+        return;
+
+    }
+
+
+    /* ---------------------------------
+       OPEN TARGET
+       --------------------------------- */
+
+    target.classList.add(
+        "open"
+    );
+
+
+    /* ---------------------------------
+       UPDATE URL HASH
+       --------------------------------- */
+
+    if (
+        window.location.hash !==
+        "#" + sectionId
+    ) {
+
+        history.replaceState(
+            null,
+            "",
+            "#" + sectionId
+        );
+
+    }
+
+
+    /* ---------------------------------
+       SCROLL
+       --------------------------------- */
+
+    setTimeout(
+        function () {
 
             target.scrollIntoView({
 
@@ -188,9 +376,9 @@ function openSection(sectionId) {
 
             });
 
-        }, 50);
-
-    }
+        },
+        50
+    );
 
 }
 
@@ -206,10 +394,12 @@ function setupSearch() {
             "manual-search"
         );
 
+
     const resultsBox =
         document.getElementById(
             "manual-search-results"
         );
+
 
     const sections =
         Array.from(
@@ -218,6 +408,10 @@ function setupSearch() {
             )
         );
 
+
+    /* =====================================
+       NORMALIZE TEXT
+       ===================================== */
 
     function normalize(text) {
 
@@ -228,6 +422,10 @@ function setupSearch() {
 
     }
 
+
+    /* =====================================
+       CLEAR HIGHLIGHTS
+       ===================================== */
 
     function clearHighlights() {
 
@@ -244,9 +442,18 @@ function setupSearch() {
     }
 
 
+    /* =====================================
+       SHOW SEARCH RESULTS
+       ===================================== */
+
     function showResults(query) {
 
         resultsBox.innerHTML = "";
+
+
+        /* ---------------------------------
+           EMPTY SEARCH
+           --------------------------------- */
 
         if (!query) {
 
@@ -263,6 +470,10 @@ function setupSearch() {
         const normalizedQuery =
             normalize(query);
 
+
+        /* ---------------------------------
+           FIND MATCHES
+           --------------------------------- */
 
         const matches =
             sections.filter(
@@ -282,7 +493,13 @@ function setupSearch() {
             "block";
 
 
-        if (matches.length === 0) {
+        /* ---------------------------------
+           NO RESULTS
+           --------------------------------- */
+
+        if (
+            matches.length === 0
+        ) {
 
             resultsBox.innerHTML =
                 '<div class="manual-search-empty">No results found.</div>';
@@ -294,11 +511,18 @@ function setupSearch() {
         }
 
 
+        /* ---------------------------------
+           CREATE RESULTS
+           --------------------------------- */
+
         matches.forEach(
             function (section) {
 
                 const heading =
-                    section.querySelector("h2");
+                    section.querySelector(
+                        "h2"
+                    );
+
 
                 const title =
                     heading
@@ -309,63 +533,90 @@ function setupSearch() {
                 const text =
                     normalize(
                         section.innerText
-                    )
-                    .replace(
-                        normalizedQuery,
-                        " "
-                    )
-                    .trim();
+                    );
 
 
                 const result =
-                    document.createElement("a");
+                    document.createElement(
+                        "a"
+                    );
 
 
                 result.href =
                     "#" + section.id;
 
+
                 result.className =
                     "manual-search-result";
 
 
+                /* ---------------------------------
+                   TITLE
+                   --------------------------------- */
+
                 const titleElement =
-                    document.createElement("span");
+                    document.createElement(
+                        "span"
+                    );
+
 
                 titleElement.className =
                     "manual-search-result-title";
+
 
                 titleElement.textContent =
                     title;
 
 
+                /* ---------------------------------
+                   PREVIEW
+                   --------------------------------- */
+
                 const textElement =
-                    document.createElement("span");
+                    document.createElement(
+                        "span"
+                    );
+
 
                 textElement.className =
                     "manual-search-result-text";
 
+
                 textElement.textContent =
-                    text.substring(0, 120);
+                    text.substring(
+                        0,
+                        120
+                    );
 
 
                 result.appendChild(
                     titleElement
                 );
 
+
                 result.appendChild(
                     textElement
                 );
 
 
+                /* ---------------------------------
+                   RESULT CLICK
+                   --------------------------------- */
+
                 result.addEventListener(
                     "click",
-                    function () {
+                    function (event) {
+
+                        event.preventDefault();
+
 
                         clearHighlights();
+
 
                         openSection(
                             section.id
                         );
+
 
                         section.classList.add(
                             "manual-highlight"
@@ -397,6 +648,10 @@ function setupSearch() {
     }
 
 
+    /* =====================================
+       SEARCH INPUT
+       ===================================== */
+
     searchInput.addEventListener(
         "input",
         function () {
@@ -409,6 +664,10 @@ function setupSearch() {
     );
 
 
+    /* =====================================
+       ESCAPE
+       ===================================== */
+
     searchInput.addEventListener(
         "keydown",
         function (event) {
@@ -417,9 +676,12 @@ function setupSearch() {
                 event.key === "Escape"
             ) {
 
-                this.value = "";
+                this.value =
+                    "";
 
-                showResults("");
+                showResults(
+                    ""
+                );
 
                 this.blur();
 
@@ -440,11 +702,16 @@ window.addEventListener(
     function () {
 
         const sectionId =
-            window.location.hash.substring(1);
+            window.location.hash.substring(
+                1
+            );
+
 
         if (sectionId) {
 
-            openSection(sectionId);
+            openSection(
+                sectionId
+            );
 
         }
 
