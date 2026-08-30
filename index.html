@@ -26,6 +26,8 @@
 
         aspect-ratio: 760 / 650;
 
+        padding-bottom: 10pt;
+
         margin: 20px auto 40px;
 
         background: #090909;
@@ -218,7 +220,7 @@
 
         box-sizing: border-box;
 
-        transform: translate(-50%, calc(-50% + 8pt));
+        transform: translate(-50%, calc(-50% + 11pt));
 
         filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.85));
 
@@ -263,7 +265,7 @@
     .tr-main-node:hover {
 
         transform:
-            translate(-50%, calc(-50% + 8pt))
+            translate(-50%, calc(-50% + 11pt))
             scale(1.06);
 
         background: #111;
@@ -307,7 +309,7 @@
 
         z-index: 10;
 
-        transform: translate(-50%, calc(-50% + 8pt));
+        transform: translate(-50%, calc(-50% + 11pt));
 
         filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.85));
 
@@ -336,7 +338,7 @@
     .tr-square-node:hover {
 
         transform:
-            translate(-50%, calc(-50% + 8pt))
+            translate(-50%, calc(-50% + 11pt))
             scale(1.06);
 
         background: #111;
@@ -460,6 +462,10 @@
     }
 
 
+    /* =====================================
+       SEASON TIMELINE GRADIENT
+       ===================================== */
+
     .tr-season-line {
 
         position: relative;
@@ -468,12 +474,22 @@
 
         height: 3px;
 
-        background: #444;
+        background:
+            linear-gradient(
+                90deg,
+                #ff00cc 0%,
+                #aaff00 50%,
+                #00eaff 100%
+            );
 
         border-radius: 10px;
 
     }
 
+
+    /* =====================================
+       SEASON TIMELINE CURRENT POINT
+       ===================================== */
 
     .tr-season-current {
 
@@ -483,14 +499,20 @@
 
         top: 50%;
 
-        width: 10px;
-        height: 10px;
+        width: 12px;
+        height: 12px;
 
         transform: translate(-50%, -50%);
 
         background: #ffffff;
 
+        border: 2px solid #090909;
+
         border-radius: 50%;
+
+        box-shadow:
+            0 0 5px #ffffff,
+            0 0 10px rgba(255, 255, 255, 0.9);
 
     }
 
@@ -599,7 +621,7 @@
      S222TR NAVIGATION ROADMAP
      ===================================== -->
 
-<section class="tr-roadmap">
+<section class="tr-roadmap notranslate">
 
 <svg
     class="tr-roadmap-svg"
