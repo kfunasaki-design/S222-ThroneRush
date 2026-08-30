@@ -54,7 +54,6 @@
 
         pointer-events: none;
 
-        /* Move route objects upward */
         transform: translateY(-20px);
 
     }
@@ -225,7 +224,6 @@
 
         transform: translate(-50%, calc(-50% + 11pt));
 
-        /* Move node upward without changing its existing transform */
         margin-top: -20px;
 
         filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.85));
@@ -317,7 +315,6 @@
 
         transform: translate(-50%, calc(-50% + 11pt));
 
-        /* Move node upward without changing its existing transform */
         margin-top: -20px;
 
         filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.85));
@@ -392,7 +389,6 @@
 
         transform: translate(-50%, -50%);
 
-        /* Move link upward */
         margin-top: -20px;
 
         transition:
@@ -446,7 +442,6 @@
 
     /* =====================================
        SEASON TIMELINE
-       Day 1–56 stays fixed
        ===================================== */
 
     .tr-season {
@@ -531,6 +526,214 @@
 
 
     /* =====================================
+       MANUAL TOOLBAR
+       ===================================== */
+
+    .manual-toolbar {
+
+        width: 100%;
+
+        max-width: 760px;
+
+        margin: 0 auto 25px;
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 10px;
+
+        box-sizing: border-box;
+
+    }
+
+
+    /* =====================================
+       DISCORD BACK BUTTON
+       ===================================== */
+
+    .manual-back {
+
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        min-height: 40px;
+
+        padding: 0 14px;
+
+        box-sizing: border-box;
+
+        background: #090909;
+
+        border: 2px solid #7289da;
+
+        border-radius: 6px;
+
+        color: #ffffff;
+
+        text-decoration: none;
+
+        white-space: nowrap;
+
+        transition:
+            background 0.15s ease,
+            transform 0.15s ease;
+
+    }
+
+
+    .manual-back:hover {
+
+        background: #111;
+
+        transform: translateY(-1px);
+
+    }
+
+
+    /* =====================================
+       MANUAL SEARCH
+       ===================================== */
+
+    .manual-search {
+
+        flex: 1;
+
+        min-width: 0;
+
+        height: 40px;
+
+        padding: 0 12px;
+
+        box-sizing: border-box;
+
+        background: #090909;
+
+        border: 2px solid #555;
+
+        border-radius: 6px;
+
+        color: #ffffff;
+
+        outline: none;
+
+    }
+
+
+    .manual-search:focus {
+
+        border-color: #888;
+
+    }
+
+
+    .manual-search::placeholder {
+
+        color: #888;
+
+    }
+
+
+    /* =====================================
+       SEARCH RESULTS
+       ===================================== */
+
+    .manual-search-results {
+
+        width: 100%;
+
+        max-width: 760px;
+
+        margin: -15px auto 25px;
+
+        display: none;
+
+        box-sizing: border-box;
+
+    }
+
+
+    .manual-search-result {
+
+        display: block;
+
+        width: 100%;
+
+        margin-bottom: 6px;
+
+        padding: 10px 12px;
+
+        box-sizing: border-box;
+
+        background: #090909;
+
+        border: 1px solid #444;
+
+        border-radius: 5px;
+
+        color: #ddd;
+
+        text-decoration: none;
+
+    }
+
+
+    .manual-search-result:hover {
+
+        background: #111;
+
+    }
+
+
+    .manual-search-result-title {
+
+        display: block;
+
+        margin-bottom: 3px;
+
+        color: #ffffff;
+
+        font-weight: 600;
+
+    }
+
+
+    .manual-search-result-text {
+
+        display: block;
+
+        color: #999;
+
+        font-size: 12px;
+
+    }
+
+
+    .manual-search-empty {
+
+        padding: 10px 12px;
+
+        color: #888;
+
+    }
+
+
+    /* =====================================
+       SEARCH HIGHLIGHT
+       ===================================== */
+
+    .manual-highlight {
+
+        outline: 2px solid #ffffff;
+
+        outline-offset: 5px;
+
+    }
+
+
+    /* =====================================
        MOBILE
        ===================================== */
 
@@ -578,6 +781,20 @@
 
         }
 
+
+        .manual-toolbar {
+
+            gap: 6px;
+
+        }
+
+
+        .manual-back {
+
+            padding: 0 10px;
+
+        }
+
     }
 
 </style>
@@ -585,6 +802,7 @@
 </head>
 
 <body>
+
 
 <header>
 
@@ -601,33 +819,35 @@
 </header>
 
 
-<nav class="index">
+<!-- =====================================
+     MANUAL TOOLBAR
+     ===================================== -->
 
-<a href="#overview" onclick="openSection('overview'); return false;">
-    Overview
-</a>
+<div class="manual-toolbar">
 
-<a href="#lv7" onclick="openSection('lv7'); return false;">
-    Lv7
-</a>
+    <a
+        class="manual-back"
+        href="https://discord.com/channels/1532246363260194866/1532542629726785597"
+    >
+        ← Back to Discord
+    </a>
 
-<a href="#lv6" onclick="openSection('lv6'); return false;">
-    Lv6
-</a>
+    <input
+        id="manual-search"
+        class="manual-search"
+        type="search"
+        placeholder="Search this manual..."
+        autocomplete="off"
+        aria-label="Search this manual"
+    >
 
-<a href="#lv5" onclick="openSection('lv5'); return false;">
-    Lv5
-</a>
+</div>
 
-<a href="#lv1-4" onclick="openSection('lv1-4'); return false;">
-    Lv1–4
-</a>
 
-<a href="#faq" onclick="openSection('faq'); return false;">
-    Faq
-</a>
-
-</nav>
+<div
+    id="manual-search-results"
+    class="manual-search-results"
+></div>
 
 
 <!-- =====================================
@@ -643,11 +863,10 @@
     aria-hidden="true"
 >
 
+
     <!-- =====================================
          MAIN ROUTES
          ===================================== -->
-
-    <!-- MAGENTA -->
 
     <path
         class="tr-route-magenta"
@@ -658,7 +877,6 @@
         "
     />
 
-    <!-- LIME -->
 
     <path
         class="tr-route-lime"
@@ -670,7 +888,6 @@
         "
     />
 
-    <!-- CYAN -->
 
     <path
         class="tr-route-cyan"
@@ -697,6 +914,7 @@
         "
     />
 
+
     <path
         class="tr-branch-magenta"
         d="
@@ -705,6 +923,7 @@
             L 115 110
         "
     />
+
 
     <path
         class="tr-branch-magenta"
@@ -720,8 +939,6 @@
          LIME BRANCHES
          ===================================== -->
 
-    <!-- Lv5 → Calendar -->
-
     <path
         class="tr-branch-lime"
         d="
@@ -731,7 +948,6 @@
         "
     />
 
-    <!-- Lv5 → Image Editor -->
 
     <path
         class="tr-branch-lime"
@@ -745,7 +961,6 @@
 
     <!-- =====================================
          CYAN BRANCH
-         Lv6 → Lv7 / Forum
          ===================================== -->
 
     <path
@@ -762,60 +977,33 @@
          ROUTE POINTS
          ===================================== -->
 
-    <!-- MAGENTA -->
-
     <circle class="tr-route-point tr-point-magenta" cx="85" cy="550" r="6" />
-
     <circle class="tr-route-point tr-point-magenta" cx="205" cy="460" r="6" />
-
     <circle class="tr-route-point tr-point-magenta" cx="325" cy="370" r="6" />
-
     <circle class="tr-route-point tr-point-magenta" cx="235" cy="285" r="6" />
-
     <circle class="tr-route-point tr-point-magenta" cx="115" cy="225" r="6" />
-
     <circle class="tr-route-point tr-point-magenta" cx="225" cy="180" r="6" />
-
     <circle class="tr-route-point tr-point-magenta" cx="115" cy="110" r="6" />
-
     <circle class="tr-route-point tr-point-magenta" cx="315" cy="205" r="6" />
-
     <circle class="tr-route-point tr-point-magenta" cx="405" cy="135" r="6" />
 
 
-    <!-- LIME -->
-
     <circle class="tr-route-point tr-point-lime" cx="92" cy="558" r="6" />
-
     <circle class="tr-route-point tr-point-lime" cx="212" cy="468" r="6" />
-
     <circle class="tr-route-point tr-point-lime" cx="332" cy="378" r="6" />
-
     <circle class="tr-route-point tr-point-lime" cx="452" cy="288" r="6" />
-
     <circle class="tr-route-point tr-point-lime" cx="535" cy="335" r="6" />
-
     <circle class="tr-route-point tr-point-lime" cx="460" cy="490" r="6" />
-
     <circle class="tr-route-point tr-point-lime" cx="625" cy="365" r="6" />
-
     <circle class="tr-route-point tr-point-lime" cx="650" cy="430" r="6" />
 
 
-    <!-- CYAN -->
-
     <circle class="tr-route-point tr-point-cyan" cx="99" cy="566" r="6" />
-
     <circle class="tr-route-point tr-point-cyan" cx="219" cy="476" r="6" />
-
     <circle class="tr-route-point tr-point-cyan" cx="339" cy="386" r="6" />
-
     <circle class="tr-route-point tr-point-cyan" cx="459" cy="296" r="6" />
-
     <circle class="tr-route-point tr-point-cyan" cx="579" cy="206" r="6" />
-
     <circle class="tr-route-point tr-point-cyan" cx="655" cy="250" r="6" />
-
     <circle class="tr-route-point tr-point-cyan" cx="690" cy="80" r="6" />
 
 </svg>
@@ -896,7 +1084,8 @@
 <a
     class="tr-branch-link tr-link-magenta"
     style="left: 15.13%; top: 34.62%;"
-    href="guild-restriction.html"
+    href="#restriction"
+    onclick="openSection('restriction'); return false;"
 >
     Restriction
 </a>
@@ -915,7 +1104,8 @@
 <a
     class="tr-branch-link tr-link-magenta"
     style="left: 53.29%; top: 20.77%;"
-    href="rules.html"
+    href="#rules"
+    onclick="openSection('rules'); return false;"
 >
     Rules
 </a>
@@ -928,7 +1118,8 @@
 <a
     class="tr-branch-link tr-link-lime"
     style="left: 63.82%; top: 74.31%;"
-    href="calendar.html"
+    href="#calendar"
+    onclick="openSection('calendar'); return false;"
 >
     Calendar
 </a>
@@ -937,7 +1128,8 @@
 <a
     class="tr-branch-link tr-link-lime"
     style="left: 87.11%; top: 66.15%;"
-    href="image-editor.html"
+    href="#image-editor"
+    onclick="openSection('image-editor'); return false;"
 >
     Image Editor
 </a>
@@ -950,7 +1142,8 @@
 <a
     class="tr-branch-link tr-link-cyan"
     style="left: 86.79%; top: 37.77%;"
-    href="#"
+    href="#forum"
+    onclick="openSection('forum'); return false;"
 >
     Forum
 </a>
@@ -981,7 +1174,9 @@
 <main>
 
 
-<!-- Overview -->
+<!-- =====================================
+     OVERVIEW
+     ===================================== -->
 
 <section id="overview">
 
@@ -1014,256 +1209,47 @@
 </section>
 
 
-<!-- Lv7 -->
+<!-- =====================================
+     RULES
+     ===================================== -->
 
-<section id="lv7">
+<section id="rules">
 
-    <h2 onclick="openSection('lv7')">
-        Lv7 Fortress
+    <h2 onclick="openSection('rules')">
+        Rules
     </h2>
 
     <div class="section-content">
 
-        <p>
-            <strong>Target League:</strong> Gold League
-        </p>
-
-        <p>
-            Lv7 is the highest-level fortress and is the most limited
-            strategic location on the map.
-        </p>
-
-        <p>
-            Because only one Lv7 Fortress exists, guilds should coordinate
-            carefully before declaring war.
-        </p>
-
-        <p>
-            Please use the Schedule Coordination system on Discord to
-            communicate your intended attack time and avoid unnecessary
-            conflicts with allied guilds.
-        </p>
+        <!-- Content will be added here -->
 
     </div>
 
 </section>
 
 
-<!-- Lv6 -->
+<!-- =====================================
+     RESTRICTION
+     ===================================== -->
 
-<section id="lv6">
+<section id="restriction">
 
-    <h2 onclick="openSection('lv6')">
-        Lv6 Fortress
+    <h2 onclick="openSection('restriction')">
+        Restriction
     </h2>
 
     <div class="section-content">
 
-        <p>
-            <strong>Target League:</strong> Silver League
-        </p>
-
-        <p>
-            Lv6 Fortresses are limited in number, with only three available
-            on the map.
-        </p>
-
-        <p>
-            Because several guilds may compete for the same fortress,
-            coordination between allied guilds is especially important.
-        </p>
-
-        <p>
-            Before declaring war, check the Schedule Coordination calendar
-            and confirm that another allied guild is not already planning
-            to attack the same fortress.
-        </p>
+        <!-- Content will be added here -->
 
     </div>
 
 </section>
 
 
-<!-- Lv5 -->
-
-<section id="lv5">
-
-    <h2 onclick="openSection('lv5')">
-        Lv5 Fortress
-    </h2>
-
-    <div class="section-content">
-
-        <p>
-            <strong>Target League:</strong> Bronze League
-        </p>
-
-        <p>
-            Before proceeding, make sure you understand the basic rules
-            for Fortress Levels 1–4.
-        </p>
-
-        <h3>
-            How to Capture a Lv5 Fortress
-        </h3>
-
-        <p>
-            Starting from Lv5 Fortresses, the number of Imperial Guards
-            increases significantly. Each Lv5 Fortress has
-            <strong>120 Imperial Guards</strong>.
-        </p>
-
-        <p>
-            For this reason, coordinating with an allied guild can make
-            the capture process much more efficient.
-        </p>
-
-        <p>
-            One useful method is to coordinate the timing of the
-            declarations of war between two allied guilds.
-        </p>
-
-        <img
-            src="image/lv5-example.png"
-            alt="Example of coordinated declaration of war timing for a Lv5 Fortress"
-            style="max-width: 100%; height: auto;"
-        >
-
-        <h3>
-            Example
-        </h3>
-
-        <p>
-            <strong>1. Assign the attacking guild</strong>
-        </p>
-
-        <p>
-            Guild ①, located near the Lv5 Fortress, is designated as the
-            main attacking guild.
-        </p>
-
-        <p>
-            After discussing the plan through the alliance site,
-            Guild ① declares war at the agreed time.
-        </p>
-
-        <p>
-            <strong>2. Delay the supporting guild's declaration</strong>
-        </p>
-
-        <p>
-            Guild ② acts as the supporting guild and declares war
-            <strong>later than Guild ①</strong>.
-        </p>
-
-        <p>
-            The exact delay should be discussed and agreed upon by both
-            guilds in advance.
-        </p>
-
-        <p>
-            <strong>3. Divide the Imperial Guards</strong>
-        </p>
-
-        <p>
-            A Lv5 Fortress has <strong>120 Imperial Guards</strong>.
-        </p>
-
-        <p>
-            The guild that defeats the greater number of Guards gains the
-            right to occupy the fortress.
-        </p>
-
-        <p>
-            Therefore, Guild ① should defeat at least
-            <strong>61 Guards</strong>.
-        </p>
-
-        <p>
-            Guild ② can then assist by defeating the remaining Guards.
-            This allows Guild ① to secure the occupation rights while
-            Guild ② helps complete the capture efficiently.
-        </p>
-
-    </div>
-
-</section>
-
-
-<!-- Lv1–4 -->
-
-<section id="lv1-4">
-
-    <h2 onclick="openSection('lv1-4')">
-        Lv1–4 Fortresses
-    </h2>
-
-    <div class="section-content">
-
-        <p>
-            <strong>Target League:</strong> No specific GW League requirement.
-        </p>
-
-        <p>
-            Please prioritize fortresses located as close as possible
-            to your initial deployment area.
-        </p>
-
-        <p>
-            Since the number of fortresses becomes more limited at higher
-            levels, please focus on occupying
-            <strong>one fortress at a time</strong>, even when targeting
-            a lower-level fortress.
-        </p>
-
-        <p>
-            For Lv4 Fortresses, please use the
-            <strong>Schedule Coordination</strong> calendar on Discord
-            to clearly indicate which fortress your guild plans to attack
-            and when.
-        </p>
-
-        <p>
-            If two or more guilds have overlapping plans for the same
-            fortress, please discuss the situation directly with the
-            other guilds and reach an agreement.
-        </p>
-
-        <p>
-            If an agreement cannot be reached, priority will be given
-            to the guild that <strong>registered its attack plan first</strong>.
-        </p>
-
-        <ul>
-
-            <li>
-                Do not attempt to recapture a fortress already occupied
-                by an allied guild.
-            </li>
-
-            <li>
-                If recapture is necessary, negotiate with the occupying
-                guild beforehand.
-            </li>
-
-            <li>
-                If multiple guilds accidentally declare war on the same
-                fortress, resolve the situation through communication.
-            </li>
-
-            <li>
-                One guild may voluntarily withdraw if necessary to avoid
-                unnecessary conflict.
-            </li>
-
-        </ul>
-
-    </div>
-
-</section>
-
-
-<!-- Faq -->
+<!-- =====================================
+     FAQ
+     ===================================== -->
 
 <section id="faq">
 
@@ -1496,6 +1482,325 @@
 </section>
 
 
+<!-- =====================================
+     LV7
+     ===================================== -->
+
+<section id="lv7">
+
+    <h2 onclick="openSection('lv7')">
+        Lv7 Fortress
+    </h2>
+
+    <div class="section-content">
+
+        <p>
+            <strong>Target League:</strong> Gold League
+        </p>
+
+        <p>
+            Lv7 is the highest-level fortress and is the most limited
+            strategic location on the map.
+        </p>
+
+        <p>
+            Because only one Lv7 Fortress exists, guilds should coordinate
+            carefully before declaring war.
+        </p>
+
+        <p>
+            Please use the Schedule Coordination system on Discord to
+            communicate your intended attack time and avoid unnecessary
+            conflicts with allied guilds.
+        </p>
+
+        <p>
+            <strong>Status:</strong> On hold. This section will be expanded
+            when the Lv7-related site functions are implemented.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================
+     LV6
+     ===================================== -->
+
+<section id="lv6">
+
+    <h2 onclick="openSection('lv6')">
+        Lv6 Fortress
+    </h2>
+
+    <div class="section-content">
+
+        <p>
+            <strong>Target League:</strong> Silver League
+        </p>
+
+        <p>
+            Lv6 Fortresses are limited in number, with only three available
+            on the map.
+        </p>
+
+        <p>
+            Because several guilds may compete for the same fortress,
+            coordination between allied guilds is especially important.
+        </p>
+
+        <p>
+            Before declaring war, check the Schedule Coordination calendar
+            and confirm that another allied guild is not already planning
+            to attack the same fortress.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================
+     LV5
+     ===================================== -->
+
+<section id="lv5">
+
+    <h2 onclick="openSection('lv5')">
+        Lv5 Fortress
+    </h2>
+
+    <div class="section-content">
+
+        <p>
+            <strong>Target League:</strong> Bronze League
+        </p>
+
+        <p>
+            Before proceeding, make sure you understand the basic rules
+            for Fortress Levels 1–4.
+        </p>
+
+        <h3>
+            How to Capture a Lv5 Fortress
+        </h3>
+
+        <p>
+            Starting from Lv5 Fortresses, the number of Imperial Guards
+            increases significantly. Each Lv5 Fortress has
+            <strong>120 Imperial Guards</strong>.
+        </p>
+
+        <p>
+            For this reason, coordinating with an allied guild can make
+            the capture process much more efficient.
+        </p>
+
+        <p>
+            One useful method is to coordinate the timing of the
+            declarations of war between two allied guilds.
+        </p>
+
+        <img
+            src="image/lv5-example.png"
+            alt="Example of coordinated declaration of war timing for a Lv5 Fortress"
+            style="max-width: 100%; height: auto;"
+        >
+
+        <h3>
+            Example
+        </h3>
+
+        <p>
+            <strong>1. Assign the attacking guild</strong>
+        </p>
+
+        <p>
+            Guild ①, located near the Lv5 Fortress, is designated as the
+            main attacking guild.
+        </p>
+
+        <p>
+            After discussing the plan through the alliance site,
+            Guild ① declares war at the agreed time.
+        </p>
+
+        <p>
+            <strong>2. Delay the supporting guild's declaration</strong>
+        </p>
+
+        <p>
+            Guild ② acts as the supporting guild and declares war
+            <strong>later than Guild ①</strong>.
+        </p>
+
+        <p>
+            The exact delay should be discussed and agreed upon by both
+            guilds in advance.
+        </p>
+
+        <p>
+            <strong>3. Divide the Imperial Guards</strong>
+        </p>
+
+        <p>
+            A Lv5 Fortress has <strong>120 Imperial Guards</strong>.
+        </p>
+
+        <p>
+            The guild that defeats the greater number of Guards gains the
+            right to occupy the fortress.
+        </p>
+
+        <p>
+            Therefore, Guild ① should defeat at least
+            <strong>61 Guards</strong>.
+        </p>
+
+        <p>
+            Guild ② can then assist by defeating the remaining Guards.
+            This allows Guild ① to secure the occupation rights while
+            Guild ② helps complete the capture efficiently.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================
+     LV1–4
+     ===================================== -->
+
+<section id="lv1-4">
+
+    <h2 onclick="openSection('lv1-4')">
+        Lv1–4 Fortresses
+    </h2>
+
+    <div class="section-content">
+
+        <p>
+            <strong>Target League:</strong> No specific GW League requirement.
+        </p>
+
+        <p>
+            Please prioritize fortresses located as close as possible
+            to your initial deployment area.
+        </p>
+
+        <p>
+            Since the number of fortresses becomes more limited at higher
+            levels, please focus on occupying
+            <strong>one fortress at a time</strong>, even when targeting
+            a lower-level fortress.
+        </p>
+
+        <p>
+            For Lv4 Fortresses, please use the
+            <strong>Schedule Coordination</strong> calendar on Discord
+            to clearly indicate which fortress your guild plans to attack
+            and when.
+        </p>
+
+        <p>
+            If two or more guilds have overlapping plans for the same
+            fortress, please discuss the situation directly with the
+            other guilds and reach an agreement.
+        </p>
+
+        <p>
+            If an agreement cannot be reached, priority will be given
+            to the guild that <strong>registered its attack plan first</strong>.
+        </p>
+
+        <ul>
+
+            <li>
+                Do not attempt to recapture a fortress already occupied
+                by an allied guild.
+            </li>
+
+            <li>
+                If recapture is necessary, negotiate with the occupying
+                guild beforehand.
+            </li>
+
+            <li>
+                If multiple guilds accidentally declare war on the same
+                fortress, resolve the situation through communication.
+            </li>
+
+            <li>
+                One guild may voluntarily withdraw if necessary to avoid
+                unnecessary conflict.
+            </li>
+
+        </ul>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================
+     CALENDAR
+     ===================================== -->
+
+<section id="calendar">
+
+    <h2 onclick="openSection('calendar')">
+        Calendar
+    </h2>
+
+    <div class="section-content">
+
+        <!-- Content will be added here -->
+
+    </div>
+
+</section>
+
+
+<!-- =====================================
+     IMAGE EDITOR
+     ===================================== -->
+
+<section id="image-editor">
+
+    <h2 onclick="openSection('image-editor')">
+        Image Editor
+    </h2>
+
+    <div class="section-content">
+
+        <!-- Content will be added here -->
+
+    </div>
+
+</section>
+
+
+<!-- =====================================
+     FORUM
+     ===================================== -->
+
+<section id="forum">
+
+    <h2 onclick="openSection('forum')">
+        Forum
+    </h2>
+
+    <div class="section-content">
+
+        <!-- Content will be added here -->
+
+    </div>
+
+</section>
+
+
 </main>
 
 
@@ -1509,6 +1814,191 @@
 
 
 <script src="script.js"></script>
+
+
+<!-- =====================================
+     MANUAL SEARCH SCRIPT
+     ===================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const searchInput =
+        document.getElementById("manual-search");
+
+    const resultsBox =
+        document.getElementById("manual-search-results");
+
+    const sections =
+        Array.from(document.querySelectorAll("main > section"));
+
+
+    function normalize(text) {
+
+        return text
+            .toLowerCase()
+            .replace(/\s+/g, " ")
+            .trim();
+
+    }
+
+
+    function clearHighlights() {
+
+        sections.forEach(section => {
+
+            section.classList.remove("manual-highlight");
+
+        });
+
+    }
+
+
+    function showResults(query) {
+
+        resultsBox.innerHTML = "";
+
+        if (!query) {
+
+            resultsBox.style.display = "none";
+
+            clearHighlights();
+
+            return;
+
+        }
+
+
+        const normalizedQuery =
+            normalize(query);
+
+
+        const matches =
+            sections.filter(section => {
+
+                return normalize(section.innerText)
+                    .includes(normalizedQuery);
+
+            });
+
+
+        resultsBox.style.display = "block";
+
+
+        if (matches.length === 0) {
+
+            resultsBox.innerHTML =
+                '<div class="manual-search-empty">No results found.</div>';
+
+            clearHighlights();
+
+            return;
+
+        }
+
+
+        matches.forEach(section => {
+
+            const heading =
+                section.querySelector("h2");
+
+            const title =
+                heading
+                    ? heading.innerText.trim()
+                    : "Section";
+
+
+            const text =
+                normalize(section.innerText)
+                    .replace(normalizedQuery, " ")
+                    .trim();
+
+
+            const result =
+                document.createElement("a");
+
+            result.href =
+                "#" + section.id;
+
+            result.className =
+                "manual-search-result";
+
+
+            result.innerHTML = `
+
+                <span class="manual-search-result-title">
+                    ${title}
+                </span>
+
+                <span class="manual-search-result-text">
+                    ${text.substring(0, 120)}
+                </span>
+
+            `;
+
+
+            result.addEventListener("click", function () {
+
+                clearHighlights();
+
+                section.classList.add(
+                    "manual-highlight"
+                );
+
+                setTimeout(function () {
+
+                    section.classList.remove(
+                        "manual-highlight"
+                    );
+
+                }, 1800);
+
+            });
+
+
+            resultsBox.appendChild(result);
+
+        });
+
+    }
+
+
+    searchInput.addEventListener(
+        "input",
+        function () {
+
+            showResults(
+                this.value
+            );
+
+        }
+    );
+
+
+    searchInput.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                this.value = "";
+
+                showResults("");
+
+                this.blur();
+
+            }
+
+        }
+    );
+
+});
+
+</script>
+
 
 </body>
 
