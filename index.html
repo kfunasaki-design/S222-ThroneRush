@@ -13,881 +13,571 @@
 
 <style>
 
-    /* =====================================
-       S222TR NAVIGATION ROADMAP
-       ===================================== */
+/* =====================================
+   S222TR NAVIGATION ROADMAP
+   ===================================== */
 
-    .tr-roadmap {
+.tr-roadmap {
 
-        position: relative;
+    position: relative;
 
-        width: 100%;
-        max-width: 760px;
+    width: 100%;
+    max-width: 760px;
 
-        aspect-ratio: 760 / 650;
+    aspect-ratio: 760 / 650;
 
-        padding-bottom: 10pt;
+    padding-bottom: 10pt;
 
-        margin: 20px auto 40px;
+    margin: 20px auto 40px;
 
-        background: #090909;
+    background: #090909;
 
-        overflow: hidden;
+    overflow: hidden;
 
-        border-radius: 14px;
+    border-radius: 14px;
 
-    }
+}
 
 
-    /* =====================================
-       SVG
-       ===================================== */
+/* =====================================
+   SVG
+   ===================================== */
 
-    .tr-roadmap-svg {
+.tr-roadmap-svg {
 
-        position: absolute;
+    position: absolute;
 
-        inset: 0;
+    inset: 0;
 
-        width: 100%;
-        height: 100%;
+    width: 100%;
+    height: 100%;
 
-        pointer-events: none;
+    pointer-events: none;
 
-        transform: translateY(-20px);
+    transform: translateY(-20px);
 
-    }
+}
 
 
-    /* =====================================
-       MAIN ROUTES
-       ===================================== */
+/* =====================================
+   MAIN ROUTES
+   ===================================== */
 
-    .tr-route-magenta,
-    .tr-route-lime,
-    .tr-route-cyan {
+.tr-route-magenta,
+.tr-route-lime,
+.tr-route-cyan {
 
-        fill: none;
+    fill: none;
 
-        stroke-width: 6;
+    stroke-width: 6;
 
-        stroke-linecap: round;
+    stroke-linecap: round;
 
-        stroke-linejoin: round;
+    stroke-linejoin: round;
 
-    }
+}
 
 
-    .tr-route-magenta {
+.tr-route-magenta {
 
-        stroke: #ff00cc;
+    stroke: #ff00cc;
 
-        filter: drop-shadow(0 0 4px #ff00cc);
+    filter: drop-shadow(0 0 4px #ff00cc);
 
-    }
+}
 
 
-    .tr-route-lime {
+.tr-route-lime {
 
-        stroke: #aaff00;
+    stroke: #aaff00;
 
-        filter: drop-shadow(0 0 4px #aaff00);
+    filter: drop-shadow(0 0 4px #aaff00);
 
-    }
+}
 
 
-    .tr-route-cyan {
+.tr-route-cyan {
 
-        stroke: #00eaff;
+    stroke: #00eaff;
 
-        filter: drop-shadow(0 0 4px #00eaff);
+    filter: drop-shadow(0 0 4px #00eaff);
 
-    }
+}
 
 
-    /* =====================================
-       BRANCH ROUTES
-       ===================================== */
+/* =====================================
+   BRANCH ROUTES
+   ===================================== */
 
-    .tr-branch-magenta,
-    .tr-branch-lime,
-    .tr-branch-cyan {
+.tr-branch-magenta,
+.tr-branch-lime,
+.tr-branch-cyan {
 
-        fill: none;
+    fill: none;
 
-        stroke-width: 4;
+    stroke-width: 4;
 
-        stroke-linecap: round;
+    stroke-linecap: round;
 
-        stroke-linejoin: round;
+    stroke-linejoin: round;
 
-    }
+}
 
 
-    .tr-branch-magenta {
+.tr-branch-magenta {
 
-        stroke: #ff00cc;
+    stroke: #ff00cc;
 
-        filter: drop-shadow(0 0 3px #ff00cc);
+    filter: drop-shadow(0 0 3px #ff00cc);
 
-    }
+}
 
 
-    .tr-branch-lime {
+.tr-branch-lime {
 
-        stroke: #aaff00;
+    stroke: #aaff00;
 
-        filter: drop-shadow(0 0 3px #aaff00);
+    filter: drop-shadow(0 0 3px #aaff00);
 
-    }
+}
 
 
-    .tr-branch-cyan {
+.tr-branch-cyan {
 
-        stroke: #00eaff;
+    stroke: #00eaff;
 
-        filter: drop-shadow(0 0 3px #00eaff);
+    filter: drop-shadow(0 0 3px #00eaff);
 
-    }
+}
 
 
-    /* =====================================
-       ROUTE POINTS
-       ===================================== */
+/* =====================================
+   ROUTE POINTS
+   ===================================== */
 
-    .tr-route-point {
+.tr-route-point {
 
-        stroke: none;
+    stroke: none;
 
-    }
+}
 
 
-    .tr-point-magenta {
+.tr-point-magenta {
 
-        fill: #ff00cc;
+    fill: #ff00cc;
 
-    }
+}
 
 
-    .tr-point-lime {
+.tr-point-lime {
 
-        fill: #aaff00;
+    fill: #aaff00;
 
-    }
+}
 
 
-    .tr-point-cyan {
+.tr-point-cyan {
 
-        fill: #00eaff;
+    fill: #00eaff;
 
-    }
+}
 
 
-    /* =====================================
-       MAIN NODES
-       ===================================== */
+/* =====================================
+   MAIN NODES
+   ===================================== */
 
-    .tr-main-node {
+.tr-main-node {
 
-        position: absolute;
+    position: absolute;
 
-        width: 64px;
-        height: 64px;
-        padding: 4px;
+    width: 64px;
+    height: 64px;
 
-        display: flex;
+    padding: 4px;
 
-        align-items: center;
-        justify-content: center;
+    display: flex;
 
-        border-radius: 50%;
+    align-items: center;
+    justify-content: center;
 
-        background: #090909;
+    border-radius: 50%;
 
-        border: 5px solid;
+    background: #090909;
 
-        text-decoration: none;
+    border: 5px solid;
 
-        font-size: 16px;
+    text-decoration: none;
 
-        font-weight: 400;
+    font-size: 16px;
 
-        line-height: 1;
+    font-weight: 400;
 
-        white-space: nowrap;
+    line-height: 1;
 
-        text-align: center;
+    white-space: nowrap;
 
-        z-index: 10;
+    text-align: center;
 
-        box-sizing: border-box;
+    z-index: 10;
 
-        transform: translate(-50%, calc(-50% + 11pt));
+    box-sizing: border-box;
 
-        margin-top: -20px;
+    transform: translate(-50%, calc(-50% + 11pt));
 
-        filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.85));
+    margin-top: -20px;
 
-        transition:
-            transform 0.15s ease,
-            background 0.15s ease;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.85));
 
-    }
+    transition:
+        transform 0.15s ease,
+        background 0.15s ease;
 
+}
 
-    /* =====================================
-       MAIN NODE COLORS
-       ===================================== */
 
-    .tr-node-magenta {
+/* =====================================
+   MAIN NODE COLORS
+   ===================================== */
 
-        color: #ff00cc;
+.tr-node-magenta {
 
-        border-color: #ff00cc;
+    color: #ff00cc;
 
-    }
+    border-color: #ff00cc;
 
+}
 
-    .tr-node-lime {
 
-        color: #aaff00;
+.tr-node-lime {
 
-        border-color: #aaff00;
+    color: #aaff00;
 
-    }
+    border-color: #aaff00;
 
+}
 
-    .tr-node-cyan {
 
-        color: #00eaff;
+.tr-node-cyan {
 
-        border-color: #00eaff;
+    color: #00eaff;
 
-    }
+    border-color: #00eaff;
 
+}
 
-    .tr-main-node:hover {
 
-        transform:
-            translate(-50%, calc(-50% + 11pt))
-            scale(1.06);
+.tr-main-node:hover {
 
-        background: #111;
+    transform:
+        translate(-50%, calc(-50% + 11pt))
+        scale(1.06);
 
-    }
+    background: #111;
 
+}
 
-    /* =====================================
-       START / OVERVIEW SQUARE NODES
-       ===================================== */
 
-    .tr-square-node {
+/* =====================================
+   START / OVERVIEW SQUARE NODES
+   ===================================== */
 
-        position: absolute;
+.tr-square-node {
 
-        display: flex;
+    position: absolute;
 
-        align-items: center;
-        justify-content: center;
+    display: flex;
 
-        width: 96px;
-        height: 42px;
+    align-items: center;
+    justify-content: center;
 
-        box-sizing: border-box;
+    width: 96px;
+    height: 42px;
 
-        background: #090909;
+    box-sizing: border-box;
 
-        border: 4px solid #ff00cc;
+    background: #090909;
 
-        color: #ff00cc;
+    border: 4px solid #ff00cc;
 
-        text-decoration: none;
+    color: #ff00cc;
 
-        font-size: 15px;
+    text-decoration: none;
 
-        font-weight: 400;
+    font-size: 15px;
 
-        line-height: 1;
+    font-weight: 400;
 
-        white-space: nowrap;
+    line-height: 1;
 
-        z-index: 10;
+    white-space: nowrap;
 
-        transform: translate(-50%, calc(-50% + 11pt));
+    z-index: 10;
 
-        margin-top: -20px;
+    transform: translate(-50%, calc(-50% + 11pt));
 
-        filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.85));
+    margin-top: -20px;
 
-        transition:
-            transform 0.15s ease,
-            background 0.15s ease;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.85));
 
-    }
+    transition:
+        transform 0.15s ease,
+        background 0.15s ease;
 
+}
 
-    /* =====================================
-       START ONLY
-       ===================================== */
 
-    .tr-square-node.tr-start {
+/* =====================================
+   START ONLY
+   ===================================== */
 
-        color: #ffffff;
+.tr-square-node.tr-start {
 
-    }
+    color: #ffffff;
 
+}
 
-    /* =====================================
-       SQUARE NODE HOVER
-       ===================================== */
 
-    .tr-square-node:hover {
+/* =====================================
+   SQUARE NODE HOVER
+   ===================================== */
 
-        transform:
-            translate(-50%, calc(-50% + 11pt))
-            scale(1.06);
+.tr-square-node:hover {
 
-        background: #111;
+    transform:
+        translate(-50%, calc(-50% + 11pt))
+        scale(1.06);
 
-    }
+    background: #111;
 
+}
 
-    /* =====================================
-       BRANCH LINKS
-       ===================================== */
 
-    .tr-branch-link {
+/* =====================================
+   BRANCH LINKS
+   ===================================== */
 
-        position: absolute;
+.tr-branch-link {
 
-        display: inline-flex;
+    position: absolute;
 
-        align-items: center;
-        justify-content: center;
+    display: inline-flex;
 
-        padding: 4px 8px;
+    align-items: center;
+    justify-content: center;
 
-        background: #090909;
+    padding: 4px 8px;
 
-        text-decoration: none;
+    background: #090909;
 
-        font-size: 15px;
+    text-decoration: none;
 
-        font-weight: 400;
+    font-size: 15px;
 
-        line-height: 1.1;
+    font-weight: 400;
 
-        white-space: nowrap;
+    line-height: 1.1;
 
-        border: 2px solid;
+    white-space: nowrap;
 
-        border-radius: 5px;
+    border: 2px solid;
 
-        box-sizing: border-box;
+    border-radius: 5px;
 
-        z-index: 10;
+    box-sizing: border-box;
 
-        transform: translate(-50%, -50%);
+    z-index: 10;
 
-        margin-top: -20px;
+    transform: translate(-50%, -50%);
 
-        transition:
-            transform 0.15s ease,
-            background 0.15s ease;
+    margin-top: -20px;
 
-    }
+    transition:
+        transform 0.15s ease,
+        background 0.15s ease;
 
+}
 
-    /* =====================================
-       LINK COLORS
-       ===================================== */
 
-    .tr-link-magenta {
+/* =====================================
+   LINK COLORS
+   ===================================== */
 
-        color: #ff00cc;
+.tr-link-magenta {
 
-        border-color: #ff00cc;
+    color: #ff00cc;
 
-    }
+    border-color: #ff00cc;
 
+}
 
-    .tr-link-lime {
 
-        color: #aaff00;
+.tr-link-lime {
 
-        border-color: #aaff00;
+    color: #aaff00;
 
-    }
+    border-color: #aaff00;
 
+}
 
-    .tr-link-cyan {
 
-        color: #00eaff;
+.tr-link-cyan {
 
-        border-color: #00eaff;
+    color: #00eaff;
 
-    }
+    border-color: #00eaff;
 
+}
 
-    .tr-branch-link:hover {
 
-        background: #111;
+.tr-branch-link:hover {
 
-        transform:
-            translate(-50%, -50%)
-            scale(1.05);
+    background: #111;
 
-    }
+    transform:
+        translate(-50%, -50%)
+        scale(1.05);
 
+}
 
-    /* =====================================
-       SEASON TIMELINE
-       ===================================== */
 
-    .tr-season {
+/* =====================================
+   SEASON TIMELINE
+   ===================================== */
 
-        position: absolute;
+.tr-season {
 
-        left: 8%;
-        right: 8%;
+    position: absolute;
 
-        bottom: 3%;
+    left: 8%;
+    right: 8%;
 
-        display: flex;
+    bottom: 3%;
 
-        align-items: center;
+    display: flex;
 
-        gap: 10px;
+    align-items: center;
 
-        color: #aaa;
+    gap: 10px;
 
-        font-size: 12px;
+    color: #aaa;
 
-        font-weight: 400;
+    font-size: 12px;
 
-        z-index: 5;
+    font-weight: 400;
 
-    }
+    z-index: 5;
 
+}
 
-    /* =====================================
-       SEASON TIMELINE GRADIENT
-       ===================================== */
 
-    .tr-season-line {
+/* =====================================
+   SEASON TIMELINE GRADIENT
+   ===================================== */
 
-        position: relative;
+.tr-season-line {
 
-        flex: 1;
+    position: relative;
 
-        height: 3px;
+    flex: 1;
 
-        background:
-            linear-gradient(
-                90deg,
-                #ff00cc 0%,
-                #aaff00 50%,
-                #00eaff 100%
-            );
+    height: 3px;
 
-        border-radius: 10px;
+    background:
+        linear-gradient(
+            90deg,
+            #ff00cc 0%,
+            #aaff00 50%,
+            #00eaff 100%
+        );
 
-    }
+    border-radius: 10px;
 
+}
 
-    /* =====================================
-       SEASON TIMELINE CURRENT POINT
-       ===================================== */
 
-    .tr-season-current {
+/* =====================================
+   SEASON TIMELINE CURRENT POINT
+   ===================================== */
 
-        position: absolute;
+.tr-season-current {
 
-        left: 50%;
+    position: absolute;
 
-        top: 50%;
+    left: 50%;
 
-        width: 12px;
-        height: 12px;
+    top: 50%;
 
-        transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
 
-        background: #ffffff;
+    transform: translate(-50%, -50%);
 
-        border: 2px solid #090909;
+    background: #ffffff;
 
-        border-radius: 50%;
+    border: 2px solid #090909;
 
-        box-shadow:
-            0 0 5px #ffffff,
-            0 0 10px rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
 
-    }
+    box-shadow:
+        0 0 5px #ffffff,
+        0 0 10px rgba(255, 255, 255, 0.9);
+
+}
 
 
 /* =====================================
    MANUAL TOOLBAR
    ===================================== */
 
-.manual-toolbar {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: flex-end;
-
-    gap: 10px;
-
-    margin-left: auto;
-
-}
-
-
-.manual-search {
-
-    width: 180px;
-
-    height: 34px;
-
-    box-sizing: border-box;
-
-    padding: 0 10px;
-
-    border: 1px solid #444;
-
-    border-radius: 6px;
-
-    background: #111;
-
-    color: #fff;
-
-    font-size: 14px;
-
-    outline: none;
-
-}
-
-
-.manual-search::placeholder {
-
-    color: #888;
-
-}
-
-
-.manual-search:focus {
-
-    border-color: #777;
-
-}
-
-
-.manual-back {
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    color: #aaa;
-
-    text-decoration: none;
-
-    font-size: 14px;
-
-    white-space: nowrap;
-
-}
-
-
-.manual-back:hover {
-
-    color: #fff;
-
-}
-
-
-    /* =====================================
-       DISCORD BACK BUTTON
-       ===================================== */
-
-    .manual-back {
-
-        display: inline-flex;
-
-        align-items: center;
-        justify-content: center;
-
-        min-height: 40px;
-
-        padding: 0 14px;
-
-        box-sizing: border-box;
-
-        background: #090909;
-
-        border: 2px solid #7289da;
-
-        border-radius: 6px;
-
-        color: #ffffff;
-
-        text-decoration: none;
-
-        white-space: nowrap;
-
-        transition:
-            background 0.15s ease,
-            transform 0.15s ease;
-
-    }
-
-
-    .manual-back:hover {
-
-        background: #111;
-
-        transform: translateY(-1px);
-
-    }
-
-
-    /* =====================================
-       MANUAL SEARCH
-       ===================================== */
-
-    .manual-search {
-
-        flex: 1;
-
-        min-width: 0;
-
-        height: 40px;
-
-        padding: 0 12px;
-
-        box-sizing: border-box;
-
-        background: #090909;
-
-        border: 2px solid #555;
-
-        border-radius: 6px;
-
-        color: #ffffff;
-
-        outline: none;
-
-    }
-
-
-    .manual-search:focus {
-
-        border-color: #888;
-
-    }
-
-
-    .manual-search::placeholder {
-
-        color: #888;
-
-    }
-
-
-    /* =====================================
-       SEARCH RESULTS
-       ===================================== */
-
-    .manual-search-results {
-
-        width: 100%;
-
-        max-width: 760px;
-
-        margin: -15px auto 25px;
-
-        display: none;
-
-        box-sizing: border-box;
-
-    }
-
-
-    .manual-search-result {
-
-        display: block;
-
-        width: 100%;
-
-        margin-bottom: 6px;
-
-        padding: 10px 12px;
-
-        box-sizing: border-box;
-
-        background: #090909;
-
-        border: 1px solid #444;
-
-        border-radius: 5px;
-
-        color: #ddd;
-
-        text-decoration: none;
-
-    }
-
-
-    .manual-search-result:hover {
-
-        background: #111;
-
-    }
-
-
-    .manual-search-result-title {
-
-        display: block;
-
-        margin-bottom: 3px;
-
-        color: #ffffff;
-
-        font-weight: 600;
-
-    }
-
-
-    .manual-search-result-text {
-
-        display: block;
-
-        color: #999;
-
-        font-size: 12px;
-
-    }
-
-
-    .manual-search-empty {
-
-        padding: 10px 12px;
-
-        color: #888;
-
-    }
-
-
-    /* =====================================
-       SEARCH HIGHLIGHT
-       ===================================== */
-
-    .manual-highlight {
-
-        outline: 2px solid #ffffff;
-
-        outline-offset: 5px;
-
-    }
-
-
-/* =====================================
-   MOBILE
-   ===================================== */
-
-@media (max-width: 600px) {
-
-    .manual-toolbar {
-
-        gap: 7px;
-
-    }
-
-
-    .manual-search {
-
-        width: 130px;
-
-    }
-
-
-    .manual-back {
-
-        font-size: 13px;
-
-    }
-    }
-/* =====================================
-   MANUAL HEADER
-   ===================================== */
-
-.manual-header {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 20px;
-
-    width: 100%;
-
-    box-sizing: border-box;
-
-}
-
-
-.manual-header h1 {
-
-    margin: 0;
-
-    text-align: left;
-
-    flex-shrink: 0;
-
-}
-
-
 .manual-tools {
 
+    width: 100%;
+    max-width: 760px;
+
+    margin: 15px auto 20px;
+
     display: flex;
 
     align-items: center;
 
-    justify-content: flex-end;
-
     gap: 10px;
 
-    margin-left: auto;
+    box-sizing: border-box;
 
 }
 
 
 #manual-search {
 
-    width: 180px;
+    flex: 1;
 
-    height: 34px;
+    min-width: 0;
+
+    height: 40px;
+
+    padding: 0 12px;
 
     box-sizing: border-box;
 
-    padding: 0 10px;
+    background: #090909;
 
-    border: 1px solid #444;
+    border: 2px solid #555;
 
     border-radius: 6px;
 
-    background: #111;
-
-    color: #fff;
+    color: #ffffff;
 
     font-size: 14px;
 
     outline: none;
+
+}
+
+
+#manual-search:focus {
+
+    border-color: #888;
 
 }
 
@@ -899,91 +589,184 @@
 }
 
 
-#manual-search:focus {
-
-    border-color: #777;
-
-}
-
+/* =====================================
+   DISCORD BACK BUTTON
+   ===================================== */
 
 .manual-back {
 
     display: inline-flex;
 
     align-items: center;
-
     justify-content: center;
 
-    height: 34px;
+    min-height: 40px;
 
-    padding: 0 4px;
+    padding: 0 14px;
 
-    color: #aaa;
+    box-sizing: border-box;
+
+    background: #090909;
+
+    border: 2px solid #7289da;
+
+    border-radius: 6px;
+
+    color: #ffffff;
 
     text-decoration: none;
 
-    font-size: 14px;
-
     white-space: nowrap;
+
+    transition:
+        background 0.15s ease,
+        transform 0.15s ease;
 
 }
 
 
 .manual-back:hover {
 
-    color: #fff;
+    background: #111;
+
+    transform: translateY(-1px);
 
 }
 
 
 /* =====================================
-   SEARCH RESULT
+   SEARCH RESULTS
    ===================================== */
 
-.manual-search-hidden {
+.manual-search-results {
 
-    display: none !important;
+    width: 100%;
+
+    max-width: 760px;
+
+    margin: -10px auto 25px;
+
+    display: none;
+
+    box-sizing: border-box;
+
+}
+
+
+.manual-search-result {
+
+    display: block;
+
+    width: 100%;
+
+    margin-bottom: 6px;
+
+    padding: 10px 12px;
+
+    box-sizing: border-box;
+
+    background: #090909;
+
+    border: 1px solid #444;
+
+    border-radius: 5px;
+
+    color: #ddd;
+
+    text-decoration: none;
+
+}
+
+
+.manual-search-result:hover {
+
+    background: #111;
+
+}
+
+
+.manual-search-result-title {
+
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: #ffffff;
+
+    font-weight: 600;
+
+}
+
+
+.manual-search-result-text {
+
+    display: block;
+
+    color: #999;
+
+    font-size: 12px;
+
+}
+
+
+.manual-search-empty {
+
+    padding: 10px 12px;
+
+    color: #888;
 
 }
 
 
 /* =====================================
-   MOBILE HEADER
+   SEARCH HIGHLIGHT
+   ===================================== */
+
+.manual-highlight {
+
+    outline: 2px solid #ffffff;
+
+    outline-offset: 5px;
+
+}
+
+
+/* =====================================
+   MOBILE
    ===================================== */
 
 @media (max-width: 600px) {
-
-    .manual-header {
-
-        gap: 10px;
-
-    }
-
 
     .manual-tools {
 
         gap: 7px;
 
-    }
-
-
-    #manual-search {
-
-        width: 130px;
+        padding: 0 10px;
 
     }
 
 
     .manual-back {
 
+        padding: 0 10px;
+
         font-size: 13px;
 
     }
 
+
+    .manual-search-results {
+
+        padding: 0 10px;
+
+    }
+
 }
+
 </style>
 
 </head>
+
 
 <body>
 
@@ -1007,23 +790,23 @@
      MANUAL TOOLBAR
      ===================================== -->
 
-    <div class="manual-tools">
+<div class="manual-tools">
 
-        <input
-            type="search"
-            id="manual-search"
-            placeholder="Search"
-            aria-label="Search manual"
-        >
+    <input
+        type="search"
+        id="manual-search"
+        placeholder="Search"
+        aria-label="Search manual"
+    >
 
-        <a
-            class="manual-back"
-            href="https://discord.com/channels/1532246363260194866/1532542629726785597"
-        >
-            ← Back
-        </a>
+    <a
+        class="manual-back"
+        href="https://discord.com/channels/1532246363260194866/1532542629726785597"
+    >
+        ← Back
+    </a>
 
-    </div>
+</div>
 
 
 <div
@@ -1045,11 +828,6 @@
     aria-hidden="true"
 >
 
-
-    <!-- =====================================
-         MAIN ROUTES
-         ===================================== -->
-
     <path
         class="tr-route-magenta"
         d="
@@ -1058,7 +836,6 @@
             L 325 370
         "
     />
-
 
     <path
         class="tr-route-lime"
@@ -1069,7 +846,6 @@
             L 452 288
         "
     />
-
 
     <path
         class="tr-route-cyan"
@@ -1082,11 +858,6 @@
         "
     />
 
-
-    <!-- =====================================
-         MAGENTA BRANCHES
-         ===================================== -->
-
     <path
         class="tr-branch-magenta"
         d="
@@ -1095,7 +866,6 @@
             L 115 225
         "
     />
-
 
     <path
         class="tr-branch-magenta"
@@ -1106,7 +876,6 @@
         "
     />
 
-
     <path
         class="tr-branch-magenta"
         d="
@@ -1115,11 +884,6 @@
             L 405 135
         "
     />
-
-
-    <!-- =====================================
-         LIME BRANCHES
-         ===================================== -->
 
     <path
         class="tr-branch-lime"
@@ -1130,7 +894,6 @@
         "
     />
 
-
     <path
         class="tr-branch-lime"
         d="
@@ -1140,11 +903,6 @@
         "
     />
 
-
-    <!-- =====================================
-         CYAN BRANCH
-         ===================================== -->
-
     <path
         class="tr-branch-cyan"
         d="
@@ -1153,11 +911,6 @@
             L 690 80
         "
     />
-
-
-    <!-- =====================================
-         ROUTE POINTS
-         ===================================== -->
 
     <circle class="tr-route-point tr-point-magenta" cx="85" cy="550" r="6" />
     <circle class="tr-route-point tr-point-magenta" cx="205" cy="460" r="6" />
@@ -1169,7 +922,6 @@
     <circle class="tr-route-point tr-point-magenta" cx="315" cy="205" r="6" />
     <circle class="tr-route-point tr-point-magenta" cx="405" cy="135" r="6" />
 
-
     <circle class="tr-route-point tr-point-lime" cx="92" cy="558" r="6" />
     <circle class="tr-route-point tr-point-lime" cx="212" cy="468" r="6" />
     <circle class="tr-route-point tr-point-lime" cx="332" cy="378" r="6" />
@@ -1178,7 +930,6 @@
     <circle class="tr-route-point tr-point-lime" cx="460" cy="490" r="6" />
     <circle class="tr-route-point tr-point-lime" cx="625" cy="365" r="6" />
     <circle class="tr-route-point tr-point-lime" cx="650" cy="430" r="6" />
-
 
     <circle class="tr-route-point tr-point-cyan" cx="99" cy="566" r="6" />
     <circle class="tr-route-point tr-point-cyan" cx="219" cy="476" r="6" />
@@ -1191,10 +942,6 @@
 </svg>
 
 
-<!-- =====================================
-     START
-     ===================================== -->
-
 <a
     class="tr-square-node tr-start"
     style="left: 11.18%; top: 83.08%;"
@@ -1204,10 +951,6 @@
     START
 </a>
 
-
-<!-- =====================================
-     MAIN NODES
-     ===================================== -->
 
 <a
     class="tr-square-node"
@@ -1259,10 +1002,6 @@
 </a>
 
 
-<!-- =====================================
-     MAGENTA LINKS
-     ===================================== -->
-
 <a
     class="tr-branch-link tr-link-magenta"
     style="left: 15.13%; top: 34.62%;"
@@ -1293,10 +1032,6 @@
 </a>
 
 
-<!-- =====================================
-     LIME LINKS
-     ===================================== -->
-
 <a
     class="tr-branch-link tr-link-lime"
     style="left: 63.82%; top: 74.31%;"
@@ -1317,10 +1052,6 @@
 </a>
 
 
-<!-- =====================================
-     CYAN LINKS
-     ===================================== -->
-
 <a
     class="tr-branch-link tr-link-cyan"
     style="left: 86.79%; top: 37.77%;"
@@ -1330,10 +1061,6 @@
     Forum
 </a>
 
-
-<!-- =====================================
-     SEASON TIMELINE
-     ===================================== -->
 
 <div class="tr-season">
 
@@ -1349,16 +1076,11 @@
 
 </div>
 
-
 </section>
 
 
 <main>
 
-
-<!-- =====================================
-     OVERVIEW
-     ===================================== -->
 
 <section id="overview">
 
@@ -1391,10 +1113,6 @@
 </section>
 
 
-<!-- =====================================
-     RULES
-     ===================================== -->
-
 <section id="rules">
 
     <h2 onclick="openSection('rules')">
@@ -1403,16 +1121,10 @@
 
     <div class="section-content">
 
-        <!-- Content will be added here -->
-
     </div>
 
 </section>
 
-
-<!-- =====================================
-     RESTRICTION
-     ===================================== -->
 
 <section id="restriction">
 
@@ -1422,16 +1134,10 @@
 
     <div class="section-content">
 
-        <!-- Content will be added here -->
-
     </div>
 
 </section>
 
-
-<!-- =====================================
-     FAQ
-     ===================================== -->
 
 <section id="faq">
 
@@ -1443,14 +1149,11 @@
 
         <div class="faq-list">
 
-
             <div class="faq-item">
 
                 <div class="faq-question">
 
-                    <span class="faq-label">
-                        Q
-                    </span>
+                    <span class="faq-label">Q</span>
 
                     <span>
                         I want to teleport, but I cannot.
@@ -1460,9 +1163,7 @@
 
                 <div class="faq-answer">
 
-                    <span class="faq-label">
-                        A
-                    </span>
+                    <span class="faq-label">A</span>
 
                     <div>
 
@@ -1486,9 +1187,7 @@
 
                 <div class="faq-question">
 
-                    <span class="faq-label">
-                        Q
-                    </span>
+                    <span class="faq-label">Q</span>
 
                     <span>
                         When should I teleport?
@@ -1498,9 +1197,7 @@
 
                 <div class="faq-answer">
 
-                    <span class="faq-label">
-                        A
-                    </span>
+                    <span class="faq-label">A</span>
 
                     <div>
 
@@ -1525,9 +1222,7 @@
 
                 <div class="faq-question">
 
-                    <span class="faq-label">
-                        Q
-                    </span>
+                    <span class="faq-label">Q</span>
 
                     <span>
                         How many fortresses are there at each level?
@@ -1537,9 +1232,7 @@
 
                 <div class="faq-answer">
 
-                    <span class="faq-label">
-                        A
-                    </span>
+                    <span class="faq-label">A</span>
 
                     <div>
 
@@ -1565,9 +1258,7 @@
 
                 <div class="faq-question">
 
-                    <span class="faq-label">
-                        Q
-                    </span>
+                    <span class="faq-label">Q</span>
 
                     <span>
                         What happens to the Imperial Guards if an
@@ -1578,9 +1269,7 @@
 
                 <div class="faq-answer">
 
-                    <span class="faq-label">
-                        A
-                    </span>
+                    <span class="faq-label">A</span>
 
                     <div>
 
@@ -1607,9 +1296,7 @@
 
                 <div class="faq-question">
 
-                    <span class="faq-label">
-                        Q
-                    </span>
+                    <span class="faq-label">Q</span>
 
                     <span>
                         Which league can challenge each fortress level?
@@ -1619,9 +1306,7 @@
 
                 <div class="faq-answer">
 
-                    <span class="faq-label">
-                        A
-                    </span>
+                    <span class="faq-label">A</span>
 
                     <div>
 
@@ -1656,17 +1341,12 @@
 
             </div>
 
-
         </div>
 
     </div>
 
 </section>
 
-
-<!-- =====================================
-     LV7
-     ===================================== -->
 
 <section id="lv7">
 
@@ -1706,10 +1386,6 @@
 </section>
 
 
-<!-- =====================================
-     LV6
-     ===================================== -->
-
 <section id="lv6">
 
     <h2 onclick="openSection('lv6')">
@@ -1742,10 +1418,6 @@
 
 </section>
 
-
-<!-- =====================================
-     LV5
-     ===================================== -->
 
 <section id="lv5">
 
@@ -1851,10 +1523,6 @@
 </section>
 
 
-<!-- =====================================
-     LV1–4
-     ===================================== -->
-
 <section id="lv1-4">
 
     <h2 onclick="openSection('lv1-4')">
@@ -1926,10 +1594,6 @@
 </section>
 
 
-<!-- =====================================
-     CALENDAR
-     ===================================== -->
-
 <section id="calendar">
 
     <h2 onclick="openSection('calendar')">
@@ -1938,16 +1602,10 @@
 
     <div class="section-content">
 
-        <!-- Content will be added here -->
-
     </div>
 
 </section>
 
-
-<!-- =====================================
-     IMAGE EDITOR
-     ===================================== -->
 
 <section id="image-editor">
 
@@ -1957,16 +1615,10 @@
 
     <div class="section-content">
 
-        <!-- Content will be added here -->
-
     </div>
 
 </section>
 
-
-<!-- =====================================
-     FORUM
-     ===================================== -->
 
 <section id="forum">
 
@@ -1975,8 +1627,6 @@
     </h2>
 
     <div class="section-content">
-
-        <!-- Content will be added here -->
 
     </div>
 
@@ -1996,62 +1646,8 @@
 
 
 <script src="script.js"></script>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
 
-    const searchInput = document.getElementById("manual-search");
 
-    if (!searchInput) return;
-
-    searchInput.addEventListener("input", () => {
-
-        const keyword = searchInput.value
-            .trim()
-            .toLowerCase();
-
-        const sections = document.querySelectorAll("main section");
-
-        sections.forEach(section => {
-
-            /* タイトルは常に表示 */
-            section.style.display = "";
-
-            const contents = section.querySelectorAll(
-                ".section-content > p, " +
-                ".section-content > h3, " +
-                ".section-content > ul, " +
-                ".faq-item, " +
-                ".section-content > img"
-            );
-
-            /* 検索が空なら全部戻す */
-            if (keyword === "") {
-
-                contents.forEach(item => {
-                    item.style.display = "";
-                });
-
-                return;
-            }
-
-            contents.forEach(item => {
-
-                const text = item.textContent.toLowerCase();
-
-                if (text.includes(keyword)) {
-                    item.style.display = "";
-                } else {
-                    item.style.display = "none";
-                }
-
-            });
-
-        });
-
-    });
-
-});
-</script>
 <!-- =====================================
      MANUAL SEARCH SCRIPT
      ===================================== -->
@@ -2181,6 +1777,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 section.classList.add(
                     "manual-highlight"
                 );
+
 
                 setTimeout(function () {
 
