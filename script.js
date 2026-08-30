@@ -5,7 +5,7 @@
 
 document.addEventListener("DOMContentLoaded", function () {
 
-```
+
 const markdownContainer =
     document.getElementById("markdown-content");
 
@@ -473,6 +473,6 @@ if (searchInput) {
     );
 
 }
-```
+
 
 });
