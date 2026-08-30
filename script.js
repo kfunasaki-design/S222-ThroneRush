@@ -1,16 +1,17 @@
-/* =====================================
-   S222 THRONERUSH MANUAL
-   MARKDOWN LOADER
-   ===================================== */
-
 document.addEventListener("DOMContentLoaded", async function () {
 
-    const content =
+    const markdownContainer =
         document.getElementById("markdown-content");
+
+    const searchInput =
+        document.getElementById("manual-search");
+
+    const resultsBox =
+        document.getElementById("manual-search-results");
 
 
     /* =====================================
-       LOAD MARKDOWN
+       MARKDOWN FILE
        ===================================== */
 
     try {
@@ -26,694 +27,480 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         }
 
+
         const markdown =
             await response.text();
 
 
-        content.innerHTML =
+        const html =
             marked.parse(markdown);
 
 
         /* =====================================
-           PREPARE SECTIONS
+           TEMPORARY PARSE
            ===================================== */
 
-        prepareSections();
-
-
-        /* =====================================
-           SEARCH
-           ===================================== */
-
-        setupSearch();
-
-
-        /* =====================================
-           OPEN INITIAL SECTION
-           ===================================== */
-
-        const hash =
-            window.location.hash.substring(1);
-
-        if (hash) {
-
-            openSection(hash);
-
-        } else {
-
-            openSection("overview");
-
-        }
-
-    }
-
-    catch (error) {
-
-        console.error(error);
-
-        content.innerHTML = `
-            <section class="open">
-                <h2>Manual</h2>
-
-                <div class="section-content">
-
-                    <p>
-                        Failed to load manual content.
-                    </p>
-
-                </div>
-
-            </section>
-        `;
-
-    }
-
-});
-
-
-/* =====================================
-   PREPARE MARKDOWN SECTIONS
-   ===================================== */
-
-function prepareSections() {
-
-    const content =
-        document.getElementById(
-            "markdown-content"
-        );
-
-
-    const headings =
-        Array.from(
-            content.querySelectorAll("h2")
-        );
-
-
-    headings.forEach(function (heading) {
-
-        /* ---------------------------------
-           CREATE SECTION
-           --------------------------------- */
-
-        const section =
-            document.createElement("section");
-
-
-        /* ---------------------------------
-           ASSIGN ORIGINAL SECTION ID
-           --------------------------------- */
-
-        const title =
-            heading.textContent
-                .trim()
-                .toLowerCase();
-
-
-        const sectionIds = {
-
-            "overview":
-                "overview",
-
-            "rules":
-                "rules",
-
-            "restriction":
-                "restriction",
-
-            "faq":
-                "faq",
-
-            "lv7 fortress":
-                "lv7",
-
-            "lv6 fortress":
-                "lv6",
-
-            "lv5 fortress":
-                "lv5",
-
-            "lv1–4 fortresses":
-                "lv1-4",
-
-            "lv1-4 fortresses":
-                "lv1-4",
-
-            "calendar":
-                "calendar",
-
-            "image editor":
-                "image-editor",
-
-            "forum":
-                "forum"
-
-        };
-
-
-        const sectionId =
-            sectionIds[title]
-            || createSectionId(title);
-
-
-        section.id =
-            sectionId;
-
-
-        /* ---------------------------------
-           INSERT SECTION
-           --------------------------------- */
-
-        heading.parentNode.insertBefore(
-            section,
-            heading
-        );
-
-
-        /* ---------------------------------
-           MOVE HEADING
-           --------------------------------- */
-
-        section.appendChild(
-            heading
-        );
-
-
-        /* ---------------------------------
-           CREATE CONTENT WRAPPER
-           --------------------------------- */
-
-        const wrapper =
+        const temp =
             document.createElement("div");
 
+        temp.innerHTML = html;
 
-        wrapper.className =
-            "section-content";
 
+        /* =====================================
+           BUILD SECTIONS
+           ===================================== */
 
-        /* ---------------------------------
-           MOVE CONTENT UNTIL NEXT H2
-           --------------------------------- */
+        const fragment =
+            document.createDocumentFragment();
 
-        let current =
-            heading.nextSibling;
 
+        let currentSection = null;
+        let currentContent = null;
 
-        while (current) {
 
-            const next =
-                current.nextSibling;
+        Array.from(temp.children).forEach(function (element) {
 
 
-            if (
-                current.nodeType === 1 &&
-                current.tagName === "H2"
-            ) {
+            /* =============================
+               H2 = NEW SECTION
+               ============================= */
 
-                break;
+            if (element.tagName === "H2") {
 
-            }
 
+                currentSection =
+                    document.createElement("section");
 
-            wrapper.appendChild(
-                current
-            );
 
+                const sectionId =
+                    element.textContent
+                        .toLowerCase()
+                        .trim()
+                        .replace(/[–—]/g, "-")
+                        .replace(/[^a-z0-9]+/g, "-")
+                        .replace(/^-+|-+$/g, "");
 
-            current =
-                next;
 
-        }
+                currentSection.id =
+                    sectionId;
 
-
-        section.appendChild(
-            wrapper
-        );
-
-
-        /* ---------------------------------
-           HEADING CLICK
-           --------------------------------- */
-
-        heading.addEventListener(
-            "click",
-            function () {
-
-                openSection(
-                    sectionId
-                );
-
-            }
-        );
-
-    });
-
-}
-
-
-/* =====================================
-   CREATE FALLBACK SECTION ID
-   ===================================== */
-
-function createSectionId(text) {
-
-    return text
-        .toLowerCase()
-        .trim()
-        .replace(/[^\w\s-]/g, "")
-        .replace(/\s+/g, "-");
-
-}
-
-
-/* =====================================
-   OPEN SECTION
-   ===================================== */
-
-function openSection(sectionId) {
-
-    const sections =
-        document.querySelectorAll(
-            "main section"
-        );
-
-
-    /* ---------------------------------
-       CLOSE ALL SECTIONS
-       --------------------------------- */
-
-    sections.forEach(
-        function (section) {
-
-            section.classList.remove(
-                "open"
-            );
-
-        }
-    );
-
-
-    /* ---------------------------------
-       FIND TARGET
-       --------------------------------- */
-
-    const target =
-        document.getElementById(
-            sectionId
-        );
-
-
-    if (!target) {
-
-        console.warn(
-            "Section not found:",
-            sectionId
-        );
-
-        return;
-
-    }
-
-
-    /* ---------------------------------
-       OPEN TARGET
-       --------------------------------- */
-
-    target.classList.add(
-        "open"
-    );
-
-
-    /* ---------------------------------
-       UPDATE URL HASH
-       --------------------------------- */
-
-    if (
-        window.location.hash !==
-        "#" + sectionId
-    ) {
-
-        history.replaceState(
-            null,
-            "",
-            "#" + sectionId
-        );
-
-    }
-
-
-    /* ---------------------------------
-       SCROLL
-       --------------------------------- */
-
-    setTimeout(
-        function () {
-
-            target.scrollIntoView({
-
-                behavior: "smooth",
-
-                block: "start"
-
-            });
-
-        },
-        50
-    );
-
-}
-
-
-/* =====================================
-   MANUAL SEARCH
-   ===================================== */
-
-function setupSearch() {
-
-    const searchInput =
-        document.getElementById(
-            "manual-search"
-        );
-
-
-    const resultsBox =
-        document.getElementById(
-            "manual-search-results"
-        );
-
-
-    const sections =
-        Array.from(
-            document.querySelectorAll(
-                "main > section"
-            )
-        );
-
-
-    /* =====================================
-       NORMALIZE TEXT
-       ===================================== */
-
-    function normalize(text) {
-
-        return text
-            .toLowerCase()
-            .replace(/\s+/g, " ")
-            .trim();
-
-    }
-
-
-    /* =====================================
-       CLEAR HIGHLIGHTS
-       ===================================== */
-
-    function clearHighlights() {
-
-        sections.forEach(
-            function (section) {
-
-                section.classList.remove(
-                    "manual-highlight"
-                );
-
-            }
-        );
-
-    }
-
-
-    /* =====================================
-       SHOW SEARCH RESULTS
-       ===================================== */
-
-    function showResults(query) {
-
-        resultsBox.innerHTML = "";
-
-
-        /* ---------------------------------
-           EMPTY SEARCH
-           --------------------------------- */
-
-        if (!query) {
-
-            resultsBox.style.display =
-                "none";
-
-            clearHighlights();
-
-            return;
-
-        }
-
-
-        const normalizedQuery =
-            normalize(query);
-
-
-        /* ---------------------------------
-           FIND MATCHES
-           --------------------------------- */
-
-        const matches =
-            sections.filter(
-                function (section) {
-
-                    return normalize(
-                        section.innerText
-                    ).includes(
-                        normalizedQuery
-                    );
-
-                }
-            );
-
-
-        resultsBox.style.display =
-            "block";
-
-
-        /* ---------------------------------
-           NO RESULTS
-           --------------------------------- */
-
-        if (
-            matches.length === 0
-        ) {
-
-            resultsBox.innerHTML =
-                '<div class="manual-search-empty">No results found.</div>';
-
-            clearHighlights();
-
-            return;
-
-        }
-
-
-        /* ---------------------------------
-           CREATE RESULTS
-           --------------------------------- */
-
-        matches.forEach(
-            function (section) {
 
                 const heading =
-                    section.querySelector(
-                        "h2"
-                    );
+                    document.createElement("h2");
+
+                heading.textContent =
+                    element.textContent;
 
 
-                const title =
+                currentContent =
+                    document.createElement("div");
+
+                currentContent.className =
+                    "section-content";
+
+
+                currentSection.appendChild(
                     heading
-                        ? heading.innerText.trim()
-                        : "Section";
+                );
 
-
-                const text =
-                    normalize(
-                        section.innerText
-                    );
-
-
-                const result =
-                    document.createElement(
-                        "a"
-                    );
-
-
-                result.href =
-                    "#" + section.id;
-
-
-                result.className =
-                    "manual-search-result";
-
-
-                /* ---------------------------------
-                   TITLE
-                   --------------------------------- */
-
-                const titleElement =
-                    document.createElement(
-                        "span"
-                    );
-
-
-                titleElement.className =
-                    "manual-search-result-title";
-
-
-                titleElement.textContent =
-                    title;
-
-
-                /* ---------------------------------
-                   PREVIEW
-                   --------------------------------- */
-
-                const textElement =
-                    document.createElement(
-                        "span"
-                    );
-
-
-                textElement.className =
-                    "manual-search-result-text";
-
-
-                textElement.textContent =
-                    text.substring(
-                        0,
-                        120
-                    );
-
-
-                result.appendChild(
-                    titleElement
+                currentSection.appendChild(
+                    currentContent
                 );
 
 
-                result.appendChild(
-                    textElement
+                fragment.appendChild(
+                    currentSection
                 );
 
 
-                /* ---------------------------------
-                   RESULT CLICK
-                   --------------------------------- */
+                /* =============================
+                   H2 CLICK
+                   ============================= */
 
-                result.addEventListener(
+                heading.addEventListener(
                     "click",
-                    function (event) {
+                    function () {
 
-                        event.preventDefault();
-
-
-                        clearHighlights();
-
-
-                        openSection(
-                            section.id
-                        );
-
-
-                        section.classList.add(
-                            "manual-highlight"
-                        );
-
-
-                        setTimeout(
-                            function () {
-
-                                section.classList.remove(
-                                    "manual-highlight"
-                                );
-
-                            },
-                            1800
+                        toggleSection(
+                            currentSection
                         );
 
                     }
                 );
 
 
-                resultsBox.appendChild(
-                    result
+            }
+
+
+            /* =============================
+               CONTENT
+               ============================= */
+
+            else if (currentContent) {
+
+                currentContent.appendChild(
+                    element.cloneNode(true)
                 );
+
+            }
+
+        });
+
+
+        /* =====================================
+           INSERT SECTIONS
+           ===================================== */
+
+        markdownContainer.innerHTML = "";
+
+        markdownContainer.appendChild(
+            fragment
+        );
+
+
+        /* =====================================
+           READY
+           ===================================== */
+
+        initializeSearch();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        markdownContainer.innerHTML = `
+
+            <p style="color:#ff5555;">
+                Failed to load manual.md
+            </p>
+
+        `;
+
+    }
+
+
+
+    /* =====================================
+       SECTION TOGGLE
+       ===================================== */
+
+    function toggleSection(section) {
+
+        section.classList.toggle("open");
+
+    }
+
+
+
+    /* =====================================
+       OPEN SECTION
+       GLOBAL FUNCTION
+       ===================================== */
+
+    window.openSection =
+        function (sectionId) {
+
+            const sections =
+                document.querySelectorAll(
+                    "#markdown-content section"
+                );
+
+
+            sections.forEach(
+                function (section) {
+
+                    section.classList.remove(
+                        "open"
+                    );
+
+                }
+            );
+
+
+            const target =
+                document.getElementById(
+                    sectionId
+                );
+
+
+            if (!target) {
+
+                console.warn(
+                    "Section not found:",
+                    sectionId
+                );
+
+                return;
+
+            }
+
+
+            target.classList.add(
+                "open"
+            );
+
+
+            setTimeout(
+                function () {
+
+                    target.scrollIntoView({
+
+                        behavior: "smooth",
+
+                        block: "start"
+
+                    });
+
+                },
+
+                50
+
+            );
+
+        };
+
+
+
+    /* =====================================
+       SEARCH
+       ===================================== */
+
+    function initializeSearch() {
+
+        if (
+            !searchInput ||
+            !resultsBox
+        ) {
+
+            return;
+
+        }
+
+
+        const sections =
+            Array.from(
+                document.querySelectorAll(
+                    "#markdown-content section"
+                )
+            );
+
+
+        function normalize(text) {
+
+            return text
+                .toLowerCase()
+                .replace(/\s+/g, " ")
+                .trim();
+
+        }
+
+
+        function clearHighlights() {
+
+            sections.forEach(
+                function (section) {
+
+                    section.classList.remove(
+                        "manual-highlight"
+                    );
+
+                }
+            );
+
+        }
+
+
+        function showResults(query) {
+
+            resultsBox.innerHTML = "";
+
+
+            if (!query) {
+
+                resultsBox.style.display =
+                    "none";
+
+                clearHighlights();
+
+                return;
+
+            }
+
+
+            const normalizedQuery =
+                normalize(query);
+
+
+            const matches =
+                sections.filter(
+                    function (section) {
+
+                        return normalize(
+                            section.innerText
+                        ).includes(
+                            normalizedQuery
+                        );
+
+                    }
+                );
+
+
+            resultsBox.style.display =
+                "block";
+
+
+            if (matches.length === 0) {
+
+                resultsBox.innerHTML =
+                    '<div class="manual-search-empty">No results found.</div>';
+
+
+                clearHighlights();
+
+                return;
+
+            }
+
+
+            matches.forEach(
+                function (section) {
+
+
+                    const heading =
+                        section.querySelector(
+                            "h2"
+                        );
+
+
+                    const title =
+                        heading
+                            ? heading.innerText.trim()
+                            : "Section";
+
+
+                    const text =
+                        normalize(
+                            section.innerText
+                        );
+
+
+                    const result =
+                        document.createElement(
+                            "a"
+                        );
+
+
+                    result.href =
+                        "#" + section.id;
+
+
+                    result.className =
+                        "manual-search-result";
+
+
+                    result.innerHTML = `
+
+                        <span class="manual-search-result-title">
+                            ${title}
+                        </span>
+
+                        <span class="manual-search-result-text">
+                            ${text.substring(0, 120)}
+                        </span>
+
+                    `;
+
+
+                    result.addEventListener(
+                        "click",
+                        function (event) {
+
+                            event.preventDefault();
+
+
+                            window.openSection(
+                                section.id
+                            );
+
+
+                            clearHighlights();
+
+
+                            section.classList.add(
+                                "manual-highlight"
+                            );
+
+
+                            setTimeout(
+                                function () {
+
+                                    section.classList.remove(
+                                        "manual-highlight"
+                                    );
+
+                                },
+
+                                1800
+                            );
+
+                        }
+                    );
+
+
+                    resultsBox.appendChild(
+                        result
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        /* =====================================
+           SEARCH INPUT
+           ===================================== */
+
+        searchInput.addEventListener(
+            "input",
+            function () {
+
+                showResults(
+                    this.value
+                );
+
+            }
+        );
+
+
+
+        /* =====================================
+           ESC KEY
+           ===================================== */
+
+        searchInput.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Escape"
+                ) {
+
+                    this.value = "";
+
+
+                    showResults("");
+
+
+                    this.blur();
+
+                }
 
             }
         );
 
     }
 
-
-    /* =====================================
-       SEARCH INPUT
-       ===================================== */
-
-    searchInput.addEventListener(
-        "input",
-        function () {
-
-            showResults(
-                this.value
-            );
-
-        }
-    );
-
-
-    /* =====================================
-       ESCAPE
-       ===================================== */
-
-    searchInput.addEventListener(
-        "keydown",
-        function (event) {
-
-            if (
-                event.key === "Escape"
-            ) {
-
-                this.value =
-                    "";
-
-                showResults(
-                    ""
-                );
-
-                this.blur();
-
-            }
-
-        }
-    );
-
-}
-
-
-/* =====================================
-   HASH NAVIGATION
-   ===================================== */
-
-window.addEventListener(
-    "hashchange",
-    function () {
-
-        const sectionId =
-            window.location.hash.substring(
-                1
-            );
-
-
-        if (sectionId) {
-
-            openSection(
-                sectionId
-            );
-
-        }
-
-    }
-);
+});
