@@ -1,6 +1,6 @@
 // =====================================
 // S222 ThroneRush Manual
-// Markdown Loader + Section Control
+// Markdown Loader
 // =====================================
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -8,36 +8,89 @@ document.addEventListener("DOMContentLoaded", function () {
     const markdownContainer =
         document.getElementById("markdown-content");
 
+    const searchInput =
+        document.getElementById("manual-search");
+
+    const resultsBox =
+        document.getElementById("manual-search-results");
+
+
+    // =====================================
+    // SECTION ID MAP
+    // ロードマップのリンク先と完全一致
+    // =====================================
+
+    const sectionIdMap = {
+
+        "Overview": "overview",
+
+        "Rules": "rules",
+
+        "Restriction": "restriction",
+
+        "Faq": "faq",
+
+        "FAQ": "faq",
+
+        "Lv7 Fortress": "lv7",
+
+        "Lv6 Fortress": "lv6",
+
+        "Lv5 Fortress": "lv5",
+
+        "Lv1–4 Fortresses": "lv1-4",
+
+        "Lv1-4 Fortresses": "lv1-4",
+
+        "Calendar": "calendar",
+
+        "Image Editor": "image-editor",
+
+        "Forum": "forum"
+
+    };
+
 
     // =====================================
     // OPEN SECTION
+    // グローバル化
+    // ロードマップ onclick から呼び出す
     // =====================================
 
     window.openSection = function (sectionId) {
 
-        const sections =
-            document.querySelectorAll(
-                "#markdown-content section"
-            );
-
-
-        sections.forEach(function (section) {
-
-            section.classList.remove("open");
-
-        });
-
-
         const target =
             document.getElementById(sectionId);
 
+        if (!target) {
 
-        if (!target) return;
+            console.warn(
+                "Section not found:",
+                sectionId
+            );
+
+            return;
+
+        }
 
 
+        // 他を閉じる
+        document
+            .querySelectorAll(
+                "#markdown-content section"
+            )
+            .forEach(function (section) {
+
+                section.classList.remove("open");
+
+            });
+
+
+        // 対象を開く
         target.classList.add("open");
 
 
+        // 少し待ってからスクロール
         setTimeout(function () {
 
             target.scrollIntoView({
@@ -51,110 +104,110 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =====================================
-    // CREATE SECTIONS FROM MARKDOWN
+    // CREATE SECTIONS
+    // h2単位で安全に構築
     // =====================================
 
     function buildSections() {
 
-        const headings =
-            markdownContainer.querySelectorAll("h2");
+        // markedが生成したHTMLを一旦退避
+        const nodes =
+            Array.from(
+                markdownContainer.childNodes
+            );
 
 
-        headings.forEach(function (heading) {
-
-            const section =
-                document.createElement("section");
+        // コンテナを空にする
+        markdownContainer.innerHTML = "";
 
 
-            // IDを取得
-            const sectionId =
-                heading.id ||
-                heading.textContent
-                    .toLowerCase()
-                    .trim()
-                    .replace(/[–—]/g, "-")
-                    .replace(/\s+/g, "-");
+        let currentSection = null;
+        let currentContent = null;
 
 
-            section.id = sectionId;
+        nodes.forEach(function (node) {
 
-
-            // h2をsectionへ移動
-            section.appendChild(heading);
-
-
-            // コンテンツ領域
-            const content =
-                document.createElement("div");
-
-            content.className =
-                "section-content";
-
-
-            // 次のh2までの要素を移動
-            let next =
-                section.nextSibling;
-
-
-            while (
-                next &&
-                !(
-                    next.nodeType === 1 &&
-                    next.tagName === "H2"
-                )
+            // H2なら新しいsection開始
+            if (
+                node.nodeType === 1 &&
+                node.tagName === "H2"
             ) {
 
-                const current = next;
+                currentSection =
+                    document.createElement("section");
 
-                next = next.nextSibling;
 
-                content.appendChild(current);
+                const title =
+                    node.textContent.trim();
+
+
+                // ID決定
+                const sectionId =
+                    sectionIdMap[title] ||
+                    title
+                        .toLowerCase()
+                        .replace(/[–—]/g, "-")
+                        .replace(/\s+/g, "-");
+
+
+                currentSection.id =
+                    sectionId;
+
+
+                // h2をsectionに追加
+                currentSection.appendChild(node);
+
+
+                // section-content作成
+                currentContent =
+                    document.createElement("div");
+
+                currentContent.className =
+                    "section-content";
+
+
+                currentSection.appendChild(
+                    currentContent
+                );
+
+
+                markdownContainer.appendChild(
+                    currentSection
+                );
+
+
+                // 見出しクリックイベント
+                node.style.cursor = "pointer";
+
+
+                node.addEventListener(
+                    "click",
+                    function () {
+
+                        currentSection.classList.toggle(
+                            "open"
+                        );
+
+                    }
+                );
+
+
+                return;
 
             }
 
 
-            section.appendChild(content);
+            // H2以降の要素を
+            // 現在のsection-contentへ追加
+            if (
+                currentContent
+            ) {
 
+                currentContent.appendChild(
+                    node
+                );
 
-            // Markdownコンテナへ追加
-            markdownContainer.appendChild(section);
-
-
-            // 見出しクリック
-            heading.style.cursor = "pointer";
-
-
-            heading.addEventListener(
-                "click",
-                function () {
-
-                    const isOpen =
-                        section.classList.contains("open");
-
-
-                    document
-                        .querySelectorAll(
-                            "#markdown-content section"
-                        )
-                        .forEach(function (item) {
-
-                            item.classList.remove("open");
-
-                        });
-
-
-                    // 閉じる → 何もしない
-                    if (isOpen) {
-
-                        return;
-
-                    }
-
-
-                    section.classList.add("open");
-
-                }
-            );
+            }
 
         });
 
@@ -177,6 +230,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             }
 
+
             return response.text();
 
         })
@@ -184,17 +238,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
         .then(function (markdown) {
 
+            // Markdown → HTML
             markdownContainer.innerHTML =
                 marked.parse(markdown);
 
 
-            // Markdownからsection構築
+            // section構築
             buildSections();
 
 
-            // URLハッシュがあれば開く
+            // URL Hash対応
             const hash =
-                window.location.hash.replace("#", "");
+                window.location.hash
+                    .replace("#", "");
 
 
             if (hash) {
@@ -214,29 +270,15 @@ document.addEventListener("DOMContentLoaded", function () {
             );
 
 
-            markdownContainer.innerHTML = `
-
-                <p>
-                    Failed to load manual content.
-                </p>
-
-            `;
+            markdownContainer.innerHTML =
+                "<p>Failed to load manual content.</p>";
 
         });
 
 
     // =====================================
-    // MANUAL SEARCH
+    // SEARCH
     // =====================================
-
-    const searchInput =
-        document.getElementById("manual-search");
-
-    const resultsBox =
-        document.getElementById(
-            "manual-search-results"
-        );
-
 
     function normalize(text) {
 
@@ -250,19 +292,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function clearHighlights() {
 
-        const sections =
-            document.querySelectorAll(
+        document
+            .querySelectorAll(
                 "#markdown-content section"
-            );
+            )
+            .forEach(function (section) {
 
+                section.classList.remove(
+                    "manual-highlight"
+                );
 
-        sections.forEach(function (section) {
-
-            section.classList.remove(
-                "manual-highlight"
-            );
-
-        });
+            });
 
     }
 
@@ -307,16 +347,14 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
 
-        resultsBox.style.display = "block";
+        resultsBox.style.display =
+            "block";
 
 
         if (matches.length === 0) {
 
             resultsBox.innerHTML =
                 '<div class="manual-search-empty">No results found.</div>';
-
-
-            clearHighlights();
 
             return;
 
@@ -331,12 +369,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const title =
                 heading
-                    ? heading.innerText.trim()
+                    ? heading.textContent.trim()
                     : "Section";
-
-
-            const text =
-                normalize(section.innerText);
 
 
             const result =
@@ -358,7 +392,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 </span>
 
                 <span class="manual-search-result-text">
-                    ${text.substring(0, 120)}
+                    ${normalize(section.innerText)
+                        .substring(0, 120)}
                 </span>
 
             `;
@@ -400,7 +435,9 @@ document.addEventListener("DOMContentLoaded", function () {
             );
 
 
-            resultsBox.appendChild(result);
+            resultsBox.appendChild(
+                result
+            );
 
         });
 
@@ -408,36 +445,42 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =====================================
-    // SEARCH INPUT
+    // SEARCH EVENTS
     // =====================================
 
-    searchInput.addEventListener(
-        "input",
-        function () {
+    if (searchInput) {
 
-            showResults(
-                this.value
-            );
+        searchInput.addEventListener(
+            "input",
+            function () {
 
-        }
-    );
-
-
-    searchInput.addEventListener(
-        "keydown",
-        function (event) {
-
-            if (event.key === "Escape") {
-
-                this.value = "";
-
-                showResults("");
-
-                this.blur();
+                showResults(
+                    this.value
+                );
 
             }
+        );
 
-        }
-    );
+
+        searchInput.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Escape"
+                ) {
+
+                    this.value = "";
+
+                    showResults("");
+
+                    this.blur();
+
+                }
+
+            }
+        );
+
+    }
 
 });
