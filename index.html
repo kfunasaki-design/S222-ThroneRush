@@ -220,7 +220,13 @@
 
         box-sizing: border-box;
 
-        transform: translate(-50%, -50%);
+        /*
+         * Move object 3pt downward
+         * and add black outer shadow
+         */
+        transform: translate(-50%, calc(-50% + 3pt));
+
+        box-shadow: 0 0 0 3px #000;
 
         transition:
             transform 0.15s ease,
@@ -263,7 +269,7 @@
     .tr-main-node:hover {
 
         transform:
-            translate(-50%, -50%)
+            translate(-50%, calc(-50% + 3pt))
             scale(1.06);
 
         background: #111;
@@ -284,7 +290,7 @@
         align-items: center;
         justify-content: center;
 
-        width: 82px;
+        width: 96px;
         height: 42px;
 
         box-sizing: border-box;
@@ -307,7 +313,13 @@
 
         z-index: 10;
 
-        transform: translate(-50%, -50%);
+        /*
+         * Move object 3pt downward
+         * and add black outer shadow
+         */
+        transform: translate(-50%, calc(-50% + 3pt));
+
+        box-shadow: 0 0 0 3px #000;
 
         transition:
             transform 0.15s ease,
@@ -316,10 +328,25 @@
     }
 
 
+    /* =====================================
+       START ONLY
+       ===================================== */
+
+    .tr-square-node.tr-start {
+
+        color: #ffffff;
+
+    }
+
+
+    /* =====================================
+       SQUARE NODE HOVER
+       ===================================== */
+
     .tr-square-node:hover {
 
         transform:
-            translate(-50%, -50%)
+            translate(-50%, calc(-50% + 3pt))
             scale(1.06);
 
         background: #111;
@@ -503,7 +530,7 @@
 
         .tr-square-node {
 
-            width: 68px;
+            width: 78px;
             height: 36px;
 
             font-size: 12px;
@@ -532,7 +559,9 @@
 
 </head>
 
+
 <body>
+
 
 <header>
 
@@ -550,23 +579,37 @@
 
 </header>
 
+
 <nav class="index">
 
 
-<a href="#overview" onclick="openSection('overview'); return false;">Overview</a>
+<a href="#overview" onclick="openSection('overview'); return false;">
+    Overview
+</a>
 
-<a href="#lv7" onclick="openSection('lv7'); return false;">Lv7</a>
+<a href="#lv7" onclick="openSection('lv7'); return false;">
+    Lv7
+</a>
 
-<a href="#lv6" onclick="openSection('lv6'); return false;">Lv6</a>
+<a href="#lv6" onclick="openSection('lv6'); return false;">
+    Lv6
+</a>
 
-<a href="#lv5" onclick="openSection('lv5'); return false;">Lv5</a>
+<a href="#lv5" onclick="openSection('lv5'); return false;">
+    Lv5
+</a>
 
-<a href="#lv1-4" onclick="openSection('lv1-4'); return false;">Lv1–4</a>
+<a href="#lv1-4" onclick="openSection('lv1-4'); return false;">
+    Lv1–4
+</a>
 
-<a href="#faq" onclick="openSection('faq'); return false;">FAQ</a>
+<a href="#faq" onclick="openSection('faq'); return false;">
+    Faq
+</a>
 
 
 </nav>
+
 
 <!-- =====================================
      S222TR NAVIGATION ROADMAP
@@ -668,7 +711,7 @@
          ===================================== -->
 
 
-    <!-- Lv5 → CALENDAR -->
+    <!-- Lv5 → Calendar -->
 
     <path
         class="tr-branch-lime"
@@ -680,7 +723,7 @@
     />
 
 
-    <!-- Lv5 → IMAGE EDITOR -->
+    <!-- Lv5 → Image Editor -->
 
     <path
         class="tr-branch-lime"
@@ -694,7 +737,7 @@
 
     <!-- =====================================
          CYAN BRANCH
-         Lv6 → Lv7 / FORUM
+         Lv6 → Lv7 / Forum
          ===================================== -->
 
 
@@ -715,63 +758,182 @@
 
     <!-- MAGENTA -->
 
-    <circle class="tr-route-point tr-point-magenta" cx="85" cy="550" r="6" />
+    <circle
+        class="tr-route-point tr-point-magenta"
+        cx="85"
+        cy="550"
+        r="6"
+    />
 
-    <circle class="tr-route-point tr-point-magenta" cx="205" cy="460" r="6" />
+    <circle
+        class="tr-route-point tr-point-magenta"
+        cx="205"
+        cy="460"
+        r="6"
+    />
 
-    <circle class="tr-route-point tr-point-magenta" cx="325" cy="370" r="6" />
+    <circle
+        class="tr-route-point tr-point-magenta"
+        cx="325"
+        cy="370"
+        r="6"
+    />
 
-    <circle class="tr-route-point tr-point-magenta" cx="235" cy="285" r="6" />
+    <circle
+        class="tr-route-point tr-point-magenta"
+        cx="235"
+        cy="285"
+        r="6"
+    />
 
-    <circle class="tr-route-point tr-point-magenta" cx="115" cy="225" r="6" />
+    <circle
+        class="tr-route-point tr-point-magenta"
+        cx="115"
+        cy="225"
+        r="6"
+    />
 
-    <circle class="tr-route-point tr-point-magenta" cx="225" cy="180" r="6" />
+    <circle
+        class="tr-route-point tr-point-magenta"
+        cx="225"
+        cy="180"
+        r="6"
+    />
 
-    <circle class="tr-route-point tr-point-magenta" cx="115" cy="110" r="6" />
+    <circle
+        class="tr-route-point tr-point-magenta"
+        cx="115"
+        cy="110"
+        r="6"
+    />
 
-    <circle class="tr-route-point tr-point-magenta" cx="315" cy="205" r="6" />
+    <circle
+        class="tr-route-point tr-point-magenta"
+        cx="315"
+        cy="205"
+        r="6"
+    />
 
-    <circle class="tr-route-point tr-point-magenta" cx="405" cy="135" r="6" />
+    <circle
+        class="tr-route-point tr-point-magenta"
+        cx="405"
+        cy="135"
+        r="6"
+    />
 
 
     <!-- LIME -->
 
-    <circle class="tr-route-point tr-point-lime" cx="92" cy="558" r="6" />
+    <circle
+        class="tr-route-point tr-point-lime"
+        cx="92"
+        cy="558"
+        r="6"
+    />
 
-    <circle class="tr-route-point tr-point-lime" cx="212" cy="468" r="6" />
+    <circle
+        class="tr-route-point tr-point-lime"
+        cx="212"
+        cy="468"
+        r="6"
+    />
 
-    <circle class="tr-route-point tr-point-lime" cx="332" cy="378" r="6" />
+    <circle
+        class="tr-route-point tr-point-lime"
+        cx="332"
+        cy="378"
+        r="6"
+    />
 
-    <circle class="tr-route-point tr-point-lime" cx="452" cy="288" r="6" />
+    <circle
+        class="tr-route-point tr-point-lime"
+        cx="452"
+        cy="288"
+        r="6"
+    />
 
-    <circle class="tr-route-point tr-point-lime" cx="535" cy="335" r="6" />
+    <circle
+        class="tr-route-point tr-point-lime"
+        cx="535"
+        cy="335"
+        r="6"
+    />
 
-    <circle class="tr-route-point tr-point-lime" cx="460" cy="490" r="6" />
+    <circle
+        class="tr-route-point tr-point-lime"
+        cx="460"
+        cy="490"
+        r="6"
+    />
 
-    <circle class="tr-route-point tr-point-lime" cx="625" cy="365" r="6" />
+    <circle
+        class="tr-route-point tr-point-lime"
+        cx="625"
+        cy="365"
+        r="6"
+    />
 
-    <circle class="tr-route-point tr-point-lime" cx="650" cy="430" r="6" />
+    <circle
+        class="tr-route-point tr-point-lime"
+        cx="650"
+        cy="430"
+        r="6"
+    />
 
 
     <!-- CYAN -->
 
-    <circle class="tr-route-point tr-point-cyan" cx="99" cy="566" r="6" />
+    <circle
+        class="tr-route-point tr-point-cyan"
+        cx="99"
+        cy="566"
+        r="6"
+    />
 
-    <circle class="tr-route-point tr-point-cyan" cx="219" cy="476" r="6" />
+    <circle
+        class="tr-route-point tr-point-cyan"
+        cx="219"
+        cy="476"
+        r="6"
+    />
 
-    <circle class="tr-route-point tr-point-cyan" cx="339" cy="386" r="6" />
+    <circle
+        class="tr-route-point tr-point-cyan"
+        cx="339"
+        cy="386"
+        r="6"
+    />
 
-    <circle class="tr-route-point tr-point-cyan" cx="459" cy="296" r="6" />
+    <circle
+        class="tr-route-point tr-point-cyan"
+        cx="459"
+        cy="296"
+        r="6"
+    />
 
-    <circle class="tr-route-point tr-point-cyan" cx="579" cy="206" r="6" />
+    <circle
+        class="tr-route-point tr-point-cyan"
+        cx="579"
+        cy="206"
+        r="6"
+    />
 
-    <circle class="tr-route-point tr-point-cyan" cx="655" cy="250" r="6" />
+    <circle
+        class="tr-route-point tr-point-cyan"
+        cx="655"
+        cy="250"
+        r="6"
+    />
 
-    <circle class="tr-route-point tr-point-cyan" cx="690" cy="70" r="6" />
+    <circle
+        class="tr-route-point tr-point-cyan"
+        cx="690"
+        cy="70"
+        r="6"
+    />
 
 
 </svg>
-
 
 
 <!-- =====================================
@@ -779,7 +941,7 @@
      ===================================== -->
 
 <a
-    class="tr-square-node"
+    class="tr-square-node tr-start"
     style="left: 11.18%; top: 83.08%;"
     href="#overview"
     onclick="openSection('overview'); return false;"
@@ -798,7 +960,7 @@
     href="#overview"
     onclick="openSection('overview'); return false;"
 >
-    OVERVIEW
+    Overview
 </a>
 
 
@@ -851,7 +1013,7 @@
     style="left: 15.13%; top: 34.62%;"
     href="guild-restriction.html"
 >
-    RESTRICTION
+    Restriction
 </a>
 
 
@@ -861,7 +1023,7 @@
     href="#faq"
     onclick="openSection('faq'); return false;"
 >
-    FAQ
+    Faq
 </a>
 
 
@@ -870,7 +1032,7 @@
     style="left: 53.29%; top: 20.77%;"
     href="rules.html"
 >
-    RULES
+    Rules
 </a>
 
 
@@ -883,7 +1045,7 @@
     style="left: 63.82%; top: 74.31%;"
     href="calendar.html"
 >
-    CALENDAR
+    Calendar
 </a>
 
 
@@ -892,7 +1054,7 @@
     style="left: 87.11%; top: 66.15%;"
     href="image-editor.html"
 >
-    IMAGE EDITOR
+    Image Editor
 </a>
 
 
@@ -905,7 +1067,7 @@
     style="left: 86.79%; top: 37.77%;"
     href="#"
 >
-    FORUM
+    Forum
 </a>
 
 
@@ -915,7 +1077,7 @@
 
 <div class="tr-season">
 
-    <span>DAY 1</span>
+    <span>Day 1</span>
 
     <div class="tr-season-line">
 
@@ -923,12 +1085,13 @@
 
     </div>
 
-    <span>DAY 56</span>
+    <span>Day 56</span>
 
 </div>
 
 
 </section>
+
 
 <main>
 
@@ -937,7 +1100,9 @@
 
 <section id="overview">
 
-    <h2 onclick="openSection('overview')">Overview</h2>
+    <h2 onclick="openSection('overview')">
+        Overview
+    </h2>
 
     <div class="section-content">
 
@@ -968,7 +1133,9 @@
 
 <section id="lv7">
 
-    <h2 onclick="openSection('lv7')">Lv7 Fortress</h2>
+    <h2 onclick="openSection('lv7')">
+        Lv7 Fortress
+    </h2>
 
     <div class="section-content">
 
@@ -1001,7 +1168,9 @@
 
 <section id="lv6">
 
-    <h2 onclick="openSection('lv6')">Lv6 Fortress</h2>
+    <h2 onclick="openSection('lv6')">
+        Lv6 Fortress
+    </h2>
 
     <div class="section-content">
 
@@ -1034,7 +1203,9 @@
 
 <section id="lv5">
 
-    <h2 onclick="openSection('lv5')">Lv5 Fortress</h2>
+    <h2 onclick="openSection('lv5')">
+        Lv5 Fortress
+    </h2>
 
     <div class="section-content">
 
@@ -1047,7 +1218,9 @@
             for Fortress Levels 1–4.
         </p>
 
-        <h3>How to Capture a Lv5 Fortress</h3>
+        <h3>
+            How to Capture a Lv5 Fortress
+        </h3>
 
         <p>
             Starting from Lv5 Fortresses, the number of Imperial Guards
@@ -1071,7 +1244,9 @@
             style="max-width: 100%; height: auto;"
         >
 
-        <h3>Example</h3>
+        <h3>
+            Example
+        </h3>
 
         <p>
             <strong>1. Assign the attacking guild</strong>
@@ -1134,7 +1309,9 @@
 
 <section id="lv1-4">
 
-    <h2 onclick="openSection('lv1-4')">Lv1–4 Fortresses</h2>
+    <h2 onclick="openSection('lv1-4')">
+        Lv1–4 Fortresses
+    </h2>
 
     <div class="section-content">
 
@@ -1201,11 +1378,13 @@
 </section>
 
 
-<!-- FAQ -->
+<!-- Faq -->
 
 <section id="faq">
 
-    <h2 onclick="openSection('faq')">FAQ</h2>
+    <h2 onclick="openSection('faq')">
+        Faq
+    </h2>
 
     <div class="section-content">
 
@@ -1216,15 +1395,21 @@
 
                 <div class="faq-question">
 
-                    <span class="faq-label">Q</span>
+                    <span class="faq-label">
+                        Q
+                    </span>
 
-                    <span>I want to teleport, but I cannot.</span>
+                    <span>
+                        I want to teleport, but I cannot.
+                    </span>
 
                 </div>
 
                 <div class="faq-answer">
 
-                    <span class="faq-label">A</span>
+                    <span class="faq-label">
+                        A
+                    </span>
 
                     <div>
 
@@ -1248,15 +1433,21 @@
 
                 <div class="faq-question">
 
-                    <span class="faq-label">Q</span>
+                    <span class="faq-label">
+                        Q
+                    </span>
 
-                    <span>When should I teleport?</span>
+                    <span>
+                        When should I teleport?
+                    </span>
 
                 </div>
 
                 <div class="faq-answer">
 
-                    <span class="faq-label">A</span>
+                    <span class="faq-label">
+                        A
+                    </span>
 
                     <div>
 
@@ -1281,7 +1472,9 @@
 
                 <div class="faq-question">
 
-                    <span class="faq-label">Q</span>
+                    <span class="faq-label">
+                        Q
+                    </span>
 
                     <span>
                         How many fortresses are there at each level?
@@ -1291,7 +1484,9 @@
 
                 <div class="faq-answer">
 
-                    <span class="faq-label">A</span>
+                    <span class="faq-label">
+                        A
+                    </span>
 
                     <div>
 
@@ -1317,7 +1512,9 @@
 
                 <div class="faq-question">
 
-                    <span class="faq-label">Q</span>
+                    <span class="faq-label">
+                        Q
+                    </span>
 
                     <span>
                         What happens to the Imperial Guards if an
@@ -1328,7 +1525,9 @@
 
                 <div class="faq-answer">
 
-                    <span class="faq-label">A</span>
+                    <span class="faq-label">
+                        A
+                    </span>
 
                     <div>
 
@@ -1355,7 +1554,9 @@
 
                 <div class="faq-question">
 
-                    <span class="faq-label">Q</span>
+                    <span class="faq-label">
+                        Q
+                    </span>
 
                     <span>
                         Which league can challenge each fortress level?
@@ -1365,7 +1566,9 @@
 
                 <div class="faq-answer">
 
-                    <span class="faq-label">A</span>
+                    <span class="faq-label">
+                        A
+                    </span>
 
                     <div>
 
@@ -1373,11 +1576,17 @@
 
                         <ul class="faq-level-list">
 
-                            <li><strong>Lv5:</strong> Bronze League</li>
+                            <li>
+                                <strong>Lv5:</strong> Bronze League
+                            </li>
 
-                            <li><strong>Lv6:</strong> Silver League</li>
+                            <li>
+                                <strong>Lv6:</strong> Silver League
+                            </li>
 
-                            <li><strong>Lv7:</strong> Gold League</li>
+                            <li>
+                                <strong>Lv7:</strong> Gold League
+                            </li>
 
                         </ul>
 
@@ -1404,14 +1613,19 @@
 
 </main>
 
+
 <footer>
 
-<p>S222 ThroneRush</p>
+<p>
+    S222 ThroneRush
+</p>
 
 
 </footer>
 
+
 <script src="script.js"></script>
+
 
 </body>
 
