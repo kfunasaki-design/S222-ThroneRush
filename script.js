@@ -5,472 +5,643 @@
 
 document.addEventListener("DOMContentLoaded", function () {
 
-const markdownContainer =
-    document.getElementById("markdown-content");
+    const markdownContainer =
+        document.getElementById("markdown-content");
 
-const searchInput =
-    document.getElementById("manual-search");
+    const searchInput =
+        document.getElementById("manual-search");
 
-const resultsBox =
-    document.getElementById("manual-search-results");
-
-
-// =====================================
-// SECTION ID MAP
-// =====================================
-
-const sectionIdMap = {
-
-    "Overview": "overview",
-    "Rules": "rules",
-    "Restriction": "restriction",
-    "Faq": "faq",
-    "FAQ": "faq",
-
-    "Lv7 Fortress": "lv7",
-    "Lv6 Fortress": "lv6",
-    "Lv5 Fortress": "lv5",
-
-    "Lv1–4 Fortresses": "lv1-4",
-    "Lv1-4 Fortresses": "lv1-4",
-
-    "Calendar": "calendar",
-    "Image Editor": "image-editor",
-    "Forum": "forum"
-
-};
+    const resultsBox =
+        document.getElementById("manual-search-results");
 
 
-// =====================================
-// OPEN SECTION
-// Roadmap / Search
-// =====================================
+    // =====================================
+    // SECTION ID MAP
+    // Markdown見出し → 固定ID
+    // =====================================
 
-window.openSection = function (sectionId) {
+    const sectionIdMap = {
 
-    const target =
-        document.getElementById(sectionId);
+        // Basic
+        "overview": "overview",
+        "rules": "rules",
+        "restriction": "restriction",
+        "faq": "faq",
 
-    if (!target) {
+        // Fortress
+        "lv1-4 fortresses": "lv1-4",
+        "lv1–4 fortresses": "lv1-4",
+        "lv1 — 4 fortresses": "lv1-4",
+        "lv1 to 4 fortresses": "lv1-4",
+        "lv1-4 fortress": "lv1-4",
+        "lv1–4 fortress": "lv1-4",
 
-        console.warn(
-            "Section not found:",
-            sectionId
-        );
+        "lv4 fortress": "lv1-4",
+        "lv4": "lv1-4",
 
-        return;
+        "lv5 fortress": "lv5",
+        "lv5": "lv5",
+
+        "lv6 fortress": "lv6",
+        "lv6": "lv6",
+
+        "lv7 fortress": "lv7",
+        "lv7": "lv7",
+
+        // Tools
+        "calendar": "calendar",
+        "image editor": "image-editor",
+        "forum": "forum"
+
+    };
+
+
+    // =====================================
+    // NORMALIZE TITLE
+    // =====================================
+
+    function normalizeTitle(text) {
+
+        return text
+            .toLowerCase()
+            .trim()
+            .replace(/[–—]/g, "-")
+            .replace(/\s+/g, " ");
 
     }
 
 
-    document
-        .querySelectorAll("#markdown-content section")
-        .forEach(function (section) {
+    // =====================================
+    // GET SECTION ID
+    // =====================================
 
-            section.classList.remove("open");
+    function getSectionId(title) {
 
-        });
-
-
-    target.classList.add("open");
+        const normalized =
+            normalizeTitle(title);
 
 
-    setTimeout(function () {
+        if (sectionIdMap[normalized]) {
 
-        target.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-        });
+            return sectionIdMap[normalized];
 
-    }, 50);
-
-};
+        }
 
 
-// =====================================
-// BUILD SECTIONS FROM MARKDOWN
-// =====================================
+        // Mapにない場合は自動生成
+        return normalized
+            .replace(/[^a-z0-9\s-]/g, "")
+            .replace(/\s+/g, "-");
 
-function buildSections() {
-
-    const nodes =
-        Array.from(
-            markdownContainer.childNodes
-        );
+    }
 
 
-    markdownContainer.innerHTML = "";
+    // =====================================
+    // CLOSE ALL SECTIONS
+    // =====================================
+
+    function closeAllSections() {
+
+        document
+            .querySelectorAll("#markdown-content section")
+            .forEach(function (section) {
+
+                section.classList.remove("open");
+
+            });
+
+    }
 
 
-    let currentSection = null;
-    let currentContent = null;
+    // =====================================
+    // OPEN SECTION
+    // Roadmap / Search / Hash
+    // =====================================
+
+    window.openSection = function (sectionId) {
+
+        if (!sectionId) return;
 
 
-    nodes.forEach(function (node) {
+        const target =
+            document.getElementById(sectionId);
 
+
+        if (!target) {
+
+            console.warn(
+                "Section not found:",
+                sectionId
+            );
+
+            return;
+
+        }
+
+
+        closeAllSections();
+
+
+        target.classList.add("open");
+
+
+        // hashも更新
         if (
-            node.nodeType === Node.ELEMENT_NODE &&
-            node.tagName === "H2"
+            window.history &&
+            window.history.replaceState
         ) {
 
-            currentSection =
-                document.createElement("section");
+            window.history.replaceState(
+                null,
+                "",
+                "#" + sectionId
+            );
+
+        }
+
+
+        setTimeout(function () {
+
+            target.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        }, 50);
+
+    };
+
+
+    // =====================================
+    // BUILD SECTIONS FROM MARKDOWN
+    // H2を親セクションとして構築
+    // =====================================
+
+    function buildSections() {
+
+        const nodes =
+            Array.from(
+                markdownContainer.childNodes
+            );
+
+
+        markdownContainer.innerHTML = "";
+
+
+        let currentSection = null;
+        let currentContent = null;
+
+
+        nodes.forEach(function (node) {
+
+            // -----------------------------
+            // H2 = Main Section
+            // -----------------------------
+
+            if (
+                node.nodeType === Node.ELEMENT_NODE &&
+                node.tagName === "H2"
+            ) {
+
+                const title =
+                    node.textContent.trim();
+
+
+                const sectionId =
+                    getSectionId(title);
+
+
+                currentSection =
+                    document.createElement("section");
+
+
+                currentSection.id =
+                    sectionId;
+
+
+                // 見出し
+                currentSection.appendChild(node);
+
+
+                // 開閉コンテンツ
+                currentContent =
+                    document.createElement("div");
+
+
+                currentContent.className =
+                    "section-content";
+
+
+                currentSection.appendChild(
+                    currentContent
+                );
+
+
+                markdownContainer.appendChild(
+                    currentSection
+                );
+
+
+                return;
+
+            }
+
+
+            // -----------------------------
+            // H2以外
+            // 現在のセクションに追加
+            // -----------------------------
+
+            if (currentContent) {
+
+                currentContent.appendChild(node);
+
+            }
+
+            // H2以前の要素がある場合
+            else {
+
+                markdownContainer.appendChild(node);
+
+            }
+
+        });
+
+
+        // =====================================
+        // SECTION TITLE CLICK
+        // =====================================
+
+        const sectionHeadings =
+            markdownContainer.querySelectorAll(
+                "section > h2"
+            );
+
+
+        sectionHeadings.forEach(function (heading) {
+
+            heading.style.cursor = "pointer";
+
+
+            heading.setAttribute(
+                "role",
+                "button"
+            );
+
+
+            heading.addEventListener(
+                "click",
+                function () {
+
+                    const section =
+                        heading.closest("section");
+
+
+                    if (!section) return;
+
+
+                    const isOpen =
+                        section.classList.contains(
+                            "open"
+                        );
+
+
+                    // 他を閉じる
+                    closeAllSections();
+
+
+                    // 閉じていた場合だけ開く
+                    if (!isOpen) {
+
+                        section.classList.add(
+                            "open"
+                        );
+
+                    }
+
+                }
+            );
+
+        });
+
+    }
+
+
+    // =====================================
+    // MARKDOWN LOAD
+    // =====================================
+
+    fetch("manual.md")
+
+        .then(function (response) {
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Failed to load manual.md"
+                );
+
+            }
+
+
+            return response.text();
+
+        })
+
+
+        .then(function (markdown) {
+
+            // Markdown → HTML
+            markdownContainer.innerHTML =
+                marked.parse(markdown);
+
+
+            // HTML → Collapsible Sections
+            buildSections();
+
+
+            // URL Hash
+            const hash =
+                window.location.hash.replace(
+                    "#",
+                    ""
+                );
+
+
+            if (hash) {
+
+                setTimeout(function () {
+
+                    openSection(hash);
+
+                }, 100);
+
+            }
+
+        })
+
+
+        .catch(function (error) {
+
+            console.error(
+                "Markdown loading error:",
+                error
+            );
+
+
+            markdownContainer.innerHTML =
+                "<p>Failed to load manual content.</p>";
+
+        });
+
+
+    // =====================================
+    // HASH CHANGE
+    // Browser Back / Direct Links
+    // =====================================
+
+    window.addEventListener(
+        "hashchange",
+        function () {
+
+            const hash =
+                window.location.hash.replace(
+                    "#",
+                    ""
+                );
+
+
+            if (hash) {
+
+                openSection(hash);
+
+            }
+
+        }
+    );
+
+
+    // =====================================
+    // SEARCH
+    // =====================================
+
+    function normalize(text) {
+
+        return text
+            .toLowerCase()
+            .replace(/\s+/g, " ")
+            .trim();
+
+    }
+
+
+    // =====================================
+    // CLEAR HIGHLIGHTS
+    // =====================================
+
+    function clearHighlights() {
+
+        document
+            .querySelectorAll(
+                "#markdown-content section"
+            )
+            .forEach(function (section) {
+
+                section.classList.remove(
+                    "manual-highlight"
+                );
+
+            });
+
+    }
+
+
+    // =====================================
+    // SHOW SEARCH RESULTS
+    // =====================================
+
+    function showResults(query) {
+
+        if (!resultsBox) return;
+
+
+        resultsBox.innerHTML = "";
+
+
+        if (!query) {
+
+            resultsBox.style.display =
+                "none";
+
+
+            clearHighlights();
+
+            return;
+
+        }
+
+
+        const normalizedQuery =
+            normalize(query);
+
+
+        const sections =
+            Array.from(
+                document.querySelectorAll(
+                    "#markdown-content section"
+                )
+            );
+
+
+        const matches =
+            sections.filter(function (section) {
+
+                return normalize(
+                    section.innerText
+                ).includes(
+                    normalizedQuery
+                );
+
+            });
+
+
+        resultsBox.style.display =
+            "block";
+
+
+        if (matches.length === 0) {
+
+            resultsBox.innerHTML =
+                '<div class="manual-search-empty">No results found.</div>';
+
+
+            return;
+
+        }
+
+
+        matches.forEach(function (section) {
+
+            const heading =
+                section.querySelector("h2");
 
 
             const title =
-                node.textContent.trim();
+                heading
+                    ? heading.textContent.trim()
+                    : "Section";
 
 
-            const sectionId =
-                sectionIdMap[title] ||
-                title
-                    .toLowerCase()
-                    .replace(/[–—]/g, "-")
-                    .replace(/\s+/g, "-");
+            const result =
+                document.createElement("a");
 
 
-            currentSection.id = sectionId;
+            result.href =
+                "#" + section.id;
 
 
-            currentSection.appendChild(node);
+            result.className =
+                "manual-search-result";
 
 
-            currentContent =
-                document.createElement("div");
+            result.innerHTML = `
 
-            currentContent.className =
-                "section-content";
+                <span class="manual-search-result-title">
+                    ${title}
+                </span>
+
+                <span class="manual-search-result-text">
+                    ${normalize(section.innerText)
+                        .substring(0, 120)}
+                </span>
+
+            `;
 
 
-            currentSection.appendChild(
-                currentContent
+            result.addEventListener(
+                "click",
+                function (event) {
+
+                    event.preventDefault();
+
+
+                    openSection(
+                        section.id
+                    );
+
+
+                    clearHighlights();
+
+
+                    setTimeout(function () {
+
+                        section.classList.add(
+                            "manual-highlight"
+                        );
+
+                    }, 300);
+
+
+                    setTimeout(function () {
+
+                        section.classList.remove(
+                            "manual-highlight"
+                        );
+
+                    }, 2100);
+
+                }
             );
 
 
-            markdownContainer.appendChild(
-                currentSection
+            resultsBox.appendChild(
+                result
             );
 
-        }
+        });
 
-        else if (currentContent) {
-
-            currentContent.appendChild(
-                node
-            );
-
-        }
-
-    });
+    }
 
 
     // =====================================
-    // SECTION TITLE CLICK
-    // DOM構築完了後に一括登録
+    // SEARCH EVENTS
     // =====================================
 
-    const sectionHeadings =
-        markdownContainer.querySelectorAll(
-            "section > h2"
+    if (searchInput) {
+
+        searchInput.addEventListener(
+            "input",
+            function () {
+
+                showResults(
+                    this.value
+                );
+
+            }
         );
 
 
-    sectionHeadings.forEach(function (heading) {
+        searchInput.addEventListener(
+            "keydown",
+            function (event) {
 
-        heading.style.cursor = "pointer";
+                if (
+                    event.key === "Escape"
+                ) {
 
-
-        heading.addEventListener(
-            "click",
-            function () {
-
-                const section =
-                    heading.parentElement;
+                    this.value = "";
 
 
-                const isOpen =
-                    section.classList.contains("open");
+                    showResults("");
 
 
-                // 一旦すべて閉じる
-                document
-                    .querySelectorAll(
-                        "#markdown-content section"
-                    )
-                    .forEach(function (item) {
-
-                        item.classList.remove("open");
-
-                    });
-
-
-                // 閉じていた場合のみ開く
-                if (!isOpen) {
-
-                    section.classList.add("open");
+                    this.blur();
 
                 }
 
             }
         );
 
-    });
-
-}
-
-
-// =====================================
-// MARKDOWN LOAD
-// =====================================
-
-fetch("manual.md")
-
-    .then(function (response) {
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Failed to load manual.md"
-            );
-
-        }
-
-
-        return response.text();
-
-    })
-
-
-    .then(function (markdown) {
-
-        markdownContainer.innerHTML =
-            marked.parse(markdown);
-
-
-        buildSections();
-
-
-        const hash =
-            window.location.hash.replace("#", "");
-
-
-        if (hash) {
-
-            openSection(hash);
-
-        }
-
-    })
-
-
-    .catch(function (error) {
-
-        console.error(
-            "Markdown loading error:",
-            error
-        );
-
-
-        markdownContainer.innerHTML =
-            "<p>Failed to load manual content.</p>";
-
-    });
-
-
-// =====================================
-// SEARCH
-// =====================================
-
-function normalize(text) {
-
-    return text
-        .toLowerCase()
-        .replace(/\s+/g, " ")
-        .trim();
-
-}
-
-
-function clearHighlights() {
-
-    document
-        .querySelectorAll("#markdown-content section")
-        .forEach(function (section) {
-
-            section.classList.remove(
-                "manual-highlight"
-            );
-
-        });
-
-}
-
-
-function showResults(query) {
-
-    resultsBox.innerHTML = "";
-
-
-    if (!query) {
-
-        resultsBox.style.display = "none";
-
-        clearHighlights();
-
-        return;
-
     }
-
-
-    const normalizedQuery =
-        normalize(query);
-
-
-    const sections =
-        Array.from(
-            document.querySelectorAll(
-                "#markdown-content section"
-            )
-        );
-
-
-    const matches =
-        sections.filter(function (section) {
-
-            return normalize(
-                section.innerText
-            ).includes(
-                normalizedQuery
-            );
-
-        });
-
-
-    resultsBox.style.display = "block";
-
-
-    if (matches.length === 0) {
-
-        resultsBox.innerHTML =
-            '<div class="manual-search-empty">No results found.</div>';
-
-        return;
-
-    }
-
-
-    matches.forEach(function (section) {
-
-        const heading =
-            section.querySelector("h2");
-
-
-        const title =
-            heading
-                ? heading.textContent.trim()
-                : "Section";
-
-
-        const result =
-            document.createElement("a");
-
-
-        result.href =
-            "#" + section.id;
-
-
-        result.className =
-            "manual-search-result";
-
-
-        result.innerHTML = `
-
-            <span class="manual-search-result-title">
-                ${title}
-            </span>
-
-            <span class="manual-search-result-text">
-                ${normalize(section.innerText)
-                    .substring(0, 120)}
-            </span>
-
-        `;
-
-
-        result.addEventListener(
-            "click",
-            function (event) {
-
-                event.preventDefault();
-
-
-                openSection(section.id);
-
-
-                clearHighlights();
-
-
-                setTimeout(function () {
-
-                    section.classList.add(
-                        "manual-highlight"
-                    );
-
-                }, 300);
-
-
-                setTimeout(function () {
-
-                    section.classList.remove(
-                        "manual-highlight"
-                    );
-
-                }, 2100);
-
-            }
-        );
-
-
-        resultsBox.appendChild(result);
-
-    });
-
-}
-
-
-// =====================================
-// SEARCH EVENTS
-// =====================================
-
-if (searchInput) {
-
-    searchInput.addEventListener(
-        "input",
-        function () {
-
-            showResults(this.value);
-
-        }
-    );
-
-
-    searchInput.addEventListener(
-        "keydown",
-        function (event) {
-
-            if (event.key === "Escape") {
-
-                this.value = "";
-
-                showResults("");
-
-                this.blur();
-
-            }
-
-        }
-    );
-
-}
 
 });
