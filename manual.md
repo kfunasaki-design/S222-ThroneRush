@@ -311,7 +311,6 @@ The objective is not to create unnecessary restrictions, but to prevent avoidabl
 
 **Status:** This section is currently under development and will be expanded as Lv7-related coordination functions are implemented.
 
-## Lv6 Fortress
 
 ## Lv6 Fortress
 
@@ -326,12 +325,12 @@ The objective is not to create unnecessary restrictions, but to prevent avoidabl
 
 <div class="fortress-card-row">
 <span>Fortresses</span>
-<strong>3</strong>
+<strong>4</strong>
 </div>
 
 <div class="fortress-card-row">
 <span>Requirement</span>
-<strong>Defeat 30 Guards at Lv1</strong>
+<strong>Defeat 120 Guards at Lv5</strong>
 </div>
 
 <div class="fortress-card-row">
@@ -341,11 +340,6 @@ The objective is not to create unnecessary restrictions, but to prevent avoidabl
 
 </div>
 
-
-
-
-
-**Target League:** Silver League
 
 Lv6 Fortresses are limited in number, with only three available on the map.
 
@@ -357,7 +351,24 @@ If multiple guilds are interested in the same target, direct discussion between 
 
 ## Lv5 Fortress
 
-**Target League:** Bronze League
+<div class="fortress-card">
+
+<div class="fortress-card-title">Lv5 FORTRESS</div>
+
+<div class="fortress-card-row">
+<span>Target League</span>
+<strong>Bronze League</strong>
+</div>
+
+<div class="fortress-card-row">
+<span>Fortresses</span>
+<strong>5</strong>
+</div>
+
+<div class="fortress-card-row">
+<span>Requirement</span>
+<strong>Defeat 90 Guards at Lv4</strong>
+</div>
 
 Before proceeding, make sure you understand the basic rules for Fortress Levels 1–4.
 
@@ -404,6 +415,27 @@ This allows the primary guild to secure the occupation rights while reducing the
 The exact method may vary depending on the situation, guild strength, location, and available participants.
 
 ## Lv1–4 Fortresses
+
+<div class="fortress-card">
+
+<div class="fortress-card-title">Lv4 FORTRESS</div>
+
+<div class="fortress-card-row">
+<span>Target League</span>
+<strong>No specific</strong>
+</div>
+
+<div class="fortress-card-row">
+<span>Fortresses</span>
+<strong>8</strong>
+</div>
+
+<div class="fortress-card-row">
+<span>Requirement</span>
+<strong>Defeat 75 Guards at Lv3</strong>
+</div>
+
+
 
 **Target League:** No specific GW League requirement.
 
