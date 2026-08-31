@@ -370,6 +370,11 @@ If multiple guilds are interested in the same target, direct discussion between 
 <strong>Defeat 90 Guards at Lv4</strong>
 </div>
 
+<div class="fortress-card-row">
+<span>Attack Cost</span>
+<strong>10 Energy</strong>
+</div>
+
 </div>
 Before proceeding, make sure you understand the basic rules for Fortress Levels 1–4.
 
@@ -434,6 +439,11 @@ The exact method may vary depending on the situation, guild strength, location, 
 <div class="fortress-card-row">
 <span>Requirement</span>
 <strong>Defeat 75 Guards at Lv3</strong>
+</div>
+
+<div class="fortress-card-row">
+<span>Attack Cost</span>
+<strong>10 Energy</strong>
 </div>
 
 </div>
