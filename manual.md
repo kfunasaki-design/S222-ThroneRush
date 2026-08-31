@@ -370,6 +370,7 @@ If multiple guilds are interested in the same target, direct discussion between 
 <strong>Defeat 90 Guards at Lv4</strong>
 </div>
 
+</div>
 Before proceeding, make sure you understand the basic rules for Fortress Levels 1–4.
 
 Starting from Lv5, fortress availability becomes significantly more limited and the number of Imperial Guards also increases.
@@ -435,6 +436,7 @@ The exact method may vary depending on the situation, guild strength, location, 
 <strong>Defeat 75 Guards at Lv3</strong>
 </div>
 
+</div>
 
 
 **Target League:** No specific GW League requirement.
