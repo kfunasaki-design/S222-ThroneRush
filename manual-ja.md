@@ -262,7 +262,31 @@ Lv7関連のサイト機能が完成した後に内容を追加します。
 
 ## Lv6 Fortress
 
-**Target League:** Silver League
+<div class="fortress-card">
+
+<div class="fortress-card-title">Lv6 FORTRESS</div>
+
+<div class="fortress-card-row">
+<span>Target League</span>
+<strong>Silver League</strong>
+</div>
+
+<div class="fortress-card-row">
+<span>Fortresses</span>
+<strong>4</strong>
+</div>
+
+<div class="fortress-card-row">
+<span>Requirement</span>
+<strong>Defeat 120 Guards at Lv5</strong>
+</div>
+
+<div class="fortress-card-row">
+<span>Attack Cost</span>
+<strong>10 Energy</strong>
+</div>
+
+</div>
 
 Lv6要塞はマップ上に3か所しかありません。
 
@@ -272,7 +296,31 @@ Lv6要塞はマップ上に3か所しかありません。
 
 ## Lv5 Fortress
 
-**Target League:** Bronze League
+<div class="fortress-card">
+
+<div class="fortress-card-title">Lv5 FORTRESS</div>
+
+<div class="fortress-card-row">
+<span>Target League</span>
+<strong>Bronze League</strong>
+</div>
+
+<div class="fortress-card-row">
+<span>Fortresses</span>
+<strong>5</strong>
+</div>
+
+<div class="fortress-card-row">
+<span>Requirement</span>
+<strong>Defeat 90 Guards at Lv4</strong>
+</div>
+
+<div class="fortress-card-row">
+<span>Attack Cost</span>
+<strong>10 Energy</strong>
+</div>
+
+</div>
 
 まず、Lv1–4 Fortressesの基本を確認してください。
 
@@ -314,7 +362,31 @@ Lv5要塞には**120体の帝国衛兵**がいます。
 
 ## Lv1–4 Fortresses
 
-**Target League:** 特定のGW League条件はありません。
+<div class="fortress-card">
+
+<div class="fortress-card-title">Lv4 FORTRESS</div>
+
+<div class="fortress-card-row">
+<span>Target League</span>
+<strong>No specific</strong>
+</div>
+
+<div class="fortress-card-row">
+<span>Fortresses</span>
+<strong>8</strong>
+</div>
+
+<div class="fortress-card-row">
+<span>Requirement</span>
+<strong>Defeat 75 Guards at Lv3</strong>
+</div>
+
+<div class="fortress-card-row">
+<span>Attack Cost</span>
+<strong>10 Energy</strong>
+</div>
+
+</div>
 
 最初に配置された場所から、できるだけ近い要塞を優先してください。
 
