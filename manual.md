@@ -313,6 +313,38 @@ The objective is not to create unnecessary restrictions, but to prevent avoidabl
 
 ## Lv6 Fortress
 
+## Lv6 Fortress
+
+<div class="fortress-card">
+
+<div class="fortress-card-title">Lv6 FORTRESS</div>
+
+<div class="fortress-card-row">
+<span>Target League</span>
+<strong>Silver League</strong>
+</div>
+
+<div class="fortress-card-row">
+<span>Fortresses</span>
+<strong>3</strong>
+</div>
+
+<div class="fortress-card-row">
+<span>Requirement</span>
+<strong>Defeat 30 Guards at Lv1</strong>
+</div>
+
+<div class="fortress-card-row">
+<span>Attack Cost</span>
+<strong>10 Energy</strong>
+</div>
+
+</div>
+
+
+
+
+
 **Target League:** Silver League
 
 Lv6 Fortresses are limited in number, with only three available on the map.
