@@ -1,24 +1,12 @@
 ## Overview
 
-This guide provides reference information and suggested strategies for allied guilds within S222 to coordinate their actions during ThroneRush.
+This alliance site provides an environment where participating guilds can share information and take action while keeping track of the current situation.
 
-The purpose of this guide is to help guilds understand fortress levels, coordinate attacks, and avoid unnecessary conflicts between allied guilds.
-
-S222TR is designed as a coordination environment rather than a centralized organization.
-
-Participating guilds remain independent and are expected to communicate directly when necessary.
-
-The information presented here is based on the current game environment and practical experience.
-
-It should be treated as a reference rather than a set of mandatory rules.
+Through information sharing, each guild can make its own decisions while securing benefits more fairly and efficiently.
 
 ![S222 ThroneRush Alliance](image/overview.png)
 
-The systems and tools provided through S222TR are intended to make coordination easier, reduce unnecessary conflicts, and provide a shared point of reference for participating guilds.
-
-Rules, participation requirements, and various tools supporting information sharing are also provided.
-
-This guide explains the basic actions within the alliance environment and how participating guilds can coordinate with one another.
+This guide explains the rules of the alliance, participation requirements, FAQ, and various information.
 
 ## Rules
 
@@ -28,41 +16,41 @@ S222TR does not establish a hierarchy between participating guilds.
 
 Each guild remains independent and is responsible for its own decisions, members, and internal operations.
 
-The purpose of cooperation is not to control other guilds, but to create an environment where guilds can share information and coordinate when their objectives overlap.
+The purpose of cooperation is not to manage other guilds, but to create an environment where guilds can share information and coordinate when their objectives overlap.
 
 ### Communication
 
 When a situation may affect another participating guild, communication should take place before unnecessary conflict occurs.
 
-This includes situations such as overlapping fortress targets, schedule conflicts, joint operations, or other activities that may influence alliance coordination.
+This includes situations such as overlapping fortress targets, schedule conflicts, joint operations, or other activities that may affect coordination within the alliance.
 
-Direct communication between the relevant guilds is generally preferred.
+As a general principle, direct communication between the relevant guilds is recommended.
 
 ### Information Sharing
 
 Information shared through S222TR should be handled appropriately.
 
-Operational information, schedules, negotiations, and other discussions may affect multiple guilds.
+Operational information, schedules, negotiations, and other information may affect multiple guilds.
 
-Participants should avoid intentionally spreading incomplete or misleading information that could disrupt coordination.
+Avoid intentionally spreading incomplete or misleading information for the purpose of disrupting coordination.
 
-When presenting information that may influence other guilds, factual information and verifiable circumstances should be prioritized.
+When presenting information that may affect other guilds, factual information and verifiable circumstances should be prioritized.
 
 ### Conflict Resolution
 
-Disagreements between guilds should first be resolved through direct discussion.
+When disagreements arise between guilds, they should first be resolved through discussion between the parties involved.
 
-S222TR does not automatically intervene in every disagreement.
+S222TR does not automatically intervene in every dispute.
 
-However, when a conflict directly affects alliance operations or shared coordination, the circumstances may be reviewed.
+However, when a dispute directly affects alliance activities or shared coordination, the situation may be reviewed.
 
-The purpose of intervention is to maintain cooperation and reduce unnecessary disruption rather than determine a winner between guilds.
+The purpose of intervention is not to determine a winner between guilds, but to maintain cooperation and reduce unnecessary disruption.
 
 ### Participation
 
-Participation in S222TR is intended for guilds that are able to maintain communication and cooperate with other participating guilds when necessary.
+Participation in S222TR is intended for guilds that are able to communicate and cooperate with other participating guilds when necessary.
 
-Guild participation may be reviewed when repeated problems significantly affect alliance activities.
+A guild's participation status may be reviewed if repeated problems significantly affect alliance activities.
 
 ## Restriction
 
@@ -70,28 +58,28 @@ Guild participation may be reviewed when repeated problems significantly affect 
 
 Participation in S222TR requires more than simply joining the communication environment.
 
-Guilds are expected to maintain the ability to communicate, coordinate activities, and carry out agreements made with other participating guilds.
+Guilds are expected to maintain the ability to communicate with other participating guilds, coordinate activities, and carry out agreed arrangements.
 
 The Guild Master is responsible for registering the guild for participation.
 
-Other members, such as Generals or designated representatives, may handle coordination and operational communication after registration.
+After registration, Generals or designated representatives may handle coordination and operational communication.
 
 ### Relationship
 
 Alliance activities depend on the ability to establish and maintain cooperative relationships.
 
-Information sharing, negotiation, scheduling, and joint operations require a minimum level of communication and mutual cooperation.
+Information sharing, negotiation, schedule coordination, and joint operations require a minimum level of communication and mutual cooperation.
 
-A guild that repeatedly fails to maintain the communication necessary for these activities may become difficult to coordinate with.
+A guild that is unable to continuously maintain the communication necessary for these activities may become difficult to coordinate with.
 
 ### Risk
 
-Factors that may obstruct the establishment or maintenance of cooperative relationships may be considered risks to alliance activities.
+Factors that may interfere with establishing or maintaining cooperative relationships may be considered risks to alliance activities.
 
-Examples may include:
+Examples include:
 
-* Repeated disruption of alliance coordination.
-* Intentional interference with agreed activities.
+* Repeatedly disrupting coordination within the alliance.
+* Intentionally interfering with agreed activities.
 * Serious communication problems.
 * Information leakage.
 * Repeated failure to respond to necessary administrative contact.
@@ -101,21 +89,21 @@ When necessary, relevant circumstances may be recorded as part of the alliance m
 
 ### Administrative Contact
 
-Administrators may contact a participating guild when confirmation, information, or other action is necessary for alliance operations.
+When confirmation, information, or other action is necessary for alliance operations, administrators may contact a participating guild.
 
-Guilds are expected to provide an appropriate response or take the requested action within a reasonable or specified period.
+Guilds are expected to provide an appropriate response or take the necessary action within a reasonable or specified period.
 
-Failure to respond may be considered a failure to maintain the communication necessary for participation.
+Failure to respond may be considered an inability to maintain the communication necessary for participation.
 
 ### Record and Status
 
-Participation records may be maintained to provide a reference for determining the current status of a guild and reviewing previous circumstances.
+Participation records may be maintained to confirm a guild's current participation status and review previous circumstances.
 
-Possible status examples include:
+Examples of possible statuses include:
 
 **✅ OK**
 
-No current issue affecting alliance participation.
+There are currently no issues affecting participation in the alliance.
 
 **⚠️ WARNING**
 
@@ -127,27 +115,27 @@ Failure to take the required action may result in participation restrictions.
 
 Participation in S222TR alliance functions is currently restricted.
 
-The purpose of these records is not punishment.
+These records are not intended as punishment.
 
-They provide operational context when reviewing situations that may affect future cooperation.
+They are used to provide operational context when reviewing situations that may affect future cooperation.
 
 ### Repeat Cases
 
-When the same or similar issue occurs repeatedly, future treatment may be discussed based on the circumstances and previous history.
+When the same or similar issue occurs repeatedly, future action may be considered based on the circumstances and previous history.
 
-The nature of the issue, the response of the guild, improvement efforts, and the potential impact on future cooperation may all be considered.
+The nature of the issue, the guild's response, efforts to improve, and the potential impact on future cooperation may all be considered.
 
-A repeated case does not automatically result in a predetermined restriction.
+Even when the same or similar issue occurs repeatedly, a predetermined response is not automatically applied.
 
-Decisions should consider the circumstances of the individual situation.
+Each situation will be considered individually.
 
 ### Review and Re-Participation
 
 Participation restrictions will generally remain in effect for the current season.
 
-Even if the original issue has been resolved, participation may not automatically return during the same season.
+Even if the original issue has been resolved, participation will not necessarily be restored automatically during the same season.
 
-This helps avoid disruption to schedules and coordination already established between participating guilds.
+This is intended to prevent disruption to schedules and coordination that have already been established between participating guilds.
 
 A guild wishing to participate again may submit a new application for a future season.
 
@@ -177,11 +165,7 @@ Please return all troops to your castle before teleporting.
 
 <div class="faq-note">
 
-You cannot teleport while troops are outside your castle, such as when attacking monsters, gathering resources, or defending a fortress.
-
-You also cannot teleport to a location on the world map if there are obstacles such as monsters or bosses.
-
-Remove the obstacle first, and you will be able to teleport there.
+You cannot teleport while troops are outside your castle, such as when attacking monsters, gathering resources, or defending a fortress. You also cannot teleport to a location on the world map if there are obstacles such as monsters or bosses. Remove the obstacle first, and you will be able to teleport there.
 
 </div>
 
@@ -241,7 +225,7 @@ Lv1 (38), Lv2 (22), Lv3 (12), Lv4 (7), Lv5 (4), Lv6 (3), Lv7 (1)
 
 <div class="faq-note">
 
-Because the number of fortresses decreases significantly at higher levels, coordination becomes increasingly important from Lv4 onward.
+Because the number of fortresses decreases at higher levels, coordination between guilds becomes increasingly important from Lv4 onward.
 
 </div>
 
@@ -297,7 +281,7 @@ For example, if you attack a fortress with 90 Imperial Guards and defeat 89 of t
 
 <div>
 
-The required league depends on the fortress level.
+The required GW League depends on the fortress level.
 
 <ul class="faq-level-list">
 
@@ -346,19 +330,7 @@ Tap the fortress in-game to check which leagues are eligible to attack it.
 
 </div>
 
-Lv7 is the highest-level fortress and the most limited strategic location on the map.
-
-Only one Lv7 Fortress exists.
-
-For this reason, any activity involving Lv7 can potentially affect multiple guilds.
-
-Guilds planning to challenge Lv7 should communicate their intentions in advance and confirm the current situation before declaring war.
-
-The objective is not to create unnecessary restrictions, but to prevent avoidable conflicts caused by overlapping plans.
-
-⚠️ This section is currently under development.
-
-It will be expanded as Lv7-related coordination functions are implemented.
+⚠️ Not yet implemented
 
 ## Lv6 Fortress
 
@@ -393,25 +365,19 @@ It will be expanded as Lv7-related coordination functions are implemented.
 
 </div>
 
-Starting from Lv6, communication between guilds becomes particularly important.
+At Level 6, **communication between guilds becomes even more important**.
 
-Only three Lv6 Fortresses are available on the map, meaning that multiple guilds may compete for the same fortress.
+### Communication
 
-Before declaring war, check the Schedule Coordination calendar and confirm whether another participating guild already has plans for the same fortress.
+Please use the **【Forum】** for all communication and coordination between guilds.
 
-If multiple guilds are interested in the same target, direct discussion between the relevant guilds should take place before unnecessary conflict occurs.
+![S222 ThroneRush Alliance](image/lv6-forum.png)
 
-Information sharing regarding the same fortress or related operations should be conducted through the 【Forum】 on the alliance site.
+By leaving information in the Forum, not only the guilds directly involved but also other guilds registered with the alliance can review the situation.
 
-Using the Forum allows not only the guilds directly involved, but also other participating guilds to understand the current situation.
+The administration will **not become involved in communications conducted through methods that cannot be reviewed within the alliance**, such as private messages.
 
-This reduces the need to communicate the same information individually to multiple guilds and makes information sharing more efficient.
-
-Whenever possible, make operational information visible rather than relying only on private messages.
-
-S222TR will not be responsible for disputes between guilds that occur without using the Forum for the relevant coordination.
-
-![Forum Example](image/lv6-forum.png)
+We recommend sharing necessary information and leaving it in a form that can be reviewed later.
 
 ## Lv5 Fortress
 
@@ -446,59 +412,21 @@ S222TR will not be responsible for disputes between guilds that occur without us
 
 </div>
 
-Before proceeding, make sure you understand the basic rules for Fortress Levels 1–4.
-
-Starting from Lv5, fortress availability becomes significantly more limited and the number of Imperial Guards also increases.
-
-Each Lv5 Fortress has 120 Imperial Guards.
-
-For this reason, coordination between allied guilds can make the capture process more efficient.
+From Level 5 onward, coordination between allied guilds becomes increasingly important.
 
 ### Coordinated Capture
 
-When multiple guilds cooperate to capture a fortress, advance information sharing is required.
+When multiple guilds are involved with the same fortress, advance information sharing and coordination are required.
 
-Register the planned fortress and schedule through the 【Calendar】.
+To avoid conflicts, **always register the fortress you plan to attack and the planned schedule in the 【Calendar】.**
 
-Registering the plan in advance allows other guilds to review their own schedules and coordinate their operations.
+![S222 ThroneRush Alliance](image/lv5-calendar.png)
 
-If plans overlap for the same fortress, the relevant guilds should discuss the situation directly in advance.
+If multiple guilds plan to attack the same fortress, **priority will be given to the guild that registered first.**
 
-One possible method is to coordinate the timing of declarations of war between multiple guilds.
+The **【Image Editor】** can also be used to share information about locations and operations on the map.
 
-This allows multiple guilds to participate in reducing the Imperial Guards while maintaining a clear primary guild for the occupation attempt.
-
-![Lv5 Example](image/lv5-example.png)
-
-### Example
-
-**1. Assign the primary guild**
-
-Guild ①, located near the Lv5 Fortress, is designated as the primary attacking guild.
-
-After discussing the plan through the alliance communication channels, Guild ① declares war at the agreed time.
-
-**2. Coordinate the supporting guild**
-
-Guild ② acts as a supporting guild and declares war **later than Guild ①**.
-
-The timing difference should be discussed and agreed upon between the relevant guilds before the operation begins.
-
-**3. Divide the Imperial Guards**
-
-A Lv5 Fortress has **120 Imperial Guards**.
-
-The guild that defeats the greater number of Guards gains the right to occupy the fortress.
-
-Therefore, Guild ① should defeat at least **61 Guards**.
-
-Guild ② can assist by defeating the remaining Guards.
-
-This allows the primary guild to secure the occupation rights while reducing the total burden of defeating all Imperial Guards alone.
-
-The exact method may vary depending on the situation, guild strength, location, and available participants.
-
-If necessary, use tools such as the 【Image Editor】 to make the operation easier to understand and share.
+![S222 ThroneRush Alliance](image/lv5-image-editor.png)
 
 ## Lv1–4 Fortresses
 
@@ -533,57 +461,29 @@ If necessary, use tools such as the 【Image Editor】 to make the operation eas
 
 </div>
 
-**Target League:** No specific GW League requirement.
-
-Lv1–4 Fortresses form the foundation of ThroneRush progression.
-
-During the early stages of the event, guilds should prioritize establishing their position efficiently rather than competing unnecessarily with allied guilds.
-
-### Basic Approach
-
-Please prioritize fortresses located as close as possible to your initial deployment area.
-
-Moving long distances or repeatedly changing targets can consume unnecessary resources and reduce operational efficiency.
-
-As fortress levels increase, the number of available targets decreases significantly.
-
-For this reason, focusing on **one fortress at a time** is generally recommended.
-
-### Lv4 Coordination
-
-Lv4 Fortresses are the point at which coordination becomes particularly important.
-
-Only seven Lv4 Fortresses are available on the map.
-
-Guilds planning to challenge an Lv4 Fortress should register their intended target and schedule through the **Schedule Coordination** calendar.
-
-This makes overlapping plans visible before multiple guilds accidentally begin operations against the same fortress.
-
-### Overlapping Plans
-
-If two or more guilds have overlapping plans for the same fortress, the relevant guilds should discuss the situation directly.
-
-The goal should be to find a practical solution rather than create unnecessary conflict.
-
-If an agreement cannot be reached, priority may generally be given to the guild that **registered its attack plan first**.
+At Levels 1–4, act according to your own judgment while avoiding unnecessary conflicts between allied guilds.
 
 ### Basic Considerations
 
-* Do not attempt to recapture a fortress already occupied by an allied guild without prior discussion.
-* If recapture is necessary, negotiate with the occupying guild beforehand.
-* If multiple guilds accidentally declare war on the same fortress, resolve the situation through communication.
-* A guild may voluntarily withdraw or change its target when doing so is more practical than continuing an unnecessary conflict.
-* The coordination system is intended to provide visibility and communication, not to remove independent decision-making.
+* Do not attempt to recapture a fortress occupied by an allied guild without prior discussion.
+* If recapture is necessary, coordinate with the guild currently occupying the fortress beforehand.
+* If multiple guilds target the same fortress, coordinate the situation between the relevant guilds.
+* When necessary, changing the target or voluntarily withdrawing are both valid options.
+* Avoid unnecessary conflict and prioritize a practical solution.
 
-Starting from Lv4, use the various tools provided through the alliance site to share information between guilds.
+![S222 ThroneRush Alliance](image/lv4-worldmap.png)
+
+From Lv4 onward, coordination between guilds becomes increasingly important.
+
+Use the various tools provided on the alliance site to share information and coordinate according to the situation.
 
 ## Calendar
 
-The Schedule Coordination calendar is provided to help guilds share planned fortress operations.
+The Schedule Coordination Calendar is provided to help guilds share information about planned fortress operations.
 
-Guilds can register information such as the target fortress, location, guild name, and planned operation period.
+Guilds can register the target fortress, location, guild name, and planned operation period.
 
-The calendar is primarily intended to make planned activities visible before conflicts occur.
+The primary purpose of the calendar is to make each guild's plans visible before conflicts occur.
 
 ### Recommended Use
 
@@ -591,50 +491,49 @@ Before declaring war on a limited fortress, check whether another participating 
 
 When registering an operation, provide enough information for other guilds to understand the planned activity.
 
-If plans overlap, communicate directly with the relevant guild before proceeding.
+If plans overlap, contact the relevant guild directly before proceeding.
 
 ### Important Note
 
-Calendar registration does not automatically guarantee ownership or priority over a fortress.
+Registering a plan on the calendar does not automatically establish ownership or priority over a fortress.
 
-It is a coordination tool designed to make intentions visible and provide a starting point for communication.
+The calendar is an information-sharing tool designed to make each guild's intentions visible and provide a starting point for discussion.
 
-The system works best when participating guilds keep their schedules reasonably accurate and update plans when circumstances change.
+The system works best when participating guilds keep their schedules reasonably accurate and update them when circumstances change.
 
 ## Image Editor
 
-The Image Editor is a simple tool designed to help guilds prepare visual information for coordination.
+The Image Editor is a tool designed to easily create visual information for coordination between guilds.
 
-It can be used to add markers, arrows, circles, numbers, and other visual elements to screenshots or maps.
+It can be used to add markers, arrows, circles, numbers, and other visual elements to screenshots or map images.
 
-The purpose is to make operational information easier to understand without requiring specialized image editing software.
+Its purpose is to make operational information easier to understand without requiring specialized image editing software.
 
 ### Example Uses
 
-* Marking a target fortress.
+* Marking the fortress to be attacked.
 * Showing attack routes.
 * Highlighting important locations.
 * Adding numbered instructions.
-* Preparing images for Discord discussions.
-* Explaining a coordinated operation visually.
+* Creating images for discussions on Discord.
+* Visually explaining coordinated operations.
 
-The tool is intended for quick and practical communication, especially when sharing information from mobile devices.
+The tool is designed for quick and practical communication, especially when sharing information from mobile devices.
 
 ## Forum
 
-The Forum provides a space for discussions that require more organization than normal chat messages.
+The Forum is a place for conducting ongoing discussions in a more organized format than normal chat messages.
 
-It can be used for ongoing discussions, coordination topics, proposals, and information sharing between participating guilds.
+It can be used for ongoing discussions, coordination, proposals, and information sharing between participating guilds.
 
 ### Recommended Use
 
-Create a topic when the discussion may involve multiple messages or require continued reference.
+Create a topic for discussions that require multiple messages or need to be referenced continuously later.
 
-Use a clear title so that other participants can quickly understand the purpose of the discussion.
+Use a clear title so that other participants can immediately understand the purpose of the discussion.
 
-When a decision or conclusion is reached, summarize the relevant result where possible.
+When a decision or conclusion is reached, summarize the relevant result clearly when necessary.
 
-The Forum is intended to complement direct communication rather than replace it.
+The Forum is intended to complement direct communication.
 
-For urgent operational coordination, direct communication with the relevant guild remains the fastest and most reliable method.
-
+For urgent operational coordination, directly contacting the relevant guild remains the fastest and most reliable method.
