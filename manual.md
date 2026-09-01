@@ -4,11 +4,21 @@ This guide provides reference information and suggested strategies for allied gu
 
 The purpose of this guide is to help guilds understand fortress levels, coordinate attacks, and avoid unnecessary conflicts between allied guilds.
 
-S222TR is designed as a coordination environment rather than a centralized organization. Participating guilds remain independent and are expected to communicate directly when necessary.
+S222TR is designed as a coordination environment rather than a centralized organization.
 
-The information presented here is based on the current game environment and practical experience. It should be treated as a reference rather than a set of mandatory rules.
+Participating guilds remain independent and are expected to communicate directly when necessary.
+
+The information presented here is based on the current game environment and practical experience.
+
+It should be treated as a reference rather than a set of mandatory rules.
+
+![S222 ThroneRush Alliance](image/overview.png)
 
 The systems and tools provided through S222TR are intended to make coordination easier, reduce unnecessary conflicts, and provide a shared point of reference for participating guilds.
+
+Rules, participation requirements, and various tools supporting information sharing are also provided.
+
+This guide explains the basic actions within the alliance environment and how participating guilds can coordinate with one another.
 
 ## Rules
 
@@ -32,7 +42,9 @@ Direct communication between the relevant guilds is generally preferred.
 
 Information shared through S222TR should be handled appropriately.
 
-Operational information, schedules, negotiations, and other discussions may affect multiple guilds. Participants should avoid intentionally spreading incomplete or misleading information that could disrupt coordination.
+Operational information, schedules, negotiations, and other discussions may affect multiple guilds.
+
+Participants should avoid intentionally spreading incomplete or misleading information that could disrupt coordination.
 
 When presenting information that may influence other guilds, factual information and verifiable circumstances should be prioritized.
 
@@ -40,7 +52,9 @@ When presenting information that may influence other guilds, factual information
 
 Disagreements between guilds should first be resolved through direct discussion.
 
-S222TR does not automatically intervene in every disagreement. However, when a conflict directly affects alliance operations or shared coordination, the circumstances may be reviewed.
+S222TR does not automatically intervene in every disagreement.
+
+However, when a conflict directly affects alliance operations or shared coordination, the circumstances may be reviewed.
 
 The purpose of intervention is to maintain cooperation and reduce unnecessary disruption rather than determine a winner between guilds.
 
@@ -58,7 +72,9 @@ Participation in S222TR requires more than simply joining the communication envi
 
 Guilds are expected to maintain the ability to communicate, coordinate activities, and carry out agreements made with other participating guilds.
 
-The Guild Master is responsible for registering the guild for participation. Other members, such as Generals or designated representatives, may handle coordination and operational communication after registration.
+The Guild Master is responsible for registering the guild for participation.
+
+Other members, such as Generals or designated representatives, may handle coordination and operational communication after registration.
 
 ### Relationship
 
@@ -111,7 +127,9 @@ Failure to take the required action may result in participation restrictions.
 
 Participation in S222TR alliance functions is currently restricted.
 
-The purpose of these records is not punishment. They provide operational context when reviewing situations that may affect future cooperation.
+The purpose of these records is not punishment.
+
+They provide operational context when reviewing situations that may affect future cooperation.
 
 ### Repeat Cases
 
@@ -119,13 +137,17 @@ When the same or similar issue occurs repeatedly, future treatment may be discus
 
 The nature of the issue, the response of the guild, improvement efforts, and the potential impact on future cooperation may all be considered.
 
-A repeated case does not automatically result in a predetermined restriction. Decisions should consider the circumstances of the individual situation.
+A repeated case does not automatically result in a predetermined restriction.
+
+Decisions should consider the circumstances of the individual situation.
 
 ### Review and Re-Participation
 
 Participation restrictions will generally remain in effect for the current season.
 
-Even if the original issue has been resolved, participation may not automatically return during the same season. This helps avoid disruption to schedules and coordination already established between participating guilds.
+Even if the original issue has been resolved, participation may not automatically return during the same season.
+
+This helps avoid disruption to schedules and coordination already established between participating guilds.
 
 A guild wishing to participate again may submit a new application for a future season.
 
@@ -155,7 +177,11 @@ Please return all troops to your castle before teleporting.
 
 <div class="faq-note">
 
-You cannot teleport while troops are outside your castle, such as when attacking monsters, gathering resources, or defending a stronghold. You also cannot teleport to a location on the world map if there are obstacles such as monsters or bosses. Remove the obstacle first, and you will be able to teleport there.
+You cannot teleport while troops are outside your castle, such as when attacking monsters, gathering resources, or defending a fortress.
+
+You also cannot teleport to a location on the world map if there are obstacles such as monsters or bosses.
+
+Remove the obstacle first, and you will be able to teleport there.
 
 </div>
 
@@ -285,7 +311,7 @@ The required league depends on the fortress level.
 
 <div class="faq-note">
 
-Tap the castle in-game to check which leagues are eligible to attack it.
+Tap the fortress in-game to check which leagues are eligible to attack it.
 
 </div>
 
@@ -299,18 +325,40 @@ Tap the castle in-game to check which leagues are eligible to attack it.
 
 ## Lv7 Fortress
 
-**Target League:** Gold League
+<div class="fortress-card">
+
+<div class="fortress-card-title">Lv7 FORTRESS</div>
+
+<div class="fortress-card-row">
+<span>Target League</span>
+<strong>Gold League</strong>
+</div>
+
+<div class="fortress-card-row">
+<span>Fortresses</span>
+<strong>1</strong>
+</div>
+
+<div class="fortress-card-row">
+<span>Imperial Guards</span>
+<strong>---</strong>
+</div>
+
+</div>
 
 Lv7 is the highest-level fortress and the most limited strategic location on the map.
 
-Only one Lv7 Fortress exists. For this reason, any activity involving Lv7 can potentially affect multiple guilds.
+Only one Lv7 Fortress exists.
+
+For this reason, any activity involving Lv7 can potentially affect multiple guilds.
 
 Guilds planning to challenge Lv7 should communicate their intentions in advance and confirm the current situation before declaring war.
 
 The objective is not to create unnecessary restrictions, but to prevent avoidable conflicts caused by overlapping plans.
 
-**Status:** This section is currently under development and will be expanded as Lv7-related coordination functions are implemented.
+⚠️ This section is currently under development.
 
+It will be expanded as Lv7-related coordination functions are implemented.
 
 ## Lv6 Fortress
 
@@ -325,7 +373,12 @@ The objective is not to create unnecessary restrictions, but to prevent avoidabl
 
 <div class="fortress-card-row">
 <span>Fortresses</span>
-<strong>4</strong>
+<strong>3</strong>
+</div>
+
+<div class="fortress-card-row">
+<span>Imperial Guards</span>
+<strong>150</strong>
 </div>
 
 <div class="fortress-card-row">
@@ -340,14 +393,25 @@ The objective is not to create unnecessary restrictions, but to prevent avoidabl
 
 </div>
 
+Starting from Lv6, communication between guilds becomes particularly important.
 
-Lv6 Fortresses are limited in number, with only three available on the map.
-
-Because several guilds may compete for the same fortress, coordination becomes increasingly important at this level.
+Only three Lv6 Fortresses are available on the map, meaning that multiple guilds may compete for the same fortress.
 
 Before declaring war, check the Schedule Coordination calendar and confirm whether another participating guild already has plans for the same fortress.
 
 If multiple guilds are interested in the same target, direct discussion between the relevant guilds should take place before unnecessary conflict occurs.
+
+Information sharing regarding the same fortress or related operations should be conducted through the 【Forum】 on the alliance site.
+
+Using the Forum allows not only the guilds directly involved, but also other participating guilds to understand the current situation.
+
+This reduces the need to communicate the same information individually to multiple guilds and makes information sharing more efficient.
+
+Whenever possible, make operational information visible rather than relying only on private messages.
+
+S222TR will not be responsible for disputes between guilds that occur without using the Forum for the relevant coordination.
+
+![Forum Example](image/lv6-forum.png)
 
 ## Lv5 Fortress
 
@@ -362,7 +426,12 @@ If multiple guilds are interested in the same target, direct discussion between 
 
 <div class="fortress-card-row">
 <span>Fortresses</span>
-<strong>5</strong>
+<strong>4</strong>
+</div>
+
+<div class="fortress-card-row">
+<span>Imperial Guards</span>
+<strong>120</strong>
 </div>
 
 <div class="fortress-card-row">
@@ -376,21 +445,30 @@ If multiple guilds are interested in the same target, direct discussion between 
 </div>
 
 </div>
+
 Before proceeding, make sure you understand the basic rules for Fortress Levels 1–4.
 
 Starting from Lv5, fortress availability becomes significantly more limited and the number of Imperial Guards also increases.
 
-Each Lv5 Fortress has **120 Imperial Guards**.
+Each Lv5 Fortress has 120 Imperial Guards.
 
 For this reason, coordination between allied guilds can make the capture process more efficient.
 
 ### Coordinated Capture
 
-One possible method is to coordinate the timing of declarations of war between two guilds.
+When multiple guilds cooperate to capture a fortress, advance information sharing is required.
+
+Register the planned fortress and schedule through the 【Calendar】.
+
+Registering the plan in advance allows other guilds to review their own schedules and coordinate their operations.
+
+If plans overlap for the same fortress, the relevant guilds should discuss the situation directly in advance.
+
+One possible method is to coordinate the timing of declarations of war between multiple guilds.
 
 This allows multiple guilds to participate in reducing the Imperial Guards while maintaining a clear primary guild for the occupation attempt.
 
-![Example of coordinated declaration of war timing for a Lv5 Fortress](image/lv5-example.png)
+![Lv5 Example](image/lv5-example.png)
 
 ### Example
 
@@ -404,7 +482,7 @@ After discussing the plan through the alliance communication channels, Guild ①
 
 Guild ② acts as a supporting guild and declares war **later than Guild ①**.
 
-The timing difference should be discussed and agreed upon before the operation begins.
+The timing difference should be discussed and agreed upon between the relevant guilds before the operation begins.
 
 **3. Divide the Imperial Guards**
 
@@ -420,6 +498,8 @@ This allows the primary guild to secure the occupation rights while reducing the
 
 The exact method may vary depending on the situation, guild strength, location, and available participants.
 
+If necessary, use tools such as the 【Image Editor】 to make the operation easier to understand and share.
+
 ## Lv1–4 Fortresses
 
 <div class="fortress-card">
@@ -433,7 +513,12 @@ The exact method may vary depending on the situation, guild strength, location, 
 
 <div class="fortress-card-row">
 <span>Fortresses</span>
-<strong>8</strong>
+<strong>7</strong>
+</div>
+
+<div class="fortress-card-row">
+<span>Imperial Guards</span>
+<strong>90</strong>
 </div>
 
 <div class="fortress-card-row">
@@ -447,7 +532,6 @@ The exact method may vary depending on the situation, guild strength, location, 
 </div>
 
 </div>
-
 
 **Target League:** No specific GW League requirement.
 
@@ -490,6 +574,8 @@ If an agreement cannot be reached, priority may generally be given to the guild 
 * If multiple guilds accidentally declare war on the same fortress, resolve the situation through communication.
 * A guild may voluntarily withdraw or change its target when doing so is more practical than continuing an unnecessary conflict.
 * The coordination system is intended to provide visibility and communication, not to remove independent decision-making.
+
+Starting from Lv4, use the various tools provided through the alliance site to share information between guilds.
 
 ## Calendar
 
@@ -551,3 +637,4 @@ When a decision or conclusion is reached, summarize the relevant result where po
 The Forum is intended to complement direct communication rather than replace it.
 
 For urgent operational coordination, direct communication with the relevant guild remains the fastest and most reliable method.
+
