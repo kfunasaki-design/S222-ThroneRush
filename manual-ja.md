@@ -1,83 +1,21 @@
 ## Overview
 
-このガイドは、S222の同盟ギルドがThroneRushで協力するための参考資料です。
+この同盟サイトでは、参加ギルド間で情報を共有し、各ギルドが状況を把握しながら行動できる環境を提供しています。
 
-要塞のレベル、攻撃の進め方、ギルド間の調整などを簡単にまとめています。
+情報共有を通じて、各ギルドがそれぞれの判断で行動しながら、より公平かつ効率的に利益を確保することができます。
 
-ここに書かれている内容は、現在のゲーム環境と実際の経験をもとにした参考情報です。すべてを強制するルールではありません。
+![S222 ThroneRush Alliance](image/overview.png)
+
+ルールや参加条件、情報共有を支える各種ツールを用意しています。
+
+このマニュアルでは、同盟内の基本的な行動やギルド間の連携について説明します。
+
 
 ## Rules
 
-S222TRでは、他のギルドと連絡を取り、予定を調整しながら協力して行動することを基本とします。
-
-同じ要塞を狙う場合や予定が重なる場合は、まず相手ギルドと話し合ってください。
-
-同盟ギルドがすでに占領している要塞を、勝手に取り返そうとしないでください。
-
-必要な場合は、事前に相手ギルドと相談してください。
 
 ## Restriction
 
-S222TRの活動に大きな問題がある場合、参加状態を変更することがあります。
-
-### ① Performance
-
-同盟で決めたことを実行できることを基本条件とします。
-
-登録はGuild Master本人が行ってください。登録後の連絡や実際の運営は、Generalsなどが担当しても構いません。
-
-### ② Relationship
-
-他のギルドと必要な連絡・交渉・予定調整ができることが必要です。
-
-### ③ Risk
-
-情報漏洩、繰り返しの妨害、その他の問題行為など、同盟活動に影響する行為はリスクとして記録することがあります。
-
-必要な場合は、関係するプレイヤーを記録することがあります。
-
-### ④ Administrative Contact
-
-管理者から確認や対応を求められた場合は、指定された期間内に対応してください。
-
-対応がない場合、警告や参加制限の対象となることがあります。
-
-### ⑤ Record & Status
-
-問題が発生した場合、その内容と対応を記録します。
-
-記録は現在の参加状態を判断するための参考として使用します。
-
-**✅ OK**
-同盟活動に問題はありません。
-
-**⚠️ WARNING**
-確認や改善が必要な状態です。対応しない場合、参加制限となることがあります。
-
-**🚫 RESTRICTED**
-S222TRの同盟機能への参加が制限されます。
-
-警告を無視した場合や、必要な改善が行われない場合は、参加制限となることがあります。
-
-重大な問題については、警告なしで制限される場合があります。
-
-### ⑥ Repeat Cases
-
-同じ、または似た問題が再発した場合は、過去の記録を含めて判断します。
-
-問題の内容、状況、ギルドの対応、改善状況、今後の影響などを考慮します。
-
-再発したからといって、自動的に重い制限になるわけではありません。状況に応じて同盟内で判断します。
-
-### ⑦ Review & Re-participation
-
-参加制限は、原則として現在のシーズン中は解除しません。
-
-原因が解決していても、シーズン途中から通常参加へ戻ることはありません。
-
-再びS222TRの同盟機能へ参加したい場合は、次のシーズン開始時に新しく申請してください。
-
-再申請時には、現在の状況と過去の記録をもとに参加を確認します。
 
 ## Faq
 
@@ -89,7 +27,7 @@ S222TRの同盟機能への参加が制限されます。
 
 <span class="faq-label">Q</span>
 
-<span>テレポートしたいが、できません。</span>
+<span>テレポートしたいのですが、できません。</span>
 
 </div>
 
@@ -99,13 +37,11 @@ S222TRの同盟機能への参加が制限されます。
 
 <div>
 
-テレポートする前に、すべての兵士を城へ戻してください。
+すべての兵士を城に戻してからテレポートしてください。
 
 <div class="faq-note">
 
-モンスター討伐、資源収集、要塞防衛などで兵士が城の外にいる場合は、テレポートできません。
-
-また、移動先にモンスターやボスなどの障害物がある場合もテレポートできません。先に障害物を取り除いてください。
+モンスター討伐、資源収集、要塞防衛などで兵士が城の外にいる間はテレポートできません。また、移動先にモンスターやボスなどの障害物がある場合もテレポートできません。先に障害物を取り除いてください。
 
 </div>
 
@@ -114,6 +50,7 @@ S222TRの同盟機能への参加が制限されます。
 </div>
 
 </div>
+
 
 <div class="faq-item">
 
@@ -121,7 +58,7 @@ S222TRの同盟機能への参加が制限されます。
 
 <span class="faq-label">Q</span>
 
-<span>いつテレポートすればいいですか？</span>
+<span>いつテレポートすればよいですか？</span>
 
 </div>
 
@@ -145,13 +82,14 @@ S222TRの同盟機能への参加が制限されます。
 
 </div>
 
+
 <div class="faq-item">
 
 <div class="faq-question">
 
 <span class="faq-label">Q</span>
 
-<span>各レベルの要塞は何個ありますか？</span>
+<span>各レベルの要塞はいくつありますか？</span>
 
 </div>
 
@@ -161,11 +99,11 @@ S222TRの同盟機能への参加が制限されます。
 
 <div>
 
-Lv1 (38)、Lv2 (22)、Lv3 (12)、Lv4 (7)、Lv5 (4)、Lv6 (3)、Lv7 (1)
+Lv1（38）、Lv2（22）、Lv3（12）、Lv4（7）、Lv5（4）、Lv6（3）、Lv7（1）
 
 <div class="faq-note">
 
-高レベルになるほど要塞の数が大きく減るため、Lv4以降は特にギルド間の調整が重要になります。
+高レベルになるほど要塞の数が少なくなるため、ギルド間の連携が重要になります。
 
 </div>
 
@@ -174,6 +112,7 @@ Lv1 (38)、Lv2 (22)、Lv3 (12)、Lv4 (7)、Lv5 (4)、Lv6 (3)、Lv7 (1)
 </div>
 
 </div>
+
 
 <div class="faq-item">
 
@@ -181,7 +120,7 @@ Lv1 (38)、Lv2 (22)、Lv3 (12)、Lv4 (7)、Lv5 (4)、Lv6 (3)、Lv7 (1)
 
 <span class="faq-label">Q</span>
 
-<span>占領に失敗すると、帝国衛兵はどうなりますか？</span>
+<span>占領に失敗した場合、帝国衛兵はどうなりますか？</span>
 
 </div>
 
@@ -195,7 +134,7 @@ Lv1 (38)、Lv2 (22)、Lv3 (12)、Lv4 (7)、Lv5 (4)、Lv6 (3)、Lv7 (1)
 
 <div class="faq-note">
 
-例えば、帝国衛兵90体の要塞を攻撃して89体倒しても、占領に失敗すると90体に戻ります。
+例えば、90人の帝国衛兵がいる要塞を攻撃し89人倒した場合でも、占領に失敗すると再び90人に戻ります。
 
 </div>
 
@@ -204,6 +143,7 @@ Lv1 (38)、Lv2 (22)、Lv3 (12)、Lv4 (7)、Lv5 (4)、Lv6 (3)、Lv7 (1)
 </div>
 
 </div>
+
 
 <div class="faq-item">
 
@@ -211,7 +151,7 @@ Lv1 (38)、Lv2 (22)、Lv3 (12)、Lv4 (7)、Lv5 (4)、Lv6 (3)、Lv7 (1)
 
 <span class="faq-label">Q</span>
 
-<span>各レベルの要塞には、どのリーグから挑戦できますか？</span>
+<span>各要塞レベルには、どのGWリーグが挑戦できますか？</span>
 
 </div>
 
@@ -221,21 +161,21 @@ Lv1 (38)、Lv2 (22)、Lv3 (12)、Lv4 (7)、Lv5 (4)、Lv6 (3)、Lv7 (1)
 
 <div>
 
-必要なリーグは要塞のレベルによって異なります。
+必要なGWリーグは要塞レベルによって異なります。
 
 <ul class="faq-level-list">
 
-<li><strong>Lv5:</strong> Bronze League</li>
+<li><strong>Lv5：</strong> Bronze League</li>
 
-<li><strong>Lv6:</strong> Silver League</li>
+<li><strong>Lv6：</strong> Silver League</li>
 
-<li><strong>Lv7:</strong> Gold League</li>
+<li><strong>Lv7：</strong> Gold League</li>
 
 </ul>
 
 <div class="faq-note">
 
-ゲーム内で城をタップすると、挑戦できるリーグを確認できます。
+ゲーム内で要塞をタップすると、挑戦可能なリーグを確認できます。
 
 </div>
 
@@ -246,165 +186,135 @@ Lv1 (38)、Lv2 (22)、Lv3 (12)、Lv4 (7)、Lv5 (4)、Lv6 (3)、Lv7 (1)
 </div>
 
 </div>
+
 
 ## Lv7 Fortress
 
-**Target League:** Gold League
+<div class="fortress-card">
 
-Lv7は最高レベルの要塞です。
+<div class="fortress-card-item">
+<span class="fortress-card-label">対象リーグ</span>
+<span class="fortress-card-value">---</span>
+</div>
 
-マップ上に1か所しかないため、宣戦布告する前に他のギルドと十分に調整してください。
+<div class="fortress-card-item">
+<span class="fortress-card-label">要塞数</span>
+<span class="fortress-card-value">---</span>
+</div>
 
-DiscordのSchedule Coordinationを使って、攻撃予定の時間を共有してください。
+<div class="fortress-card-item">
+<span class="fortress-card-label">帝国衛兵</span>
+<span class="fortress-card-value">---</span>
+</div>
 
-**Status:** On hold.
-Lv7関連のサイト機能が完成した後に内容を追加します。
+</div>
+
+⚠️ 未実装
+
 
 ## Lv6 Fortress
 
 <div class="fortress-card">
 
-<div class="fortress-card-title">Lv6 FORTRESS</div>
-
-<div class="fortress-card-row">
-<span>Target League</span>
-<strong>Silver League</strong>
+<div class="fortress-card-item">
+<span class="fortress-card-label">対象リーグ</span>
+<span class="fortress-card-value">Silver League</span>
 </div>
 
-<div class="fortress-card-row">
-<span>Fortresses</span>
-<strong>4</strong>
-</div>
-
-<div class="fortress-card-row">
-<span>Requirement</span>
-<strong>Defeat 120 Guards at Lv5</strong>
-</div>
-
-<div class="fortress-card-row">
-<span>Attack Cost</span>
-<strong>10 Energy</strong>
+<div class="fortress-card-item">
+<span class="fortress-card-label">要塞数</span>
+<span class="fortress-card-value">3</span>
 </div>
 
 </div>
 
-Lv6要塞はマップ上に3か所しかありません。
+レベル6以降は、ギルド間のコミュニケーションが特に重要になります。
 
-同じ要塞を複数のギルドが狙う可能性があるため、特にギルド間の調整が重要です。
+同じ要塞への挑戦や作戦に関する情報共有は、必ず同盟サイト内の【Forum】を利用してください。
 
-宣戦布告する前にSchedule Coordinationを確認し、他の同盟ギルドが同じ要塞を予定していないか確認してください。
+フォーラムを利用することで、関係するギルドだけでなく、同盟に参加している他のギルドも状況を確認することができます。
+
+これにより、同じ内容を複数のギルドへ個別に伝える必要がなくなり、より効率的な情報共有が可能になります。
+
+個別のメッセージではなく、可能な限り情報を可視化してください。
+
+なお、フォーラムを利用せずに発生したギルド間のトラブルについて、当同盟サイトは一切関与しません。
+
+![Forum Example](image/lv6-forum.png)
+
 
 ## Lv5 Fortress
 
 <div class="fortress-card">
 
-<div class="fortress-card-title">Lv5 FORTRESS</div>
-
-<div class="fortress-card-row">
-<span>Target League</span>
-<strong>Bronze League</strong>
+<div class="fortress-card-item">
+<span class="fortress-card-label">対象リーグ</span>
+<span class="fortress-card-value">Bronze League</span>
 </div>
 
-<div class="fortress-card-row">
-<span>Fortresses</span>
-<strong>5</strong>
-</div>
-
-<div class="fortress-card-row">
-<span>Requirement</span>
-<strong>Defeat 90 Guards at Lv4</strong>
-</div>
-
-<div class="fortress-card-row">
-<span>Attack Cost</span>
-<strong>10 Energy</strong>
+<div class="fortress-card-item">
+<span class="fortress-card-label">要塞数</span>
+<span class="fortress-card-value">4</span>
 </div>
 
 </div>
 
-まず、Lv1–4 Fortressesの基本を確認してください。
+先に進む前に、要塞レベル1～4の基本ルールを理解していることを確認してください。
 
-### How to Capture a Lv5 Fortress
+レベル5以降は、ギルド間の連携がより重要になります。
 
-Lv5からは帝国衛兵の数が大きく増えます。
+### 協調的な占領
 
-Lv5要塞には**120体の帝国衛兵**がいます。
+複数のギルドが協力して要塞を攻略する場合は、事前の情報共有が必要です。
 
-そのため、同盟ギルドと協力することで、より効率的に占領できます。
+占領予定の要塞やスケジュールは、必ず【Calendar】に登録してください。
 
-一つの方法として、2つのギルドで宣戦布告の時間をずらす方法があります。
+事前にカレンダーへ登録することで、他のギルドの予定を確認しながら作戦を調整することができます。
 
-![Example of coordinated declaration of war timing for a Lv5 Fortress](image/lv5-example.png)
+同じ要塞への計画が重複した場合は、原則として先にカレンダーへ登録したギルドを優先します。
 
-### Example
+トラブルの原因になるため、レベル5以降の要塞に挑戦する場合は必ずカレンダーを使用してください。
 
-**1. 攻撃ギルドを決める**
+![Calendar Example](image/lv5-calendar.png)
 
-Lv5要塞の近くにいるギルド①を、メインの攻撃ギルドにします。
+一つの方法として、複数のギルド間で宣戦布告のタイミングを調整することができます。
 
-同盟サイトで計画を確認した後、決めた時間にギルド①が宣戦布告します。
+これにより、複数のギルドが攻略に参加しながら、占領するギルドを事前に明確にすることができます。
 
-**2. 支援ギルドの宣戦布告を遅らせる**
+![Lv5 Example](image/lv5-example.png)
 
-ギルド②は支援ギルドとして、ギルド①より後に宣戦布告します。
+具体的な方法は、ギルドの勢力、場所、参加可能な人数などによって異なります。
 
-どの程度遅らせるかは、事前に両ギルドで相談してください。
+必要に応じて、【Image Editor】などのツールを利用し、作戦内容を分かりやすく共有してください。
 
-**3. 帝国衛兵を分担する**
+![Image Editor Example](image/lv5-image-editor.png)
 
-Lv5要塞には**120体の帝国衛兵**がいます。
-
-より多くの衛兵を倒したギルドが占領権を得ます。
-
-そのため、ギルド①は少なくとも**61体**を倒してください。
-
-その後、ギルド②が残りの衛兵を倒すことで、ギルド①が占領権を確保しながら、ギルド②も占領をサポートできます。
 
 ## Lv1–4 Fortresses
 
 <div class="fortress-card">
 
-<div class="fortress-card-title">Lv4 FORTRESS</div>
-
-<div class="fortress-card-row">
-<span>Target League</span>
-<strong>No specific</strong>
-</div>
-
-<div class="fortress-card-row">
-<span>Fortresses</span>
-<strong>8</strong>
-</div>
-
-<div class="fortress-card-row">
-<span>Requirement</span>
-<strong>Defeat 75 Guards at Lv3</strong>
-</div>
-
-<div class="fortress-card-row">
-<span>Attack Cost</span>
-<strong>10 Energy</strong>
+<div class="fortress-card-item">
+<span class="fortress-card-label">対象リーグ</span>
+<span class="fortress-card-value">制限なし</span>
 </div>
 
 </div>
 
-最初に配置された場所から、できるだけ近い要塞を優先してください。
+要塞レベル1～4では、同盟ギルド間で不要な衝突を避けるため、基本的なルールを確認してください。
 
-高レベルになるほど要塞の数が減るため、低レベルの要塞でも**1つずつ占領すること**をおすすめします。
+- 事前に協議することなく、既に同盟ギルドが占領している要塞を奪還しないでください。
+- 奪還が必要な場合は、事前に占領しているギルドと協議してください。
+- 複数のギルドが同じ要塞に宣戦布告した場合は、関係するギルド間で状況を確認してください。
+- 必要に応じて、攻撃を中止したり標的を変更することができます。
 
-Lv4要塞を攻撃する場合は、Discordの**Schedule Coordination**で攻撃する要塞と時間を共有してください。
+レベル4以降は、同盟サイト内の各種ツールを活用しながら、ギルド間で情報を共有していきます。
 
-複数のギルドの予定が重なった場合は、相手ギルドと直接話し合ってください。
-
-合意できない場合は、**先に攻撃予定を登録したギルドを優先**します。
-
-* 同盟ギルドが占領している要塞を勝手に取り返さないでください。
-* 取り返す必要がある場合は、占領しているギルドと事前に相談してください。
-* 複数のギルドが誤って同じ要塞に宣戦布告した場合は、話し合って解決してください。
-* 不要な争いを避けるため、必要に応じて一方のギルドが撤退しても構いません。
 
 ## Calendar
 
+
 ## Image Editor
+
 
 ## Forum
