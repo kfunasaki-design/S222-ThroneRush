@@ -190,6 +190,7 @@ Share necessary information and leave it in a form that can be reviewed later.
 📘 INFO
 
 </div>
+
 ## Restriction
 
 Participation in the alliance is based on the ability to maintain cooperative relationships between participating guilds.
