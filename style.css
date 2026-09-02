@@ -40,7 +40,7 @@ header h1 {
     flex-wrap: wrap;
     gap: 4px;
 
-    padding: 8px 12px;
+    padding: 8px 0px;
 
     background: #2b2d31;
     border-bottom: 1px solid #18191c;
