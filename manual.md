@@ -180,7 +180,7 @@ We recommend sharing necessary information and leaving it in a form that can be 
 
 ⚠️ Not yet implemented
 
-### 📘 INFO
+# 📘 INFO
 
 ## Restriction
 
