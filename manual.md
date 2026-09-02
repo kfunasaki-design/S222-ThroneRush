@@ -1,4 +1,4 @@
-### 🏰 FORTRESS
+<div class="category-title">🏰 FORTRESS</div>
 
 ## Overview
 
@@ -180,7 +180,7 @@ We recommend sharing necessary information and leaving it in a form that can be 
 
 ⚠️ Not yet implemented
 
-# 📘 INFO
+<div class="category-title">📘 INFO</div>
 
 ## Restriction
 
@@ -271,7 +271,7 @@ A guild wishing to participate again may submit a new application for a future s
 
 Previous circumstances and records may be considered during the review process.
 
-### 🛠️ TOOLS
+<div class="category-title">🛠️ TOOLS</div>
 
 ## Calendar
 
@@ -334,7 +334,7 @@ The Forum is intended to complement direct communication.
 
 For urgent operational coordination, directly contacting the relevant guild remains the fastest and most reliable method.
 
-### ❓ FAQ
+<div class="category-title">❓ FAQ</div>
 
 ## Rules
 
