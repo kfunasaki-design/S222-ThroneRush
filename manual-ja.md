@@ -1,4 +1,9 @@
-### 🏰 FORTRESS
+<div class="category-title">
+  
+🏰 FORTRESS
+
+</div>
+
 
 ## Overview
 
@@ -180,8 +185,11 @@ Lv4以降は、ギルド間の調整がより重要になります。
 
 ⚠️ 未実装
 
-### 📘 INFO
+<div class="category-title">
+  
+📘 INFO
 
+</div>
 ## Restriction
 
 同盟への参加は、参加ギルド間の協力関係を維持できることを前提としています。
@@ -206,8 +214,11 @@ Lv4以降は、ギルド間の調整がより重要になります。
 
 
 
+<div class="category-title">
+  
+🛠️ TOOLS
 
-### 🛠️ TOOLS
+</div>
 
 ## Calendar
 
@@ -271,8 +282,11 @@ Forumは、直接コミュニケーションを補完するためのものです
 緊急性の高い作戦上の連携については、関係するギルドへ直接連絡することが、最も迅速かつ確実な方法です。
 
 
-### ❓ FAQ
+<div class="category-title">
+  
+❓ FAQ
 
+</div>
 
 ## Rules
 
