@@ -175,7 +175,13 @@ section.open h2 {
   font-weight: 800;
   line-height: 1.7;
 }
+.faq-question .faq-label {
+  color: #ff4fd8;
+}
 
+.faq-answer .faq-label {
+  color: #45e6ff;
+}
 .faq-answer {
   font-size: 1rem;
 }
