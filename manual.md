@@ -185,7 +185,7 @@ Share necessary information and leave it in a form that can be reviewed later.
 
 ⚠️ Not yet implemented
 
-<div class="category-title">
+<div class="category-title notranslate">
   
 📘 INFO
 
@@ -215,7 +215,7 @@ For detailed criteria regarding participation restrictions, as well as review an
 
 
 
-<div class="category-title">
+<div class="category-title notranslate">
   
 🛠️ TOOLS
 
@@ -283,7 +283,7 @@ The Forum is intended to supplement direct communication.
 For urgent operational coordination, contacting the relevant guilds directly is the fastest and most reliable method.
 
 
-<div class="category-title">
+<div class="category-title notranslate">
   
 ❓ FAQ
 
