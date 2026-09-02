@@ -185,7 +185,7 @@ Lv4以降は、ギルド間の調整がより重要になります。
 
 ⚠️ 未実装
 
-<div class="category-title">
+<div class="category-title notranslate">
   
 📘 INFO
 
@@ -215,7 +215,7 @@ Lv4以降は、ギルド間の調整がより重要になります。
 
 
 
-<div class="category-title">
+<div class="category-title notranslate">
   
 🛠️ TOOLS
 
@@ -283,7 +283,7 @@ Forumは、直接コミュニケーションを補完するためのものです
 緊急性の高い作戦上の連携については、関係するギルドへ直接連絡することが、最も迅速かつ確実な方法です。
 
 
-<div class="category-title">
+<div class="category-title notranslate">
   
 ❓ FAQ
 
