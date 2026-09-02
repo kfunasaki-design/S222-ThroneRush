@@ -28,7 +28,15 @@ header h1 {
     font-size: 20px;
     font-weight: 600;
 }
+header h1 a {
+    color: #f2f3f5;
+    text-decoration: none;
+}
 
+header h1 a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
 /* Fixed Index */
 
 .index {
