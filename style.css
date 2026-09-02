@@ -29,12 +29,12 @@ header h1 {
     font-weight: 600;
 }
 header h1 a {
-    color: #f2f3f5;
+    color: #949ba4;
     text-decoration: none;
 }
 
 header h1 a:hover {
-    color: #ffffff;
+    color: #dbdee1;
     text-decoration: underline;
 }
 /* Fixed Index */
