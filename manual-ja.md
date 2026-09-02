@@ -1,4 +1,4 @@
-<div class="category-title">
+<div class="category-title notranslate">
   
 🏰 FORTRESS
 
