@@ -192,16 +192,36 @@ document.addEventListener("DOMContentLoaded", function () {
         let currentContent = null;
 
 
-        nodes.forEach(function (node) {
+nodes.forEach(function (node) {
 
-            // -----------------------------
-            // H2 = Main Section
-            // -----------------------------
+    // -----------------------------
+    // CATEGORY TITLE
+    // 独立したカテゴリーとして扱う
+    // -----------------------------
 
-            if (
-                node.nodeType === Node.ELEMENT_NODE &&
-                node.tagName === "H2"
-            ) {
+    if (
+        node.nodeType === Node.ELEMENT_NODE &&
+        node.classList.contains("category-title")
+    ) {
+
+        currentSection = null;
+        currentContent = null;
+
+        markdownContainer.appendChild(node);
+
+        return;
+
+    }
+
+
+    // -----------------------------
+    // H2 = Main Section
+    // -----------------------------
+
+    if (
+        node.nodeType === Node.ELEMENT_NODE &&
+        node.tagName === "H2"
+    ) {
 
                 const title =
                     node.textContent.trim();
