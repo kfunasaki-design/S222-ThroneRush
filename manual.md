@@ -180,7 +180,7 @@ We recommend sharing necessary information and leaving it in a form that can be 
 
 ⚠️ Not yet implemented
 
-## 📘 INFO
+### 📘 INFO
 
 ## Restriction
 
@@ -271,7 +271,7 @@ A guild wishing to participate again may submit a new application for a future s
 
 Previous circumstances and records may be considered during the review process.
 
-## 🛠️ TOOLS
+### 🛠️ TOOLS
 
 ## Calendar
 
@@ -334,7 +334,7 @@ The Forum is intended to complement direct communication.
 
 For urgent operational coordination, directly contacting the relevant guild remains the fastest and most reliable method.
 
-## ❓ FAQ
+### ❓ FAQ
 
 ## Rules
 
