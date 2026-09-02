@@ -339,46 +339,20 @@ For urgent operational coordination, directly contacting the relevant guild rema
 ## Rules
 
 ### Basic Principle
-
-S222TR does not establish a hierarchy between participating guilds.
-
-Each guild remains independent and is responsible for its own decisions, members, and internal operations.
-
-The purpose of cooperation is not to manage other guilds, but to create an environment where guilds can share information and coordinate when their objectives overlap.
+The alliance site does not establish a hierarchy between participating guilds. Each guild remains independent and cooperates through information sharing and coordination.
 
 ### Communication
-
-When a situation may affect another participating guild, communication should take place before unnecessary conflict occurs.
-
-This includes situations such as overlapping fortress targets, schedule conflicts, joint operations, or other activities that may affect coordination within the alliance.
-
-As a general principle, direct communication between the relevant guilds is recommended.
+When carrying out activities that may affect other guilds, communicate with the relevant guilds in advance.
 
 ### Information Sharing
-
-Information shared through S222TR should be handled appropriately.
-
-Operational information, schedules, negotiations, and other information may affect multiple guilds.
-
-Avoid intentionally spreading incomplete or misleading information for the purpose of disrupting coordination.
-
-When presenting information that may affect other guilds, factual information and verifiable circumstances should be prioritized.
+Prioritize accurate, fact-based information when sharing information within the alliance. Avoid intentionally spreading misleading information for the purpose of disrupting coordination.
 
 ### Conflict Resolution
-
-When disagreements arise between guilds, they should first be resolved through discussion between the parties involved.
-
-S222TR does not automatically intervene in every dispute.
-
-However, when a dispute directly affects alliance activities or shared coordination, the situation may be reviewed.
-
-The purpose of intervention is not to determine a winner between guilds, but to maintain cooperation and reduce unnecessary disruption.
+Guilds should first resolve issues between the parties involved. The alliance site may review the situation when it directly affects alliance activities.
 
 ### Participation
+Participation in the alliance site is based on the ability to maintain the necessary communication and cooperation with other participating guilds.
 
-Participation in S222TR is intended for guilds that are able to communicate and cooperate with other participating guilds when necessary.
-
-A guild's participation status may be reviewed if repeated problems significantly affect alliance activities.
 
 ## Faq
 
