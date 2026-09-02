@@ -4,15 +4,16 @@
 
 </div>
 
+
 ## Overview
 
-This alliance site provides an environment where participating guilds can share information and take action while keeping track of the current situation.
+This alliance site provides an environment where participating guilds can share information and act while keeping track of the current situation.
 
 Through information sharing, each guild can make its own decisions while securing benefits more fairly and efficiently.
 
 ![S222 ThroneRush Alliance](image/overview.png)
 
-This guide explains the rules of the alliance, participation requirements, FAQ, and various information.
+This manual explains the alliance rules, participation requirements, FAQ, and other relevant information.
 
 ## Lv1–4 Fortresses
 
@@ -47,21 +48,21 @@ This guide explains the rules of the alliance, participation requirements, FAQ, 
 
 </div>
 
-At Levels 1–4, act according to your own judgment while avoiding unnecessary conflicts between allied guilds.
+At Lv1–4, act according to your own judgment while avoiding unnecessary conflicts between alliance guilds.
 
 ### Basic Considerations
 
-* Do not attempt to recapture a fortress occupied by an allied guild without prior discussion.
+* Do not recapture a fortress occupied by another alliance guild without prior discussion.
 * If recapture is necessary, coordinate with the guild currently occupying the fortress beforehand.
-* If multiple guilds target the same fortress, coordinate the situation between the relevant guilds.
-* When necessary, changing the target or voluntarily withdrawing are both valid options.
-* Avoid unnecessary conflict and prioritize a practical solution.
+* If multiple guilds target the same fortress, coordinate the situation with the guilds involved.
+* When necessary, consider changing your target or voluntarily withdrawing.
+* Avoid unnecessary conflicts and prioritize practical solutions.
 
 ![S222 ThroneRush Alliance](image/lv4-worldmap.png)
 
 From Lv4 onward, coordination between guilds becomes increasingly important.
 
-Use the various tools provided on the alliance site to share information and coordinate according to the situation.
+Use the various tools available on the alliance site to share information and coordinate as needed.
 
 ## Lv5 Fortress
 
@@ -96,19 +97,19 @@ Use the various tools provided on the alliance site to share information and coo
 
 </div>
 
-From Level 5 onward, coordination between allied guilds becomes increasingly important.
+From Lv5 onward, coordination between alliance guilds becomes increasingly important.
 
 ### Coordinated Capture
 
-When multiple guilds are involved with the same fortress, advance information sharing and coordination are required.
+When multiple guilds are involved with the same fortress, prior information sharing and coordination are required.
 
-To avoid conflicts, **always register the fortress you plan to attack and the planned schedule in the 【Calendar】.**
+To avoid conflicts, **always register the fortress and your planned schedule in 【Calendar】.**
 
 ![S222 ThroneRush Alliance](image/lv5-calendar.png)
 
-If multiple guilds plan to attack the same fortress, **priority will be given to the guild that registered first.**
+If multiple guilds plan to attack the same fortress, **the guild that registered first has priority.**
 
-The **【Image Editor】** can also be used to share information about locations and operations on the map.
+The **【Image Editor】** can also be used to share information on the map.
 
 ![S222 ThroneRush Alliance](image/lv5-image-editor.png)
 
@@ -145,19 +146,19 @@ The **【Image Editor】** can also be used to share information about locations
 
 </div>
 
-At Level 6, **communication between guilds becomes even more important**.
+At Lv6, **communication becomes even more important** between guilds.
 
 ### Communication
 
-Please use the **【Forum】** for all communication and coordination between guilds.
+Always use **【Forum】** for communication and coordination between guilds.
 
 ![S222 ThroneRush Alliance](image/lv6-forum.png)
 
-By leaving information in the Forum, not only the guilds directly involved but also other guilds registered with the alliance can review the situation.
+By leaving information in the forum, not only the guilds directly involved but also other registered alliance guilds can review the situation.
 
-The administration will **not become involved in communications conducted through methods that cannot be reviewed within the alliance**, such as private messages.
+The **management will not be involved in discussions conducted through methods that cannot be reviewed within the alliance**, such as private messages.
 
-We recommend sharing necessary information and leaving it in a form that can be reviewed later.
+Share necessary information and leave it in a form that can be reviewed later.
 
 ## Lv7 Fortress
 
@@ -184,172 +185,101 @@ We recommend sharing necessary information and leaving it in a form that can be 
 
 ⚠️ Not yet implemented
 
-
-
 <div class="category-title">
   
 📘 INFO
 
 </div>
-
 ## Restriction
 
-### Participation Requirements
+Participation in the alliance is based on the ability to maintain cooperative relationships between participating guilds.
 
-Participation in S222TR requires more than simply joining the communication environment.
+Actions that directly damage cooperation within the alliance, such as attacking another alliance guild, are subject to participation restrictions.
 
-Guilds are expected to maintain the ability to communicate with other participating guilds, coordinate activities, and carry out agreed arrangements.
+Other serious issues that may affect participation in alliance activities may also result in participation restrictions, depending on the circumstances.
 
-The Guild Master is responsible for registering the guild for participation.
+### Restriction List
 
-After registration, Generals or designated representatives may handle coordination and operational communication.
+Players with confirmed issues relevant to participation restrictions are listed for reference.
 
-### Relationship
+Participating guilds can check whether any of their members are included on the list when necessary.
 
-Alliance activities depend on the ability to establish and maintain cooperative relationships.
+![Restriction List](image/restriction.png)
 
-Information sharing, negotiation, schedule coordination, and joint operations require a minimum level of communication and mutual cooperation.
+※Status　✅＝OK　⚠️＝WARNING　🚫＝RESTRICTED
 
-A guild that is unable to continuously maintain the communication necessary for these activities may become difficult to coordinate with.
+### Important
 
-### Risk
-
-Factors that may interfere with establishing or maintaining cooperative relationships may be considered risks to alliance activities.
-
-Examples include:
-
-* Repeatedly disrupting coordination within the alliance.
-* Intentionally interfering with agreed activities.
-* Serious communication problems.
-* Information leakage.
-* Repeated failure to respond to necessary administrative contact.
-* Other behavior that significantly affects cooperation.
-
-When necessary, relevant circumstances may be recorded as part of the alliance management process.
-
-### Administrative Contact
-
-When confirmation, information, or other action is necessary for alliance operations, administrators may contact a participating guild.
-
-Guilds are expected to provide an appropriate response or take the necessary action within a reasonable or specified period.
-
-Failure to respond may be considered an inability to maintain the communication necessary for participation.
-
-### Record and Status
-
-Participation records may be maintained to confirm a guild's current participation status and review previous circumstances.
-
-Examples of possible statuses include:
-
-**✅ OK**
-
-There are currently no issues affecting participation in the alliance.
-
-**⚠️ WARNING**
-
-Confirmation, improvement, or another necessary action is required.
-
-Failure to take the required action may result in participation restrictions.
-
-**🚫 RESTRICTED**
-
-Participation in S222TR alliance functions is currently restricted.
-
-These records are not intended as punishment.
-
-They are used to provide operational context when reviewing situations that may affect future cooperation.
-
-### Repeat Cases
-
-When the same or similar issue occurs repeatedly, future action may be considered based on the circumstances and previous history.
-
-The nature of the issue, the guild's response, efforts to improve, and the potential impact on future cooperation may all be considered.
-
-Even when the same or similar issue occurs repeatedly, a predetermined response is not automatically applied.
-
-Each situation will be considered individually.
-
-### Review and Re-Participation
-
-Participation restrictions will generally remain in effect for the current season.
-
-Even if the original issue has been resolved, participation will not necessarily be restored automatically during the same season.
-
-This is intended to prevent disruption to schedules and coordination that have already been established between participating guilds.
-
-A guild wishing to participate again may submit a new application for a future season.
-
-Previous circumstances and records may be considered during the review process.
+For detailed criteria regarding participation restrictions, as well as review and re-participation procedures, please refer to the separate Participation Restriction Policy.
 
 
 
 <div class="category-title">
-
+  
 🛠️ TOOLS
 
 </div>
 
 ## Calendar
 
-The Schedule Coordination Calendar is provided to help guilds share information about planned fortress operations.
+The Schedule Coordination calendar is provided for guilds to share information about their planned fortress operations.
 
-Guilds can register the target fortress, location, guild name, and planned operation period.
+You can register the target fortress, location, guild name, planned activity period, and other relevant information.
 
-The primary purpose of the calendar is to make each guild's plans visible before conflicts occur.
+The main purpose of the calendar is to make each guild's plans visible before conflicts occur.
 
 ### Recommended Use
 
-Before declaring war on a limited fortress, check whether another participating guild has already registered a plan for the same target.
+Before declaring war on a limited number of fortresses, check whether other participating guilds have already registered plans for the same target.
 
 When registering an operation, provide enough information for other guilds to understand the planned activity.
 
-If plans overlap, contact the relevant guild directly before proceeding.
+If schedules overlap, contact the relevant guilds directly before beginning the operation.
 
 ### Important Note
 
-Registering a plan on the calendar does not automatically establish ownership or priority over a fortress.
+Registering a schedule does not automatically establish ownership or priority over a fortress.
 
-The calendar is an information-sharing tool designed to make each guild's intentions visible and provide a starting point for discussion.
+The calendar is an information-sharing tool designed to make each guild's intentions visible and provide a basis for discussion.
 
-The system works best when participating guilds keep their schedules reasonably accurate and update them when circumstances change.
+The calendar works most effectively when participating guilds keep their schedules as accurate as possible and update them when circumstances change.
 
 ## Image Editor
 
-The Image Editor is a tool designed to easily create visual information for coordination between guilds.
+The Image Editor is a tool for easily creating visual information used for coordination between guilds.
 
-It can be used to add markers, arrows, circles, numbers, and other visual elements to screenshots or map images.
+You can add markers, arrows, circles, numbers, and other visual elements to screenshots and map images.
 
-Its purpose is to make operational information easier to understand without requiring specialized image editing software.
+It is designed to make operational information easy to share without requiring professional image editing software.
 
 ### Example Uses
 
-* Marking the fortress to be attacked.
-* Showing attack routes.
-* Highlighting important locations.
-* Adding numbered instructions.
-* Creating images for discussions on Discord.
-* Visually explaining coordinated operations.
+* Indicate a fortress to be attacked
+* Show an attack route
+* Highlight important locations
+* Add numbered instructions
+* Create images for discussions on Discord
+* Visually explain the details of coordinated operations
 
-The tool is designed for quick and practical communication, especially when sharing information from mobile devices.
+It is designed as a tool for fast and practical communication, especially when sharing information from mobile devices.
 
 ## Forum
 
-The Forum is a place for conducting ongoing discussions in a more organized format than normal chat messages.
+The Forum is a place for ongoing discussions in a more organized format than regular chat messages.
 
 It can be used for ongoing discussions, coordination, proposals, and information sharing between participating guilds.
 
 ### Recommended Use
 
-Create a topic for discussions that require multiple messages or need to be referenced continuously later.
+For discussions that require multiple messages or need to be reviewed continuously later, create a topic.
 
-Use a clear title so that other participants can immediately understand the purpose of the discussion.
+Use a clear title so that other participants can immediately understand its purpose.
 
-When a decision or conclusion is reached, summarize the relevant result clearly when necessary.
+When decisions or conclusions are reached, summarize the relevant results clearly when necessary.
 
-The Forum is intended to complement direct communication.
+The Forum is intended to supplement direct communication.
 
-For urgent operational coordination, directly contacting the relevant guild remains the fastest and most reliable method.
-
+For urgent operational coordination, contacting the relevant guilds directly is the fastest and most reliable method.
 
 
 <div class="category-title">
@@ -386,7 +316,7 @@ Participation in the alliance site is based on the ability to maintain the neces
 
 <span class="faq-label">Q</span>
 
-<span>I want to teleport, but I cannot.</span>
+<span>I want to teleport, but I can't.</span>
 
 </div>
 
@@ -396,11 +326,11 @@ Participation in the alliance site is based on the ability to maintain the neces
 
 <div>
 
-Please return all troops to your castle before teleporting.
+Return all troops to your castle before teleporting.
 
 <div class="faq-note">
 
-You cannot teleport while troops are outside your castle, such as when attacking monsters, gathering resources, or defending a fortress. You also cannot teleport to a location on the world map if there are obstacles such as monsters or bosses. Remove the obstacle first, and you will be able to teleport there.
+You cannot teleport while troops are outside your castle for activities such as hunting monsters, gathering resources, or defending a fortress. You also cannot teleport if there are obstacles such as monsters or bosses at the destination. Remove the obstacles first.
 
 </div>
 
@@ -426,11 +356,11 @@ You cannot teleport while troops are outside your castle, such as when attacking
 
 <div>
 
-Please complete your teleport before the event starts.
+Complete your teleportation before the event begins.
 
 <div class="faq-note">
 
-If you relocate after the event begins, you may not be able to capture the location as planned.
+If you move after the event has started, you may not be able to secure the location you planned to occupy.
 
 </div>
 
@@ -460,7 +390,7 @@ Lv1 (38), Lv2 (22), Lv3 (12), Lv4 (7), Lv5 (4), Lv6 (3), Lv7 (1)
 
 <div class="faq-note">
 
-Because the number of fortresses decreases at higher levels, coordination between guilds becomes increasingly important from Lv4 onward.
+As the fortress level increases, the number of fortresses decreases, making coordination between guilds increasingly important from Lv4 onward.
 
 </div>
 
@@ -506,7 +436,7 @@ For example, if you attack a fortress with 90 Imperial Guards and defeat 89 of t
 
 <span class="faq-label">Q</span>
 
-<span>Which league can challenge each fortress level?</span>
+<span>Which GW League can challenge each fortress level?</span>
 
 </div>
 
@@ -530,7 +460,7 @@ The required GW League depends on the fortress level.
 
 <div class="faq-note">
 
-Tap the fortress in-game to check which leagues are eligible to attack it.
+You can check the required League by tapping the fortress in the game.
 
 </div>
 
