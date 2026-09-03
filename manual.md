@@ -245,24 +245,94 @@ The calendar is an information-sharing tool designed to make each guild's intent
 
 The calendar works most effectively when participating guilds keep their schedules as accurate as possible and update them when circumstances change.
 
+
 ## Image Editor
 
-The Image Editor is a tool for easily creating visual information used for coordination between guilds.
+The Image Editor is a tool designed to easily create visual information for coordination between guilds.
 
-You can add markers, arrows, circles, numbers, and other visual elements to screenshots and map images.
+You can add visual elements such as markers, arrows, circles, rectangles, numbers, and text to screenshots or map images.
 
-It is designed to make operational information easy to share without requiring professional image editing software.
+It is designed to make operational information easier to understand and share without requiring professional image editing software.
+
+![Image Editor Guide](image/image-editor-guide.png)
+
+### Tools
+
+<div class="editor-tools-table">
+
+<div class="editor-tools-row">
+<span class="editor-tools-number">①</span>
+<span>Image Upload</span>
+</div>
+
+<div class="editor-tools-row">
+<span class="editor-tools-number">②</span>
+<span>Color Selection</span>
+</div>
+
+<div class="editor-tools-row">
+<span class="editor-tools-number">③</span>
+<span>Line</span>
+</div>
+
+<div class="editor-tools-row">
+<span class="editor-tools-number">④</span>
+<span>Arrow</span>
+</div>
+
+<div class="editor-tools-row">
+<span class="editor-tools-number">⑤</span>
+<span>Circle</span>
+</div>
+
+<div class="editor-tools-row">
+<span class="editor-tools-number">⑥</span>
+<span>Rectangle</span>
+</div>
+
+<div class="editor-tools-row">
+<span class="editor-tools-number">⑦</span>
+<span>Marker</span>
+</div>
+
+<div class="editor-tools-row">
+<span class="editor-tools-number">⑧</span>
+<span>Number Object</span>
+</div>
+
+<div class="editor-tools-row">
+<span class="editor-tools-number">⑨</span>
+<span>Text Object</span>
+</div>
+
+<div class="editor-tools-row">
+<span class="editor-tools-number">⑩</span>
+<span>Delete Selected Object</span>
+</div>
+
+<div class="editor-tools-row">
+<span class="editor-tools-number">⑪</span>
+<span>Delete All Objects</span>
+</div>
+
+<div class="editor-tools-row">
+<span class="editor-tools-number">⑫</span>
+<span>Save Image</span>
+</div>
+
+</div>
 
 ### Example Uses
 
-* Indicate a fortress to be attacked
-* Show an attack route
+* Highlight target fortresses
+* Show attack routes
 * Highlight important locations
 * Add numbered instructions
 * Create images for discussions on Discord
-* Visually explain the details of coordinated operations
+* Visually explain coordinated operations
 
-It is designed as a tool for fast and practical communication, especially when sharing information from mobile devices.
+The tool is designed for quick and practical communication, especially when sharing information from mobile devices.
+
 
 ## Forum
 
