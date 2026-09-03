@@ -256,9 +256,9 @@ Image Editorは、ギルド間の連携に使用する視覚的な情報を簡�
 
 ![Image Editor Guide](image/image-editor-guide.png)
 
-### Tools
-
 <div class="editor-tools-table">
+
+<div class="editor-tools-column">
 
 <div class="editor-tools-row">
 <span class="editor-tools-number">①</span>
@@ -290,6 +290,11 @@ Image Editorは、ギルド間の連携に使用する視覚的な情報を簡�
 <span>Rectangle</span>
 </div>
 
+</div>
+
+
+<div class="editor-tools-column">
+
 <div class="editor-tools-row">
 <span class="editor-tools-number">⑦</span>
 <span>Marker</span>
@@ -318,6 +323,8 @@ Image Editorは、ギルド間の連携に使用する視覚的な情報を簡�
 <div class="editor-tools-row">
 <span class="editor-tools-number">⑫</span>
 <span>Save Image</span>
+</div>
+
 </div>
 
 </div>
