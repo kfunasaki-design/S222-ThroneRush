@@ -245,13 +245,82 @@ Schedule Coordinationカレンダーは、ギルドが予定している要塞�
 
 参加ギルドが予定をできるだけ正確に維持し、状況が変わった場合には予定を更新することで、より効果的に機能します。
 
+
 ## Image Editor
 
 Image Editorは、ギルド間の連携に使用する視覚的な情報を簡単に作成するためのツールです。
 
-スクリーンショットやマップ画像に、マーカー、矢印、円、番号などの視覚的な要素を追加することができます。
+スクリーンショットやマップ画像に、マーカー、矢印、円、四角、番号、テキストなどの視覚要素を追加できます。
 
 専門的な画像編集ソフトを使用することなく、作戦上の情報を分かりやすく共有することを目的としています。
+
+![Image Editor Guide](image/image-editor-guide.png)
+
+### Tools
+
+<div class="editor-tools-table">
+
+<div class="editor-tools-row">
+<span class="editor-tools-number">①</span>
+<span>Image Upload</span>
+</div>
+
+<div class="editor-tools-row">
+<span class="editor-tools-number">②</span>
+<span>Color Selection</span>
+</div>
+
+<div class="editor-tools-row">
+<span class="editor-tools-number">③</span>
+<span>Line</span>
+</div>
+
+<div class="editor-tools-row">
+<span class="editor-tools-number">④</span>
+<span>Arrow</span>
+</div>
+
+<div class="editor-tools-row">
+<span class="editor-tools-number">⑤</span>
+<span>Circle</span>
+</div>
+
+<div class="editor-tools-row">
+<span class="editor-tools-number">⑥</span>
+<span>Rectangle</span>
+</div>
+
+<div class="editor-tools-row">
+<span class="editor-tools-number">⑦</span>
+<span>Marker</span>
+</div>
+
+<div class="editor-tools-row">
+<span class="editor-tools-number">⑧</span>
+<span>Number Object</span>
+</div>
+
+<div class="editor-tools-row">
+<span class="editor-tools-number">⑨</span>
+<span>Text Object</span>
+</div>
+
+<div class="editor-tools-row">
+<span class="editor-tools-number">⑩</span>
+<span>Delete Selected Object</span>
+</div>
+
+<div class="editor-tools-row">
+<span class="editor-tools-number">⑪</span>
+<span>Delete All Objects</span>
+</div>
+
+<div class="editor-tools-row">
+<span class="editor-tools-number">⑫</span>
+<span>Save Image</span>
+</div>
+
+</div>
 
 ### Example Uses
 
@@ -263,6 +332,7 @@ Image Editorは、ギルド間の連携に使用する視覚的な情報を簡�
 * 協調作戦の内容を視覚的に説明する
 
 特にモバイル端末から情報を共有する場合など、素早く実用的なコミュニケーションを行うためのツールとして設計されています。
+
 
 ## Forum
 
@@ -292,17 +362,23 @@ Forumは、直接コミュニケーションを補完するためのものです
 ## Rules
 
 ### 基本原則
+
 同盟サイトは、参加ギルド間に上下関係を設けません。各ギルドは独立して活動し、情報共有と連携によって協力します。
 
 ### コミュニケーション
+
 他のギルドに影響する活動を行う場合は、事前に関係するギルドと連絡を取ってください。
 
 ### 情報共有
+
 同盟内で共有する情報は、事実に基づいた正確な情報を優先してください。連携を妨げる目的で、誤解を招く情報を意図的に広めることは避けてください。
 
 ### 紛争解決
+
 ギルド間の問題は、まず関係するギルド同士で解決してください。同盟サイトは、同盟活動に直接影響する場合に状況を確認することがあります。
+
 ### 参加
+
 同盟サイトへの参加は、他の参加ギルドと必要なコミュニケーションと協力を行えることを前提とします。
 
 
