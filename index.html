@@ -804,7 +804,17 @@
 
 .editor-tools-table {
 
-    margin: 16px 0 22px;
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 10px;
+
+    margin: 14px 0 20px;
+
+}
+
+.editor-tools-column {
 
     border: 1px solid #404249;
 
@@ -822,13 +832,13 @@
 
     align-items: center;
 
-    gap: 14px;
+    gap: 8px;
 
-    padding: 9px 12px;
+    padding: 9px 10px;
 
     border-bottom: 1px solid #2b2d31;
 
-    font-size: 14px;
+    font-size: 13px;
 
     color: #f2f3f5;
 
@@ -842,20 +852,13 @@
 
 .editor-tools-number {
 
-    display: inline-flex;
+    flex-shrink: 0;
 
-    align-items: center;
-
-    justify-content: center;
-
-    min-width: 28px;
-
-    color: #ffd54a;
+    color: #f0c84b;
 
     font-weight: 700;
 
 }
-
 /* =====================================
    MOBILE
    ===================================== */
