@@ -256,9 +256,9 @@ It is designed to make operational information easier to understand and share wi
 
 ![Image Editor Guide](image/image-editor-guide.png)
 
-### Tools
-
 <div class="editor-tools-table">
+
+<div class="editor-tools-column">
 
 <div class="editor-tools-row">
 <span class="editor-tools-number">①</span>
@@ -290,6 +290,11 @@ It is designed to make operational information easier to understand and share wi
 <span>Rectangle</span>
 </div>
 
+</div>
+
+
+<div class="editor-tools-column">
+
 <div class="editor-tools-row">
 <span class="editor-tools-number">⑦</span>
 <span>Marker</span>
@@ -318,6 +323,8 @@ It is designed to make operational information easier to understand and share wi
 <div class="editor-tools-row">
 <span class="editor-tools-number">⑫</span>
 <span>Save Image</span>
+</div>
+
 </div>
 
 </div>
