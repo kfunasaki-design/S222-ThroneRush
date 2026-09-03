@@ -292,7 +292,6 @@ It is designed to make operational information easier to understand and share wi
 
 </div>
 
-
 <div class="editor-tools-column">
 
 <div class="editor-tools-row">
