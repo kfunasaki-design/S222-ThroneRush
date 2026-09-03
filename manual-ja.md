@@ -262,22 +262,22 @@ Image Editorは、ギルド間の連携に使用する視覚的な情報を簡�
 
 <div class="editor-tools-row">
 <span class="editor-tools-number">①</span>
-<span>Image Upload</span>
+<span>Undo</span>
 </div>
 
 <div class="editor-tools-row">
 <span class="editor-tools-number">②</span>
-<span>Color Selection</span>
+<span>Image Upload</span>
 </div>
 
 <div class="editor-tools-row">
 <span class="editor-tools-number">③</span>
-<span>Line</span>
+<span>Cut Out</span>
 </div>
 
 <div class="editor-tools-row">
 <span class="editor-tools-number">④</span>
-<span>Arrow</span>
+<span>Color Selection</span>
 </div>
 
 <div class="editor-tools-row">
@@ -296,17 +296,17 @@ Image Editorは、ギルド間の連携に使用する視覚的な情報を簡�
 
 <div class="editor-tools-row">
 <span class="editor-tools-number">⑦</span>
-<span>Marker</span>
+<span>Arrow</span>
 </div>
 
 <div class="editor-tools-row">
 <span class="editor-tools-number">⑧</span>
-<span>Number Object</span>
+<span>Number Object (123)</span>
 </div>
 
 <div class="editor-tools-row">
 <span class="editor-tools-number">⑨</span>
-<span>Text Object</span>
+<span>Text Object (ABC)</span>
 </div>
 
 <div class="editor-tools-row">
