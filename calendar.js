@@ -816,12 +816,12 @@ async function loadSchedules() {
 
         id:
           schedule.id,
-
-        fortress:
-          schedule.fortress,
-
+         
         league:
           schedule.league,
+         
+        fortress:
+          schedule.fortress,
 
         x:
           schedule.coordinate_x,
@@ -873,12 +873,12 @@ async function insertSchedule(
 
         id:
           schedule.id,
-
-        fortress:
-          schedule.fortress,
-
+         
         league:
           schedule.league,
+         
+        fortress:
+          schedule.fortress,
 
         coordinate_x:
           schedule.x,
@@ -937,11 +937,11 @@ async function updateSchedule(
       .from("schedules")
       .update({
 
+         league:
+          schedule.league,
+         
         fortress:
           schedule.fortress,
-
-        league:
-          schedule.league,
 
         coordinate_x:
           schedule.x,
@@ -1995,9 +1995,9 @@ form.addEventListener(
           ? selectedSchedule.id
           : crypto.randomUUID(),
 
-      fortress,
-
       league,
+       
+      fortress,
 
       x,
 
@@ -2135,12 +2135,12 @@ function showDetails(
     <div class="detail-item">
 
       <div class="detail-label">
-        ${mobile ? "要塞" : "Fortress"}
+        ${mobile ? "リーグ" : "Guild VS League"}
       </div>
 
       <div class="detail-value">
         ${escapeHTML(
-          schedule.fortress
+          schedule.league || "—"
         )}
       </div>
 
@@ -2150,12 +2150,12 @@ function showDetails(
     <div class="detail-item">
 
       <div class="detail-label">
-        ${mobile ? "リーグ" : "Guild VS League"}
+        ${mobile ? "要塞" : "Fortress"}
       </div>
 
       <div class="detail-value">
         ${escapeHTML(
-          schedule.league || "—"
+          schedule.fortress
         )}
       </div>
 
@@ -2478,15 +2478,14 @@ function openEditForm(
 
 
   document.getElementById(
-    "fortress"
-  ).value =
-    schedule.fortress;
-
-
-  document.getElementById(
     "league"
   ).value =
     schedule.league || "";
+   
+  document.getElementById(
+    "fortress"
+  ).value =
+    schedule.fortress;
 
 
   document.getElementById(
