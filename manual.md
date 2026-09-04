@@ -342,21 +342,22 @@ The tool is designed for quick and practical communication, especially when shar
 
 ## Forum
 
-The Forum is a place for ongoing discussions in a more organized format than regular chat messages.
+The Forum is a shared space for communication and coordination between participating guilds. Once a guild has joined the alliance, a dedicated channel will be created for that guild, allowing you to see all currently participating guilds from the channel list.
 
-It can be used for ongoing discussions, coordination, proposals, and information sharing between participating guilds.
+### Guild Channels
 
-### Recommended Use
+Each guild has its own dedicated channel for communication and negotiations between guilds.
 
-For discussions that require multiple messages or need to be reviewed continuously later, create a topic.
+Use these channels to share necessary information, coordinate activities, and maintain ongoing communication.
 
-Use a clear title so that other participants can immediately understand its purpose.
+### Call to Arms
 
-When decisions or conclusions are reached, summarize the relevant results clearly when necessary.
+「⚔️Call to Arms」is a shared space for calling for cooperation across the alliance.
 
-The Forum is intended to supplement direct communication.
+It can be used to request support or assistance from multiple participating guilds, rather than addressing a specific guild.
 
-For urgent operational coordination, contacting the relevant guilds directly is the fastest and most reliable method.
+![Forum Guide](image/forum-guide.png)
+
 
 
 <div class="category-title notranslate">
