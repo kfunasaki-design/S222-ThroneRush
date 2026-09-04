@@ -475,20 +475,16 @@ function updateGMT(
    Current Time
 ========================================================= */
 
+
 function updateCurrentTime() {
 
   if (!eventPeriod)
     return;
 
+  eventPeriod.textContent =
+    `Event: ${event.start} → ${event.end}`;
 
-  if (!isMobile()) {
-
-    eventPeriod.textContent =
-      `Event: ${event.start} → ${event.end}`;
-
-    return;
-
-  }
+}
 
 
   const now =
