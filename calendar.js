@@ -820,6 +820,9 @@ async function loadSchedules() {
         fortress:
           schedule.fortress,
 
+        league:
+          schedule.league,
+
         x:
           schedule.coordinate_x,
 
@@ -873,6 +876,9 @@ async function insertSchedule(
 
         fortress:
           schedule.fortress,
+
+        league:
+          schedule.league,
 
         coordinate_x:
           schedule.x,
@@ -933,6 +939,9 @@ async function updateSchedule(
 
         fortress:
           schedule.fortress,
+
+        league:
+          schedule.league,
 
         coordinate_x:
           schedule.x,
@@ -1028,10 +1037,10 @@ function renderCalendar() {
   calendar.innerHTML = "";
 
 
-monthTitle.textContent =
-  `${currentMonth.getFullYear()}/${String(
-    currentMonth.getMonth() + 1
-  ).padStart(2, "0")}`;
+  monthTitle.textContent =
+    `${currentMonth.getFullYear()}/${String(
+      currentMonth.getMonth() + 1
+    ).padStart(2, "0")}`;
 
 
   /* =======================================================
@@ -1680,10 +1689,13 @@ function createSchedule(
   button.className =
     "schedule";
 
-button.setAttribute(
-  "translate",
-  "no"
-);
+
+  button.setAttribute(
+    "translate",
+    "no"
+  );
+
+
   button.style.position =
     "absolute";
 
@@ -1837,6 +1849,12 @@ form.addEventListener(
       ).value;
 
 
+    const league =
+      document.getElementById(
+        "league"
+      ).value;
+
+
     const x =
       document.getElementById(
         "coordinateX"
@@ -1980,6 +1998,8 @@ form.addEventListener(
 
       fortress,
 
+      league,
+
       x,
 
       y,
@@ -2122,6 +2142,21 @@ function showDetails(
       <div class="detail-value">
         ${escapeHTML(
           schedule.fortress
+        )}
+      </div>
+
+    </div>
+
+
+    <div class="detail-item">
+
+      <div class="detail-label">
+        ${mobile ? "リーグ" : "Guild VS League"}
+      </div>
+
+      <div class="detail-value">
+        ${escapeHTML(
+          schedule.league || "—"
         )}
       </div>
 
@@ -2447,6 +2482,12 @@ function openEditForm(
     "fortress"
   ).value =
     schedule.fortress;
+
+
+  document.getElementById(
+    "league"
+  ).value =
+    schedule.league || "";
 
 
   document.getElementById(
