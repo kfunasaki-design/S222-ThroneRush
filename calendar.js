@@ -1843,15 +1843,14 @@ form.addEventListener(
     eventSubmit.preventDefault();
 
 
-    const fortress =
-      document.getElementById(
-        "fortress"
-      ).value;
-
-
     const league =
       document.getElementById(
         "league"
+      ).value;
+
+    const fortress =
+      document.getElementById(
+        "fortress"
       ).value;
 
 
