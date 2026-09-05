@@ -1,118 +1,353 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>S222 Throne Rush Calendar</title>
 
-  <link rel="stylesheet" href="calendar.css">
+  <link
+    rel="stylesheet"
+    href="calendar.css"
+  >
+
 </head>
+
 
 <body>
 
+
+  <!-- =====================================================
+       Header
+  ====================================================== -->
+
   <header class="header">
+
     <div>
-      <h1>S222 Throne Rush Calendar</h1>
-      <p id="event-period">Event: --</p>
+
+      <h1>
+        S222 Throne Rush Calendar
+      </h1>
+
+      <p id="event-period">
+        Event: --
+      </p>
+
     </div>
 
-<div class="header-buttons">
 
-  <button
-    id="addScheduleBtn"
-    class="main-button"
-  >
-    Add Schedule
-  </button>
+    <div class="header-buttons">
 
-  <button
-    id="refreshBtn"
-    class="secondary-button"
-  >
-    🔄 Refresh
-  </button>
+      <button
+        id="addScheduleBtn"
+        class="main-button"
+      >
+        Add Schedule
+      </button>
 
-</div>
+
+      <button
+        id="refreshBtn"
+        class="secondary-button"
+      >
+        🔄 Refresh
+      </button>
+
+    </div>
+
   </header>
 
 
-  <!-- Month Navigation -->
+
+  <!-- =====================================================
+       Month Navigation
+  ====================================================== -->
+
   <div class="month-navigation">
 
-    <button id="prevMonth">‹</button>
+    <button id="prevMonth">
+      ‹
+    </button>
+
 
     <h2 id="monthTitle"></h2>
 
-    <button id="nextMonth">›</button>
+
+    <button id="nextMonth">
+      ›
+    </button>
 
   </div>
 
 
-  <!-- Calendar -->
-<div id="weekdayHeader"></div>
 
-<main id="calendarWrapper">
+  <!-- =====================================================
+       Weekday Header
+  ====================================================== -->
 
-  <div id="calendar"></div>
-
-</main>
+  <div id="weekdayHeader"></div>
 
 
-  <!-- Schedule Input -->
+
+  <!-- =====================================================
+       Calendar
+  ====================================================== -->
+
+  <main id="calendarWrapper">
+
+    <div id="calendar"></div>
+
+  </main>
+
+
+
+  <!-- =====================================================
+       Fortress Summary
+  ====================================================== -->
+
+  <section
+    id="fortressSummary"
+    class="fortress-summary collapsed"
+  >
+
+    <!-- Closed / Preview Header -->
+
+    <button
+      id="summaryToggle"
+      class="summary-toggle"
+      type="button"
+    >
+
+      <div class="summary-toggle-main">
+
+        <span class="summary-title">
+          Fortress Summary
+        </span>
+
+
+        <span
+          id="summaryPreview"
+          class="summary-preview"
+        >
+          Loading...
+        </span>
+
+      </div>
+
+
+      <span
+        id="summaryArrow"
+        class="summary-arrow"
+      >
+        ▲
+      </span>
+
+    </button>
+
+
+
+    <!-- Full Table -->
+
+    <div
+      id="summaryContent"
+      class="summary-content"
+    >
+
+      <div class="summary-table-wrapper">
+
+        <table
+          id="fortressSummaryTable"
+          class="summary-table"
+        >
+
+          <thead>
+
+            <tr>
+
+              <th>
+                Guild
+              </th>
+
+              <th>
+                League
+              </th>
+
+              <th>
+                Lv4
+              </th>
+
+              <th>
+                Lv5
+              </th>
+
+              <th>
+                Lv6
+              </th>
+
+              <th>
+                Lv7
+              </th>
+
+              <th>
+                Total
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody
+            id="fortressSummaryBody"
+          ></tbody>
+
+        </table>
+
+      </div>
+
+
+      <div class="summary-legend">
+
+        <span class="legend-normal">
+          1 Normal
+        </span>
+
+        <span class="legend-warning">
+          2 Warning
+        </span>
+
+        <span class="legend-limit">
+          3+ Restricted
+        </span>
+
+        <span class="legend-total">
+          Total 6 Max
+        </span>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       Schedule Input
+  ====================================================== -->
+
   <dialog id="scheduleDialog">
 
     <form id="scheduleForm">
 
+
+      <!-- Header -->
+
       <div class="dialog-header">
 
-        <h2 id="dialogTitle">Add Schedule</h2>
+        <h2 id="dialogTitle">
+          Add Schedule
+        </h2>
+
 
         <button
           type="button"
           id="closeDialog"
-          class="close-button">
+          class="close-button"
+        >
           ×
         </button>
 
       </div>
-      
+
+
+
       <!-- Guild VS League -->
+
       <label>
 
         Guild VS League
 
-        <select id="league" required>
 
-          <option value="" selected disabled>Select League</option>
-          <option value="Bronze">Bronze</option>
-          <option value="Silver">Silver</option>
-          <option value="Gold">Gold</option>
+        <select
+          id="league"
+          required
+        >
+
+          <option
+            value=""
+            selected
+            disabled
+          >
+            Select League
+          </option>
+
+          <option value="Bronze">
+            Bronze
+          </option>
+
+          <option value="Silver">
+            Silver
+          </option>
+
+          <option value="Gold">
+            Gold
+          </option>
 
         </select>
 
       </label>
+
+
 
       <!-- Fortress -->
+
       <label>
+
         Fortress
 
-        <select id="fortress" required>
 
-          <option value="Lv7">Lv7</option>
-          <option value="Lv6">Lv6</option>
-          <option value="Lv5">Lv5</option>
-          <option value="Lv1-4">Lv1–4</option>
+        <select
+          id="fortress"
+          required
+        >
+
+          <option value="Lv4">
+            Lv4
+          </option>
+
+          <option value="Lv5">
+            Lv5
+          </option>
+
+          <option value="Lv6">
+            Lv6
+          </option>
+
+          <option value="Lv7">
+            Lv7
+          </option>
 
         </select>
 
       </label>
+
 
 
       <!-- Coordinate -->
+
       <fieldset>
 
-        <legend>Coordinate</legend>
+        <legend>
+          Coordinate
+        </legend>
+
 
         <div class="coordinate">
 
@@ -121,68 +356,103 @@
             type="number"
             min="0"
             placeholder="X"
-            required>
+            required
+          >
 
-          <span>:</span>
+
+          <span>
+            :
+          </span>
+
 
           <input
             id="coordinateY"
             type="number"
             min="0"
             placeholder="Y"
-            required>
+            required
+          >
 
         </div>
 
       </fieldset>
 
 
+
       <!-- Guild -->
+
       <label>
 
         Guild
+
 
         <input
           id="guild"
           type="text"
           maxlength="80"
-          required>
+          required
+        >
 
       </label>
 
 
+
       <!-- Start -->
+
       <fieldset>
 
-        <legend>Start — Attack Start</legend>
+        <legend>
+          Start — Attack Start
+        </legend>
+
 
         <div class="datetime">
 
+
           <div>
-            <span>Date</span>
+
+            <span>
+              Date
+            </span>
 
             <input
               id="startDate"
               type="date"
-              required>
+              required
+            >
+
           </div>
 
+
+
           <div>
-            <span>GMT</span>
+
+            <span>
+              GMT
+            </span>
 
             <input
               id="startGMT"
               type="time"
-              required>
+              required
+            >
+
           </div>
 
+
+
           <div>
-            <span>JST</span>
+
+            <span>
+              JST
+            </span>
 
             <input
               id="startJST"
               type="time"
-              required>
+              required
+            >
+
           </div>
 
         </div>
@@ -190,38 +460,63 @@
       </fieldset>
 
 
+
       <!-- End -->
+
       <fieldset>
 
-        <legend>End — Planned Handover</legend>
+        <legend>
+          End — Planned Handover
+        </legend>
+
 
         <div class="datetime">
 
+
           <div>
-            <span>Date</span>
+
+            <span>
+              Date
+            </span>
 
             <input
               id="endDate"
               type="date"
-              required>
+              required
+            >
+
           </div>
 
+
+
           <div>
-            <span>GMT</span>
+
+            <span>
+              GMT
+            </span>
 
             <input
               id="endGMT"
               type="time"
-              required>
+              required
+            >
+
           </div>
 
+
+
           <div>
-            <span>JST</span>
+
+            <span>
+              JST
+            </span>
 
             <input
               id="endJST"
               type="time"
-              required>
+              required
+            >
+
           </div>
 
         </div>
@@ -229,44 +524,60 @@
       </fieldset>
 
 
+
       <!-- Description -->
+
       <label>
 
         Description
 
+
         <textarea
           id="description"
           rows="4"
-          maxlength="1000">
-        </textarea>
+          maxlength="1000"
+        ></textarea>
 
       </label>
 
 
-      <p id="formError" class="error"></p>
 
+      <p
+        id="formError"
+        class="error"
+      ></p>
+
+
+
+      <!-- Buttons -->
 
       <div class="form-buttons">
+
 
         <button
           type="button"
           id="deleteBtn"
-          class="delete-button">
+          class="delete-button"
+        >
           Delete
         </button>
+
 
         <div>
 
           <button
             type="button"
             id="cancelBtn"
-            class="secondary-button">
+            class="secondary-button"
+          >
             Cancel
           </button>
 
+
           <button
             type="submit"
-            class="main-button">
+            class="main-button"
+          >
             Save
           </button>
 
@@ -274,58 +585,76 @@
 
       </div>
 
+
     </form>
 
   </dialog>
 
 
-  <!-- Detail -->
+
+  <!-- =====================================================
+       Detail
+  ====================================================== -->
+
   <dialog id="detailDialog">
 
     <div class="detail">
+
 
       <div class="dialog-header">
 
         <h2 id="detailTitle"></h2>
 
+
         <button
           id="closeDetail"
-          class="close-button">
+          class="close-button"
+        >
           ×
         </button>
 
       </div>
 
 
+
       <div id="detailContent"></div>
 
 
+
       <!-- Color -->
-<div class="color-control">
 
-  <label>
-    Schedule Color
-  </label>
+      <div class="color-control">
 
-  <div
-    id="scheduleColorPalette"
-    class="color-palette">
-  </div>
+        <label>
+          Schedule Color
+        </label>
 
-</div>
 
+        <div
+          id="scheduleColorPalette"
+          class="color-palette"
+        ></div>
+
+      </div>
+
+
+
+      <!-- Buttons -->
 
       <div class="detail-buttons">
 
         <button
           id="editSchedule"
-          class="secondary-button">
+          class="secondary-button"
+        >
           Edit
         </button>
 
+
         <button
           id="detailClose"
-          class="main-button">
+          class="main-button"
+        >
           Close
         </button>
 
@@ -335,9 +664,17 @@
 
   </dialog>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="calendar.js"></script>
+
+
+  <!-- =====================================================
+       Scripts
+  ====================================================== -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script src="calendar.js"></script>
 
 
 </body>
+
 </html>
