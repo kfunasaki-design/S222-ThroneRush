@@ -3380,3 +3380,674 @@ updateLanguage();
 updateCurrentTime();
 
 loadSchedules();
+/* =========================================================
+   Guild Summary Table
+========================================================= */
+
+const SUMMARY_LEVELS = ["Lv4", "Lv5", "Lv6", "Lv7"];
+
+// Alliance standard holding count per level
+const STANDARD_BASES_PER_LEVEL = 1;
+
+// Warning / restriction thresholds
+const WARNING_BASES = 2;
+const RESTRICTION_BASES = 3;
+
+let summaryExpanded = false;
+
+
+/* ---------------------------------------------------------
+   Helpers
+--------------------------------------------------------- */
+
+function getSummaryLevel(fortress) {
+
+  if (fortress === "Lv1-4") {
+    return "Lv4";
+  }
+
+  if (["Lv4", "Lv5", "Lv6", "Lv7"].includes(fortress)) {
+    return fortress;
+  }
+
+  return null;
+}
+
+
+function getScheduleDays(schedule) {
+
+  const start = new Date(schedule.start);
+  const end = new Date(schedule.end);
+
+  if (isNaN(start) || isNaN(end)) {
+    return 0;
+  }
+
+  const diff = end - start;
+
+  return Math.max(
+    0,
+    diff / (1000 * 60 * 60 * 24)
+  );
+}
+
+
+function formatDays(days) {
+
+  if (Number.isInteger(days)) {
+    return String(days);
+  }
+
+  return days.toFixed(1);
+}
+
+
+/* ---------------------------------------------------------
+   Build guild summary data
+--------------------------------------------------------- */
+
+function buildGuildSummary() {
+
+  const guilds = {};
+
+  schedules.forEach(schedule => {
+
+    const guildName = schedule.guild?.trim();
+
+    if (!guildName) {
+      return;
+    }
+
+    const level = getSummaryLevel(schedule.fortress);
+
+    if (!level) {
+      return;
+    }
+
+    if (!guilds[guildName]) {
+
+      guilds[guildName] = {
+        guild: guildName,
+        league: schedule.league || "—",
+
+        levels: {
+          Lv4: {
+            days: 0,
+            bases: 0
+          },
+
+          Lv5: {
+            days: 0,
+            bases: 0
+          },
+
+          Lv6: {
+            days: 0,
+            bases: 0
+          },
+
+          Lv7: {
+            days: 0,
+            bases: 0
+          }
+        }
+      };
+
+    }
+
+    const data = guilds[guildName].levels[level];
+
+    data.days += getScheduleDays(schedule);
+    data.bases += 1;
+
+  });
+
+
+  return Object.values(guilds);
+
+}
+
+
+/* ---------------------------------------------------------
+   Sort
+   Lv6 occupation days descending
+--------------------------------------------------------- */
+
+function sortGuildSummary(guilds) {
+
+  return guilds.sort((a, b) => {
+
+    const daysA = a.levels.Lv6.days;
+    const daysB = b.levels.Lv6.days;
+
+    if (daysB !== daysA) {
+      return daysB - daysA;
+    }
+
+    return a.guild.localeCompare(
+      b.guild,
+      undefined,
+      {
+        sensitivity: "base"
+      }
+    );
+
+  });
+
+}
+
+
+/* ---------------------------------------------------------
+   Status
+--------------------------------------------------------- */
+
+function getBaseStatus(bases) {
+
+  if (bases >= RESTRICTION_BASES) {
+    return "restriction";
+  }
+
+  if (bases === WARNING_BASES) {
+    return "warning";
+  }
+
+  return "";
+
+}
+
+
+/* ---------------------------------------------------------
+   Level cell
+--------------------------------------------------------- */
+
+function createSummaryLevelCell(levelData) {
+
+  const td = document.createElement("td");
+
+  const status = getBaseStatus(levelData.bases);
+
+  if (status) {
+    td.classList.add(status);
+  }
+
+
+  const wrapper = document.createElement("div");
+
+  wrapper.className = "summary-level";
+
+
+  const days = document.createElement("strong");
+
+  days.className = "summary-days";
+  days.textContent = formatDays(levelData.days);
+
+
+  const daysLabel = document.createElement("small");
+
+  daysLabel.className = "summary-unit";
+  daysLabel.textContent = "days";
+
+
+  const bases = document.createElement("span");
+
+  bases.className = "summary-bases";
+  bases.textContent = levelData.bases;
+
+
+  const basesLabel = document.createElement("small");
+
+  basesLabel.className = "summary-unit";
+  basesLabel.textContent = "bases";
+
+
+  wrapper.appendChild(days);
+  wrapper.appendChild(daysLabel);
+  wrapper.appendChild(bases);
+  wrapper.appendChild(basesLabel);
+
+  td.appendChild(wrapper);
+
+  return td;
+
+}
+
+
+/* ---------------------------------------------------------
+   Render table
+--------------------------------------------------------- */
+
+function renderGuildSummary() {
+
+  const tbody =
+    document.getElementById("summaryTableBody");
+
+  const tfoot =
+    document.getElementById("summaryTableFoot");
+
+  if (!tbody || !tfoot) {
+    return;
+  }
+
+  tbody.innerHTML = "";
+  tfoot.innerHTML = "";
+
+
+  let guilds = buildGuildSummary();
+
+  guilds = sortGuildSummary(guilds);
+
+
+  /* -------------------------------------------------------
+     Guild rows
+  ------------------------------------------------------- */
+
+  guilds.forEach(data => {
+
+    const tr = document.createElement("tr");
+
+
+    const guildCell =
+      document.createElement("td");
+
+    guildCell.className = "summary-guild";
+    guildCell.textContent = data.guild;
+
+
+    const leagueCell =
+      document.createElement("td");
+
+    leagueCell.className = "summary-league";
+    leagueCell.textContent = data.league;
+
+
+    tr.appendChild(guildCell);
+    tr.appendChild(leagueCell);
+
+
+    SUMMARY_LEVELS.forEach(level => {
+
+      tr.appendChild(
+        createSummaryLevelCell(
+          data.levels[level]
+        )
+      );
+
+    });
+
+
+    /* Total */
+
+    const totalCell =
+      document.createElement("td");
+
+    totalCell.className = "summary-total";
+
+
+    const totalDays =
+      SUMMARY_LEVELS.reduce(
+        (sum, level) =>
+          sum + data.levels[level].days,
+        0
+      );
+
+
+    const totalBases =
+      SUMMARY_LEVELS.reduce(
+        (sum, level) =>
+          sum + data.levels[level].bases,
+        0
+      );
+
+
+    totalCell.innerHTML = `
+      <div class="summary-level">
+        <strong class="summary-days">
+          ${formatDays(totalDays)}
+        </strong>
+        <small class="summary-unit">days</small>
+
+        <span class="summary-bases">
+          ${totalBases}
+        </span>
+        <small class="summary-unit">bases</small>
+      </div>
+    `;
+
+
+    if (totalBases >= 6) {
+      totalCell.classList.add("restriction");
+    }
+
+
+    tr.appendChild(totalCell);
+
+    tbody.appendChild(tr);
+
+  });
+
+
+  /* -------------------------------------------------------
+     Total row
+  ------------------------------------------------------- */
+
+  const totalRow =
+    document.createElement("tr");
+
+  totalRow.className = "summary-total-row";
+
+
+  const label =
+    document.createElement("td");
+
+  label.colSpan = 2;
+  label.textContent = "Alliance Total";
+
+
+  totalRow.appendChild(label);
+
+
+  SUMMARY_LEVELS.forEach(level => {
+
+    const totalDays =
+      guilds.reduce(
+        (sum, guild) =>
+          sum + guild.levels[level].days,
+        0
+      );
+
+
+    const totalBases =
+      guilds.reduce(
+        (sum, guild) =>
+          sum + guild.levels[level].bases,
+        0
+      );
+
+
+    const maxBases =
+      getFortressCapacity(level);
+
+
+    const td =
+      document.createElement("td");
+
+    td.colSpan = 2;
+
+
+    td.innerHTML = `
+      <div class="summary-total-level">
+
+        <strong class="summary-days">
+          ${formatDays(totalDays)}
+        </strong>
+
+        <small class="summary-unit">
+          days
+        </small>
+
+        <span class="summary-ratio">
+          ${totalBases}/${maxBases}
+        </span>
+
+      </div>
+    `;
+
+
+    if (totalBases > maxBases) {
+      td.classList.add("restriction");
+    }
+
+
+    totalRow.appendChild(td);
+
+  });
+
+
+  /* Total column */
+
+  const allianceDays =
+    guilds.reduce(
+      (sum, guild) =>
+        sum +
+        SUMMARY_LEVELS.reduce(
+          (levelSum, level) =>
+            levelSum + guild.levels[level].days,
+          0
+        ),
+      0
+    );
+
+
+  const allianceBases =
+    guilds.reduce(
+      (sum, guild) =>
+        sum +
+        SUMMARY_LEVELS.reduce(
+          (levelSum, level) =>
+            levelSum + guild.levels[level].bases,
+          0
+        ),
+      0
+    );
+
+
+  const totalCell =
+    document.createElement("td");
+
+  totalCell.innerHTML = `
+    <div class="summary-total-level">
+
+      <strong class="summary-days">
+        ${formatDays(allianceDays)}
+      </strong>
+
+      <small class="summary-unit">
+        days
+      </small>
+
+      <span class="summary-bases">
+        ${allianceBases}
+      </span>
+
+      <small class="summary-unit">
+        bases
+      </small>
+
+    </div>
+  `;
+
+
+  if (allianceBases >= 6) {
+    totalCell.classList.add("restriction");
+  }
+
+
+  totalRow.appendChild(totalCell);
+
+  tfoot.appendChild(totalRow);
+
+
+  updateSummaryPreview(guilds);
+
+}
+
+
+/* ---------------------------------------------------------
+   Fortress capacity
+--------------------------------------------------------- */
+
+function getFortressCapacity(level) {
+
+  const capacity = {
+
+    Lv4: 8,
+    Lv5: 4,
+    Lv6: 3,
+    Lv7: 1
+
+  };
+
+  return capacity[level] ?? 0;
+
+}
+
+
+/* ---------------------------------------------------------
+   Compact preview
+--------------------------------------------------------- */
+
+function updateSummaryPreview(guilds) {
+
+  const guildElement =
+    document.getElementById("summaryPreviewGuild");
+
+  const leagueElement =
+    document.getElementById("summaryPreviewLeague");
+
+  const daysElement =
+    document.getElementById("summaryPreviewDays");
+
+  const basesElement =
+    document.getElementById("summaryPreviewBases");
+
+
+  if (!guildElement) {
+    return;
+  }
+
+
+  /*
+    Use the guild belonging to the creator
+    of the most recently added schedule.
+  */
+
+  const latestSchedule =
+    schedules
+      .slice()
+      .sort(
+        (a, b) =>
+          new Date(b.created_at || b.start) -
+          new Date(a.created_at || a.start)
+      )[0];
+
+
+  let targetGuild = null;
+
+
+  if (latestSchedule?.guild) {
+
+    targetGuild =
+      guilds.find(
+        guild =>
+          guild.guild === latestSchedule.guild
+      );
+
+  }
+
+
+  /*
+    Fallback
+  */
+
+  if (!targetGuild && guilds.length > 0) {
+    targetGuild = guilds[0];
+  }
+
+
+  if (!targetGuild) {
+
+    guildElement.textContent = "Guild";
+    leagueElement.textContent = "—";
+    daysElement.textContent = "0";
+    basesElement.textContent = "0";
+
+    return;
+  }
+
+
+  guildElement.textContent =
+    targetGuild.guild;
+
+  leagueElement.textContent =
+    targetGuild.league;
+
+
+  const lv6 =
+    targetGuild.levels.Lv6;
+
+
+  daysElement.textContent =
+    formatDays(lv6.days);
+
+  basesElement.textContent =
+    lv6.bases;
+
+}
+
+
+/* ---------------------------------------------------------
+   Expand / collapse
+--------------------------------------------------------- */
+
+function toggleSummaryTable() {
+
+  summaryExpanded = !summaryExpanded;
+
+  const wrapper =
+    document.getElementById(
+      "summaryTableWrapper"
+    );
+
+  const button =
+    document.getElementById(
+      "summaryToggle"
+    );
+
+
+  if (!wrapper || !button) {
+    return;
+  }
+
+
+  wrapper.classList.toggle(
+    "expanded",
+    summaryExpanded
+  );
+
+
+  button.setAttribute(
+    "aria-expanded",
+    summaryExpanded
+  );
+
+
+  button.classList.toggle(
+    "expanded",
+    summaryExpanded
+  );
+
+}
+
+
+document
+  .getElementById("summaryToggle")
+  ?.addEventListener(
+    "click",
+    toggleSummaryTable
+  );
+
+
+/* ---------------------------------------------------------
+   Refresh summary whenever schedules are loaded
+--------------------------------------------------------- */
+
+const originalLoadSchedules =
+  loadSchedules;
+
+loadSchedules = async function () {
+
+  await originalLoadSchedules();
+
+  renderGuildSummary();
+
+};
