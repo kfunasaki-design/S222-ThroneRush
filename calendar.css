@@ -37,32 +37,24 @@ body {
 ========================================================= */
 
 .header {
-
   display: flex;
-
   justify-content: space-between;
   align-items: center;
 
   gap: 15px;
-
   padding: 15px;
 
   border-bottom: 1px solid var(--border);
 }
 
 .header h1 {
-
   margin: 0;
-
   font-size: 20px;
 }
 
 .header p {
-
   margin: 4px 0 0;
-
   color: var(--muted);
-
   font-size: 13px;
 }
 
@@ -72,34 +64,24 @@ body {
 ========================================================= */
 
 button {
-
   border: none;
-
   color: white;
-
   cursor: pointer;
-
   border-radius: 7px;
 }
 
 .main-button {
-
   background: var(--accent);
-
   padding: 9px 14px;
 }
 
 .secondary-button {
-
   background: #30343b;
-
   padding: 9px 14px;
 }
 
 .delete-button {
-
   background: #c93636;
-
   padding: 9px 14px;
 }
 
@@ -109,58 +91,44 @@ button {
 ========================================================= */
 
 .header-buttons {
-
   display: flex;
-
   flex-direction: row-reverse;
-
   gap: 8px;
-
   align-items: center;
 }
+
 #refreshBtn {
-
   background: #30343b;
-
   padding: 9px 11px;
-
   min-width: 40px;
-
 }
+
 
 /* =========================================================
    Month
 ========================================================= */
 
 .month-navigation {
-
   display: grid;
 
   grid-template-columns:
     45px 1fr 45px;
 
   align-items: center;
-
   text-align: center;
 
   background: var(--panel);
-
   border-bottom: 1px solid var(--border);
 }
 
 .month-navigation button {
-
   height: 45px;
-
   background: transparent;
-
   font-size: 30px;
 }
 
 .month-navigation h2 {
-
   margin: 0;
-
   font-size: 17px;
 }
 
@@ -170,22 +138,17 @@ button {
 ========================================================= */
 
 #weekdayHeader {
-
   position: sticky;
-
   top: 0;
-
   z-index: 20;
 
   width: 100%;
 
   background: #17191d;
-
   border-bottom: 1px solid var(--border);
 }
 
 .weekday-row {
-
   display: grid;
 
   grid-template-columns:
@@ -195,13 +158,11 @@ button {
 }
 
 .weekday-cell {
-
   min-width: 0;
 
   padding: 8px 4px;
 
   text-align: center;
-
   color: #aaa;
 
   font-size: 12px;
@@ -210,7 +171,6 @@ button {
 }
 
 .weekday-cell:last-child {
-
   border-right: none;
 }
 
@@ -220,21 +180,14 @@ button {
 ========================================================= */
 
 #calendarWrapper {
-
   width: 100%;
 
   height: calc(100vh - 170px);
 
   overflow-y: auto;
-
   overflow-x: hidden;
 
   background: #0c0d0f;
-
-  /*
-    Vertical scrolling only.
-    Pinch zoom is disabled.
-  */
 
   touch-action: pan-y;
 
@@ -247,11 +200,8 @@ button {
 ========================================================= */
 
 #calendar {
-
   width: 100%;
-
   min-width: 0;
-
   position: relative;
 }
 
@@ -261,9 +211,7 @@ button {
 ========================================================= */
 
 .week {
-
   position: relative;
-
   width: 100%;
 
   border-bottom: 1px solid var(--border);
@@ -275,7 +223,6 @@ button {
 ========================================================= */
 
 .day-grid {
-
   display: grid;
 
   grid-template-columns:
@@ -290,9 +237,7 @@ button {
 ========================================================= */
 
 .day {
-
   min-width: 0;
-
   min-height: 180px;
 
   border-right: 1px solid var(--border);
@@ -301,7 +246,6 @@ button {
 }
 
 .day:last-child {
-
   border-right: none;
 }
 
@@ -311,46 +255,23 @@ button {
 ========================================================= */
 
 .day-header {
-
   height: 32px;
-
   padding: 7px;
 
   background: #17191d;
-
   color: #aaa;
 
   font-size: 12px;
 }
 
 .today .day-header {
-
   color: white;
-
   font-weight: bold;
 }
 
 .other-month .day-header {
-
   color: #555;
-
   opacity: 0.6;
-}
-
-
-/* =========================================================
-   Schedule Area
-========================================================= */
-
-.schedule-list {
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 3px;
-
-  padding: 4px;
 }
 
 
@@ -359,7 +280,6 @@ button {
 ========================================================= */
 
 .schedule {
-
   width: 100%;
 
   padding: 6px;
@@ -367,7 +287,6 @@ button {
   text-align: left;
 
   font-size: 14px;
-
   line-height: 1.2;
 
   color: white;
@@ -375,14 +294,12 @@ button {
   overflow: hidden;
 
   white-space: nowrap;
-
   text-overflow: ellipsis;
 
   border-radius: 5px;
 }
 
 .schedule:hover {
-
   filter: brightness(1.15);
 }
 
@@ -392,24 +309,19 @@ button {
 ========================================================= */
 
 .schedule-layer {
-
   position: absolute;
 
   top: 0;
-
   left: 0;
 
   width: 100%;
-
   height: 100%;
 
   pointer-events: none;
-
   z-index: 3;
 }
 
 .schedule-layer .schedule {
-
   position: absolute;
 
   pointer-events: auto;
@@ -417,7 +329,6 @@ button {
   height: 28px;
 
   padding: 5px 6px;
-
   margin: 0;
 
   box-sizing: border-box;
@@ -425,14 +336,353 @@ button {
   overflow: hidden;
 
   white-space: nowrap;
-
   text-overflow: ellipsis;
 
   border-radius: 5px;
 
   font-size: 12px;
-
   line-height: 18px;
+}
+
+
+/* =========================================================
+   Fortress Summary
+========================================================= */
+
+.fortress-summary {
+  width: 100%;
+
+  background: #14161a;
+
+  border-top:
+    1px solid var(--border);
+
+  position: relative;
+
+  z-index: 10;
+}
+
+
+/* Toggle */
+
+.summary-toggle {
+  width: 100%;
+
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 10px 14px;
+
+  background: #1a1d22;
+
+  border-radius: 0;
+
+  text-align: left;
+
+  border-bottom:
+    1px solid var(--border);
+}
+
+
+.summary-toggle:hover {
+  background: #202329;
+}
+
+
+.summary-toggle-main {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  min-width: 0;
+
+  overflow: hidden;
+}
+
+
+.summary-title {
+  flex-shrink: 0;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  color: #aaa;
+
+  text-transform: uppercase;
+
+  letter-spacing: .04em;
+}
+
+
+.summary-preview {
+  display: flex;
+
+  gap: 12px;
+
+  align-items: center;
+
+  min-width: 0;
+
+  overflow-x: auto;
+
+  white-space: nowrap;
+
+  color: #ddd;
+
+  font-size: 12px;
+}
+
+
+.summary-preview strong {
+  color: white;
+}
+
+
+.summary-arrow {
+  flex-shrink: 0;
+
+  color: #888;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   Summary Content
+========================================================= */
+
+.summary-content {
+  overflow: hidden;
+
+  max-height: 0;
+
+  opacity: 0;
+
+  transition:
+    max-height .35s ease,
+    opacity .2s ease;
+}
+
+
+.fortress-summary.expanded
+.summary-content {
+  max-height: 600px;
+
+  opacity: 1;
+}
+
+
+/* =========================================================
+   Summary Table
+========================================================= */
+
+.summary-table-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+
+  padding: 12px;
+}
+
+
+.summary-table {
+  width: 100%;
+
+  min-width: 650px;
+
+  border-collapse: collapse;
+
+  font-size: 12px;
+
+  text-align: center;
+}
+
+
+.summary-table th,
+.summary-table td {
+  padding: 9px 10px;
+
+  border:
+    1px solid #30343b;
+}
+
+
+.summary-table th {
+  background: #202329;
+
+  color: #aaa;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+
+.summary-table td:first-child {
+  text-align: left;
+
+  font-weight: 600;
+
+  color: #ddd;
+}
+
+
+.summary-own-guild td:first-child {
+  color: white;
+
+  background: rgba(
+    88,
+    101,
+    242,
+    .12
+  );
+}
+
+
+/* =========================================================
+   Summary Status
+========================================================= */
+
+.summary-count {
+  min-width: 48px;
+
+  font-weight: 700;
+
+  transition:
+    background .15s ease;
+}
+
+
+/*
+  0 / 1
+*/
+
+.status-normal {
+  background:
+    rgba(
+      60,
+      170,
+      100,
+      .18
+    );
+}
+
+
+/*
+  2
+*/
+
+.status-warning {
+  background:
+    rgba(
+      230,
+      170,
+      40,
+      .28
+    );
+
+  color: #ffe08a;
+}
+
+
+/*
+  3+
+*/
+
+.status-restricted {
+  background:
+    rgba(
+      210,
+      60,
+      60,
+      .35
+    );
+
+  color: #ffb0b0;
+}
+
+
+/* =========================================================
+   Summary Legend
+========================================================= */
+
+.summary-legend {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  padding:
+    0
+    12px
+    12px;
+
+  font-size: 11px;
+
+  color: #999;
+}
+
+
+.summary-legend span {
+  padding:
+    4px
+    7px;
+
+  border-radius: 4px;
+
+  border:
+    1px solid var(--border);
+}
+
+
+.legend-normal {
+  background:
+    rgba(
+      60,
+      170,
+      100,
+      .18
+    );
+}
+
+
+.legend-warning {
+  background:
+    rgba(
+      230,
+      170,
+      40,
+      .28
+    );
+
+  color: #ffe08a;
+}
+
+
+.legend-limit {
+  background:
+    rgba(
+      210,
+      60,
+      60,
+      .35
+    );
+
+  color: #ffb0b0;
+}
+
+
+.legend-total {
+  background:
+    #202329;
 }
 
 
@@ -441,7 +691,6 @@ button {
 ========================================================= */
 
 dialog {
-
   width:
     min(
       520px,
@@ -463,14 +712,12 @@ dialog {
 }
 
 dialog::backdrop {
-
   background:
     rgba(0, 0, 0, .7);
 }
 
 dialog form,
 .detail {
-
   padding: 18px;
 }
 
@@ -480,11 +727,9 @@ dialog form,
 ========================================================= */
 
 .dialog-header {
-
   display: flex;
 
   justify-content: space-between;
-
   align-items: center;
 
   padding-bottom: 12px;
@@ -494,14 +739,11 @@ dialog form,
 }
 
 .dialog-header h2 {
-
   margin: 0;
-
   font-size: 18px;
 }
 
 .close-button {
-
   background: transparent;
 
   font-size: 26px;
@@ -515,7 +757,6 @@ dialog form,
 ========================================================= */
 
 label {
-
   display: block;
 
   margin-top: 14px;
@@ -528,7 +769,6 @@ label {
 input,
 select,
 textarea {
-
   width: 100%;
 
   margin-top: 5px;
@@ -546,7 +786,6 @@ textarea {
 }
 
 fieldset {
-
   margin-top: 14px;
 
   padding: 10px;
@@ -558,7 +797,6 @@ fieldset {
 }
 
 legend {
-
   padding: 0 5px;
 
   color: #aaa;
@@ -572,7 +810,6 @@ legend {
 ========================================================= */
 
 .coordinate {
-
   display: grid;
 
   grid-template-columns:
@@ -584,7 +821,6 @@ legend {
 }
 
 .coordinate span {
-
   color: #aaa;
 }
 
@@ -594,7 +830,6 @@ legend {
 ========================================================= */
 
 .datetime {
-
   display: grid;
 
   grid-template-columns:
@@ -604,7 +839,6 @@ legend {
 }
 
 .datetime span {
-
   display: block;
 
   text-align: center;
@@ -620,25 +854,20 @@ legend {
 ========================================================= */
 
 .form-buttons {
-
   display: flex;
 
   justify-content: space-between;
-
   align-items: center;
 
   margin-top: 18px;
 }
 
 .form-buttons div {
-
   display: flex;
-
   gap: 8px;
 }
 
 .error {
-
   min-height: 18px;
 
   margin: 8px 0 0;
@@ -654,26 +883,20 @@ legend {
 ========================================================= */
 
 .detail-content {
-
   padding: 15px 0;
-
   line-height: 1.7;
 }
 
 .detail-item {
-
   margin-bottom: 12px;
 }
 
 .detail-label {
-
   color: #888;
-
   font-size: 12px;
 }
 
 .detail-value {
-
   white-space: pre-wrap;
 }
 
@@ -683,7 +906,6 @@ legend {
 ========================================================= */
 
 .color-control {
-
   padding: 12px 0;
 
   border-top:
@@ -692,77 +914,10 @@ legend {
 
 
 /* =========================================================
-   Detail Buttons
+   Color Palette
 ========================================================= */
 
-.detail-buttons {
-
-  display: flex;
-
-  justify-content: flex-end;
-
-  gap: 8px;
-
-  padding-top: 12px;
-
-  border-top:
-    1px solid var(--border);
-}
-
-
-/* =========================================================
-   Mobile
-========================================================= */
-
-@media (max-width: 700px) {
-
-  .header {
-
-    flex-direction: column;
-
-    align-items: stretch;
-  }
-
-  .header button {
-
-    width: 100%;
-  }
-
-  .day-header {
-
-    height: 32px;
-
-    padding: 7px;
-
-    font-size: 12px;
-  }
-
-  .day {
-
-    min-height: 180px;
-  }
-
-  #calendarWrapper {
-
-    height: calc(100vh - 215px);
-
-    overflow-y: auto;
-
-    overflow-x: hidden;
-
-    /*
-      Keep vertical scrolling only.
-      Pinch zoom is disabled.
-    */
-
-    touch-action: pan-y;
-
-    -webkit-overflow-scrolling: touch;
-  }
-
-}
 .color-palette {
-
   display: grid;
 
   grid-template-columns:
@@ -775,7 +930,6 @@ legend {
 
 
 .color-option {
-
   width: 100%;
 
   aspect-ratio: 1 / 1;
@@ -798,28 +952,121 @@ legend {
 
 
 .color-option:hover {
-
   transform: scale(1.08);
-
 }
 
 
 .color-option.selected {
-
   border:
     3px solid white;
 
   box-shadow:
     0 0 0 2px #5865f2;
-
 }
+
+
+/* =========================================================
+   Detail Buttons
+========================================================= */
+
+.detail-buttons {
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 8px;
+
+  padding-top: 12px;
+
+  border-top:
+    1px solid var(--border);
+}
+
+
+/* =========================================================
+   Mobile
+========================================================= */
+
 @media (max-width: 700px) {
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+
+  .header button {
+    width: 100%;
+  }
+
+
+  .day-header {
+    height: 32px;
+    padding: 7px;
+    font-size: 12px;
+  }
+
+
+  .day {
+    min-height: 180px;
+  }
+
+
+  #calendarWrapper {
+    height: calc(100vh - 215px);
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    touch-action: pan-y;
+
+    -webkit-overflow-scrolling: touch;
+  }
+
 
   #refreshBtn {
     width: auto;
+
     min-width: 0;
+
     padding-left: 10px;
     padding-right: 10px;
+  }
+
+
+  .summary-toggle {
+    padding:
+      9px
+      10px;
+  }
+
+
+  .summary-toggle-main {
+    gap: 8px;
+  }
+
+
+  .summary-title {
+    font-size: 11px;
+  }
+
+
+  .summary-preview {
+    gap: 8px;
+    font-size: 11px;
+  }
+
+
+  .summary-table-wrapper {
+    padding: 8px;
+  }
+
+
+  .summary-table th,
+  .summary-table td {
+    padding:
+      8px
+      7px;
   }
 
 }
