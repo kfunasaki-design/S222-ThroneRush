@@ -2,10 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>S222 Throne Rush Calendar</title>
 
@@ -15,7 +12,6 @@
 <body>
 
   <header class="header">
-
     <div>
       <h1>S222 Throne Rush Calendar</h1>
       <p id="event-period">Event: --</p>
@@ -38,12 +34,10 @@
       </button>
 
     </div>
-
   </header>
 
 
   <!-- Month Navigation -->
-
   <div class="month-navigation">
 
     <button id="prevMonth">‹</button>
@@ -55,10 +49,11 @@
   </div>
 
 
-  <!-- Calendar -->
-
+  <!-- Weekday -->
   <div id="weekdayHeader"></div>
 
+
+  <!-- Calendar -->
   <main id="calendarWrapper">
 
     <div id="calendar"></div>
@@ -66,26 +61,24 @@
   </main>
 
 
-  <!-- Guild Summary Panel -->
-
-  <section id="guildSummaryPanel">
+  <!-- Guild Summary -->
+  <section
+    id="guildSummaryPanel"
+    class="guild-summary-panel"
+  >
 
     <button
       id="guildSummaryToggle"
+      class="guild-summary-toggle"
       type="button"
     >
 
-      <div class="guild-summary-preview">
+      <div class="guild-summary-toggle-left">
 
-        <span class="summary-label">
-          Guild Balance
-        </span>
+        <span class="summary-handle"></span>
 
-        <span
-          id="guildSummaryPreview"
-          class="summary-preview-content"
-        >
-          —
+        <span>
+          Guild Occupation Summary
         </span>
 
       </div>
@@ -100,6 +93,15 @@
     </button>
 
 
+    <!-- Collapsed / Current Guild -->
+    <div
+      id="currentGuildSummary"
+      class="current-guild-summary"
+    >
+    </div>
+
+
+    <!-- Full Table -->
     <div
       id="guildSummaryContent"
       class="guild-summary-content"
@@ -107,7 +109,10 @@
 
       <div class="summary-table-wrapper">
 
-        <table id="guildSummaryTable">
+        <table
+          id="guildSummaryTable"
+          class="guild-summary-table"
+        >
 
           <thead>
 
@@ -116,6 +121,8 @@
               <th>Guild</th>
 
               <th>League</th>
+
+              <th>Lv4</th>
 
               <th>Lv5</th>
 
@@ -141,16 +148,13 @@
 
 
   <!-- Schedule Input -->
-
   <dialog id="scheduleDialog">
 
     <form id="scheduleForm">
 
       <div class="dialog-header">
 
-        <h2 id="dialogTitle">
-          Add Schedule
-        </h2>
+        <h2 id="dialogTitle">Add Schedule</h2>
 
         <button
           type="button"
@@ -164,21 +168,13 @@
 
 
       <!-- Guild VS League -->
-
       <label>
 
         Guild VS League
 
-        <select
-          id="league"
-          required
-        >
+        <select id="league" required>
 
-          <option
-            value=""
-            selected
-            disabled
-          >
+          <option value="" selected disabled>
             Select League
           </option>
 
@@ -200,15 +196,11 @@
 
 
       <!-- Fortress -->
-
       <label>
 
         Fortress
 
-        <select
-          id="fortress"
-          required
-        >
+        <select id="fortress" required>
 
           <option value="Lv7">
             Lv7
@@ -222,8 +214,12 @@
             Lv5
           </option>
 
-          <option value="Lv1-4">
-            Lv1–4
+          <option value="Lv4">
+            Lv4
+          </option>
+
+          <option value="Lv1-3">
+            Lv1–3
           </option>
 
         </select>
@@ -232,7 +228,6 @@
 
 
       <!-- Coordinate -->
-
       <fieldset>
 
         <legend>Coordinate</legend>
@@ -263,7 +258,6 @@
 
 
       <!-- Guild -->
-
       <label>
 
         Guild
@@ -279,7 +273,6 @@
 
 
       <!-- Start -->
-
       <fieldset>
 
         <legend>Start — Attack Start</legend>
@@ -328,7 +321,6 @@
 
 
       <!-- End -->
-
       <fieldset>
 
         <legend>End — Planned Handover</legend>
@@ -377,7 +369,6 @@
 
 
       <!-- Description -->
-
       <label>
 
         Description
@@ -434,7 +425,6 @@
 
 
   <!-- Detail -->
-
   <dialog id="detailDialog">
 
     <div class="detail">
@@ -457,7 +447,6 @@
 
 
       <!-- Color -->
-
       <div class="color-control">
 
         <label>
