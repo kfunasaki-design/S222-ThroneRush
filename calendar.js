@@ -3446,8 +3446,7 @@ function renderGuildSummary() {
         document.createElement(
           "td"
         );
-td.colSpan = 2;
-       
+
       guildCell.className =
         "summary-guild";
 
@@ -3561,6 +3560,9 @@ td.colSpan = 2;
       "td"
     );
 
+  label.colSpan =
+    2;
+
   label.textContent =
     "Alliance Total";
 
@@ -3604,6 +3606,7 @@ td.colSpan = 2;
         document.createElement(
           "td"
         );
+
 
       const status =
         totalBases >
