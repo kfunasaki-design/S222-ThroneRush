@@ -3604,8 +3604,7 @@ td.colSpan = 2;
         document.createElement(
           "td"
         );
-  label.colSpan =
-    2;
+td.colSpan = 2;
 
       const status =
         totalBases >
