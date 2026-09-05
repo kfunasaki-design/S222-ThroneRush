@@ -63,10 +63,10 @@ const event = {
 
 
 /* =========================================================
-   Guild Summary Rules
+   Guild  Rules
 ========================================================= */
 
-const SUMMARY_LEVELS = [
+const _LEVELS = [
   "Lv4",
   "Lv5",
   "Lv6",
@@ -178,7 +178,7 @@ if (!creatorId) {
 /*
   Last guild used on this device.
 
-  Used for the collapsed summary.
+  Used for the collapsed .
 */
 
 let currentGuild =
@@ -3446,7 +3446,8 @@ function renderGuildSummary() {
         document.createElement(
           "td"
         );
-
+td.colSpan = 2;
+       
       guildCell.className =
         "summary-guild";
 
