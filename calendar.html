@@ -59,7 +59,76 @@
     <div id="calendar"></div>
 
   </main>
+<!-- Guild Summary Table -->
+<section id="guildSummary" class="guild-summary">
 
+  <button
+    type="button"
+    id="summaryToggle"
+    class="summary-toggle"
+    aria-expanded="false"
+  >
+    <div class="summary-preview">
+      <span id="summaryPreviewGuild">Guild</span>
+      <span id="summaryPreviewLeague">—</span>
+    </div>
+
+    <div class="summary-preview-cell">
+      <strong id="summaryPreviewDays">0</strong>
+      <small>days</small>
+      <span id="summaryPreviewBases">0</span>
+      <small>bases</small>
+    </div>
+
+    <span class="summary-arrow">▲</span>
+  </button>
+
+
+  <div id="summaryTableWrapper" class="summary-table-wrapper">
+
+    <table id="summaryTable">
+
+      <thead>
+
+        <tr>
+          <th rowspan="2">Guild</th>
+          <th rowspan="2">League</th>
+
+          <th colspan="2">Lv4</th>
+          <th colspan="2">Lv5</th>
+          <th colspan="2">Lv6</th>
+          <th colspan="2">Lv7</th>
+
+          <th rowspan="2">Total</th>
+        </tr>
+
+        <tr>
+          <th>Days</th>
+          <th>Bases</th>
+
+          <th>Days</th>
+          <th>Bases</th>
+
+          <th>Days</th>
+          <th>Bases</th>
+
+          <th>Days</th>
+          <th>Bases</th>
+        </tr>
+
+      </thead>
+
+      <tbody id="summaryTableBody">
+      </tbody>
+
+      <tfoot id="summaryTableFoot">
+      </tfoot>
+
+    </table>
+
+  </div>
+
+</section>
 
   <!-- Guild Summary -->
   <section
