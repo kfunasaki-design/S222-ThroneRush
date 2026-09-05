@@ -3967,15 +3967,3 @@ setInterval(
   1000
 );
 
-
-/* =========================================================
-   Initial
-========================================================= */
-
-setupColorPalette();
-
-updateLanguage();
-
-updateCurrentTime();
-
-loadSchedules();
