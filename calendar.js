@@ -3561,9 +3561,6 @@ td.colSpan = 2;
       "td"
     );
 
-  label.colSpan =
-    2;
-
   label.textContent =
     "Alliance Total";
 
@@ -3607,7 +3604,8 @@ td.colSpan = 2;
         document.createElement(
           "td"
         );
-
+  label.colSpan =
+    2;
 
       const status =
         totalBases >
