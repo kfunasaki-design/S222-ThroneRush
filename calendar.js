@@ -63,10 +63,10 @@ const event = {
 
 
 /* =========================================================
-   Guild  Rules
+   Guild Summary Rules
 ========================================================= */
 
-const _LEVELS = [
+const SUMMARY_LEVELS = [
   "Lv4",
   "Lv5",
   "Lv6",
@@ -178,7 +178,7 @@ if (!creatorId) {
 /*
   Last guild used on this device.
 
-  Used for the collapsed .
+  Used for the collapsed summary.
 */
 
 let currentGuild =
