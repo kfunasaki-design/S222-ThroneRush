@@ -63,75 +63,70 @@ const event = {
 
 
 /* =========================================================
-   League Restrictions
-
-   Higher leagues can challenge
-   all lower league fortress levels.
+   Guild Summary Rules
 ========================================================= */
 
-const LEAGUE_LIMITS = {
+const SUMMARY_LEVELS = [
+  "Lv4",
+  "Lv5",
+  "Lv6",
+  "Lv7"
+];
 
-  Bronze: [
-    "Lv5"
-  ],
 
-  Silver: [
-    "Lv5",
-    "Lv6"
-  ],
+/*
+  Alliance standard:
+  Each level = 1 fortress
 
-  Gold: [
-    "Lv5",
-    "Lv6",
-    "Lv7"
-  ]
+  2 = warning
+  3+ = restriction
+*/
 
-};
+const ALLIANCE_STANDARD = 1;
+
+const WARNING_COUNT = 2;
+
+const RESTRICTION_COUNT = 3;
+
+const TOTAL_FORTRESS_LIMIT = 6;
+
+
+/*
+  Average occupation target.
+
+  Event days are divided equally
+  across all participating guilds.
+
+  Currently the base calculation uses:
+
+  1 fortress × event duration
+
+  This will later become configurable
+  in the management panel.
+*/
+
+const AVERAGE_TOLERANCE = 0.80;
 
 
 /* =========================================================
-   Fortress Settings
-
-   Temporary fixed values.
-   Later these will move to Admin Settings.
+   League Fortress Access
 ========================================================= */
 
-const FORTRESS_SETTINGS = {
+/*
+  Gold
+  → Lv4 / Lv5 / Lv6 / Lv7
 
-  Lv5: {
-    total: 7,
-    recommended: 1
-  },
+  Silver
+  → Lv4 / Lv5 / Lv6
 
-  Lv6: {
-    total: 4,
-    recommended: 1
-  },
+  Bronze
+  → Lv4 / Lv5
+*/
 
-  Lv7: {
-    total: 1,
-    recommended: 1
-  }
-
-};
-
-
-/* =========================================================
-   Balance Settings
-
-   Temporary fixed values.
-========================================================= */
-
-const BALANCE_SETTINGS = {
-
-  maxTotalHoldings: 6,
-
-  warningHoldings: 2,
-
-  restrictionHoldings: 3,
-
-  dayAverageTolerance: 0.25
-
+const LEAGUE_MAX_LEVEL = {
+  Bronze: 5,
+  Silver: 6,
+  Gold: 7
 };
 
 
@@ -155,6 +150,18 @@ if (!creatorId) {
   );
 
 }
+
+
+/*
+  Last guild used on this device.
+
+  This is used for the collapsed summary.
+*/
+
+let currentGuild =
+  localStorage.getItem(
+    "s222_current_guild"
+  ) || "";
 
 
 /* =========================================================
@@ -243,6 +250,10 @@ function formatDate(date) {
 }
 
 
+/* =========================================================
+   Fortress Icon
+========================================================= */
+
 function fortressIcon(level) {
 
   switch (level) {
@@ -256,8 +267,11 @@ function fortressIcon(level) {
     case "Lv5":
       return "🟡";
 
-    default:
+    case "Lv4":
       return "🟢";
+
+    default:
+      return "⚪";
 
   }
 
@@ -281,682 +295,13 @@ function defaultColor(level) {
     case "Lv5":
       return "#FFFF00";
 
-    default:
+    case "Lv4":
       return "#02FF00";
 
-  }
-
-}
-
-
-/* =========================================================
-   Schedule Text Color
-========================================================= */
-
-function getScheduleTextColor(
-  color
-) {
-
-  if (!color)
-    return "#FFFFFF";
-
-
-  switch (
-    color.toUpperCase()
-  ) {
-
-    case "#00FFFF":
-    case "#FF00FF":
-    case "#02FF00":
-    case "#FFFF00":
-    case "#FFFFFF":
-
-      return "#111111";
-
-
-    case "#0000FF":
-    case "#FE0000":
-    case "#000000":
-
-      return "#FFFFFF";
-
-
     default:
-
       return "#FFFFFF";
 
   }
-
-}
-
-
-/* =========================================================
-   Occupation Days
-
-   Calculates total occupation duration.
-========================================================= */
-
-function getOccupationDays(
-  schedule
-) {
-
-  const start =
-    new Date(
-      schedule.start
-    );
-
-  const end =
-    new Date(
-      schedule.end
-    );
-
-  if (
-    Number.isNaN(
-      start.getTime()
-    )
-    ||
-    Number.isNaN(
-      end.getTime()
-    )
-  ) {
-
-    return 0;
-
-  }
-
-  const milliseconds =
-    end - start;
-
-  return (
-    milliseconds
-    /
-    (1000 * 60 * 60 * 24)
-  );
-
-}
-
-
-/* =========================================================
-   Guild Summary Data
-========================================================= */
-
-function getGuildSummary() {
-
-  const guildMap =
-    new Map();
-
-
-  schedules.forEach(
-    schedule => {
-
-      if (
-        !schedule.guild
-      )
-        return;
-
-
-      if (
-        !guildMap.has(
-          schedule.guild
-        )
-      ) {
-
-        guildMap.set(
-          schedule.guild,
-          {
-            guild:
-              schedule.guild,
-
-            league:
-              schedule.league || "—",
-
-            Lv5: {
-              count: 0,
-              days: 0
-            },
-
-            Lv6: {
-              count: 0,
-              days: 0
-            },
-
-            Lv7: {
-              count: 0,
-              days: 0
-            },
-
-            total: 0
-          }
-        );
-
-      }
-
-
-      const guildData =
-        guildMap.get(
-          schedule.guild
-        );
-
-
-      if (
-        ["Lv5", "Lv6", "Lv7"]
-          .includes(
-            schedule.fortress
-          )
-      ) {
-
-        guildData[
-          schedule.fortress
-        ].count += 1;
-
-
-        guildData[
-          schedule.fortress
-        ].days +=
-          getOccupationDays(
-            schedule
-          );
-
-
-        guildData.total += 1;
-
-      }
-
-    }
-  );
-
-
-  return Array.from(
-    guildMap.values()
-  );
-
-}
-
-
-/* =========================================================
-   Average Occupation Days
-========================================================= */
-
-function getAverageDays(
-  summary,
-  level
-) {
-
-  const values =
-    summary
-      .map(
-        guild =>
-          guild[level].days
-      )
-      .filter(
-        days =>
-          days > 0
-      );
-
-
-  if (
-    values.length === 0
-  )
-    return 0;
-
-
-  const total =
-    values.reduce(
-      (
-        sum,
-        days
-      ) =>
-        sum + days,
-      0
-    );
-
-
-  return (
-    total
-    /
-    values.length
-  );
-
-}
-
-
-/* =========================================================
-   Cell Status
-
-   Restriction
-   Warning
-   Normal
-========================================================= */
-
-function getCellStatus(
-  guild,
-  level,
-  averageDays
-) {
-
-  const data =
-    guild[level];
-
-
-  /*
-    Restriction:
-    3 or more holdings
-  */
-
-  if (
-    data.count
-    >=
-    BALANCE_SETTINGS.restrictionHoldings
-  ) {
-
-    return "restricted";
-
-  }
-
-
-  /*
-    Warning:
-    2 holdings
-  */
-
-  if (
-    data.count
-    >=
-    BALANCE_SETTINGS.warningHoldings
-  ) {
-
-    return "warning";
-
-  }
-
-
-  /*
-    Average occupation days
-  */
-
-  if (
-    averageDays > 0
-    &&
-    data.days > 0
-  ) {
-
-    const difference =
-      Math.abs(
-        data.days
-        -
-        averageDays
-      );
-
-    const allowedDifference =
-      averageDays
-      *
-      BALANCE_SETTINGS.dayAverageTolerance;
-
-
-    if (
-      difference
-      >
-      allowedDifference
-    ) {
-
-      return "warning";
-
-    }
-
-  }
-
-
-  return "normal";
-
-}
-
-
-/* =========================================================
-   Guild Total Status
-========================================================= */
-
-function getTotalStatus(
-  guild
-) {
-
-  if (
-    guild.total
-    >
-    BALANCE_SETTINGS.maxTotalHoldings
-  ) {
-
-    return "restricted";
-
-  }
-
-
-  return "normal";
-
-}
-
-
-/* =========================================================
-   Render Guild Summary
-========================================================= */
-
-function renderGuildSummary() {
-
-  const tbody =
-    document.querySelector(
-      "#guildSummaryTable tbody"
-    );
-
-  const preview =
-    document.getElementById(
-      "guildSummaryPreview"
-    );
-
-
-  if (
-    !tbody
-    ||
-    !preview
-  )
-    return;
-
-
-  const summary =
-    getGuildSummary();
-
-
-  tbody.innerHTML = "";
-
-
-  if (
-    summary.length === 0
-  ) {
-
-    preview.textContent =
-      "No schedules";
-
-    return;
-
-  }
-
-
-  const averages = {
-
-    Lv5:
-      getAverageDays(
-        summary,
-        "Lv5"
-      ),
-
-    Lv6:
-      getAverageDays(
-        summary,
-        "Lv6"
-      ),
-
-    Lv7:
-      getAverageDays(
-        summary,
-        "Lv7"
-      )
-
-  };
-
-
-  /*
-    Render Full Table
-  */
-
-  summary.forEach(
-    guild => {
-
-      const row =
-        document.createElement(
-          "tr"
-        );
-
-
-      const levels = [
-        "Lv5",
-        "Lv6",
-        "Lv7"
-      ];
-
-
-      let cells = `
-
-        <td>
-          ${escapeHTML(
-            guild.guild
-          )}
-        </td>
-
-        <td>
-          ${escapeHTML(
-            guild.league
-          )}
-        </td>
-
-      `;
-
-
-      levels.forEach(
-        level => {
-
-          const data =
-            guild[level];
-
-
-          const status =
-            getCellStatus(
-              guild,
-              level,
-              averages[level]
-            );
-
-
-          const days =
-            Math.round(
-              data.days * 10
-            ) / 10;
-
-
-          cells += `
-
-            <td
-              class="
-                summary-cell
-                ${status}
-              "
-            >
-
-              <strong>
-                ${data.count}
-              </strong>
-
-              <span>
-                [${days} days]
-              </span>
-
-            </td>
-
-          `;
-
-        }
-      );
-
-
-      const totalStatus =
-        getTotalStatus(
-          guild
-        );
-
-
-      cells += `
-
-        <td
-          class="
-            summary-total
-            ${totalStatus}
-          "
-        >
-
-          ${guild.total}
-
-        </td>
-
-      `;
-
-
-      row.innerHTML =
-        cells;
-
-
-      tbody.appendChild(
-        row
-      );
-
-    }
-  );
-
-
-  /*
-    Preview:
-    Show creator's guild only
-  */
-
-  const mySchedules =
-    schedules.filter(
-      schedule =>
-        schedule.creatorId
-        ===
-        creatorId
-    );
-
-
-  if (
-    mySchedules.length === 0
-  ) {
-
-    preview.textContent =
-      "Tap to view Guild Balance";
-
-    return;
-
-  }
-
-
-  const myGuildName =
-    mySchedules[
-      mySchedules.length - 1
-    ].guild;
-
-
-  const myGuild =
-    summary.find(
-      guild =>
-        guild.guild
-        ===
-        myGuildName
-    );
-
-
-  if (!myGuild) {
-
-    preview.textContent =
-      "Tap to view Guild Balance";
-
-    return;
-
-  }
-
-
-  const lv5 =
-    myGuild.Lv5;
-
-  const lv6 =
-    myGuild.Lv6;
-
-  const lv7 =
-    myGuild.Lv7;
-
-
-  preview.innerHTML = `
-
-    <strong>
-      ${escapeHTML(
-        myGuild.guild
-      )}
-    </strong>
-
-    <span>
-      Lv5 ${lv5.count}
-      [${Math.round(
-        lv5.days
-      )}d]
-    </span>
-
-    <span>
-      Lv6 ${lv6.count}
-      [${Math.round(
-        lv6.days
-      )}d]
-    </span>
-
-    <span>
-      Lv7 ${lv7.count}
-      [${Math.round(
-        lv7.days
-      )}d]
-    </span>
-
-  `;
-
-}
-
-
-/* =========================================================
-   Summary Toggle
-========================================================= */
-
-const guildSummaryToggle =
-  document.getElementById(
-    "guildSummaryToggle"
-  );
-
-const guildSummaryPanel =
-  document.getElementById(
-    "guildSummaryPanel"
-  );
-
-const guildSummaryArrow =
-  document.getElementById(
-    "guildSummaryArrow"
-  );
-
-
-if (
-  guildSummaryToggle
-  &&
-  guildSummaryPanel
-) {
-
-  guildSummaryToggle.addEventListener(
-    "click",
-    () => {
-
-      guildSummaryPanel.classList.toggle(
-        "open"
-      );
-
-      guildSummaryArrow.textContent =
-        guildSummaryPanel.classList.contains(
-          "open"
-        )
-          ? "▼"
-          : "▲";
-
-    }
-  );
 
 }
 
@@ -975,9 +320,7 @@ function setupColorPalette() {
   if (!palette)
     return;
 
-
   palette.innerHTML = "";
-
 
   SCHEDULE_COLORS.forEach(
     color => {
@@ -986,7 +329,6 @@ function setupColorPalette() {
         document.createElement(
           "button"
         );
-
 
       button.type =
         "button";
@@ -1010,25 +352,19 @@ function setupColorPalette() {
         `Schedule color ${color}`
       );
 
-
       button.addEventListener(
         "click",
         async () => {
 
-          if (
-            !selectedSchedule
-          )
+          if (!selectedSchedule)
             return;
-
 
           selectedSchedule.color =
             color;
 
-
           updateSelectedColor(
             color
           );
-
 
           try {
 
@@ -1052,7 +388,6 @@ function setupColorPalette() {
         }
       );
 
-
       palette.appendChild(
         button
       );
@@ -1063,9 +398,11 @@ function setupColorPalette() {
 }
 
 
-function updateSelectedColor(
-  color
-) {
+/* =========================================================
+   Selected Color
+========================================================= */
+
+function updateSelectedColor(color) {
 
   document
     .querySelectorAll(
@@ -1076,7 +413,6 @@ function updateSelectedColor(
 
         button.classList.toggle(
           "selected",
-
           button.dataset.color
             .toUpperCase()
           ===
@@ -1085,6 +421,42 @@ function updateSelectedColor(
 
       }
     );
+
+}
+
+
+/* =========================================================
+   Schedule Text Color
+========================================================= */
+
+function getScheduleTextColor(color) {
+
+  if (!color)
+    return "#FFFFFF";
+
+  switch (
+    color.toUpperCase()
+  ) {
+
+    case "#00FFFF":
+    case "#FF00FF":
+    case "#02FF00":
+    case "#FFFF00":
+    case "#FFFFFF":
+
+      return "#111111";
+
+    case "#0000FF":
+    case "#FE0000":
+    case "#000000":
+
+      return "#FFFFFF";
+
+    default:
+
+      return "#FFFFFF";
+
+  }
 
 }
 
@@ -1101,7 +473,6 @@ function updateJST(
   if (!gmtInput.value)
     return;
 
-
   const [
     hour,
     minute
@@ -1110,40 +481,29 @@ function updateJST(
       .split(":")
       .map(Number);
 
+  const totalMinutes =
+    (hour * 60 + minute + 540)
+    %
+    1440;
 
-  const date =
-    new Date();
+  const jstHour =
+    Math.floor(
+      totalMinutes / 60
+    );
 
-
-  date.setUTCHours(
-    hour,
-    minute,
-    0,
-    0
-  );
-
-
-  date.setHours(
-    date.getHours() + 9
-  );
-
+  const jstMinute =
+    totalMinutes % 60;
 
   jstInput.value =
     String(
-      date.getHours()
-    ).padStart(
-      2,
-      "0"
-    )
+      jstHour
+    ).padStart(2, "0")
     +
     ":"
     +
     String(
-      date.getMinutes()
-    ).padStart(
-      2,
-      "0"
-    );
+      jstMinute
+    ).padStart(2, "0");
 
 }
 
@@ -1156,7 +516,6 @@ function updateGMT(
   if (!jstInput.value)
     return;
 
-
   const [
     hour,
     minute
@@ -1165,48 +524,41 @@ function updateGMT(
       .split(":")
       .map(Number);
 
+  const totalMinutes =
+    (hour * 60 + minute - 540 + 1440)
+    %
+    1440;
 
-  const date =
-    new Date();
+  const gmtHour =
+    Math.floor(
+      totalMinutes / 60
+    );
 
-
-  date.setUTCHours(
-    hour - 9,
-    minute,
-    0,
-    0
-  );
-
+  const gmtMinute =
+    totalMinutes % 60;
 
   gmtInput.value =
     String(
-      date.getUTCHours()
-    ).padStart(
-      2,
-      "0"
-    )
+      gmtHour
+    ).padStart(2, "0")
     +
     ":"
     +
     String(
-      date.getUTCMinutes()
-    ).padStart(
-      2,
-      "0"
-    );
+      gmtMinute
+    ).padStart(2, "0");
 
 }
 
 
 /* =========================================================
-   Current Time
+   Current Time / Event Period
 ========================================================= */
 
 function updateCurrentTime() {
 
   if (!eventPeriod)
     return;
-
 
   eventPeriod.textContent =
     `Event: ${event.start} → ${event.end}`;
@@ -1229,7 +581,6 @@ function updateLanguage() {
       ".header h1"
     );
 
-
   if (title) {
 
     title.textContent =
@@ -1244,7 +595,6 @@ function updateLanguage() {
     document.getElementById(
       "addScheduleBtn"
     );
-
 
   if (addButton) {
 
@@ -1261,7 +611,6 @@ function updateLanguage() {
       "refreshBtn"
     );
 
-
   if (refreshButton) {
 
     refreshButton.textContent =
@@ -1275,7 +624,6 @@ function updateLanguage() {
       ".weekday-cell"
     );
 
-
   const weekdaysEN = [
     "Sun",
     "Mon",
@@ -1285,7 +633,6 @@ function updateLanguage() {
     "Fri",
     "Sat"
   ];
-
 
   const weekdaysJP = [
     "日",
@@ -1297,12 +644,8 @@ function updateLanguage() {
     "土"
   ];
 
-
   weekdayCells.forEach(
-    (
-      cell,
-      index
-    ) => {
+    (cell, index) => {
 
       cell.textContent =
         mobile
@@ -1318,13 +661,10 @@ function updateLanguage() {
       "dialogTitle"
     );
 
-
   if (dialogTitle) {
 
     if (
-      dialogTitle.dataset.mode
-      ===
-      "edit"
+      dialogTitle.dataset.mode === "edit"
     ) {
 
       dialogTitle.textContent =
@@ -1351,7 +691,6 @@ function updateLanguage() {
       "detailClose"
     );
 
-
   if (detailClose) {
 
     detailClose.textContent =
@@ -1366,7 +705,6 @@ function updateLanguage() {
     document.getElementById(
       "editSchedule"
     );
-
 
   if (editButton) {
 
@@ -1383,7 +721,6 @@ function updateLanguage() {
       "cancelBtn"
     );
 
-
   if (cancelButton) {
 
     cancelButton.textContent =
@@ -1399,7 +736,6 @@ function updateLanguage() {
       'button[type="submit"]'
     );
 
-
   if (saveButton) {
 
     saveButton.textContent =
@@ -1414,7 +750,6 @@ function updateLanguage() {
     document.getElementById(
       "deleteBtn"
     );
-
 
   if (deleteButton) {
 
@@ -1451,7 +786,6 @@ async function loadSchedules() {
         }
       );
 
-
   if (error) {
 
     console.error(
@@ -1472,7 +806,6 @@ async function loadSchedules() {
     return;
 
   }
-
 
   schedules =
     (data || []).map(
@@ -1514,7 +847,6 @@ async function loadSchedules() {
       })
     );
 
-
   renderCalendar();
 
   renderGuildSummary();
@@ -1526,9 +858,7 @@ async function loadSchedules() {
    Supabase Insert
 ========================================================= */
 
-async function insertSchedule(
-  schedule
-) {
+async function insertSchedule(schedule) {
 
   const {
     error
@@ -1572,7 +902,6 @@ async function insertSchedule(
 
       });
 
-
   if (error) {
 
     console.error(
@@ -1591,9 +920,7 @@ async function insertSchedule(
    Supabase Update
 ========================================================= */
 
-async function updateSchedule(
-  schedule
-) {
+async function updateSchedule(schedule) {
 
   const {
     error
@@ -1638,7 +965,6 @@ async function updateSchedule(
         schedule.id
       );
 
-
   if (error) {
 
     console.error(
@@ -1657,9 +983,7 @@ async function updateSchedule(
    Supabase Delete
 ========================================================= */
 
-async function deleteSchedule(
-  scheduleId
-) {
+async function deleteSchedule(scheduleId) {
 
   const {
     error
@@ -1671,7 +995,6 @@ async function deleteSchedule(
         "id",
         scheduleId
       );
-
 
   if (error) {
 
@@ -1696,33 +1019,25 @@ function renderCalendar() {
   if (!calendar)
     return;
 
-
   calendar.innerHTML = "";
-
 
   monthTitle.textContent =
     `${currentMonth.getFullYear()}/${String(
       currentMonth.getMonth() + 1
-    ).padStart(
-      2,
-      "0"
-    )}`;
+    ).padStart(2, "0")}`;
 
 
   if (weekdayHeader) {
 
     weekdayHeader.innerHTML = "";
 
-
     const weekdayRow =
       document.createElement(
         "div"
       );
 
-
     weekdayRow.className =
       "weekday-row";
-
 
     const weekdays = [
       "Sun",
@@ -1734,7 +1049,6 @@ function renderCalendar() {
       "Sat"
     ];
 
-
     weekdays.forEach(
       weekday => {
 
@@ -1743,13 +1057,11 @@ function renderCalendar() {
             "div"
           );
 
-
         cell.className =
           "weekday-cell";
 
         cell.textContent =
           weekday;
-
 
         weekdayRow.appendChild(
           cell
@@ -1757,7 +1069,6 @@ function renderCalendar() {
 
       }
     );
-
 
     weekdayHeader.appendChild(
       weekdayRow
@@ -1773,7 +1084,6 @@ function renderCalendar() {
       1
     );
 
-
   const lastDay =
     new Date(
       currentMonth.getFullYear(),
@@ -1781,10 +1091,8 @@ function renderCalendar() {
       0
     );
 
-
   const calendarStart =
     new Date(firstDay);
-
 
   calendarStart.setDate(
     firstDay.getDate()
@@ -1792,21 +1100,14 @@ function renderCalendar() {
     firstDay.getDay()
   );
 
-
   const calendarEnd =
     new Date(lastDay);
-
 
   calendarEnd.setDate(
     lastDay.getDate()
     +
-    (
-      6
-      -
-      lastDay.getDay()
-    )
+    (6 - lastDay.getDay())
   );
-
 
   let cursor =
     new Date(calendarStart);
@@ -1826,12 +1127,10 @@ function renderCalendar() {
       weekEnd.getDate() + 6
     );
 
-
     const week =
       document.createElement(
         "div"
       );
-
 
     week.className =
       "week";
@@ -1845,7 +1144,6 @@ function renderCalendar() {
         "div"
       );
 
-
     dayGrid.className =
       "day-grid";
 
@@ -1854,7 +1152,6 @@ function renderCalendar() {
       document.createElement(
         "div"
       );
-
 
     scheduleLayer.className =
       "schedule-layer";
@@ -1873,7 +1170,6 @@ function renderCalendar() {
         weekStart.getDate() + i
       );
 
-
       const day =
         createDay(date);
 
@@ -1891,7 +1187,6 @@ function renderCalendar() {
 
     const lanes = [];
 
-
     const weekSchedules =
       schedules.filter(
         schedule =>
@@ -1901,7 +1196,6 @@ function renderCalendar() {
             weekEnd
           )
       );
-
 
     weekSchedules.forEach(
       schedule => {
@@ -1913,24 +1207,18 @@ function renderCalendar() {
             weekEnd
           );
 
-
         if (!segment)
           return;
 
-
         let laneIndex = 0;
-
 
         while (true) {
 
-          if (
-            !lanes[laneIndex]
-          ) {
+          if (!lanes[laneIndex]) {
 
             lanes[laneIndex] = [];
 
           }
-
 
           const overlaps =
             lanes[laneIndex].some(
@@ -1944,20 +1232,16 @@ function renderCalendar() {
                 segment.startColumn
             );
 
-
           if (!overlaps)
             break;
-
 
           laneIndex++;
 
         }
 
-
         lanes[laneIndex].push(
           segment
         );
-
 
         const item =
           createSchedule(
@@ -1965,7 +1249,6 @@ function renderCalendar() {
             segment,
             laneIndex
           );
-
 
         scheduleLayer.appendChild(
           item
@@ -1980,36 +1263,27 @@ function renderCalendar() {
         180,
         42
         +
-        (
-          lanes.length
-          *
-          34
-        )
+        (lanes.length * 34)
         +
         10
       );
 
-
     week.style.minHeight =
       `${scheduleHeight}px`;
-
 
     week.appendChild(
       scheduleLayer
     );
 
-
     calendar.appendChild(
       week
     );
-
 
     cursor.setDate(
       cursor.getDate() + 7
     );
 
   }
-
 
   updateLanguage();
 
@@ -2027,10 +1301,8 @@ function createDay(date) {
       "div"
     );
 
-
   day.className =
     "day";
-
 
   if (
     date.getMonth()
@@ -2044,10 +1316,8 @@ function createDay(date) {
 
   }
 
-
   const today =
     new Date();
-
 
   if (
     formatDate(date)
@@ -2061,12 +1331,10 @@ function createDay(date) {
 
   }
 
-
   const header =
     document.createElement(
       "div"
     );
-
 
   header.className =
     "day-header";
@@ -2074,11 +1342,9 @@ function createDay(date) {
   header.textContent =
     date.getDate();
 
-
   day.appendChild(
     header
   );
-
 
   return day;
 
@@ -2105,7 +1371,6 @@ function scheduleOverlapsWeek(
       schedule.end
     );
 
-
   if (
     Number.isNaN(
       scheduleStart.getTime()
@@ -2120,7 +1385,6 @@ function scheduleOverlapsWeek(
 
   }
 
-
   const rangeStart =
     new Date(weekStart);
 
@@ -2130,7 +1394,6 @@ function scheduleOverlapsWeek(
     0,
     0
   );
-
 
   const rangeEnd =
     new Date(weekEnd);
@@ -2145,7 +1408,6 @@ function scheduleOverlapsWeek(
     0,
     0
   );
-
 
   return (
     scheduleStart < rangeEnd
@@ -2176,7 +1438,6 @@ function getWeekScheduleSegment(
       schedule.end
     );
 
-
   if (
     Number.isNaN(
       scheduleStart.getTime()
@@ -2191,30 +1452,18 @@ function getWeekScheduleSegment(
 
   }
 
-
   function getJSTDate(date) {
 
     const parts =
       new Intl.DateTimeFormat(
         "en-CA",
         {
-          timeZone:
-            "Asia/Tokyo",
-
-          year:
-            "numeric",
-
-          month:
-            "2-digit",
-
-          day:
-            "2-digit"
+          timeZone: "Asia/Tokyo",
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit"
         }
-      )
-        .formatToParts(
-          date
-        );
-
+      ).formatToParts(date);
 
     const year =
       parts.find(
@@ -2222,20 +1471,17 @@ function getWeekScheduleSegment(
           part.type === "year"
       ).value;
 
-
     const month =
       parts.find(
         part =>
           part.type === "month"
       ).value;
 
-
     const day =
       parts.find(
         part =>
           part.type === "day"
       ).value;
-
 
     return new Date(
       Number(year),
@@ -2244,7 +1490,6 @@ function getWeekScheduleSegment(
     );
 
   }
-
 
   const startDate =
     getJSTDate(
@@ -2256,14 +1501,12 @@ function getWeekScheduleSegment(
       scheduleEnd
     );
 
-
   const weekStartDate =
     new Date(
       weekStart.getFullYear(),
       weekStart.getMonth(),
       weekStart.getDate()
     );
-
 
   let startColumn =
     Math.round(
@@ -2273,17 +1516,8 @@ function getWeekScheduleSegment(
         weekStartDate
       )
       /
-      (
-        24
-        *
-        60
-        *
-        60
-        *
-        1000
-      )
+      (24 * 60 * 60 * 1000)
     );
-
 
   let endColumn =
     Math.round(
@@ -2293,17 +1527,8 @@ function getWeekScheduleSegment(
         weekStartDate
       )
       /
-      (
-        24
-        *
-        60
-        *
-        60
-        *
-        1000
-      )
+      (24 * 60 * 60 * 1000)
     );
-
 
   startColumn =
     Math.max(
@@ -2314,7 +1539,6 @@ function getWeekScheduleSegment(
       )
     );
 
-
   endColumn =
     Math.max(
       startColumn,
@@ -2323,7 +1547,6 @@ function getWeekScheduleSegment(
         endColumn
       )
     );
-
 
   return {
     startColumn,
@@ -2348,20 +1571,16 @@ function createSchedule(
       "button"
     );
 
-
   button.className =
     "schedule";
-
 
   button.setAttribute(
     "translate",
     "no"
   );
 
-
   button.style.position =
     "absolute";
-
 
   const scheduleColor =
     schedule.color
@@ -2369,7 +1588,6 @@ function createSchedule(
     defaultColor(
       schedule.fortress
     );
-
 
   button.style.background =
     scheduleColor;
@@ -2379,28 +1597,22 @@ function createSchedule(
       scheduleColor
     );
 
-
   button.style.pointerEvents =
     "auto";
-
 
   button.textContent =
     `${fortressIcon(
       schedule.fortress
     )} ${schedule.x}:${schedule.y} ${schedule.guild}`;
 
-
   button.style.left =
     `calc(${segment.startColumn} * (100% / 7) + 4px)`;
-
 
   button.style.width =
     `calc(${segment.endColumn - segment.startColumn + 1} * (100% / 7) - 8px)`;
 
-
   button.style.top =
     `${38 + laneIndex * 34}px`;
-
 
   button.addEventListener(
     "click",
@@ -2410,8 +1622,49 @@ function createSchedule(
       )
   );
 
-
   return button;
+
+}
+
+
+/* =========================================================
+   League Validation
+========================================================= */
+
+function validateLeagueFortress(
+  league,
+  fortress
+) {
+
+  /*
+    Lv1-3 is not restricted here.
+  */
+
+  if (
+    fortress === "Lv1-3"
+  ) {
+
+    return true;
+
+  }
+
+  const level =
+    Number(
+      fortress.replace(
+        "Lv",
+        ""
+      )
+    );
+
+  const maxLevel =
+    LEAGUE_MAX_LEVEL[
+      league
+    ];
+
+  if (!maxLevel)
+    return false;
+
+  return level <= maxLevel;
 
 }
 
@@ -2440,28 +1693,23 @@ function resetForm() {
 
   form.reset();
 
-
   document.getElementById(
     "deleteBtn"
   ).style.display =
     "none";
-
 
   const title =
     document.getElementById(
       "dialogTitle"
     );
 
-
   title.dataset.mode =
     "add";
-
 
   title.textContent =
     isMobile()
       ? "予定を追加"
       : "Add Schedule";
-
 
   selectedSchedule =
     null;
@@ -2496,46 +1744,6 @@ document
 
 
 /* =========================================================
-   League Validation
-========================================================= */
-
-function validateLeagueFortress(
-  league,
-  fortress
-) {
-
-  /*
-    Lv1-4 are excluded
-    from the league restriction.
-  */
-
-  if (
-    fortress === "Lv1-4"
-  ) {
-
-    return true;
-
-  }
-
-
-  const allowed =
-    LEAGUE_LIMITS[
-      league
-    ];
-
-
-  if (!allowed)
-    return false;
-
-
-  return allowed.includes(
-    fortress
-  );
-
-}
-
-
-/* =========================================================
    Save
 ========================================================= */
 
@@ -2551,73 +1759,62 @@ form.addEventListener(
         "league"
       ).value;
 
-
     const fortress =
       document.getElementById(
         "fortress"
       ).value;
-
 
     const x =
       document.getElementById(
         "coordinateX"
       ).value;
 
-
     const y =
       document.getElementById(
         "coordinateY"
       ).value;
-
 
     const guild =
       document.getElementById(
         "guild"
       ).value.trim();
 
-
     const startDate =
       document.getElementById(
         "startDate"
       ).value;
-
 
     const startGMT =
       document.getElementById(
         "startGMT"
       ).value;
 
-
     const endDate =
       document.getElementById(
         "endDate"
       ).value;
-
 
     const endGMT =
       document.getElementById(
         "endGMT"
       ).value;
 
-
     const description =
       document.getElementById(
         "description"
       ).value.trim();
-
 
     const error =
       document.getElementById(
         "formError"
       );
 
-
     error.textContent =
       "";
 
 
     /*
-      League restriction
+      League validation
     */
 
     if (
@@ -2629,8 +1826,8 @@ form.addEventListener(
 
       error.textContent =
         isMobile()
-          ? "このリーグでは選択した城に挑戦できません。"
-          : "This league cannot challenge the selected fortress.";
+          ? `${league}リーグでは${fortress}に挑戦できません。`
+          : `${league} League cannot challenge ${fortress}.`;
 
       return;
 
@@ -2642,12 +1839,10 @@ form.addEventListener(
         `${startDate}T${startGMT}:00Z`
       );
 
-
     const end =
       new Date(
         `${endDate}T${endGMT}:00Z`
       );
-
 
     if (
       Number.isNaN(
@@ -2690,12 +1885,10 @@ form.addEventListener(
         `${event.start}T00:00:00Z`
       );
 
-
     const eventEnd =
       new Date(
         `${event.end}T23:59:59Z`
       );
-
 
     if (
       start < eventStart
@@ -2760,6 +1953,21 @@ form.addEventListener(
           schedule
         );
 
+        /*
+          Save current guild locally.
+
+          This guild is displayed
+          in the collapsed summary.
+        */
+
+        currentGuild =
+          guild;
+
+        localStorage.setItem(
+          "s222_current_guild",
+          guild
+        );
+
       }
 
       else {
@@ -2779,9 +1987,16 @@ form.addEventListener(
 
         }
 
-
         await updateSchedule(
           schedule
+        );
+
+        currentGuild =
+          guild;
+
+        localStorage.setItem(
+          "s222_current_guild",
+          guild
         );
 
       }
@@ -2793,14 +2008,11 @@ form.addEventListener(
 
     }
 
-    catch (
-      saveError
-    ) {
+    catch (saveError) {
 
       console.error(
         saveError
       );
-
 
       error.textContent =
         isMobile()
@@ -2817,13 +2029,10 @@ form.addEventListener(
    Details
 ========================================================= */
 
-function showDetails(
-  schedule
-) {
+function showDetails(schedule) {
 
   selectedSchedule =
     schedule;
-
 
   document.getElementById(
     "detailTitle"
@@ -2831,7 +2040,6 @@ function showDetails(
     `${fortressIcon(
       schedule.fortress
     )} ${schedule.x}:${schedule.y} ${schedule.guild}`;
-
 
   const start =
     new Date(
@@ -2843,16 +2051,13 @@ function showDetails(
       schedule.end
     );
 
-
   const content =
     document.getElementById(
       "detailContent"
     );
 
-
   const mobile =
     isMobile();
-
 
   content.innerHTML = `
 
@@ -2981,7 +2186,6 @@ function showDetails(
 
   setupColorPalette();
 
-
   updateSelectedColor(
     schedule.color
     ||
@@ -2989,7 +2193,6 @@ function showDetails(
       schedule.fortress
     )
   );
-
 
   document.getElementById(
     "editSchedule"
@@ -2999,7 +2202,6 @@ function showDetails(
     creatorId
       ? "inline-block"
       : "none";
-
 
   detailDialog.showModal();
 
@@ -3012,36 +2214,38 @@ function showDetails(
 
 function formatGMT(date) {
 
-  return date.toLocaleString(
-    "en-GB",
-    {
-      timeZone: "UTC",
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false
-    }
-  );
+  return date
+    .toLocaleString(
+      "en-GB",
+      {
+        timeZone: "UTC",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false
+      }
+    );
 
 }
 
 
 function formatJST(date) {
 
-  return date.toLocaleString(
-    "en-GB",
-    {
-      timeZone: "Asia/Tokyo",
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false
-    }
-  );
+  return date
+    .toLocaleString(
+      "en-GB",
+      {
+        timeZone: "Asia/Tokyo",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false
+      }
+    );
 
 }
 
@@ -3108,9 +2312,7 @@ document
       if (!selectedSchedule)
         return;
 
-
       detailDialog.close();
-
 
       openEditForm(
         selectedSchedule
@@ -3124,23 +2326,18 @@ document
    Edit Form
 ========================================================= */
 
-function openEditForm(
-  schedule
-) {
+function openEditForm(schedule) {
 
   selectedSchedule =
     schedule;
-
 
   const title =
     document.getElementById(
       "dialogTitle"
     );
 
-
   title.dataset.mode =
     "edit";
-
 
   title.textContent =
     isMobile()
@@ -3153,24 +2350,20 @@ function openEditForm(
   ).value =
     schedule.league || "";
 
-
   document.getElementById(
     "fortress"
   ).value =
     schedule.fortress;
-
 
   document.getElementById(
     "coordinateX"
   ).value =
     schedule.x;
 
-
   document.getElementById(
     "coordinateY"
   ).value =
     schedule.y;
-
 
   document.getElementById(
     "guild"
@@ -3195,13 +2388,11 @@ function openEditForm(
     start.toISOString()
       .slice(0, 10);
 
-
   document.getElementById(
     "startGMT"
   ).value =
     start.toISOString()
       .slice(11, 16);
-
 
   document.getElementById(
     "startJST"
@@ -3215,13 +2406,11 @@ function openEditForm(
     end.toISOString()
       .slice(0, 10);
 
-
   document.getElementById(
     "endGMT"
   ).value =
     end.toISOString()
       .slice(11, 16);
-
 
   document.getElementById(
     "endJST"
@@ -3252,19 +2441,18 @@ function openEditForm(
 }
 
 
-function formatTimeJST(
-  date
-) {
+function formatTimeJST(date) {
 
-  return date.toLocaleTimeString(
-    "en-GB",
-    {
-      timeZone: "Asia/Tokyo",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false
-    }
-  );
+  return date
+    .toLocaleTimeString(
+      "en-GB",
+      {
+        timeZone: "Asia/Tokyo",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false
+      }
+    );
 
 }
 
@@ -3284,14 +2472,12 @@ document
       if (!selectedSchedule)
         return;
 
-
       if (
         selectedSchedule.creatorId
         !==
         creatorId
       )
         return;
-
 
       if (
         !confirm(
@@ -3302,13 +2488,11 @@ document
       )
         return;
 
-
       try {
 
         await deleteSchedule(
           selectedSchedule.id
         );
-
 
         await loadSchedules();
 
@@ -3318,7 +2502,9 @@ document
 
       catch (error) {
 
-        console.error(error);
+        console.error(
+          error
+        );
 
         alert(
           isMobile()
@@ -3432,11 +2618,7 @@ const endJST =
   );
 
 
-if (
-  startGMT
-  &&
-  startJST
-) {
+if (startGMT && startJST) {
 
   startGMT.addEventListener(
     "input",
@@ -3446,7 +2628,6 @@ if (
         startJST
       )
   );
-
 
   startJST.addEventListener(
     "input",
@@ -3460,11 +2641,7 @@ if (
 }
 
 
-if (
-  endGMT
-  &&
-  endJST
-) {
+if (endGMT && endJST) {
 
   endGMT.addEventListener(
     "input",
@@ -3474,7 +2651,6 @@ if (
         endJST
       )
   );
-
 
   endJST.addEventListener(
     "input",
@@ -3486,6 +2662,711 @@ if (
   );
 
 }
+
+
+/* =========================================================
+   Guild Summary
+========================================================= */
+
+
+/*
+  Calculate total event duration in days
+*/
+
+function getEventDays() {
+
+  const start =
+    new Date(
+      `${event.start}T00:00:00Z`
+    );
+
+  const end =
+    new Date(
+      `${event.end}T23:59:59Z`
+    );
+
+  const milliseconds =
+    end - start;
+
+  return Math.ceil(
+    milliseconds
+    /
+    (24 * 60 * 60 * 1000)
+  );
+
+}
+
+
+/*
+  Calculate occupation duration.
+
+  Schedule time outside event range
+  is clipped automatically.
+*/
+
+function getOccupationDays(schedule) {
+
+  const eventStart =
+    new Date(
+      `${event.start}T00:00:00Z`
+    );
+
+  const eventEnd =
+    new Date(
+      `${event.end}T23:59:59Z`
+    );
+
+  let start =
+    new Date(
+      schedule.start
+    );
+
+  let end =
+    new Date(
+      schedule.end
+    );
+
+  if (start < eventStart) {
+
+    start =
+      eventStart;
+
+  }
+
+  if (end > eventEnd) {
+
+    end =
+      eventEnd;
+
+  }
+
+  if (end <= start)
+    return 0;
+
+  return (
+    end - start
+  )
+  /
+  (24 * 60 * 60 * 1000);
+
+}
+
+
+/*
+  Aggregate schedules by guild.
+*/
+
+function buildGuildSummary() {
+
+  const guilds = {};
+
+
+  schedules.forEach(
+    schedule => {
+
+      /*
+        Lv1-3 are intentionally excluded
+        from the occupation summary.
+      */
+
+      if (
+        !SUMMARY_LEVELS.includes(
+          schedule.fortress
+        )
+      ) {
+        return;
+      }
+
+
+      const guildName =
+        schedule.guild
+        ||
+        "Unknown";
+
+      if (!guilds[guildName]) {
+
+        guilds[guildName] = {
+
+          guild:
+            guildName,
+
+          league:
+            schedule.league || "—",
+
+          levels: {
+
+            Lv4: {
+              count: 0,
+              days: 0
+            },
+
+            Lv5: {
+              count: 0,
+              days: 0
+            },
+
+            Lv6: {
+              count: 0,
+              days: 0
+            },
+
+            Lv7: {
+              count: 0,
+              days: 0
+            }
+
+          }
+
+        };
+
+      }
+
+
+      /*
+        Update league if available.
+      */
+
+      if (
+        schedule.league
+      ) {
+
+        guilds[guildName].league =
+          schedule.league;
+
+      }
+
+
+      guilds[guildName]
+        .levels[
+          schedule.fortress
+        ]
+        .count += 1;
+
+
+      guilds[guildName]
+        .levels[
+          schedule.fortress
+        ]
+        .days +=
+          getOccupationDays(
+            schedule
+          );
+
+    }
+  );
+
+
+  return Object.values(
+    guilds
+  );
+
+}
+
+
+/* =========================================================
+   Summary Cell Status
+========================================================= */
+
+function getCellStatus(
+  count,
+  days
+) {
+
+  const eventDays =
+    getEventDays();
+
+
+  /*
+    Restriction:
+    3 or more fortresses
+  */
+
+  if (
+    count >= RESTRICTION_COUNT
+  ) {
+
+    return "restricted";
+
+  }
+
+
+  /*
+    Warning:
+    2 fortresses
+  */
+
+  if (
+    count >= WARNING_COUNT
+  ) {
+
+    return "warning";
+
+  }
+
+
+  /*
+    No schedule
+  */
+
+  if (
+    count === 0
+  ) {
+
+    return "empty";
+
+  }
+
+
+  /*
+    Average occupation target
+
+    Current base:
+    1 fortress × event days
+
+    If occupation is significantly above
+    the standard average, warning.
+  */
+
+  const ratio =
+    days / eventDays;
+
+  if (
+    ratio
+    >
+    ALLIANCE_STANDARD
+  ) {
+
+    return "warning";
+
+  }
+
+
+  if (
+    ratio
+    <
+    AVERAGE_TOLERANCE
+  ) {
+
+    return "low";
+
+  }
+
+
+  return "normal";
+
+}
+
+
+/* =========================================================
+   Total Status
+========================================================= */
+
+function getTotalStatus(total) {
+
+  if (
+    total
+    >
+    TOTAL_FORTRESS_LIMIT
+  ) {
+
+    return "restricted";
+
+  }
+
+  return "normal";
+
+}
+
+
+/* =========================================================
+   Format Summary Value
+========================================================= */
+
+function formatSummaryValue(data) {
+
+  const days =
+    Math.round(
+      data.days
+    );
+
+  return `${data.count} [${days} days]`;
+
+}
+
+
+/* =========================================================
+   Render Guild Summary
+========================================================= */
+
+function renderGuildSummary() {
+
+  const tbody =
+    document.querySelector(
+      "#guildSummaryTable tbody"
+    );
+
+  const currentContainer =
+    document.getElementById(
+      "currentGuildSummary"
+    );
+
+  if (!tbody || !currentContainer)
+    return;
+
+
+  tbody.innerHTML = "";
+
+  const guildData =
+    buildGuildSummary();
+
+
+  /*
+    Full table
+  */
+
+  guildData
+    .sort(
+      (a, b) =>
+        a.guild.localeCompare(
+          b.guild
+        )
+    )
+    .forEach(
+      guild => {
+
+        const row =
+          document.createElement(
+            "tr"
+          );
+
+
+        const guildCell =
+          document.createElement(
+            "td"
+          );
+
+        guildCell.textContent =
+          guild.guild;
+
+        row.appendChild(
+          guildCell
+        );
+
+
+        const leagueCell =
+          document.createElement(
+            "td"
+          );
+
+        leagueCell.textContent =
+          guild.league;
+
+        row.appendChild(
+          leagueCell
+        );
+
+
+        let totalCount = 0;
+
+        let totalDays = 0;
+
+
+        SUMMARY_LEVELS.forEach(
+          level => {
+
+            const data =
+              guild.levels[level];
+
+            totalCount +=
+              data.count;
+
+            totalDays +=
+              data.days;
+
+
+            const cell =
+              document.createElement(
+                "td"
+              );
+
+            const status =
+              getCellStatus(
+                data.count,
+                data.days
+              );
+
+            cell.className =
+              `summary-status-${status}`;
+
+            cell.textContent =
+              formatSummaryValue(
+                data
+              );
+
+            row.appendChild(
+              cell
+            );
+
+          }
+        );
+
+
+        const totalCell =
+          document.createElement(
+            "td"
+          );
+
+        const totalStatus =
+          getTotalStatus(
+            totalCount
+          );
+
+        totalCell.className =
+          `summary-status-${totalStatus}`;
+
+        totalCell.textContent =
+          `${totalCount} [${Math.round(
+            totalDays
+          )} days]`;
+
+        row.appendChild(
+          totalCell
+        );
+
+
+        tbody.appendChild(
+          row
+        );
+
+      }
+    );
+
+
+  /*
+    Collapsed current guild
+  */
+
+  currentContainer.innerHTML =
+    "";
+
+
+  let selectedGuildData =
+    guildData.find(
+      guild =>
+        guild.guild
+        ===
+        currentGuild
+    );
+
+
+  /*
+    If this device has no current guild yet,
+    show first available guild.
+  */
+
+  if (
+    !selectedGuildData
+    &&
+    guildData.length > 0
+  ) {
+
+    selectedGuildData =
+      guildData[0];
+
+  }
+
+
+  if (!selectedGuildData) {
+
+    currentContainer.innerHTML =
+      `
+        <div class="summary-empty">
+          No occupation data
+        </div>
+      `;
+
+    return;
+
+  }
+
+
+  const card =
+    document.createElement(
+      "div"
+    );
+
+  card.className =
+    "current-guild-card";
+
+
+  const title =
+    document.createElement(
+      "div"
+    );
+
+  title.className =
+    "current-guild-name";
+
+  title.textContent =
+    `${selectedGuildData.guild} / ${selectedGuildData.league}`;
+
+  card.appendChild(
+    title
+  );
+
+
+  const stats =
+    document.createElement(
+      "div"
+    );
+
+  stats.className =
+    "current-guild-stats";
+
+
+  let totalCount = 0;
+
+  let totalDays = 0;
+
+
+  SUMMARY_LEVELS.forEach(
+    level => {
+
+      const data =
+        selectedGuildData.levels[
+          level
+        ];
+
+      totalCount +=
+        data.count;
+
+      totalDays +=
+        data.days;
+
+
+      const item =
+        document.createElement(
+          "div"
+        );
+
+      item.className =
+        "current-guild-stat";
+
+      const status =
+        getCellStatus(
+          data.count,
+          data.days
+        );
+
+      item.classList.add(
+        `summary-status-${status}`
+      );
+
+      item.innerHTML =
+        `
+          <span class="stat-level">
+            ${level}
+          </span>
+
+          <span class="stat-value">
+            ${formatSummaryValue(data)}
+          </span>
+        `;
+
+      stats.appendChild(
+        item
+      );
+
+    }
+  );
+
+
+  const totalItem =
+    document.createElement(
+      "div"
+    );
+
+  totalItem.className =
+    "current-guild-stat total-stat";
+
+  totalItem.classList.add(
+    `summary-status-${getTotalStatus(
+      totalCount
+    )}`
+  );
+
+  totalItem.innerHTML =
+    `
+      <span class="stat-level">
+        Total
+      </span>
+
+      <span class="stat-value">
+        ${totalCount} [${Math.round(
+          totalDays
+        )} days]
+      </span>
+    `;
+
+  stats.appendChild(
+    totalItem
+  );
+
+
+  card.appendChild(
+    stats
+  );
+
+  currentContainer.appendChild(
+    card
+  );
+
+}
+
+
+/* =========================================================
+   Summary Toggle
+========================================================= */
+
+const guildSummaryToggle =
+  document.getElementById(
+    "guildSummaryToggle"
+  );
+
+const guildSummaryPanel =
+  document.getElementById(
+    "guildSummaryPanel"
+  );
+
+
+if (
+  guildSummaryToggle
+  &&
+  guildSummaryPanel
+) {
+
+  guildSummaryToggle.addEventListener(
+    "click",
+    () => {
+
+      guildSummaryPanel.classList.toggle(
+        "expanded"
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   Current Time Timer
+========================================================= */
+
+setInterval(
+  updateCurrentTime,
+  1000
+);
 
 
 /* =========================================================
