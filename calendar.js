@@ -10,8 +10,10 @@
 const SUPABASE_URL =
   "https://pvppgvjhfslizkudjxru.supabase.co";
 
+
 const SUPABASE_ANON_KEY =
   "sb_publishable_R9RKZAlPhesQKiiwnEq84A_s88z57bk";
+
 
 const supabaseClient =
   window.supabase.createClient(
@@ -20,11 +22,13 @@ const supabaseClient =
   );
 
 
+
 /* =========================================================
    State
 ========================================================= */
 
 let schedules = [];
+
 
 let currentMonth =
   new Date(
@@ -33,7 +37,82 @@ let currentMonth =
     1
   );
 
+
 let selectedSchedule = null;
+
+
+/*
+  Fortress Summary
+*/
+
+let summaryExpanded = false;
+
+
+
+/* =========================================================
+   Fortress Rules
+========================================================= */
+
+/*
+  Alliance target ownership.
+
+  1 = Normal
+  2 = Warning
+  3+ = Restricted
+*/
+
+const ALLIANCE_TARGET = 1;
+
+const ALLIANCE_WARNING = 2;
+
+const ALLIANCE_RESTRICTED = 3;
+
+
+/*
+  Maximum total fortresses
+  per guild.
+*/
+
+const GUILD_TOTAL_LIMIT = 6;
+
+
+/*
+  Physical fortress count.
+
+  Change these numbers when
+  the event rules are confirmed.
+*/
+
+const FORTRESS_LIMITS = {
+
+  Lv4: 7,
+
+  Lv5: 4,
+
+  Lv6: 4,
+
+  Lv7: 1
+
+};
+
+
+/*
+  League restrictions.
+
+  null means no restriction.
+*/
+
+const FORTRESS_LEAGUE_RULES = {
+
+  Lv4: null,
+
+  Lv5: "Bronze",
+
+  Lv6: "Silver",
+
+  Lv7: "Gold"
+
+};
 
 
 /* =========================================================
@@ -41,15 +120,25 @@ let selectedSchedule = null;
 ========================================================= */
 
 const SCHEDULE_COLORS = [
+
   "#00FFFF",
+
   "#FF00FF",
+
   "#02FF00",
+
   "#0000FF",
+
   "#FE0000",
+
   "#FFFF00",
+
   "#000000",
+
   "#FFFFFF"
+
 ];
+
 
 
 /* =========================================================
@@ -57,9 +146,13 @@ const SCHEDULE_COLORS = [
 ========================================================= */
 
 const event = {
+
   start: "2026-08-01",
+
   end: "2026-09-25"
+
 };
+
 
 
 /* =========================================================
@@ -67,12 +160,16 @@ const event = {
 ========================================================= */
 
 let creatorId =
-  localStorage.getItem("s222_creator_id");
+  localStorage.getItem(
+    "s222_creator_id"
+  );
+
 
 if (!creatorId) {
 
   creatorId =
     crypto.randomUUID();
+
 
   localStorage.setItem(
     "s222_creator_id",
@@ -82,33 +179,94 @@ if (!creatorId) {
 }
 
 
+
 /* =========================================================
    DOM
 ========================================================= */
 
 const calendar =
-  document.getElementById("calendar");
+  document.getElementById(
+    "calendar"
+  );
+
 
 const calendarWrapper =
-  document.getElementById("calendarWrapper");
+  document.getElementById(
+    "calendarWrapper"
+  );
+
 
 const monthTitle =
-  document.getElementById("monthTitle");
+  document.getElementById(
+    "monthTitle"
+  );
+
 
 const eventPeriod =
-  document.getElementById("event-period");
+  document.getElementById(
+    "event-period"
+  );
+
 
 const weekdayHeader =
-  document.getElementById("weekdayHeader");
+  document.getElementById(
+    "weekdayHeader"
+  );
+
 
 const dialog =
-  document.getElementById("scheduleDialog");
+  document.getElementById(
+    "scheduleDialog"
+  );
+
 
 const form =
-  document.getElementById("scheduleForm");
+  document.getElementById(
+    "scheduleForm"
+  );
+
 
 const detailDialog =
-  document.getElementById("detailDialog");
+  document.getElementById(
+    "detailDialog"
+  );
+
+
+const fortressSummary =
+  document.getElementById(
+    "fortressSummary"
+  );
+
+
+const summaryToggle =
+  document.getElementById(
+    "summaryToggle"
+  );
+
+
+const summaryContent =
+  document.getElementById(
+    "summaryContent"
+  );
+
+
+const summaryPreview =
+  document.getElementById(
+    "summaryPreview"
+  );
+
+
+const summaryArrow =
+  document.getElementById(
+    "summaryArrow"
+  );
+
+
+const fortressSummaryBody =
+  document.getElementById(
+    "fortressSummaryBody"
+  );
+
 
 
 /* =========================================================
@@ -122,31 +280,46 @@ function isMobile() {
 }
 
 
+
 /* =========================================================
    Helpers
 ========================================================= */
 
-function formatDate(date) {
+function formatDate(
+  date
+) {
 
   const y =
     date.getFullYear();
 
+
   const m =
     String(
       date.getMonth() + 1
-    ).padStart(2, "0");
+    ).padStart(
+      2,
+      "0"
+    );
+
 
   const d =
     String(
       date.getDate()
-    ).padStart(2, "0");
+    ).padStart(
+      2,
+      "0"
+    );
+
 
   return `${y}-${m}-${d}`;
 
 }
 
 
-function fortressIcon(level) {
+
+function fortressIcon(
+  level
+) {
 
   switch (level) {
 
@@ -159,19 +332,25 @@ function fortressIcon(level) {
     case "Lv5":
       return "🟡";
 
-    default:
+    case "Lv4":
       return "🟢";
+
+    default:
+      return "⚪";
 
   }
 
 }
 
 
+
 /* =========================================================
    Default Schedule Color
 ========================================================= */
 
-function defaultColor(level) {
+function defaultColor(
+  level
+) {
 
   switch (level) {
 
@@ -184,12 +363,684 @@ function defaultColor(level) {
     case "Lv5":
       return "#FFFF00";
 
+    case "Lv4":
+      return "#02FF00";
+
     default:
       return "#02FF00";
 
   }
 
 }
+
+
+
+/* =========================================================
+   Fortress Summary
+========================================================= */
+
+function getCreatorGuild() {
+
+  const creatorSchedules =
+    schedules.filter(
+      schedule =>
+        schedule.creatorId === creatorId
+    );
+
+
+  if (
+    creatorSchedules.length === 0
+  ) {
+
+    return null;
+
+  }
+
+
+  /*
+    Use the latest registered guild.
+
+    This allows a user who edits
+    schedules later to remain linked
+    to the current guild.
+  */
+
+  return creatorSchedules[
+    creatorSchedules.length - 1
+  ].guild;
+
+}
+
+
+
+function getGuildLeague(
+  guildSchedules
+) {
+
+  if (
+    guildSchedules.length === 0
+  ) {
+
+    return "—";
+
+  }
+
+
+  const leagueCount = {};
+
+
+  guildSchedules.forEach(
+    schedule => {
+
+      const league =
+        schedule.league || "—";
+
+
+      leagueCount[league] =
+        (
+          leagueCount[league]
+          || 0
+        )
+        + 1;
+
+    }
+  );
+
+
+  return Object
+    .entries(
+      leagueCount
+    )
+    .sort(
+      (
+        a,
+        b
+      ) =>
+        b[1] - a[1]
+    )[0][0];
+
+}
+
+
+
+function getFortressStatus(
+  count
+) {
+
+  if (
+    count >= ALLIANCE_RESTRICTED
+  ) {
+
+    return "restricted";
+
+  }
+
+
+  if (
+    count >= ALLIANCE_WARNING
+  ) {
+
+    return "warning";
+
+  }
+
+
+  return "normal";
+
+}
+
+
+
+function getTotalStatus(
+  total
+) {
+
+  if (
+    total > GUILD_TOTAL_LIMIT
+  ) {
+
+    return "restricted";
+
+  }
+
+
+  if (
+    total === GUILD_TOTAL_LIMIT
+  ) {
+
+    return "warning";
+
+  }
+
+
+  return "normal";
+
+}
+
+
+
+function getLeagueStatus(
+  level,
+  league
+) {
+
+  const requiredLeague =
+    FORTRESS_LEAGUE_RULES[level];
+
+
+  if (
+    !requiredLeague
+  ) {
+
+    return "normal";
+
+  }
+
+
+  return league === requiredLeague
+    ? "normal"
+    : "restricted";
+
+}
+
+
+
+/* =========================================================
+   Summary Data
+========================================================= */
+
+function buildSummaryData() {
+
+  const guildMap =
+    new Map();
+
+
+  schedules.forEach(
+    schedule => {
+
+      if (
+        !guildMap.has(
+          schedule.guild
+        )
+      ) {
+
+        guildMap.set(
+          schedule.guild,
+          []
+        );
+
+      }
+
+
+      guildMap
+        .get(
+          schedule.guild
+        )
+        .push(
+          schedule
+        );
+
+    }
+  );
+
+
+  const rows = [];
+
+
+  guildMap.forEach(
+    (
+      guildSchedules,
+      guild
+    ) => {
+
+      const counts = {
+
+        Lv4: 0,
+
+        Lv5: 0,
+
+        Lv6: 0,
+
+        Lv7: 0
+
+      };
+
+
+      guildSchedules.forEach(
+        schedule => {
+
+          if (
+            counts.hasOwnProperty(
+              schedule.fortress
+            )
+          ) {
+
+            counts[
+              schedule.fortress
+            ]++;
+
+          }
+
+        }
+      );
+
+
+      const total =
+        counts.Lv4
+        +
+        counts.Lv5
+        +
+        counts.Lv6
+        +
+        counts.Lv7;
+
+
+      rows.push({
+
+        guild,
+
+        league:
+          getGuildLeague(
+            guildSchedules
+          ),
+
+        counts,
+
+        total
+
+      });
+
+    }
+  );
+
+
+  rows.sort(
+    (
+      a,
+      b
+    ) =>
+      a.guild.localeCompare(
+        b.guild
+      )
+  );
+
+
+  return rows;
+
+}
+
+
+
+/* =========================================================
+   Global Fortress Count
+========================================================= */
+
+function getGlobalFortressCounts() {
+
+  const counts = {
+
+    Lv4: 0,
+
+    Lv5: 0,
+
+    Lv6: 0,
+
+    Lv7: 0
+
+  };
+
+
+  schedules.forEach(
+    schedule => {
+
+      if (
+        counts.hasOwnProperty(
+          schedule.fortress
+        )
+      ) {
+
+        counts[
+          schedule.fortress
+        ]++;
+
+      }
+
+    }
+  );
+
+
+  return counts;
+
+}
+
+
+
+/* =========================================================
+   Render Fortress Summary
+========================================================= */
+
+function renderFortressSummary() {
+
+  if (
+    !fortressSummaryBody
+  ) {
+
+    return;
+
+  }
+
+
+  const rows =
+    buildSummaryData();
+
+
+  const creatorGuild =
+    getCreatorGuild();
+
+
+  const globalCounts =
+    getGlobalFortressCounts();
+
+
+  fortressSummaryBody.innerHTML =
+    "";
+
+
+  rows.forEach(
+    row => {
+
+      const tr =
+        document.createElement(
+          "tr"
+        );
+
+
+      if (
+        row.guild === creatorGuild
+      ) {
+
+        tr.classList.add(
+          "summary-own-guild"
+        );
+
+      }
+
+
+      const guildCell =
+        document.createElement(
+          "td"
+        );
+
+
+      guildCell.textContent =
+        row.guild;
+
+
+      tr.appendChild(
+        guildCell
+      );
+
+
+      const leagueCell =
+        document.createElement(
+          "td"
+        );
+
+
+      leagueCell.textContent =
+        row.league;
+
+
+      tr.appendChild(
+        leagueCell
+      );
+
+
+      [
+        "Lv4",
+        "Lv5",
+        "Lv6",
+        "Lv7"
+      ].forEach(
+        level => {
+
+          const td =
+            document.createElement(
+              "td"
+            );
+
+
+          const count =
+            row.counts[level];
+
+
+          const status =
+            getFortressStatus(
+              count
+            );
+
+
+          td.textContent =
+            count;
+
+
+          td.classList.add(
+            "summary-count",
+            `status-${status}`
+          );
+
+
+          /*
+            League mismatch
+          */
+
+          const leagueStatus =
+            getLeagueStatus(
+              level,
+              row.league
+            );
+
+
+          if (
+            leagueStatus
+            ===
+            "restricted"
+            &&
+            count > 0
+          ) {
+
+            td.classList.remove(
+              "status-normal",
+              "status-warning"
+            );
+
+
+            td.classList.add(
+              "status-restricted"
+            );
+
+          }
+
+
+          tr.appendChild(
+            td
+          );
+
+        }
+      );
+
+
+      const totalCell =
+        document.createElement(
+          "td"
+        );
+
+
+      totalCell.textContent =
+        row.total;
+
+
+      totalCell.classList.add(
+        "summary-count",
+        `status-${getTotalStatus(
+          row.total
+        )}`
+      );
+
+
+      tr.appendChild(
+        totalCell
+      );
+
+
+      fortressSummaryBody.appendChild(
+        tr
+      );
+
+    }
+  );
+
+
+  /*
+    Preview
+  */
+
+  if (
+    !creatorGuild
+  ) {
+
+    summaryPreview.textContent =
+      isMobile()
+        ? "予定を登録すると表示"
+        : "Add a schedule to view your guild summary";
+
+
+    return;
+
+  }
+
+
+  const ownRow =
+    rows.find(
+      row =>
+        row.guild === creatorGuild
+    );
+
+
+  if (
+    !ownRow
+  ) {
+
+    return;
+
+  }
+
+
+  summaryPreview.innerHTML =
+    `
+      <strong>
+        ${escapeHTML(
+          ownRow.guild
+        )}
+      </strong>
+
+      <span>
+        ${escapeHTML(
+          ownRow.league
+        )}
+      </span>
+
+      <span>
+        Lv4 ${ownRow.counts.Lv4}
+      </span>
+
+      <span>
+        Lv5 ${ownRow.counts.Lv5}
+      </span>
+
+      <span>
+        Lv6 ${ownRow.counts.Lv6}
+      </span>
+
+      <span>
+        Lv7 ${ownRow.counts.Lv7}
+      </span>
+
+      <span>
+        Total ${ownRow.total}
+      </span>
+    `;
+
+
+  /*
+    Global physical limit check
+  */
+
+  Object.entries(
+    globalCounts
+  ).forEach(
+    ([
+      level,
+      count
+    ]) => {
+
+      if (
+        count >
+        FORTRESS_LIMITS[level]
+      ) {
+
+        console.warn(
+          `${level} fortress limit exceeded:`,
+          count,
+          "/",
+          FORTRESS_LIMITS[level]
+        );
+
+      }
+
+    }
+  );
+
+}
+
+
+
+/* =========================================================
+   Summary Toggle
+========================================================= */
+
+if (summaryToggle) {
+
+  summaryToggle.addEventListener(
+    "click",
+    () => {
+
+      summaryExpanded =
+        !summaryExpanded;
+
+
+      fortressSummary.classList.toggle(
+        "expanded",
+        summaryExpanded
+      );
+
+
+      fortressSummary.classList.toggle(
+        "collapsed",
+        !summaryExpanded
+      );
+
+
+      summaryArrow.textContent =
+        summaryExpanded
+          ? "▼"
+          : "▲";
+
+    }
+  );
+
+}
+
 
 
 /* =========================================================
@@ -202,6 +1053,7 @@ function setupColorPalette() {
     document.getElementById(
       "scheduleColorPalette"
     );
+
 
   if (!palette)
     return;
@@ -298,6 +1150,7 @@ function setupColorPalette() {
 }
 
 
+
 /* =========================================================
    Selected Color
 ========================================================= */
@@ -327,6 +1180,7 @@ function updateSelectedColor(
 }
 
 
+
 /* =========================================================
    Schedule Text Color
 ========================================================= */
@@ -343,11 +1197,6 @@ function getScheduleTextColor(
     color.toUpperCase()
   ) {
 
-    /*
-      Bright colors
-      → Black text
-    */
-
     case "#00FFFF":
     case "#FF00FF":
     case "#02FF00":
@@ -356,11 +1205,6 @@ function getScheduleTextColor(
 
       return "#111111";
 
-
-    /*
-      Dark colors
-      → White text
-    */
 
     case "#0000FF":
     case "#FE0000":
@@ -376,6 +1220,7 @@ function getScheduleTextColor(
   }
 
 }
+
 
 
 /* =========================================================
@@ -420,13 +1265,22 @@ function updateJST(
   jstInput.value =
     String(
       date.getHours()
-    ).padStart(2, "0")
-    + ":" +
+    ).padStart(
+      2,
+      "0"
+    )
+    +
+    ":"
+    +
     String(
       date.getMinutes()
-    ).padStart(2, "0");
+    ).padStart(
+      2,
+      "0"
+    );
 
 }
+
 
 
 function updateGMT(
@@ -462,71 +1316,39 @@ function updateGMT(
   gmtInput.value =
     String(
       date.getUTCHours()
-    ).padStart(2, "0")
-    + ":" +
+    ).padStart(
+      2,
+      "0"
+    )
+    +
+    ":"
+    +
     String(
       date.getUTCMinutes()
-    ).padStart(2, "0");
+    ).padStart(
+      2,
+      "0"
+    );
 
 }
+
 
 
 /* =========================================================
    Current Time
 ========================================================= */
 
-
 function updateCurrentTime() {
 
   if (!eventPeriod)
     return;
+
 
   eventPeriod.textContent =
     `Event: ${event.start} → ${event.end}`;
 
 }
 
-
-  const now =
-    new Date();
-
-
-  const gmt =
-    now.toLocaleString(
-      "en-GB",
-      {
-        timeZone: "UTC",
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false
-      }
-    );
-
-
-  const jst =
-    now.toLocaleString(
-      "en-GB",
-      {
-        timeZone: "Asia/Tokyo",
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false
-      }
-    );
-
-
-  eventPeriod.textContent =
-    `現在時刻  GMT ${gmt}  /  JST ${jst}`;
-
-}
 
 
 /* =========================================================
@@ -538,8 +1360,6 @@ function updateLanguage() {
   const mobile =
     isMobile();
 
-
-  /* Header */
 
   const title =
     document.querySelector(
@@ -557,8 +1377,6 @@ function updateLanguage() {
   }
 
 
-  /* Add Button */
-
   const addButton =
     document.getElementById(
       "addScheduleBtn"
@@ -575,8 +1393,6 @@ function updateLanguage() {
   }
 
 
-  /* Refresh Button */
-
   const refreshButton =
     document.getElementById(
       "refreshBtn"
@@ -590,8 +1406,6 @@ function updateLanguage() {
 
   }
 
-
-  /* Weekday */
 
   const weekdayCells =
     document.querySelectorAll(
@@ -622,7 +1436,10 @@ function updateLanguage() {
 
 
   weekdayCells.forEach(
-    (cell, index) => {
+    (
+      cell,
+      index
+    ) => {
 
       cell.textContent =
         mobile
@@ -633,8 +1450,6 @@ function updateLanguage() {
   );
 
 
-  /* Dialog */
-
   const dialogTitle =
     document.getElementById(
       "dialogTitle"
@@ -643,115 +1458,18 @@ function updateLanguage() {
 
   if (dialogTitle) {
 
-    if (
+    dialogTitle.textContent =
       dialogTitle.dataset.mode === "edit"
-    ) {
-
-      dialogTitle.textContent =
-        mobile
-          ? "予定を編集"
-          : "Edit Schedule";
-
-    }
-
-    else {
-
-      dialogTitle.textContent =
-        mobile
-          ? "予定を追加"
-          : "Add Schedule";
-
-    }
-
-  }
-
-
-  /* Detail Close */
-
-  const detailClose =
-    document.getElementById(
-      "detailClose"
-    );
-
-
-  if (detailClose) {
-
-    detailClose.textContent =
-      mobile
-        ? "閉じる"
-        : "Close";
-
-  }
-
-
-  /* Edit */
-
-  const editButton =
-    document.getElementById(
-      "editSchedule"
-    );
-
-
-  if (editButton) {
-
-    editButton.textContent =
-      mobile
-        ? "編集"
-        : "Edit";
-
-  }
-
-
-  /* Cancel */
-
-  const cancelButton =
-    document.getElementById(
-      "cancelBtn"
-    );
-
-
-  if (cancelButton) {
-
-    cancelButton.textContent =
-      mobile
-        ? "キャンセル"
-        : "Cancel";
-
-  }
-
-
-  /* Save */
-
-  const saveButton =
-    form?.querySelector(
-      'button[type="submit"]'
-    );
-
-
-  if (saveButton) {
-
-    saveButton.textContent =
-      mobile
-        ? "保存"
-        : "Save";
-
-  }
-
-
-  /* Delete */
-
-  const deleteButton =
-    document.getElementById(
-      "deleteBtn"
-    );
-
-
-  if (deleteButton) {
-
-    deleteButton.textContent =
-      mobile
-        ? "削除"
-        : "Delete";
+        ? (
+          mobile
+            ? "予定を編集"
+            : "Edit Schedule"
+        )
+        : (
+          mobile
+            ? "予定を追加"
+            : "Add Schedule"
+        );
 
   }
 
@@ -759,6 +1477,7 @@ function updateLanguage() {
   updateCurrentTime();
 
 }
+
 
 
 /* =========================================================
@@ -800,6 +1519,7 @@ async function loadSchedules() {
 
     renderCalendar();
 
+    renderFortressSummary();
 
     return;
 
@@ -812,10 +1532,10 @@ async function loadSchedules() {
 
         id:
           schedule.id,
-         
+
         league:
           schedule.league,
-         
+
         fortress:
           schedule.fortress,
 
@@ -849,7 +1569,10 @@ async function loadSchedules() {
 
   renderCalendar();
 
+  renderFortressSummary();
+
 }
+
 
 
 /* =========================================================
@@ -869,10 +1592,10 @@ async function insertSchedule(
 
         id:
           schedule.id,
-         
+
         league:
           schedule.league,
-         
+
         fortress:
           schedule.fortress,
 
@@ -918,6 +1641,7 @@ async function insertSchedule(
 }
 
 
+
 /* =========================================================
    Supabase Update
 ========================================================= */
@@ -933,9 +1657,9 @@ async function updateSchedule(
       .from("schedules")
       .update({
 
-         league:
+        league:
           schedule.league,
-         
+
         fortress:
           schedule.fortress,
 
@@ -985,6 +1709,7 @@ async function updateSchedule(
 }
 
 
+
 /* =========================================================
    Supabase Delete
 ========================================================= */
@@ -1020,6 +1745,7 @@ async function deleteSchedule(
 }
 
 
+
 /* =========================================================
    Calendar
 ========================================================= */
@@ -1036,12 +1762,11 @@ function renderCalendar() {
   monthTitle.textContent =
     `${currentMonth.getFullYear()}/${String(
       currentMonth.getMonth() + 1
-    ).padStart(2, "0")}`;
+    ).padStart(
+      2,
+      "0"
+    )}`;
 
-
-  /* =======================================================
-     Weekday Header
-  ======================================================= */
 
   if (weekdayHeader) {
 
@@ -1101,10 +1826,6 @@ function renderCalendar() {
   }
 
 
-  /* =======================================================
-     Month Range
-  ======================================================= */
-
   const firstDay =
     new Date(
       currentMonth.getFullYear(),
@@ -1139,28 +1860,34 @@ function renderCalendar() {
   calendarEnd.setDate(
     lastDay.getDate()
     +
-    (6 - lastDay.getDay())
+    (
+      6
+      -
+      lastDay.getDay()
+    )
   );
 
 
   let cursor =
-    new Date(calendarStart);
+    new Date(
+      calendarStart
+    );
 
-
-  /* =======================================================
-     Create Weeks
-  ======================================================= */
 
   while (
     cursor <= calendarEnd
   ) {
 
     const weekStart =
-      new Date(cursor);
+      new Date(
+        cursor
+      );
 
 
     const weekEnd =
-      new Date(cursor);
+      new Date(
+        cursor
+      );
 
 
     weekEnd.setDate(
@@ -1202,10 +1929,6 @@ function renderCalendar() {
       "schedule-layer";
 
 
-    /* =====================================================
-       Day Cells
-    ===================================================== */
-
     for (
       let i = 0;
       i < 7;
@@ -1213,7 +1936,9 @@ function renderCalendar() {
     ) {
 
       const date =
-        new Date(weekStart);
+        new Date(
+          weekStart
+        );
 
 
       date.setDate(
@@ -1222,7 +1947,9 @@ function renderCalendar() {
 
 
       const day =
-        createDay(date);
+        createDay(
+          date
+        );
 
 
       dayGrid.appendChild(
@@ -1236,10 +1963,6 @@ function renderCalendar() {
       dayGrid
     );
 
-
-    /* =====================================================
-       Schedules
-    ===================================================== */
 
     const lanes = [];
 
@@ -1275,7 +1998,9 @@ function renderCalendar() {
 
         while (true) {
 
-          if (!lanes[laneIndex]) {
+          if (
+            !lanes[laneIndex]
+          ) {
 
             lanes[laneIndex] = [];
 
@@ -1325,15 +2050,15 @@ function renderCalendar() {
     );
 
 
-    /* =====================================================
-       Week Height
-    ===================================================== */
-
     const scheduleHeight =
       Math.max(
         180,
-        42 +
-        (lanes.length * 34) +
+        42
+        +
+        (
+          lanes.length * 34
+        )
+        +
         10
       );
 
@@ -1364,11 +2089,14 @@ function renderCalendar() {
 }
 
 
+
 /* =========================================================
    Day
 ========================================================= */
 
-function createDay(date) {
+function createDay(
+  date
+) {
 
   const day =
     document.createElement(
@@ -1434,6 +2162,7 @@ function createDay(date) {
 }
 
 
+
 /* =========================================================
    Schedule / Week
 ========================================================= */
@@ -1466,19 +2195,15 @@ function scheduleOverlapsWeek(
     )
   ) {
 
-    console.warn(
-      "Invalid schedule date:",
-      schedule
-    );
-
-
     return false;
 
   }
 
 
   const rangeStart =
-    new Date(weekStart);
+    new Date(
+      weekStart
+    );
 
 
   rangeStart.setHours(
@@ -1490,7 +2215,9 @@ function scheduleOverlapsWeek(
 
 
   const rangeEnd =
-    new Date(weekEnd);
+    new Date(
+      weekEnd
+    );
 
 
   rangeEnd.setDate(
@@ -1513,6 +2240,7 @@ function scheduleOverlapsWeek(
   );
 
 }
+
 
 
 /* =========================================================
@@ -1552,7 +2280,9 @@ function getWeekScheduleSegment(
   }
 
 
-  function getJSTDate(date) {
+  function getJSTDate(
+    date
+  ) {
 
     const parts =
       new Intl.DateTimeFormat(
@@ -1563,7 +2293,9 @@ function getWeekScheduleSegment(
           month: "2-digit",
           day: "2-digit"
         }
-      ).formatToParts(date);
+      ).formatToParts(
+        date
+      );
 
 
     const year =
@@ -1619,22 +2351,40 @@ function getWeekScheduleSegment(
   let startColumn =
     Math.round(
       (
-        startDate -
+        startDate
+        -
         weekStartDate
       )
       /
-      (24 * 60 * 60 * 1000)
+      (
+        24
+        *
+        60
+        *
+        60
+        *
+        1000
+      )
     );
 
 
   let endColumn =
     Math.round(
       (
-        endDate -
+        endDate
+        -
         weekStartDate
       )
       /
-      (24 * 60 * 60 * 1000)
+      (
+        24
+        *
+        60
+        *
+        60
+        *
+        1000
+      )
     );
 
 
@@ -1659,11 +2409,15 @@ function getWeekScheduleSegment(
 
 
   return {
+
     startColumn,
+
     endColumn
+
   };
 
 }
+
 
 
 /* =========================================================
@@ -1698,7 +2452,8 @@ function createSchedule(
 
   const scheduleColor =
     schedule.color
-    || defaultColor(
+    ||
+    defaultColor(
       schedule.fortress
     );
 
@@ -1747,6 +2502,7 @@ function createSchedule(
   return button;
 
 }
+
 
 
 /* =========================================================
@@ -1802,6 +2558,7 @@ function resetForm() {
 }
 
 
+
 /* =========================================================
    Dialog Close
 ========================================================= */
@@ -1828,6 +2585,7 @@ document
   );
 
 
+
 /* =========================================================
    Save
 ========================================================= */
@@ -1843,6 +2601,7 @@ form.addEventListener(
       document.getElementById(
         "league"
       ).value;
+
 
     const fortress =
       document.getElementById(
@@ -1984,6 +2743,32 @@ form.addEventListener(
     }
 
 
+    /*
+      League validation
+    */
+
+    const requiredLeague =
+      FORTRESS_LEAGUE_RULES[
+        fortress
+      ];
+
+
+    if (
+      requiredLeague
+      &&
+      league !== requiredLeague
+    ) {
+
+      error.textContent =
+        isMobile()
+          ? `${fortress}は${requiredLeague}リーグ専用です。`
+          : `${fortress} is restricted to ${requiredLeague} League.`;
+
+      return;
+
+    }
+
+
     const schedule = {
 
       id:
@@ -1992,7 +2777,7 @@ form.addEventListener(
           : crypto.randomUUID(),
 
       league,
-       
+
       fortress,
 
       x,
@@ -2084,6 +2869,7 @@ form.addEventListener(
 );
 
 
+
 /* =========================================================
    Details
 ========================================================= */
@@ -2126,141 +2912,139 @@ function showDetails(
     isMobile();
 
 
-  content.innerHTML = `
+  content.innerHTML =
+    `
 
-    <div class="detail-item">
+      <div class="detail-item">
 
-      <div class="detail-label">
-        ${mobile ? "リーグ" : "Guild VS League"}
-      </div>
+        <div class="detail-label">
+          ${mobile ? "リーグ" : "Guild VS League"}
+        </div>
 
-      <div class="detail-value">
-        ${escapeHTML(
-          schedule.league || "—"
-        )}
-      </div>
-
-    </div>
-
-
-    <div class="detail-item">
-
-      <div class="detail-label">
-        ${mobile ? "要塞" : "Fortress"}
-      </div>
-
-      <div class="detail-value">
-        ${escapeHTML(
-          schedule.fortress
-        )}
-      </div>
-
-    </div>
-
-
-    <div class="detail-item">
-
-      <div class="detail-label">
-        ${mobile ? "座標" : "Coordinate"}
-      </div>
-
-      <div class="detail-value">
-        ${escapeHTML(
-          schedule.x
-        )}:${escapeHTML(
-          schedule.y
-        )}
-      </div>
-
-    </div>
-
-
-    <div class="detail-item">
-
-      <div class="detail-label">
-        ${mobile ? "ギルド" : "Guild"}
-      </div>
-
-      <div class="detail-value">
-        ${escapeHTML(
-          schedule.guild
-        )}
-      </div>
-
-    </div>
-
-
-    <div class="detail-item">
-
-      <div class="detail-label">
-        ${mobile ? "開始" : "Start"}
-      </div>
-
-      <div class="detail-value">
-
-        ${formatGMT(start)}
-        GMT
-
-        <br>
-
-        ${formatJST(start)}
-        JST
+        <div class="detail-value">
+          ${escapeHTML(
+            schedule.league || "—"
+          )}
+        </div>
 
       </div>
 
-    </div>
 
+      <div class="detail-item">
 
-    <div class="detail-item">
+        <div class="detail-label">
+          ${mobile ? "要塞" : "Fortress"}
+        </div>
 
-      <div class="detail-label">
-        ${mobile ? "終了 / 引き渡し予定" : "End / Planned Handover"}
-      </div>
-
-      <div class="detail-value">
-
-        ${formatGMT(end)}
-        GMT
-
-        <br>
-
-        ${formatJST(end)}
-        JST
+        <div class="detail-value">
+          ${escapeHTML(
+            schedule.fortress
+          )}
+        </div>
 
       </div>
 
-    </div>
 
+      <div class="detail-item">
 
-    <div class="detail-item">
+        <div class="detail-label">
+          ${mobile ? "座標" : "Coordinate"}
+        </div>
 
-      <div class="detail-label">
-        ${mobile ? "説明" : "Description"}
+        <div class="detail-value">
+          ${escapeHTML(
+            schedule.x
+          )}:${escapeHTML(
+            schedule.y
+          )}
+        </div>
+
       </div>
 
-      <div class="detail-value">
 
-        ${escapeHTML(
-          schedule.description || "—"
-        )}
+      <div class="detail-item">
+
+        <div class="detail-label">
+          ${mobile ? "ギルド" : "Guild"}
+        </div>
+
+        <div class="detail-value">
+          ${escapeHTML(
+            schedule.guild
+          )}
+        </div>
 
       </div>
 
-    </div>
 
-  `;
+      <div class="detail-item">
+
+        <div class="detail-label">
+          ${mobile ? "開始" : "Start"}
+        </div>
+
+        <div class="detail-value">
+
+          ${formatGMT(start)}
+          GMT
+
+          <br>
+
+          ${formatJST(start)}
+          JST
+
+        </div>
+
+      </div>
 
 
-  /*
-    8色パレット
-  */
+      <div class="detail-item">
+
+        <div class="detail-label">
+          ${mobile ? "終了 / 引き渡し予定" : "End / Planned Handover"}
+        </div>
+
+        <div class="detail-value">
+
+          ${formatGMT(end)}
+          GMT
+
+          <br>
+
+          ${formatJST(end)}
+          JST
+
+        </div>
+
+      </div>
+
+
+      <div class="detail-item">
+
+        <div class="detail-label">
+          ${mobile ? "説明" : "Description"}
+        </div>
+
+        <div class="detail-value">
+
+          ${escapeHTML(
+            schedule.description || "—"
+          )}
+
+        </div>
+
+      </div>
+
+    `;
+
 
   setupColorPalette();
 
 
   updateSelectedColor(
     schedule.color
-    || defaultColor(
+    ||
+    defaultColor(
       schedule.fortress
     )
   );
@@ -2269,9 +3053,7 @@ function showDetails(
   document.getElementById(
     "editSchedule"
   ).style.display =
-    schedule.creatorId
-    ===
-    creatorId
+    schedule.creatorId === creatorId
       ? "inline-block"
       : "none";
 
@@ -2279,6 +3061,7 @@ function showDetails(
   detailDialog.showModal();
 
 }
+
 
 
 /* =========================================================
@@ -2289,111 +3072,113 @@ function formatGMT(
   date
 ) {
 
-  return date
-    .toLocaleString(
-      "en-GB",
-      {
+  return date.toLocaleString(
+    "en-GB",
+    {
 
-        timeZone:
-          "UTC",
+      timeZone:
+        "UTC",
 
-        year:
-          "numeric",
+      year:
+        "numeric",
 
-        month:
-          "2-digit",
+      month:
+        "2-digit",
 
-        day:
-          "2-digit",
+      day:
+        "2-digit",
 
-        hour:
-          "2-digit",
+      hour:
+        "2-digit",
 
-        minute:
-          "2-digit",
+      minute:
+        "2-digit",
 
-        hour12:
-          false
+      hour12:
+        false
 
-      }
-    );
+    }
+  );
 
 }
+
 
 
 function formatJST(
   date
 ) {
 
-  return date
-    .toLocaleString(
-      "en-GB",
-      {
+  return date.toLocaleString(
+    "en-GB",
+    {
 
-        timeZone:
-          "Asia/Tokyo",
+      timeZone:
+        "Asia/Tokyo",
 
-        year:
-          "numeric",
+      year:
+        "numeric",
 
-        month:
-          "2-digit",
+      month:
+        "2-digit",
 
-        day:
-          "2-digit",
+      day:
+        "2-digit",
 
-        hour:
-          "2-digit",
+      hour:
+        "2-digit",
 
-        minute:
-          "2-digit",
+      minute:
+        "2-digit",
 
-        hour12:
-          false
+      hour12:
+        false
 
-      }
-    );
+    }
+  );
 
 }
+
 
 
 function escapeHTML(
   text
 ) {
 
-  return String(text)
-    .replace(
-      /[&<>"']/g,
-      character => {
+  return String(
+    text
+  ).replace(
+    /[&<>"']/g,
+    character => {
 
-        const map = {
+      const map = {
 
-          "&":
-            "&amp;",
+        "&":
+          "&amp;",
 
-          "<":
-            "&lt;",
+        "<":
+          "&lt;",
 
-          ">":
-            "&gt;",
+        ">":
+          "&gt;",
 
-          '"':
-            "&quot;",
+        '"':
+          "&quot;",
 
-          "'":
-            "&#039;"
+        "'":
+          "&#039;"
 
-        };
+      };
 
 
-        return map[
-          character
-        ];
+      return map[
+        character
+      ];
 
-      }
-    );
+    }
+  );
 
 }
+
 
 
 /* =========================================================
@@ -2445,6 +3230,7 @@ document
   );
 
 
+
 /* =========================================================
    Edit Form
 ========================================================= */
@@ -2477,7 +3263,8 @@ function openEditForm(
     "league"
   ).value =
     schedule.league || "";
-   
+
+
   document.getElementById(
     "fortress"
   ).value =
@@ -2518,40 +3305,56 @@ function openEditForm(
     "startDate"
   ).value =
     start.toISOString()
-      .slice(0, 10);
+      .slice(
+        0,
+        10
+      );
 
 
   document.getElementById(
     "startGMT"
   ).value =
     start.toISOString()
-      .slice(11, 16);
+      .slice(
+        11,
+        16
+      );
 
 
   document.getElementById(
     "startJST"
   ).value =
-    formatTimeJST(start);
+    formatTimeJST(
+      start
+    );
 
 
   document.getElementById(
     "endDate"
   ).value =
     end.toISOString()
-      .slice(0, 10);
+      .slice(
+        0,
+        10
+      );
 
 
   document.getElementById(
     "endGMT"
   ).value =
     end.toISOString()
-      .slice(11, 16);
+      .slice(
+        11,
+        16
+      );
 
 
   document.getElementById(
     "endJST"
   ).value =
-    formatTimeJST(end);
+    formatTimeJST(
+      end
+    );
 
 
   document.getElementById(
@@ -2577,31 +3380,32 @@ function openEditForm(
 }
 
 
+
 function formatTimeJST(
   date
 ) {
 
-  return date
-    .toLocaleTimeString(
-      "en-GB",
-      {
+  return date.toLocaleTimeString(
+    "en-GB",
+    {
 
-        timeZone:
-          "Asia/Tokyo",
+      timeZone:
+        "Asia/Tokyo",
 
-        hour:
-          "2-digit",
+      hour:
+        "2-digit",
 
-        minute:
-          "2-digit",
+      minute:
+        "2-digit",
 
-        hour12:
-          false
+      hour12:
+        false
 
-      }
-    );
+    }
+  );
 
 }
+
 
 
 /* =========================================================
@@ -2671,6 +3475,7 @@ document
   );
 
 
+
 /* =========================================================
    Month Navigation
 ========================================================= */
@@ -2719,6 +3524,7 @@ document
   );
 
 
+
 /* =========================================================
    Refresh
 ========================================================= */
@@ -2734,6 +3540,7 @@ document
   );
 
 
+
 /* =========================================================
    Resize
 ========================================================= */
@@ -2744,8 +3551,11 @@ window.addEventListener(
 
     updateLanguage();
 
+    renderFortressSummary();
+
   }
 );
+
 
 
 /* =========================================================
@@ -2776,7 +3586,11 @@ const endJST =
   );
 
 
-if (startGMT && startJST) {
+if (
+  startGMT
+  &&
+  startJST
+) {
 
   startGMT.addEventListener(
     "input",
@@ -2800,7 +3614,11 @@ if (startGMT && startJST) {
 }
 
 
-if (endGMT && endJST) {
+if (
+  endGMT
+  &&
+  endJST
+) {
 
   endGMT.addEventListener(
     "input",
@@ -2823,15 +3641,6 @@ if (endGMT && endJST) {
 
 }
 
-
-/* =========================================================
-   Current Time Timer
-========================================================= */
-
-setInterval(
-  updateCurrentTime,
-  1000
-);
 
 
 /* =========================================================
