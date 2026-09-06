@@ -557,6 +557,38 @@ button {
   color: #222;
 }
 
+/* =========================================================
+   Summary Column Width
+========================================================= */
+
+#summaryTable th:nth-child(1),
+#summaryTable td:nth-child(1) {
+  width: 26%;
+}
+
+#summaryTable th:nth-child(2),
+#summaryTable td:nth-child(2) {
+  width: 10%;
+}
+
+#summaryTable th:nth-child(3),
+#summaryTable td:nth-child(3),
+#summaryTable th:nth-child(4),
+#summaryTable td:nth-child(4),
+#summaryTable th:nth-child(5),
+#summaryTable td:nth-child(5),
+#summaryTable th:nth-child(6),
+#summaryTable td:nth-child(6) {
+  width: 12%;
+}
+
+#summaryTable th:nth-child(7),
+#summaryTable td:nth-child(7) {
+  width: 16%;
+}
+
+
+
 #summaryTable th,
 #summaryTable td {
   border:
@@ -1212,4 +1244,35 @@ legend {
     font-size: 13px;
   }
 
+}
+
+
+/* League right double border */
+
+#summaryTable th:nth-child(2),
+#summaryTable td:nth-child(2) {
+  border-right:
+    3px double #7f7f7f;
+}
+
+
+/* Total left double border */
+
+#summaryTable th:nth-child(7),
+#summaryTable td:nth-child(7) {
+  border-left:
+    3px double #7f7f7f;
+}
+
+/* Alliance Total */
+
+.summary-total-row td {
+  border-top:
+    2px solid #7f7f7f;
+
+  border-right: none !important;
+
+  border-bottom: none !important;
+
+  border-left: none !important;
 }
