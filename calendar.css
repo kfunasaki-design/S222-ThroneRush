@@ -1247,28 +1247,46 @@ legend {
 }
 
 
-/* League right double border */
+/* =========================================================
+   Summary Column Separator
+========================================================= */
+
+/* Remove border between Guild and League */
+
+#summaryTable th:nth-child(1),
+#summaryTable td:nth-child(1) {
+  border-right: none;
+}
+
+#summaryTable th:nth-child(2),
+#summaryTable td:nth-child(2) {
+  border-left: none;
+}
+
+
+/* League right separator */
 
 #summaryTable th:nth-child(2),
 #summaryTable td:nth-child(2) {
   border-right:
-    3px double #7f7f7f;
+    2px solid #217346;
 }
 
 
-/* Total left double border */
+/* Total left separator */
 
 #summaryTable th:nth-child(7),
 #summaryTable td:nth-child(7) {
   border-left:
-    3px double #7f7f7f;
+    2px solid #217346;
 }
 
-/* Alliance Total */
+
+/* Alliance Total top separator */
 
 .summary-total-row td {
   border-top:
-    2px solid #7f7f7f;
+    2px solid #217346;
 
   border-right: none !important;
 
