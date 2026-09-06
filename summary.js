@@ -903,11 +903,6 @@ function updateSummaryPreview(
       "summaryPreviewDays"
     );
 
-  const basesElement =
-    document.getElementById(
-      "summaryPreviewBases"
-    );
-
 
   if (
     !guildElement
@@ -915,8 +910,6 @@ function updateSummaryPreview(
     !leagueElement
     ||
     !daysElement
-    ||
-    !basesElement
   ) {
 
     return;
@@ -937,9 +930,6 @@ function updateSummaryPreview(
       "—";
 
     daysElement.textContent =
-      "0";
-
-    basesElement.textContent =
       "0";
 
     return;
@@ -1009,8 +999,7 @@ function updateSummaryPreview(
     previewGuild.levels.Lv6
     ||
     {
-      days: 0,
-      count: 0
+      days: 0
     };
 
 
@@ -1030,10 +1019,6 @@ function updateSummaryPreview(
     formatSummaryDays(
       lv6.days
     );
-
-
-  basesElement.textContent =
-    lv6.count;
 
 }
 
