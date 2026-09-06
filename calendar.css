@@ -811,7 +811,7 @@ button {
 }
 #summaryTable .summary-total-row td:first-child {
   text-align: right;
-  transform: translateX(-10px);
+  transform: translateX(-80px);
 }
 .summary-total-level {
   line-height: 1;
