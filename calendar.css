@@ -655,6 +655,12 @@ button {
   color: #222;
 }
 
+.summary-level-cell {
+  font-size: 18px;
+
+  font-weight: 700;
+}
+
 .summary-bases {
   display: block;
 
