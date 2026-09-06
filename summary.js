@@ -773,30 +773,11 @@ function renderGuildSummary() {
   totalGuildCell.textContent =
     "Alliance Total";
 
+  totalGuildCell.colSpan = 2;
+
 
   totalRow.appendChild(
     totalGuildCell
-  );
-
-
-  /* League */
-
-  const totalLeagueCell =
-    document.createElement(
-      "td"
-    );
-
-
-  totalLeagueCell.className =
-    "summary-league";
-
-
-  totalLeagueCell.textContent =
-    "—";
-
-
-  totalRow.appendChild(
-    totalLeagueCell
   );
 
 
@@ -871,7 +852,6 @@ function renderGuildSummary() {
   tbody.appendChild(
     totalRow
   );
-
 
   /* =======================================================
      Preview
