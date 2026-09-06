@@ -604,33 +604,7 @@ function createSummaryLevelCell(
     "summary-bases";
 
 
-  const basesLabel =
-    document.createElement(
-      "span"
-    );
 
-
-  basesLabel.textContent =
-    levelData.count;
-
-
-  const basesUnit =
-    document.createElement(
-      "small"
-    );
-
-
-  basesUnit.className =
-    "summary-unit";
-
-
-  basesUnit.textContent =
-    "bases";
-
-
-  basesWrapper.appendChild(
-    basesLabel
-  );
 
   basesWrapper.appendChild(
     basesUnit
@@ -733,56 +707,7 @@ function createSummaryTotalCell(
   );
 
 
-  const basesWrapper =
-    document.createElement(
-      "div"
-    );
 
-
-  basesWrapper.className =
-    "summary-bases";
-
-
-  const basesLabel =
-    document.createElement(
-      "span"
-    );
-
-
-  basesLabel.textContent =
-    totalBases;
-
-
-  const basesUnit =
-    document.createElement(
-      "small"
-    );
-
-
-  basesUnit.className =
-    "summary-unit";
-
-
-  basesUnit.textContent =
-    "bases";
-
-
-  basesWrapper.appendChild(
-    basesLabel
-  );
-
-  basesWrapper.appendChild(
-    basesUnit
-  );
-
-
-  cell.appendChild(
-    daysWrapper
-  );
-
-  cell.appendChild(
-    basesWrapper
-  );
 
 
   return cell;
