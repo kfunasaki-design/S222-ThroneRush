@@ -1278,16 +1278,12 @@ legend {
 /* Alliance Total top separator */
 
 .summary-total-row td {
-  background: #d9e2f3 !important;
-
-  color: #222;
-
-  font-weight: 700;
-
-  border-top:
-    3px double #7f7f7f;
-
   border-right: none !important;
+
   border-bottom: none !important;
+
   border-left: none !important;
+
+  box-shadow:
+    inset 0 2px 0 #217346;
 }
