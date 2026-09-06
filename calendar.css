@@ -1213,7 +1213,7 @@ legend {
   }
 
   #summaryTable {
-    min-width: 760px;
+    min-width: 0;
   }
 
   .summary-days {
