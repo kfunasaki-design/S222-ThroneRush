@@ -791,7 +791,9 @@ button {
 
   font-weight: 700;
 }
-
+.summary-total-row .summary-guild {
+  text-align: right;
+}
 .summary-total-row td {
   color: #222;
   font-weight: 750;
