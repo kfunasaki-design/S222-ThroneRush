@@ -479,9 +479,13 @@ function createSummaryLevelCell(
     );
 
 
-  cell.classList.add(
-    `summary-status-${status}`
-  );
+cell.classList.add(
+  `summary-status-${status}`
+);
+
+cell.classList.add(
+  "summary-level-cell"
+);
 
 
   cell.textContent =
