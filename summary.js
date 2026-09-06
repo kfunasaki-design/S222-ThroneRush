@@ -1040,7 +1040,7 @@ const totalTitleCell =
   );
 
 totalTitleCell.colSpan =
-  2;
+  1;
 
 totalTitleCell.textContent =
   "Alliance Total";
