@@ -1262,11 +1262,13 @@ legend {
 #summaryTable td:nth-child(2) {
   border-left: none;
 }
+#summaryTable thead th:nth-child(2),
 #summaryTable tbody tr:not(.summary-total-row) td:nth-child(2) {
   box-shadow:
     inset -1px 0 #217346;
 }
 
+#summaryTable thead th:nth-child(7),
 #summaryTable tbody tr:not(.summary-total-row) td:nth-child(7) {
   box-shadow:
     inset 1px 0 #217346;
