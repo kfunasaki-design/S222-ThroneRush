@@ -1253,7 +1253,15 @@ legend {
 
 /* Remove border between Guild and League */
 
+#summaryTable th:nth-child(1),
+#summaryTable td:nth-child(1) {
+  border-right: none;
+}
 
+#summaryTable th:nth-child(2),
+#summaryTable td:nth-child(2) {
+  border-left: none;
+}
 #summaryTable tbody tr:not(.summary-total-row) td:nth-child(2) {
   border-right:
     1px solid #217346;
