@@ -794,8 +794,9 @@ button {
 
 .summary-total-row td {
   color: #222;
-  font-weight: 700;
-  line-height: 3;
+  font-weight: 750;
+  text-align: right;
+  line-height: 2.5;
   border-right: none !important;
   border-bottom: none !important;
   border-left: none !important;
