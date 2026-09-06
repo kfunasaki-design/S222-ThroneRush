@@ -1034,21 +1034,43 @@ totalRow.className =
   "summary-total-row";
 
 
-const totalTitleCell =
+/* Guild */
+
+const totalGuildCell =
   document.createElement(
     "td"
   );
 
-totalTitleCell.colSpan =
-  1;
+totalGuildCell.className =
+  "summary-guild";
 
-totalTitleCell.textContent =
+totalGuildCell.textContent =
   "Alliance Total";
 
 totalRow.appendChild(
-  totalTitleCell
+  totalGuildCell
 );
 
+
+/* League */
+
+const totalLeagueCell =
+  document.createElement(
+    "td"
+  );
+
+totalLeagueCell.className =
+  "summary-league";
+
+totalLeagueCell.textContent =
+  "—";
+
+totalRow.appendChild(
+  totalLeagueCell
+);
+
+
+/* Lv4 - Lv7 */
 
 SUMMARY_LEVELS.forEach(
   level => {
@@ -1091,7 +1113,7 @@ SUMMARY_LEVELS.forEach(
 );
 
 
-/* Alliance Total */
+/* Total */
 
 const allianceTotalCell =
   document.createElement(
