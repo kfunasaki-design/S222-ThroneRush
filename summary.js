@@ -411,7 +411,7 @@ function getSummaryCellStatus(
 ) {
 
   if (
-    count === 0
+    days === 0
   ) {
 
     return "empty";
