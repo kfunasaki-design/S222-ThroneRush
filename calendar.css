@@ -1264,22 +1264,7 @@ legend {
 }
 
 
-/* League right separator */
 
-#summaryTable th:nth-child(2),
-#summaryTable td:nth-child(2) {
-  box-shadow:
-    inset -2px 0 0 #217346;
-}
-
-
-/* Total left separator */
-
-#summaryTable th:nth-child(7),
-#summaryTable td:nth-child(7) {
-  box-shadow:
-    inset 2px 0 0 #217346;
-}
 
 
 /* Alliance Total top separator */
