@@ -1264,7 +1264,7 @@ legend {
 }
 
 
-/* League right separator */
+/* Guild / League block separator */
 
 #summaryTable th:nth-child(2),
 #summaryTable td:nth-child(2) {
@@ -1273,24 +1273,24 @@ legend {
 }
 
 
-/* Total left separator */
+/* Total separator */
 
 #summaryTable th:nth-child(7),
 #summaryTable td:nth-child(7) {
   border-left:
-    1px solid #217346;
+    2px solid #217346;
 }
 
 
-/* Alliance Total top separator */
+/* Alliance Total */
 
 .summary-total-row td {
   border-top:
-    1px solid #217346;
+    2px solid #217346 !important;
 
-  border-right: none !important;
+  border-right: none;
 
-  border-bottom: none !important;
+  border-bottom: none;
 
-  border-left: none !important;
+  border-left: none;
 }
