@@ -791,20 +791,21 @@ button {
 
   font-weight: 700;
 }
-.summary-total-row .summary-guild {
-  text-align: right;
-}
+
 .summary-total-row td {
   color: #222;
   font-weight: 750;
   text-align: right;
-  line-height: 2.5;
+  line-height: 3;
   border-right: none !important;
   border-bottom: none !important;
   border-left: none !important;
 
   box-shadow:
     inset 0 1px 0 #217346;
+}
+.summary-total-row .summary-guild {
+  text-align: right;
 }
 
 .summary-total-row td:first-child {
