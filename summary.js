@@ -14,16 +14,6 @@ const SUMMARY_LEVELS = [
   "Lv7"
 ];
 
-const SUMMARY_FORTRESS_CAPACITY = {
-  Lv4: 8,
-  Lv5: 4,
-  Lv6: 3,
-  Lv7: 1
-};
-
-const SUMMARY_RESTRICTION_COUNT = 3;
-const SUMMARY_WARNING_COUNT = 2;
-const SUMMARY_TOTAL_LIMIT = 6;
 const SUMMARY_AVERAGE_TOLERANCE = 0.25;
 
 
@@ -300,22 +290,18 @@ function buildGuildSummary() {
           levels: {
 
             Lv4: {
-              count: 0,
               days: 0
             },
 
             Lv5: {
-              count: 0,
               days: 0
             },
 
             Lv6: {
-              count: 0,
               days: 0
             },
 
             Lv7: {
-              count: 0,
               days: 0
             }
 
@@ -349,11 +335,6 @@ function buildGuildSummary() {
         return;
 
       }
-
-
-      guilds[guildName]
-        .levels[level]
-        .count += 1;
 
 
       guilds[guildName]
@@ -425,27 +406,15 @@ function sortGuildSummary(
 ========================================================= */
 
 function getSummaryCellStatus(
-  count,
   days,
   averageDays
 ) {
 
   if (
-    count >=
-    SUMMARY_RESTRICTION_COUNT
+    count === 0
   ) {
 
-    return "restricted";
-
-  }
-
-
-  if (
-    count >=
-    SUMMARY_WARNING_COUNT
-  ) {
-
-    return "warning";
+    return "empty";
 
   }
 
@@ -483,39 +452,6 @@ function getSummaryCellStatus(
   }
 
 
-  if (
-    count === 0
-  ) {
-
-    return "empty";
-
-  }
-
-
-  return "normal";
-
-}
-
-
-/* =========================================================
-   Total Status
-========================================================= */
-
-function getSummaryTotalStatus(
-  totalBases
-) {
-
-  if (
-    totalBases
-    >
-    SUMMARY_TOTAL_LIMIT
-  ) {
-
-    return "restricted";
-
-  }
-
-
   return "normal";
 
 }
@@ -538,7 +474,6 @@ function createSummaryLevelCell(
 
   const status =
     getSummaryCellStatus(
-      levelData.count,
       levelData.days,
       averageDays
     );
@@ -549,75 +484,10 @@ function createSummaryLevelCell(
   );
 
 
-  const daysWrapper =
-    document.createElement(
-      "div"
-    );
-
-
-  daysWrapper.className =
-    "summary-days";
-
-
-  const daysLabel =
-    document.createElement(
-      "span"
-    );
-
-
-  daysLabel.textContent =
+  cell.textContent =
     formatSummaryDays(
       levelData.days
     );
-
-
-  const daysUnit =
-    document.createElement(
-      "small"
-    );
-
-
-  daysUnit.className =
-    "summary-unit";
-
-
-  daysUnit.textContent =
-    "d";
-
-
-  daysWrapper.appendChild(
-    daysLabel
-  );
-
-  daysWrapper.appendChild(
-    daysUnit
-  );
-
-
-  const basesWrapper =
-    document.createElement(
-      "div"
-    );
-
-
-  basesWrapper.className =
-    "summary-bases";
-
-
-
-
-  basesWrapper.appendChild(
-    basesUnit
-  );
-
-
-  cell.appendChild(
-    daysWrapper
-  );
-
-  cell.appendChild(
-    basesWrapper
-  );
 
 
   return cell;
@@ -630,8 +500,7 @@ function createSummaryLevelCell(
 ========================================================= */
 
 function createSummaryTotalCell(
-  totalDays,
-  totalBases
+  totalDays
 ) {
 
   const cell =
@@ -640,74 +509,14 @@ function createSummaryTotalCell(
     );
 
 
-  const status =
-    getSummaryTotalStatus(
-      totalBases
-    );
+  cell.className =
+    "summary-total-level";
 
 
-  cell.classList.add(
-    "summary-total"
-  );
-
-
-  if (
-    status === "restricted"
-  ) {
-
-    cell.classList.add(
-      "restriction"
-    );
-
-  }
-
-
-  const daysWrapper =
-    document.createElement(
-      "div"
-    );
-
-
-  daysWrapper.className =
-    "summary-days";
-
-
-  const daysLabel =
-    document.createElement(
-      "span"
-    );
-
-
-  daysLabel.textContent =
+  cell.textContent =
     formatSummaryDays(
       totalDays
     );
-
-
-  const daysUnit =
-    document.createElement(
-      "small"
-    );
-
-
-  daysUnit.className =
-    "summary-unit";
-
-
-  daysUnit.textContent =
-    "d";
-
-
-  daysWrapper.appendChild(
-    daysLabel
-  );
-
-  daysWrapper.appendChild(
-    daysUnit
-  );
-
-
-
 
 
   return cell;
@@ -816,8 +625,6 @@ function renderGuildSummary() {
 
   let allianceDays = 0;
 
-  let allianceBases = 0;
-
 
   /* =======================================================
      Guild Rows
@@ -896,10 +703,6 @@ function renderGuildSummary() {
           allianceDays +=
             levelData.days;
 
-
-          allianceBases +=
-            levelData.count;
-
         }
       );
 
@@ -907,9 +710,6 @@ function renderGuildSummary() {
       /* Total */
 
       let totalDays =
-        0;
-
-      let totalBases =
         0;
 
 
@@ -921,19 +721,13 @@ function renderGuildSummary() {
               .levels[level]
               .days;
 
-          totalBases +=
-            guildData
-              .levels[level]
-              .count;
-
         }
       );
 
 
       row.appendChild(
         createSummaryTotalCell(
-          totalDays,
-          totalBases
+          totalDays
         )
       );
 
@@ -946,123 +740,134 @@ function renderGuildSummary() {
   );
 
 
-/* =======================================================
-   Alliance Total
-======================================================= */
+  /* =======================================================
+     Alliance Total
+  ======================================================= */
 
-const totalRow =
-  document.createElement(
-    "tr"
-  );
-
-totalRow.className =
-  "summary-total-row";
-
-
-/* Guild */
-
-const totalGuildCell =
-  document.createElement(
-    "td"
-  );
-
-totalGuildCell.className =
-  "summary-guild";
-
-totalGuildCell.textContent =
-  "Alliance Total";
-
-totalRow.appendChild(
-  totalGuildCell
-);
-
-
-/* League */
-
-const totalLeagueCell =
-  document.createElement(
-    "td"
-  );
-
-totalLeagueCell.className =
-  "summary-league";
-
-totalLeagueCell.textContent =
-  "—";
-
-totalRow.appendChild(
-  totalLeagueCell
-);
-
-
-/* Lv4 - Lv7 */
-
-SUMMARY_LEVELS.forEach(
-  level => {
-
-    let levelDays =
-      0;
-
-    guilds.forEach(
-      guildData => {
-
-        levelDays +=
-          guildData
-            .levels[level]
-            .days;
-
-      }
+  const totalRow =
+    document.createElement(
+      "tr"
     );
 
 
-    const cell =
-      document.createElement(
-        "td"
+  totalRow.className =
+    "summary-total-row";
+
+
+  /* Guild */
+
+  const totalGuildCell =
+    document.createElement(
+      "td"
+    );
+
+
+  totalGuildCell.className =
+    "summary-guild";
+
+
+  totalGuildCell.textContent =
+    "Alliance Total";
+
+
+  totalRow.appendChild(
+    totalGuildCell
+  );
+
+
+  /* League */
+
+  const totalLeagueCell =
+    document.createElement(
+      "td"
+    );
+
+
+  totalLeagueCell.className =
+    "summary-league";
+
+
+  totalLeagueCell.textContent =
+    "—";
+
+
+  totalRow.appendChild(
+    totalLeagueCell
+  );
+
+
+  /* Lv4 - Lv7 */
+
+  SUMMARY_LEVELS.forEach(
+    level => {
+
+      let levelDays =
+        0;
+
+
+      guilds.forEach(
+        guildData => {
+
+          levelDays +=
+            guildData
+              .levels[level]
+              .days;
+
+        }
       );
 
-    cell.className =
-      "summary-total-level";
+
+      const cell =
+        document.createElement(
+          "td"
+        );
 
 
-    cell.innerHTML =
-      `${formatSummaryDays(
-        levelDays
-      )} <small class="summary-unit">d</small>`;
+      cell.className =
+        "summary-total-level";
 
 
-    totalRow.appendChild(
-      cell
-    );
-
-  }
-);
+      cell.textContent =
+        formatSummaryDays(
+          levelDays
+        );
 
 
-/* Total */
+      totalRow.appendChild(
+        cell
+      );
 
-const allianceTotalCell =
-  document.createElement(
-    "td"
+    }
   );
 
-allianceTotalCell.className =
-  "summary-total-level";
+
+  /* Total */
+
+  const allianceTotalCell =
+    document.createElement(
+      "td"
+    );
 
 
-allianceTotalCell.innerHTML =
-  `${formatSummaryDays(
-    allianceDays
-  )} <small class="summary-unit">d</small>`;
+  allianceTotalCell.className =
+    "summary-total-level";
 
 
-totalRow.appendChild(
-  allianceTotalCell
-);
+  allianceTotalCell.textContent =
+    formatSummaryDays(
+      allianceDays
+    );
 
 
-tbody.appendChild(
-  totalRow
-);
+  totalRow.appendChild(
+    allianceTotalCell
+  );
+
+
+  tbody.appendChild(
+    totalRow
+  );
+
 
   /* =======================================================
      Preview
