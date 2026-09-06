@@ -771,7 +771,7 @@ function renderGuildSummary() {
 
 
   totalGuildCell.textContent =
-    "Alliance Total";
+    "Alliance Total :";
 
   totalGuildCell.colSpan = 2;
 
