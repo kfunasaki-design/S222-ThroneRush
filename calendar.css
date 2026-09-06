@@ -809,7 +809,7 @@ button {
 .summary-total-row td:first-child {
   color: #222;
 }
-.summary-total-row .summary-guild {
+#summaryTable .summary-total-row td:first-child {
   text-align: right;
 }
 .summary-total-level {
