@@ -799,14 +799,15 @@ button {
 }
 
 .summary-total-row td {
-  background: #d9e2f3 !important;
-
   color: #222;
-
   font-weight: 700;
+  line-height: 2;
+  border-right: none !important;
+  border-bottom: none !important;
+  border-left: none !important;
 
-  border-top:
-    2px solid #7f7f7f;
+  box-shadow:
+    inset 0 1px 0 #217346;
 }
 
 .summary-total-row td:first-child {
