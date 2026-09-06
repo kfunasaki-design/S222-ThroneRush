@@ -1262,7 +1262,15 @@ legend {
 #summaryTable td:nth-child(2) {
   border-left: none;
 }
+#summaryTable tbody tr:not(.summary-total-row) td:nth-child(2) {
+  border-right:
+    1px solid #217346;
+}
 
+#summaryTable tbody tr:not(.summary-total-row) td:nth-child(7) {
+  border-left:
+    1px solid #217346;
+}
 
 
 
@@ -1270,12 +1278,16 @@ legend {
 /* Alliance Total top separator */
 
 .summary-total-row td {
+  background: #d9e2f3 !important;
+
+  color: #222;
+
+  font-weight: 700;
+
+  border-top:
+    2px solid #7f7f7f;
+
   border-right: none !important;
-
   border-bottom: none !important;
-
   border-left: none !important;
-
-  box-shadow:
-    inset 0 2px 0 #217346;
 }
