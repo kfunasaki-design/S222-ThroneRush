@@ -1263,15 +1263,14 @@ legend {
   border-left: none;
 }
 #summaryTable tbody tr:not(.summary-total-row) td:nth-child(2) {
-  border-right:
-    1px solid #217346;
+  box-shadow:
+    inset -1px 0 #217346;
 }
 
 #summaryTable tbody tr:not(.summary-total-row) td:nth-child(7) {
-  border-left:
-    1px solid #217346;
+  box-shadow:
+    inset 1px 0 #217346;
 }
-
 
 
 
