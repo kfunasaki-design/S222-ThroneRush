@@ -544,7 +544,7 @@ button {
 #summaryTable {
   width: 100%;
 
-  min-width: 760px;
+  min-width: 0;
 
   border-collapse: collapse;
 
