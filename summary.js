@@ -643,11 +643,3 @@ function toggleSummaryTable() {
 }
 
 
-// ================================
-// Initial Setup
-// ================================
-
-setupColorPalette();
-updateLanguage();
-updateCurrentTime();
-loadSchedules();
