@@ -1269,7 +1269,7 @@ legend {
 #summaryTable th:nth-child(2),
 #summaryTable td:nth-child(2) {
   border-right:
-    2px solid #217346;
+    1px solid #217346;
 }
 
 
@@ -1278,7 +1278,7 @@ legend {
 #summaryTable th:nth-child(7),
 #summaryTable td:nth-child(7) {
   border-left:
-    2px solid #217346;
+    1px solid #217346;
 }
 
 
@@ -1286,7 +1286,7 @@ legend {
 
 .summary-total-row td {
   border-top:
-    2px solid #217346;
+    1px solid #217346;
 
   border-right: none !important;
 
