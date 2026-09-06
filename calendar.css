@@ -579,12 +579,12 @@ button {
 #summaryTable td:nth-child(5),
 #summaryTable th:nth-child(6),
 #summaryTable td:nth-child(6) {
-  width: 22%;
+  width: 16%;
 }
 
 #summaryTable th:nth-child(7),
 #summaryTable td:nth-child(7) {
-  width: 16%;
+  width: 10%;
 }
 
 
