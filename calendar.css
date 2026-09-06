@@ -1285,12 +1285,12 @@ legend {
 /* Alliance Total top separator */
 
 .summary-total-row td {
-  border-top:
-    2px solid #217346 !important;
-
   border-right: none !important;
 
   border-bottom: none !important;
 
   border-left: none !important;
+
+  box-shadow:
+    inset 0 2px 0 #217346;
 }
