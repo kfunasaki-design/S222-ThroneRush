@@ -1021,183 +1021,101 @@ function renderGuildSummary() {
   );
 
 
-  /* =======================================================
-     Alliance Total
-  ======================================================= */
+/* =======================================================
+   Alliance Total
+======================================================= */
 
-  const totalRow =
-    document.createElement(
-      "tr"
-    );
-
-
-  totalRow.className =
-    "summary-total-row";
-
-
-  const totalTitleCell =
-    document.createElement(
-      "td"
-    );
-
-
-  totalTitleCell.colSpan =
-    2;
-
-
-  totalTitleCell.textContent =
-    "Alliance Total";
-
-
-  totalRow.appendChild(
-    totalTitleCell
+const totalRow =
+  document.createElement(
+    "tr"
   );
 
-
-  SUMMARY_LEVELS.forEach(
-    level => {
-
-      let levelDays =
-        0;
-
-      let levelBases =
-        0;
+totalRow.className =
+  "summary-total-row";
 
 
-      guilds.forEach(
-        guildData => {
+const totalTitleCell =
+  document.createElement(
+    "td"
+  );
 
-          levelDays +=
-            guildData
-              .levels[level]
-              .days;
+totalTitleCell.colSpan =
+  2;
 
-          levelBases +=
-            guildData
-              .levels[level]
-              .count;
+totalTitleCell.textContent =
+  "Alliance Total";
 
-        }
+totalRow.appendChild(
+  totalTitleCell
+);
+
+
+SUMMARY_LEVELS.forEach(
+  level => {
+
+    let levelDays =
+      0;
+
+    guilds.forEach(
+      guildData => {
+
+        levelDays +=
+          guildData
+            .levels[level]
+            .days;
+
+      }
+    );
+
+
+    const cell =
+      document.createElement(
+        "td"
       );
 
-
-      const cell =
-        document.createElement(
-          "td"
-        );
+    cell.className =
+      "summary-total-level";
 
 
-      cell.className =
-        "summary-total-level";
+    cell.innerHTML =
+      `${formatSummaryDays(
+        levelDays
+      )} <small class="summary-unit">d</small>`;
 
 
-      const daysWrapper =
-        document.createElement(
-          "div"
-        );
-
-
-      daysWrapper.className =
-        "summary-days";
-
-
-      daysWrapper.innerHTML =
-        `${formatSummaryDays(
-          levelDays
-        )} <small class="summary-unit">d</small>`;
-
-
-      const basesWrapper =
-        document.createElement(
-          "div"
-        );
-
-
-      basesWrapper.className =
-        "summary-bases";
-
-
-      basesWrapper.innerHTML =
-        `${levelBases} <small class="summary-unit">bases</small>`;
-
-
-      cell.appendChild(
-        daysWrapper
-      );
-
-      cell.appendChild(
-        basesWrapper
-      );
-
-
-      totalRow.appendChild(
-        cell
-      );
-
-    }
-  );
-
-
-  /* Alliance Total */
-
-  const allianceTotalCell =
-    document.createElement(
-      "td"
+    totalRow.appendChild(
+      cell
     );
 
-
-  allianceTotalCell.className =
-    "summary-total-level";
-
-
-  const allianceDaysWrapper =
-    document.createElement(
-      "div"
-    );
+  }
+);
 
 
-  allianceDaysWrapper.className =
-    "summary-days";
+/* Alliance Total */
 
-
-  allianceDaysWrapper.innerHTML =
-    `${formatSummaryDays(
-      allianceDays
-    )} <small class="summary-unit">d</small>`;
-
-
-  const allianceBasesWrapper =
-    document.createElement(
-      "div"
-    );
-
-
-  allianceBasesWrapper.className =
-    "summary-bases";
-
-
-  allianceBasesWrapper.innerHTML =
-    `${allianceBases} <small class="summary-unit">bases</small>`;
-
-
-  allianceTotalCell.appendChild(
-    allianceDaysWrapper
+const allianceTotalCell =
+  document.createElement(
+    "td"
   );
 
-  allianceTotalCell.appendChild(
-    allianceBasesWrapper
-  );
+allianceTotalCell.className =
+  "summary-total-level";
 
 
-  totalRow.appendChild(
-    allianceTotalCell
-  );
+allianceTotalCell.innerHTML =
+  `${formatSummaryDays(
+    allianceDays
+  )} <small class="summary-unit">d</small>`;
 
 
-  tbody.appendChild(
-    totalRow
-  );
+totalRow.appendChild(
+  allianceTotalCell
+);
 
+
+tbody.appendChild(
+  totalRow
+);
 
   /* =======================================================
      Preview
