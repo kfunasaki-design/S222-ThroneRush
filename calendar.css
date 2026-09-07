@@ -39,8 +39,8 @@ body {
 .header {
   display: flex;
 
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
 
   gap: 15px;
 
@@ -1155,7 +1155,9 @@ legend {
 ========================================================= */
 
 @media (max-width: 700px) {
-
+.header button {
+  width: 100%;
+}
   .day-header {
     height: 32px;
 
