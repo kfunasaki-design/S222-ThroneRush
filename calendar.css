@@ -531,9 +531,9 @@ button {
 }
 
 .summary-table-wrapper.expanded {
-  max-height: 70vh;
+  max-height: none;
 
-  overflow-y: auto;
+  overflow-y: visible;
 
   overflow-x: auto;
 }
