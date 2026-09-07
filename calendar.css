@@ -207,7 +207,7 @@ button {
 #calendarWrapper {
   width: 100%;
 
-  height: calc(100vh - 265px);
+  height: calc(100vh - 262px);
 
   overflow-y: auto;
 
