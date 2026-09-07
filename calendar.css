@@ -400,6 +400,8 @@ button {
     1px solid #b7b7b7;
 
   color: #222;
+
+  flex-shrink: 0;
 }
 
 
