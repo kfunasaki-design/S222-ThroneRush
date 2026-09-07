@@ -93,8 +93,15 @@ button {
    Header Buttons
 ========================================================= */
 
+.header-buttons {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 8px;
+  align-items: center;
+}
+
 .header button {
-  width: 100%;
+  width: auto;
 }
 
 #refreshBtn {
