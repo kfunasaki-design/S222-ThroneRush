@@ -1163,9 +1163,7 @@ legend {
     min-height: 180px;
   }
 
-  #calendarWrapper {
-    height:
-      calc(100vh - 260px);
+
 
     overflow-y: auto;
 
