@@ -18,7 +18,9 @@ body {
   padding: 0;
 
   width: 100%;
-  min-height: 100%;
+  height: 100%;
+
+  overflow: hidden;
 
   background: var(--background);
   color: var(--text);
@@ -31,6 +33,11 @@ body {
     sans-serif;
 }
 
+body {
+  display: flex;
+  flex-direction: column;
+}
+
 
 /* =========================================================
    Header
@@ -39,6 +46,8 @@ body {
 .header {
   flex-direction: column;
   align-items: stretch;
+
+  flex-shrink: 0;
 }
 
 .header h1 {
@@ -95,8 +104,11 @@ button {
 
 .header-buttons {
   display: flex;
+
   flex-direction: row-reverse;
+
   gap: 8px;
+
   align-items: center;
 }
 
@@ -130,6 +142,8 @@ button {
   background: var(--panel);
 
   border-bottom: 1px solid var(--border);
+
+  flex-shrink: 0;
 }
 
 .month-navigation button {
@@ -163,6 +177,8 @@ button {
   background: #17191d;
 
   border-bottom: 1px solid var(--border);
+
+  flex-shrink: 0;
 }
 
 .weekday-row {
@@ -200,7 +216,9 @@ button {
 #calendarWrapper {
   width: 100%;
 
-  height: calc(100vh - 216px);
+  flex: 1;
+
+  min-height: 0;
 
   overflow-y: auto;
 
@@ -418,7 +436,6 @@ button {
 
   padding: 7px 12px;
 
-  /* Excel Green */
   background: #217346;
 
   color: #ffffff;
@@ -552,6 +569,7 @@ button {
   color: #222;
 }
 
+
 /* =========================================================
    Summary Column Width
 ========================================================= */
@@ -581,7 +599,6 @@ button {
 #summaryTable td:nth-child(7) {
   width: 10%;
 }
-
 
 
 #summaryTable th,
@@ -624,9 +641,6 @@ button {
 #summaryTable td:first-child {
   text-align: left;
 }
-
-
-
 
 
 /* =========================================================
@@ -711,16 +725,11 @@ button {
    Summary Status
 ========================================================= */
 
-/* No data */
-
 .summary-status-empty {
   background: #f7f7f7 !important;
 
   color: #aaa;
 }
-
-
-/* Within average range */
 
 .summary-status-normal {
   background: #e2f0d9 !important;
@@ -728,17 +737,11 @@ button {
   color: #222;
 }
 
-
-/* Reserved */
-
 .summary-status-low {
   background: #fff2cc !important;
 
   color: #7f6000;
 }
-
-
-/* Outside average range */
 
 .summary-status-warning {
   background: #fff2cc !important;
@@ -747,9 +750,6 @@ button {
 
   font-weight: 600;
 }
-
-
-/* Restriction */
 
 .summary-status-restricted {
   background: #f4cccc !important;
@@ -789,24 +789,31 @@ button {
 
 .summary-total-row td {
   color: #222;
+
   font-weight: 750;
+
   text-align: right;
+
   line-height: 3;
+
   border-right: none !important;
+
   border-bottom: none !important;
+
   border-left: none !important;
 
   box-shadow:
     inset 0 1px 0 #217346;
 }
 
-
 .summary-total-row td:first-child {
   color: #222;
 }
+
 #summaryTable .summary-total-row td:first-child {
   text-align: right;
 }
+
 .summary-total-level {
   line-height: 1;
 
@@ -1148,9 +1155,11 @@ legend {
 ========================================================= */
 
 @media (max-width: 700px) {
-.header button {
-  width: 100%;
-}
+
+  .header button {
+    width: 100%;
+  }
+
   .day-header {
     height: 32px;
 
@@ -1161,17 +1170,6 @@ legend {
 
   .day {
     min-height: 180px;
-  }
-
-
-
-    overflow-y: auto;
-
-    overflow-x: hidden;
-
-    touch-action: pan-y;
-
-    -webkit-overflow-scrolling: touch;
   }
 
   #refreshBtn {
@@ -1246,6 +1244,7 @@ legend {
 #summaryTable td:nth-child(2) {
   border-left: none;
 }
+
 #summaryTable thead th:nth-child(2),
 #summaryTable tbody tr:not(.summary-total-row) td:nth-child(2) {
   box-shadow:
@@ -1259,8 +1258,9 @@ legend {
 }
 
 
-
-/* Alliance Total top separator */
+/* =========================================================
+   Alliance Total Top Separator
+========================================================= */
 
 .summary-total-row td {
   border-right: none !important;
