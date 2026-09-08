@@ -72,15 +72,18 @@ const event = {
 const LEAGUE_LIMITS = {
 
   Bronze: [
+    "Lv4",
     "Lv5"
   ],
 
   Silver: [
+    "Lv4",
     "Lv5",
     "Lv6"
   ],
 
   Gold: [
+    "Lv4",
     "Lv5",
     "Lv6",
     "Lv7"
@@ -1868,18 +1871,7 @@ function validateLeagueFortress(
   fortress
 ) {
 
-  /*
-    Lv1-3 are excluded
-    from the league restriction.
-  */
 
-  if (
-    fortress === "Lv1-3"
-  ) {
-
-    return true;
-
-  }
 
 
   const allowed =
