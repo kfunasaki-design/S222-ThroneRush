@@ -21,6 +21,468 @@ const supabaseClient =
 
 
 /* =========================================================
+   Admin
+========================================================= */
+
+/*
+  Replace this with the same Supabase User UID
+  used in the admin_settings RLS policy.
+*/
+
+const ADMIN_USER_ID =
+  "YOUR_ADMIN_USER_ID";
+
+
+let currentUser = null;
+
+let isAdmin = false;
+
+
+/* =========================================================
+   Admin Auth State
+========================================================= */
+
+async function updateAdminState() {
+
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.auth.getUser();
+
+
+    if (error) {
+
+      currentUser = null;
+      isAdmin = false;
+
+    }
+
+    else {
+
+      currentUser =
+        data?.user || null;
+
+      isAdmin =
+        !!currentUser
+        &&
+        currentUser.id
+        ===
+        ADMIN_USER_ID;
+
+    }
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Admin auth state error:",
+      error
+    );
+
+    currentUser = null;
+    isAdmin = false;
+
+  }
+
+
+  updateAdminUI();
+
+}
+
+
+/* =========================================================
+   Admin UI
+========================================================= */
+
+function updateAdminUI() {
+
+  const status =
+    document.getElementById(
+      "adminStatus"
+    );
+
+
+  if (status) {
+
+    status.textContent =
+      isAdmin
+        ? "IN"
+        : "OUT";
+
+
+    status.classList.toggle(
+      "admin-active",
+      isAdmin
+    );
+
+  }
+
+
+  const menuButton =
+    document.getElementById(
+      "adminMenuBtn"
+    );
+
+
+  if (menuButton) {
+
+    menuButton.setAttribute(
+      "aria-label",
+      isAdmin
+        ? "Open Admin Panel"
+        : "Admin Login"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   Admin Login Dialog
+========================================================= */
+
+const adminLoginDialog =
+  document.getElementById(
+    "adminLoginDialog"
+  );
+
+const adminLoginForm =
+  document.getElementById(
+    "adminLoginForm"
+  );
+
+const adminLoginError =
+  document.getElementById(
+    "adminLoginError"
+  );
+
+
+function openAdminLogin() {
+
+  if (!adminLoginDialog)
+    return;
+
+
+  if (adminLoginError)
+    adminLoginError.textContent = "";
+
+
+  const password =
+    document.getElementById(
+      "adminPassword"
+    );
+
+
+  if (password)
+    password.value = "";
+
+
+  adminLoginDialog.showModal();
+
+}
+
+
+function closeAdminLogin() {
+
+  if (
+    adminLoginDialog
+    &&
+    adminLoginDialog.open
+  ) {
+
+    adminLoginDialog.close();
+
+  }
+
+}
+
+
+/* =========================================================
+   Admin Login
+========================================================= */
+
+if (adminLoginForm) {
+
+  adminLoginForm.addEventListener(
+    "submit",
+    async eventSubmit => {
+
+      eventSubmit.preventDefault();
+
+
+      const email =
+        document.getElementById(
+          "adminEmail"
+        )?.value.trim();
+
+
+      const password =
+        document.getElementById(
+          "adminPassword"
+        )?.value;
+
+
+      if (adminLoginError)
+        adminLoginError.textContent = "";
+
+
+      try {
+
+        const {
+          data,
+          error
+        } =
+          await supabaseClient.auth.signInWithPassword({
+
+            email,
+
+            password
+
+          });
+
+
+        if (error)
+          throw error;
+
+
+        currentUser =
+          data?.user || null;
+
+
+        isAdmin =
+          !!currentUser
+          &&
+          currentUser.id
+          ===
+          ADMIN_USER_ID;
+
+
+        if (!isAdmin) {
+
+          await supabaseClient.auth.signOut();
+
+          currentUser = null;
+          isAdmin = false;
+
+
+          if (adminLoginError) {
+
+            adminLoginError.textContent =
+              isMobile()
+                ? "Admin権限がありません。"
+                : "This account does not have admin access.";
+
+          }
+
+
+          updateAdminUI();
+
+          return;
+
+        }
+
+
+        closeAdminLogin();
+
+        updateAdminUI();
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Admin login error:",
+          error
+        );
+
+
+        if (adminLoginError) {
+
+          adminLoginError.textContent =
+            isMobile()
+              ? "ログインに失敗しました。"
+              : "Login failed.";
+
+        }
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   Admin Login Close
+========================================================= */
+
+const closeAdminLoginButton =
+  document.getElementById(
+    "closeAdminLogin"
+  );
+
+
+if (closeAdminLoginButton) {
+
+  closeAdminLoginButton.addEventListener(
+    "click",
+    closeAdminLogin
+  );
+
+}
+
+
+/* =========================================================
+   Admin Menu
+========================================================= */
+
+const adminMenuButton =
+  document.getElementById(
+    "adminMenuBtn"
+  );
+
+
+if (adminMenuButton) {
+
+  adminMenuButton.addEventListener(
+    "click",
+    () => {
+
+      if (isAdmin) {
+
+        const panel =
+          document.getElementById(
+            "adminPanelDialog"
+          );
+
+
+        if (panel) {
+
+          if (
+            typeof loadAdminSettings ===
+            "function"
+          ) {
+
+            loadAdminSettings();
+
+          }
+
+
+          panel.showModal();
+
+        }
+
+      }
+
+      else {
+
+        openAdminLogin();
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   Admin Logout
+========================================================= */
+
+const adminLogoutButton =
+  document.getElementById(
+    "adminLogoutBtn"
+  );
+
+
+if (adminLogoutButton) {
+
+  adminLogoutButton.addEventListener(
+    "click",
+    async () => {
+
+      try {
+
+        await supabaseClient.auth.signOut();
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Admin logout error:",
+          error
+        );
+
+      }
+
+
+      currentUser = null;
+
+      isAdmin = false;
+
+
+      updateAdminUI();
+
+
+      const panel =
+        document.getElementById(
+          "adminPanelDialog"
+        );
+
+
+      if (
+        panel
+        &&
+        panel.open
+      ) {
+
+        panel.close();
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   Supabase Auth Listener
+========================================================= */
+
+supabaseClient.auth.onAuthStateChange(
+  (
+    event,
+    session
+  ) => {
+
+    currentUser =
+      session?.user || null;
+
+
+    isAdmin =
+      !!currentUser
+      &&
+      currentUser.id
+      ===
+      ADMIN_USER_ID;
+
+
+    updateAdminUI();
+
+  }
+);
+
+
+/* =========================================================
    State
 ========================================================= */
 
@@ -383,6 +845,23 @@ function setupColorPalette() {
             !selectedSchedule
           )
             return;
+
+
+          /*
+            Owner OR Admin can change color.
+          */
+
+          if (
+            selectedSchedule.creatorId
+            !==
+            creatorId
+            &&
+            !isAdmin
+          ) {
+
+            return;
+
+          }
 
 
           selectedSchedule.color =
@@ -959,6 +1438,37 @@ async function updateSchedule(
   schedule
 ) {
 
+  /*
+    Permission:
+    - Schedule owner can update
+    - Admin can update any schedule
+  */
+
+  const canEdit =
+    schedule.creatorId
+    ===
+    creatorId
+    ||
+    isAdmin;
+
+
+  if (!canEdit) {
+
+    throw new Error(
+      "You do not have permission to update this schedule."
+    );
+
+  }
+
+
+  /*
+    IMPORTANT:
+    Do NOT change creator_id when Admin edits
+    another user's schedule.
+
+    The original creatorId is preserved.
+  */
+
   const {
     error
   } =
@@ -991,10 +1501,7 @@ async function updateSchedule(
           schedule.description,
 
         color:
-          schedule.color,
-
-        creator_id:
-          schedule.creatorId
+          schedule.color
 
       })
       .eq(
@@ -1024,6 +1531,31 @@ async function updateSchedule(
 async function deleteSchedule(
   scheduleId
 ) {
+
+  if (!selectedSchedule)
+    return;
+
+
+  /*
+    Owner OR Admin
+  */
+
+  const canDelete =
+    selectedSchedule.creatorId
+    ===
+    creatorId
+    ||
+    isAdmin;
+
+
+  if (!canDelete) {
+
+    throw new Error(
+      "You do not have permission to delete this schedule."
+    );
+
+  }
+
 
   const {
     error
@@ -1784,11 +2316,15 @@ function createSchedule(
    Add Schedule
 ========================================================= */
 
-document
-  .getElementById(
+const addScheduleButton =
+  document.getElementById(
     "addScheduleBtn"
-  )
-  .addEventListener(
+  );
+
+
+if (addScheduleButton) {
+
+  addScheduleButton.addEventListener(
     "click",
     () => {
 
@@ -1798,6 +2334,8 @@ document
 
     }
   );
+
+}
 
 
 function resetForm() {
@@ -2073,6 +2611,18 @@ form.addEventListener(
     }
 
 
+    /*
+      IMPORTANT:
+      When Admin edits another user's schedule,
+      preserve the original creatorId.
+    */
+
+    const originalCreatorId =
+      selectedSchedule
+        ? selectedSchedule.creatorId
+        : creatorId;
+
+
     const schedule = {
 
       id:
@@ -2105,7 +2655,8 @@ form.addEventListener(
               fortress
             ),
 
-      creatorId
+      creatorId:
+        originalCreatorId
 
     };
 
@@ -2124,16 +2675,22 @@ form.addEventListener(
 
       else {
 
+        /*
+          Owner OR Admin
+        */
+
         if (
           selectedSchedule.creatorId
           !==
           creatorId
+          &&
+          !isAdmin
         ) {
 
           error.textContent =
             isMobile()
-              ? "この予定を編集できるのは作成者だけです。"
-              : "Only the creator can edit this schedule.";
+              ? "この予定を編集する権限がありません。"
+              : "You do not have permission to edit this schedule.";
 
           return;
 
@@ -2351,14 +2908,32 @@ function showDetails(
   );
 
 
-  document.getElementById(
-    "editSchedule"
-  ).style.display =
+  /*
+    Owner OR Admin can edit.
+  */
+
+  const canEdit =
     schedule.creatorId
     ===
     creatorId
-      ? "inline-block"
-      : "none";
+    ||
+    isAdmin;
+
+
+  const editButton =
+    document.getElementById(
+      "editSchedule"
+    );
+
+
+  if (editButton) {
+
+    editButton.style.display =
+      canEdit
+        ? "inline-block"
+        : "none";
+
+  }
 
 
   detailDialog.showModal();
@@ -2469,6 +3044,18 @@ document
         return;
 
 
+      const canEdit =
+        selectedSchedule.creatorId
+        ===
+        creatorId
+        ||
+        isAdmin;
+
+
+      if (!canEdit)
+        return;
+
+
       detailDialog.close();
 
 
@@ -2487,6 +3074,22 @@ document
 function openEditForm(
   schedule
 ) {
+
+  /*
+    Owner OR Admin
+  */
+
+  const canEdit =
+    schedule.creatorId
+    ===
+    creatorId
+    ||
+    isAdmin;
+
+
+  if (!canEdit)
+    return;
+
 
   selectedSchedule =
     schedule;
@@ -2645,11 +3248,19 @@ document
         return;
 
 
-      if (
+      /*
+        Owner OR Admin
+      */
+
+      const canDelete =
         selectedSchedule.creatorId
-        !==
+        ===
         creatorId
-      )
+        ||
+        isAdmin;
+
+
+      if (!canDelete)
         return;
 
 
@@ -2857,5 +3468,7 @@ setupColorPalette();
 updateLanguage();
 
 updateCurrentTime();
+
+updateAdminState();
 
 loadSchedules();
