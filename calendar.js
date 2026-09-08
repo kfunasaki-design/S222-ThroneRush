@@ -30,7 +30,7 @@ const supabaseClient =
 */
 
 const ADMIN_USER_ID =
-  "YOUR_ADMIN_USER_ID";
+  "80ed6c1c-316e-44d9-aee9-2c035262c968";
 
 
 let currentUser = null;
