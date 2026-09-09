@@ -597,14 +597,17 @@ function updateLanguage() {
     );
 
 
-  if (title) {
+if (title) {
 
-    title.textContent =
-      mobile
-        ? "S222 スローンラッシュ カレンダー"
-        : "S222 Throne Rush Calendar";
+  title.textContent =
+    "S222TR Calendar";
 
-  }
+  title.setAttribute(
+    "translate",
+    "no"
+  );
+
+}
 
 
   const addButton =
