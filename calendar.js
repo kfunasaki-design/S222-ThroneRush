@@ -437,32 +437,6 @@ function fortressIcon(level) {
    GMT / JST Input Conversion
 ========================================================= */
 
-function updateJST(gmtInput, jstInput) {
-
-  if (!gmtInput.value)
-    return;
-
-  const [hour, minute] =
-    gmtInput.value.split(":").map(Number);
-
-  const totalMinutes =
-    hour * 60 +
-    minute +
-    9 * 60;
-
-  const jstHour =
-    Math.floor((totalMinutes % 1440) / 60);
-
-  const jstMinute =
-    totalMinutes % 60;
-
-  jstInput.value =
-    String(jstHour).padStart(2, "0") +
-    ":" +
-    String(jstMinute).padStart(2, "0");
-}
-
-
 
 function updateGMT(jstInput, gmtInput) {
 
