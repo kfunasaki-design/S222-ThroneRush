@@ -1806,7 +1806,8 @@ document
 function resetForm() {
 
   form.reset();
-
+   
+  updateFortressOptions();
 
   document.getElementById(
     "deleteBtn"
@@ -2887,7 +2888,14 @@ if (
 
 }
 
-
+document
+  .getElementById(
+    "league"
+  )
+  .addEventListener(
+    "change",
+    updateFortressOptions
+  );
 /* =========================================================
    Initial
 ========================================================= */
