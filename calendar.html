@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" translate="no">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title translate="no">S222TR Calendar</title>
-<link rel="stylesheet" href="calendar.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title translate="no">S222TR Calendar</title>
+
+  <link rel="stylesheet" href="calendar.css">
 </head>
+
 
 <body>
 
@@ -57,6 +61,7 @@
 </header>
 
 
+
 <!-- Month Navigation -->
 
 <div class="month-navigation">
@@ -70,9 +75,11 @@
 </div>
 
 
+
 <!-- Weekday -->
 
 <div id="weekdayHeader"></div>
+
 
 
 <!-- Calendar -->
@@ -82,6 +89,7 @@
   <div id="calendar"></div>
 
 </main>
+
 
 
 <!-- Guild Summary Table -->
@@ -177,6 +185,7 @@
 </section>
 
 
+
 <!-- =====================================================
 Schedule Input
 ====================================================== -->
@@ -200,6 +209,7 @@ Schedule Input
       </button>
 
     </div>
+
 
 
     <!-- Guild VS League -->
@@ -231,6 +241,7 @@ Schedule Input
     </label>
 
 
+
     <!-- Fortress -->
 
     <label>
@@ -239,10 +250,15 @@ Schedule Input
 
       <select id="fortress" required>
 
-<option value="" selected disabled style="color:#888;">
-  Select Level
-</option>
-        
+        <option
+          value=""
+          selected
+          disabled
+          style="color:#888;"
+        >
+          Select Level
+        </option>
+
         <option value="Lv7">
           Lv7
         </option>
@@ -262,6 +278,7 @@ Schedule Input
       </select>
 
     </label>
+
 
 
     <!-- Coordinate -->
@@ -297,20 +314,27 @@ Schedule Input
     </fieldset>
 
 
+
     <!-- Guild -->
 
     <label>
 
       Guild
 
-      <input
-        id="guild"
-        type="text"
-        maxlength="80"
-        required
-      >
+      <select id="guild" required>
+
+        <option
+          value=""
+          selected
+          disabled
+        >
+          Select Guild
+        </option>
+
+      </select>
 
     </label>
+
 
 
     <!-- Start -->
@@ -364,6 +388,7 @@ Schedule Input
     </fieldset>
 
 
+
     <!-- End -->
 
     <fieldset>
@@ -415,6 +440,7 @@ Schedule Input
     </fieldset>
 
 
+
     <!-- Description -->
 
     <label>
@@ -430,10 +456,12 @@ Schedule Input
     </label>
 
 
+
     <p
       id="formError"
       class="error"
     ></p>
+
 
 
     <div class="form-buttons">
@@ -472,6 +500,7 @@ Schedule Input
 </dialog>
 
 
+
 <!-- =====================================================
 Detail
 ====================================================== -->
@@ -497,22 +526,6 @@ Detail
     <div id="detailContent"></div>
 
 
-    <!-- Color -->
-
-    <div class="color-control">
-
-      <label>
-        Schedule Color
-      </label>
-
-      <div
-        id="scheduleColorPalette"
-        class="color-palette"
-      ></div>
-
-    </div>
-
-
     <div class="detail-buttons">
 
       <button
@@ -534,6 +547,7 @@ Detail
   </div>
 
 </dialog>
+
 
 
 <!-- =====================================================
@@ -611,6 +625,7 @@ Admin Login
 </dialog>
 
 
+
 <!-- =====================================================
 Admin Panel
 ====================================================== -->
@@ -681,6 +696,7 @@ Admin Panel
       </div>
 
     </fieldset>
+
 
 
     <!-- Level Release -->
@@ -786,6 +802,7 @@ Admin Panel
   </form>
 
 </dialog>
+
 
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
