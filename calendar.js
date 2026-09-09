@@ -1887,7 +1887,7 @@ function updateFortressOptions() {
     Silver: 6,
     Gold: 7
 
-  }[league];
+  }[league] || 4;
 
   Array.from(
     fortressSelect.options
