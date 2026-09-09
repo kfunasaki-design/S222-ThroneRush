@@ -37,19 +37,185 @@ let selectedSchedule = null;
 
 
 /* =========================================================
-   Schedule Colors
+   Guild Settings
 ========================================================= */
 
-const SCHEDULE_COLORS = [
-  "#00FFFF",
-  "#FF00FF",
-  "#02FF00",
-  "#0000FF",
-  "#FE0000",
-  "#FFFF00",
-  "#000000",
-  "#FFFFFF"
+const GUILD_COLORS = {
+
+  "Natureborne Echelon": "#00BCD4",
+
+  "Garuda Muda": "#E91E63",
+
+  "Berandals Galeatus": "#7C4DFF",
+
+  "Apex predators": "#4CAF50",
+
+  "SAMURAI": "#FF9800",
+
+  "Gods of War": "#03A9F4",
+
+  "Clover phoenix": "#9C27B0",
+
+  "World Order Japan": "#8BC34A",
+
+  "Kaukasians": "#795548",
+
+  "Renegade": "#F44336",
+
+  "Westwind": "#009688",
+
+  "Active Misfits": "#607D8B"
+
+};
+
+
+const GUILD_LIST = [
+  "Natureborne Echelon",
+  "Garuda Muda",
+  "Berandals Galeatus",
+  "Apex predators",
+  "SAMURAI",
+  "Gods of War",
+  "Clover phoenix",
+  "World Order Japan",
+  "Kaukasians",
+  "Renegade",
+  "Westwind",
+  "Active Misfits"
 ];
+
+
+/* =========================================================
+   Guild Color
+========================================================= */
+
+function guildColor(guild) {
+
+  return (
+    GUILD_COLORS[guild]
+    ||
+    "#888888"
+  );
+
+}
+
+
+/* =========================================================
+   Schedule Text Color
+========================================================= */
+
+function getScheduleTextColor(color) {
+
+  if (!color)
+    return "#FFFFFF";
+
+
+  const hex =
+    color
+      .replace("#", "")
+      .trim();
+
+
+  if (hex.length !== 6)
+    return "#FFFFFF";
+
+
+  const r =
+    parseInt(
+      hex.substring(0, 2),
+      16
+    );
+
+  const g =
+    parseInt(
+      hex.substring(2, 4),
+      16
+    );
+
+  const b =
+    parseInt(
+      hex.substring(4, 6),
+      16
+    );
+
+
+  const luminance =
+    (
+      0.299 * r
+      +
+      0.587 * g
+      +
+      0.114 * b
+    );
+
+
+  return luminance > 150
+    ? "#111111"
+    : "#FFFFFF";
+
+}
+
+
+/* =========================================================
+   Guild Select
+========================================================= */
+
+function setupGuildSelect() {
+
+  const guildSelect =
+    document.getElementById(
+      "guild"
+    );
+
+
+  if (!guildSelect)
+    return;
+
+
+  guildSelect.innerHTML = "";
+
+
+  const placeholder =
+    document.createElement(
+      "option"
+    );
+
+  placeholder.value = "";
+
+  placeholder.textContent =
+    "Select Guild";
+
+  placeholder.selected = true;
+
+  placeholder.disabled = true;
+
+  guildSelect.appendChild(
+    placeholder
+  );
+
+
+  GUILD_LIST.forEach(
+    guild => {
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+      option.value =
+        guild;
+
+      option.textContent =
+        guild;
+
+      guildSelect.appendChild(
+        option
+      );
+
+    }
+  );
+
+}
 
 
 /* =========================================================
@@ -59,7 +225,7 @@ const SCHEDULE_COLORS = [
 const event = {
   start: "",
   end: ""
-}
+};
 
 
 /* =========================================================
@@ -141,6 +307,7 @@ let creatorId =
   localStorage.getItem(
     "s222_creator_id"
   );
+
 
 if (!creatorId) {
 
@@ -241,6 +408,10 @@ function formatDate(date) {
 }
 
 
+/* =========================================================
+   Fortress Icon
+========================================================= */
+
 function fortressIcon(level) {
 
   switch (level) {
@@ -258,200 +429,6 @@ function fortressIcon(level) {
       return "🟢";
 
   }
-
-}
-
-
-/* =========================================================
-   Default Schedule Color
-========================================================= */
-
-function defaultColor(level) {
-
-  switch (level) {
-
-    case "Lv7":
-      return "#0000FF";
-
-    case "Lv6":
-      return "#FE0000";
-
-    case "Lv5":
-      return "#FFFF00";
-
-    default:
-      return "#02FF00";
-
-  }
-
-}
-
-
-/* =========================================================
-   Schedule Text Color
-========================================================= */
-
-function getScheduleTextColor(
-  color
-) {
-
-  if (!color)
-    return "#FFFFFF";
-
-
-  switch (
-    color.toUpperCase()
-  ) {
-
-    case "#00FFFF":
-    case "#FF00FF":
-    case "#02FF00":
-    case "#FFFF00":
-    case "#FFFFFF":
-
-      return "#111111";
-
-
-    case "#0000FF":
-    case "#FE0000":
-    case "#000000":
-
-      return "#FFFFFF";
-
-
-    default:
-
-      return "#FFFFFF";
-
-  }
-
-}
-
-
-/* =========================================================
-   Color Palette
-========================================================= */
-
-function setupColorPalette() {
-
-  const palette =
-    document.getElementById(
-      "scheduleColorPalette"
-    );
-
-  if (!palette)
-    return;
-
-
-  palette.innerHTML = "";
-
-
-  SCHEDULE_COLORS.forEach(
-    color => {
-
-      const button =
-        document.createElement(
-          "button"
-        );
-
-
-      button.type =
-        "button";
-
-      button.className =
-        "color-option";
-
-      button.dataset.color =
-        color;
-
-      button.style.backgroundColor =
-        color;
-
-      button.style.color =
-        getScheduleTextColor(
-          color
-        );
-
-      button.setAttribute(
-        "aria-label",
-        `Schedule color ${color}`
-      );
-
-
-      button.addEventListener(
-        "click",
-        async () => {
-
-          if (
-            !selectedSchedule
-          )
-            return;
-
-
-          selectedSchedule.color =
-            color;
-
-
-          updateSelectedColor(
-            color
-          );
-
-
-          try {
-
-            await updateSchedule(
-              selectedSchedule
-            );
-
-            await loadSchedules();
-
-          }
-
-          catch (error) {
-
-            console.error(
-              "Color update error:",
-              error
-            );
-
-          }
-
-        }
-      );
-
-
-      palette.appendChild(
-        button
-      );
-
-    }
-  );
-
-}
-
-
-function updateSelectedColor(
-  color
-) {
-
-  document
-    .querySelectorAll(
-      ".color-option"
-    )
-    .forEach(
-      button => {
-
-        button.classList.toggle(
-          "selected",
-
-          button.dataset.color
-            .toUpperCase()
-          ===
-          color.toUpperCase()
-        );
-
-      }
-    );
 
 }
 
@@ -575,8 +552,8 @@ function updateCurrentTime() {
     return;
 
 
-eventPeriod.textContent =
-  `Event: ${event.start.replace("T", " ")} → ${event.end.replace("T", " ")}`;
+  eventPeriod.textContent =
+    `Event: ${event.start.replace("T", " ")} → ${event.end.replace("T", " ")}`;
 
 }
 
@@ -597,17 +574,17 @@ function updateLanguage() {
     );
 
 
-if (title) {
+  if (title) {
 
-  title.textContent =
-    "S222TR Calendar";
+    title.textContent =
+      "S222TR Calendar";
 
-  title.setAttribute(
-    "translate",
-    "no"
-  );
+    title.setAttribute(
+      "translate",
+      "no"
+    );
 
-}
+  }
 
 
   const addButton =
@@ -615,17 +592,19 @@ if (title) {
       "addScheduleBtn"
     );
 
-if (addButton) {
 
-  addButton.textContent =
-    "Add Schedule";
+  if (addButton) {
 
-  addButton.setAttribute(
-    "translate",
-    "no"
-  );
+    addButton.textContent =
+      "Add Schedule";
 
-}
+    addButton.setAttribute(
+      "translate",
+      "no"
+    );
+
+  }
+
 
   const refreshButton =
     document.getElementById(
@@ -876,8 +855,15 @@ async function loadSchedules() {
         description:
           schedule.description || "",
 
+        /*
+          Always use the current Guild color.
+          This also updates old schedules that
+          were saved with the previous color system.
+        */
         color:
-          schedule.color,
+          guildColor(
+            schedule.guild
+          ),
 
         creatorId:
           schedule.creator_id
@@ -1190,8 +1176,10 @@ function renderCalendar() {
     const weekStart =
       new Date(cursor);
 
+
     const weekEnd =
       new Date(cursor);
+
 
     weekEnd.setDate(
       weekEnd.getDate() + 6
@@ -1206,6 +1194,7 @@ function renderCalendar() {
 
     week.className =
       "week";
+
 
     week.style.position =
       "relative";
@@ -1240,6 +1229,7 @@ function renderCalendar() {
       const date =
         new Date(weekStart);
 
+
       date.setDate(
         weekStart.getDate() + i
       );
@@ -1247,6 +1237,7 @@ function renderCalendar() {
 
       const day =
         createDay(date);
+
 
       dayGrid.appendChild(
         day
@@ -1442,6 +1433,7 @@ function createDay(date) {
   header.className =
     "day-header";
 
+
   header.textContent =
     date.getDate();
 
@@ -1471,6 +1463,7 @@ function scheduleOverlapsWeek(
       schedule.start
     );
 
+
   const scheduleEnd =
     new Date(
       schedule.end
@@ -1495,6 +1488,7 @@ function scheduleOverlapsWeek(
   const rangeStart =
     new Date(weekStart);
 
+
   rangeStart.setHours(
     0,
     0,
@@ -1506,9 +1500,11 @@ function scheduleOverlapsWeek(
   const rangeEnd =
     new Date(weekEnd);
 
+
   rangeEnd.setDate(
     rangeEnd.getDate() + 1
   );
+
 
   rangeEnd.setHours(
     0,
@@ -1541,6 +1537,7 @@ function getWeekScheduleSegment(
     new Date(
       schedule.start
     );
+
 
   const scheduleEnd =
     new Date(
@@ -1621,6 +1618,7 @@ function getWeekScheduleSegment(
     getJSTDate(
       scheduleStart
     );
+
 
   const endDate =
     getJSTDate(
@@ -1734,16 +1732,21 @@ function createSchedule(
     "absolute";
 
 
+  /*
+    Guild determines the schedule color.
+    The stored database color is intentionally
+    ignored here so old schedules are also
+    automatically converted.
+  */
   const scheduleColor =
-    schedule.color
-    ||
-    defaultColor(
-      schedule.fortress
+    guildColor(
+      schedule.guild
     );
 
 
   button.style.background =
     scheduleColor;
+
 
   button.style.color =
     getScheduleTextColor(
@@ -1810,8 +1813,9 @@ document
 function resetForm() {
 
   form.reset();
-   
+
   updateFortressOptions();
+
 
   document.getElementById(
     "deleteBtn"
@@ -1866,6 +1870,7 @@ document
       dialog.close()
   );
 
+
 /* =========================================================
    Fortress Options by League
 ========================================================= */
@@ -1877,21 +1882,27 @@ function updateFortressOptions() {
       "league"
     ).value;
 
+
   const fortressSelect =
     document.getElementById(
       "fortress"
     );
 
+
   if (!fortressSelect)
     return;
+
 
   const maxLevel = {
 
     Bronze: 5,
+
     Silver: 6,
+
     Gold: 7
 
   }[league] || 4;
+
 
   Array.from(
     fortressSelect.options
@@ -1907,6 +1918,7 @@ function updateFortressOptions() {
           10
         );
 
+
       option.hidden =
         maxLevel
           ? level > maxLevel
@@ -1916,6 +1928,8 @@ function updateFortressOptions() {
   );
 
 }
+
+
 /* =========================================================
    League Validation
 ========================================================= */
@@ -1925,25 +1939,35 @@ function validateLeagueFortress(
   fortress
 ) {
 
-  // Lv4 has no league restriction
-  if (fortress === "Lv4") {
+  /*
+    Lv4 has no league restriction.
+  */
+  if (
+    fortress === "Lv4"
+  ) {
 
     return true;
 
   }
+
 
   const allowed =
     LEAGUE_LIMITS[
       league
     ];
 
+
   if (!allowed)
     return false;
+
 
   return allowed.includes(
     fortress
   );
+
 }
+
+
 /* =========================================================
    Save
 ========================================================= */
@@ -1982,7 +2006,7 @@ form.addEventListener(
     const guild =
       document.getElementById(
         "guild"
-      ).value.trim();
+      ).value;
 
 
     const startDate =
@@ -2143,12 +2167,14 @@ form.addEventListener(
 
       description,
 
+      /*
+        Guild color is always determined
+        automatically.
+      */
       color:
-        selectedSchedule
-          ? selectedSchedule.color
-          : defaultColor(
-              fortress
-            ),
+        guildColor(
+          guild
+        ),
 
       creatorId
 
@@ -2242,6 +2268,7 @@ function showDetails(
     new Date(
       schedule.start
     );
+
 
   const end =
     new Date(
@@ -2384,18 +2411,6 @@ function showDetails(
   `;
 
 
-  setupColorPalette();
-
-
-  updateSelectedColor(
-    schedule.color
-    ||
-    defaultColor(
-      schedule.fortress
-    )
-  );
-
-
   document.getElementById(
     "editSchedule"
   ).style.display =
@@ -2459,12 +2474,19 @@ function escapeHTML(text) {
       character => {
 
         const map = {
+
           "&": "&amp;",
+
           "<": "&lt;",
+
           ">": "&gt;",
+
           '"': "&quot;",
+
           "'": "&#039;"
+
         };
+
 
         return map[
           character
@@ -2559,6 +2581,9 @@ function openEditForm(
     schedule.league || "";
 
 
+  updateFortressOptions();
+
+
   document.getElementById(
     "fortress"
   ).value =
@@ -2587,6 +2612,7 @@ function openEditForm(
     new Date(
       schedule.start
     );
+
 
   const end =
     new Date(
@@ -2725,6 +2751,7 @@ document
 
         console.error(error);
 
+
         alert(
           isMobile()
             ? "予定の削除に失敗しました。"
@@ -2756,6 +2783,7 @@ document
           1
         );
 
+
       renderCalendar();
 
     }
@@ -2776,6 +2804,7 @@ document
           currentMonth.getMonth() + 1,
           1
         );
+
 
       renderCalendar();
 
@@ -2821,15 +2850,18 @@ const startGMT =
     "startGMT"
   );
 
+
 const startJST =
   document.getElementById(
     "startJST"
   );
 
+
 const endGMT =
   document.getElementById(
     "endGMT"
   );
+
 
 const endJST =
   document.getElementById(
@@ -2892,6 +2924,11 @@ if (
 
 }
 
+
+/* =========================================================
+   League Change
+========================================================= */
+
 document
   .getElementById(
     "league"
@@ -2900,11 +2937,15 @@ document
     "change",
     updateFortressOptions
   );
+
+
 /* =========================================================
    Initial
 ========================================================= */
 
-setupColorPalette();
+setupGuildSelect();
+
+updateFortressOptions();
 
 updateLanguage();
 
