@@ -575,8 +575,8 @@ function updateCurrentTime() {
     return;
 
 
-  eventPeriod.textContent =
-    `Event: ${event.start} → ${event.end}`;
+eventPeriod.textContent =
+  `Event: ${event.start.replace("T", " ")} → ${event.end.replace("T", " ")}`;
 
 }
 
