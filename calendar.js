@@ -1889,7 +1889,7 @@ function validateLeagueFortress(
   return allowed.includes(
     fortress
   );
-
+}
 /* =========================================================
    Save
 ========================================================= */
