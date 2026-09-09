@@ -1,773 +1,439 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>S222 Throne Rush Calendar</title>
-<link rel="stylesheet" href="calendar.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>S222 Throne Rush Calendar</title>
+
+  <link rel="stylesheet" href="calendar.css">
 </head>
 
 <body>
 
-<header class="header">
+  <header class="header">
 
-  <div class="header-title">
+```
+<div class="header-title">
 
-    <div>
-      <h1>S222 Throne Rush Calendar</h1>
-      <p id="event-period">Event: --</p>
-    </div>
-
-    <div class="admin-status">
-
-      <span id="adminStatus">OUT</span>
-
-      <button
-        type="button"
-        id="adminMenuBtn"
-        class="admin-menu-button"
-        aria-label="Admin Menu"
-      >
-        ☰
-      </button>
-
-    </div>
-
+  <div>
+    <h1>S222 Throne Rush Calendar</h1>
+    <p id="event-period">Event: --</p>
   </div>
 
-
-  <div class="header-buttons">
-
-    <button
-      id="addScheduleBtn"
-      class="main-button"
-    >
-      Add Schedule
-    </button>
+  <div class="admin-status">
+    <span id="adminStatus">OUT</span>
 
     <button
-      id="refreshBtn"
-      class="secondary-button"
+      type="button"
+      id="adminMenuBtn"
+      class="admin-menu-button"
+      aria-label="Admin Menu"
     >
-      🔄 Refresh
+      ☰
     </button>
-
   </div>
-
-</header>
-
-
-<!-- Month Navigation -->
-
-<div class="month-navigation">
-
-  <button id="prevMonth">‹</button>
-
-  <h2 id="monthTitle"></h2>
-
-  <button id="nextMonth">›</button>
 
 </div>
 
 
-<!-- Weekday -->
 
-<div id="weekdayHeader"></div>
-
-
-<!-- Calendar -->
-
-<main id="calendarWrapper">
-
-  <div id="calendar"></div>
-
-</main>
-
-
-<!-- Guild Summary Table -->
-
-<section id="guildSummary" class="guild-summary">
+<div class="header-buttons">
 
   <button
-    type="button"
-    id="summaryToggle"
-    class="summary-toggle"
-    aria-expanded="false"
+    id="addScheduleBtn"
+    class="main-button"
   >
-
-    <div class="summary-preview">
-
-      <span id="summaryPreviewGuild">
-        Guild
-      </span>
-
-      <span id="summaryPreviewLeague">
-        —
-      </span>
-
-    </div>
-
-
-    <div class="summary-preview-cell">
-
-      <span style="color:#888;">
-        Lv6　
-      </span>
-
-      <strong id="summaryPreviewDays">
-        0
-      </strong>
-
-    </div>
-
-
-    <span class="summary-arrow">
-      ▲
-    </span>
-
+    Add Schedule
   </button>
 
-
-  <div
-    id="summaryTableWrapper"
-    class="summary-table-wrapper"
+  <button
+    id="refreshBtn"
+    class="secondary-button"
   >
+    🔄 Refresh
+  </button>
 
-    <table id="summaryTable">
+</div>
+```
 
-      <thead>
+  </header>
 
-        <tr>
+  <!-- Month Navigation -->
 
-          <th>Guild</th>
+  <div class="month-navigation">
 
-          <th>League</th>
+```
+<button id="prevMonth">‹</button>
 
-          <th>
-            Lv4<span style="color:#888;">DAYS</span>
-          </th>
+<h2 id="monthTitle"></h2>
 
-          <th>
-            Lv5<span style="color:#888;">DAYS</span>
-          </th>
-
-          <th>
-            Lv6<span style="color:#888;">DAYS</span>
-          </th>
-
-          <th>
-            Lv7<span style="color:#888;">DAYS</span>
-          </th>
-
-          <th>Total</th>
-
-        </tr>
-
-      </thead>
-
-
-      <tbody id="summaryTableBody"></tbody>
-
-      <tfoot id="summaryTableFoot"></tfoot>
-
-    </table>
+<button id="nextMonth">›</button>
+```
 
   </div>
 
-</section>
+  <!-- Weekday -->
+
+  <div id="weekdayHeader"></div>
+
+  <!-- Calendar -->
+
+  <main id="calendarWrapper">
+
+```
+<div id="calendar"></div>
+```
+
+  </main>
+
+  <!-- Guild Summary Table -->
+
+  <section id="guildSummary" class="guild-summary">
+
+```
+<button
+  type="button"
+  id="summaryToggle"
+  class="summary-toggle"
+  aria-expanded="false"
+>
+
+  <div class="summary-preview">
+
+    <span id="summaryPreviewGuild">Guild</span>
+
+    <span id="summaryPreviewLeague">—</span>
+
+  </div>
 
 
-<!-- =====================================================
-Schedule Input
-====================================================== -->
 
-<dialog id="scheduleDialog">
+  <div class="summary-preview-cell">
 
-  <form id="scheduleForm">
+    <span style="color:#888;">Lv6　</span>
 
-    <div class="dialog-header">
+    <strong id="summaryPreviewDays">0</strong>
 
-      <h2 id="dialogTitle">
-        Add Schedule
-      </h2>
-
-      <button
-        type="button"
-        id="closeDialog"
-        class="close-button"
-      >
-        ×
-      </button>
-
-    </div>
+  </div>
 
 
-    <!-- Guild VS League -->
 
-    <label>
+  <span class="summary-arrow">▲</span>
 
-      Guild VS League
-
-      <select id="league" required>
-
-        <option value="" selected disabled>
-          Select League
-        </option>
-
-        <option value="Bronze">
-          Bronze
-        </option>
-
-        <option value="Silver">
-          Silver
-        </option>
-
-        <option value="Gold">
-          Gold
-        </option>
-
-      </select>
-
-    </label>
+</button>
 
 
-    <!-- Fortress -->
 
-    <label>
+<div
+  id="summaryTableWrapper"
+  class="summary-table-wrapper"
+>
 
-      Fortress
+  <table id="summaryTable">
 
-      <select id="fortress" required>
+    <thead>
 
-        <option value="Lv7">
-          Lv7
-        </option>
+      <tr>
 
-        <option value="Lv6">
-          Lv6
-        </option>
+        <th>Guild</th>
 
-        <option value="Lv5">
-          Lv5
-        </option>
+        <th>League</th>
 
-        <option value="Lv4">
-          Lv4
-        </option>
+        <th>Lv4<span style="color:#888;">DAYS</span></th>
 
-      </select>
+        <th>Lv5<span style="color:#888;">DAYS</span></th>
 
-    </label>
+        <th>Lv6<span style="color:#888;">DAYS</span></th>
+
+        <th>Lv7<span style="color:#888;">DAYS</span></th>
+
+        <th>Total</th>
+
+      </tr>
+
+    </thead>
+
+    <tbody id="summaryTableBody"></tbody>
+
+    <tfoot id="summaryTableFoot"></tfoot>
+
+  </table>
+
+</div>
+```
+
+  </section>
+
+  <!-- =====================================================
+       Schedule Input
+  ====================================================== -->
+
+  <dialog id="scheduleDialog">
+
+```
+<form id="scheduleForm">
+
+  <div class="dialog-header">
+
+    <h2 id="dialogTitle">Add Schedule</h2>
+
+    <button
+      type="button"
+      id="closeDialog"
+      class="close-button"
+    >
+      ×
+    </button>
+
+  </div>
 
 
-    <!-- Coordinate -->
 
-    <fieldset>
+  <!-- Guild VS League -->
+  <label>
 
-      <legend>
-        Coordinate
-      </legend>
+    Guild VS League
 
-      <div class="coordinate">
+    <select id="league" required>
 
-        <input
-          id="coordinateX"
-          type="number"
-          min="0"
-          placeholder="X"
-          required
-        >
+      <option value="" selected disabled>
+        Select League
+      </option>
 
-        <span>:</span>
+      <option value="Bronze">
+        Bronze
+      </option>
 
-        <input
-          id="coordinateY"
-          type="number"
-          min="0"
-          placeholder="Y"
-          required
-        >
+      <option value="Silver">
+        Silver
+      </option>
 
-      </div>
+      <option value="Gold">
+        Gold
+      </option>
 
-    </fieldset>
+    </select>
+
+  </label>
 
 
-    <!-- Guild -->
 
-    <label>
+  <!-- Fortress -->
+  <label>
 
-      Guild
+    Fortress
+
+    <select id="fortress" required>
+
+      <option value="Lv7">
+        Lv7
+      </option>
+
+      <option value="Lv6">
+        Lv6
+      </option>
+
+      <option value="Lv5">
+        Lv5
+      </option>
+
+      <option value="Lv4">
+        Lv4
+      </option>
+
+    </select>
+
+  </label>
+
+
+
+  <!-- Coordinate -->
+  <fieldset>
+
+    <legend>Coordinate</legend>
+
+    <div class="coordinate">
 
       <input
-        id="guild"
-        type="text"
-        maxlength="80"
+        id="coordinateX"
+        type="number"
+        min="0"
+        placeholder="X"
         required
       >
 
-    </label>
+      <span>:</span>
 
-
-    <!-- Start -->
-
-    <fieldset>
-
-      <legend>
-        Start — Attack Start
-      </legend>
-
-      <div class="datetime">
-
-        <div>
-
-          <span>Date</span>
-
-          <input
-            id="startDate"
-            type="date"
-            required
-          >
-
-        </div>
-
-        <div>
-
-          <span>GMT</span>
-
-          <input
-            id="startGMT"
-            type="time"
-            required
-          >
-
-        </div>
-
-        <div>
-
-          <span>JST</span>
-
-          <input
-            id="startJST"
-            type="time"
-            required
-          >
-
-        </div>
-
-      </div>
-
-    </fieldset>
-
-
-    <!-- End -->
-
-    <fieldset>
-
-      <legend>
-        End — Planned Handover
-      </legend>
-
-      <div class="datetime">
-
-        <div>
-
-          <span>Date</span>
-
-          <input
-            id="endDate"
-            type="date"
-            required
-          >
-
-        </div>
-
-        <div>
-
-          <span>GMT</span>
-
-          <input
-            id="endGMT"
-            type="time"
-            required
-          >
-
-        </div>
-
-        <div>
-
-          <span>JST</span>
-
-          <input
-            id="endJST"
-            type="time"
-            required
-          >
-
-        </div>
-
-      </div>
-
-    </fieldset>
-
-
-    <!-- Description -->
-
-    <label>
-
-      Description
-
-      <textarea
-        id="description"
-        rows="4"
-        maxlength="1000"
-      ></textarea>
-
-    </label>
-
-
-    <p
-      id="formError"
-      class="error"
-    ></p>
-
-
-    <div class="form-buttons">
-
-      <button
-        type="button"
-        id="deleteBtn"
-        class="delete-button"
+      <input
+        id="coordinateY"
+        type="number"
+        min="0"
+        placeholder="Y"
+        required
       >
-        Delete
-      </button>
+
+    </div>
+
+  </fieldset>
+
+
+
+  <!-- Guild -->
+  <label>
+
+    Guild
+
+    <input
+      id="guild"
+      type="text"
+      maxlength="80"
+      required
+    >
+
+  </label>
+
+
+
+  <!-- Start -->
+  <fieldset>
+
+    <legend>Start — Attack Start</legend>
+
+    <div class="datetime">
 
       <div>
 
-        <button
-          type="button"
-          id="cancelBtn"
-          class="secondary-button"
-        >
-          Cancel
-        </button>
+        <span>Date</span>
 
-        <button
-          type="submit"
-          class="main-button"
+        <input
+          id="startDate"
+          type="date"
+          required
         >
-          Save
-        </button>
+
+      </div>
+
+      <div>
+
+        <span>GMT</span>
+
+        <input
+          id="startGMT"
+          type="time"
+          required
+        >
+
+      </div>
+
+      <div>
+
+        <span>JST</span>
+
+        <input
+          id="startJST"
+          type="time"
+          required
+        >
 
       </div>
 
     </div>
 
-  </form>
-
-</dialog>
+  </fieldset>
 
 
-<!-- =====================================================
-Detail
-====================================================== -->
 
-<dialog id="detailDialog">
+  <!-- End -->
+  <fieldset>
 
-  <div class="detail">
+    <legend>End — Planned Handover</legend>
 
-    <div class="dialog-header">
+    <div class="datetime">
 
-      <h2 id="detailTitle"></h2>
+      <div>
 
-      <button
-        id="closeDetail"
-        class="close-button"
-      >
-        ×
-      </button>
+        <span>Date</span>
+
+        <input
+          id="endDate"
+          type="date"
+          required
+        >
+
+      </div>
+
+      <div>
+
+        <span>GMT</span>
+
+        <input
+          id="endGMT"
+          type="time"
+          required
+        >
+
+      </div>
+
+      <div>
+
+        <span>JST</span>
+
+        <input
+          id="endJST"
+          type="time"
+          required
+        >
+
+      </div>
 
     </div>
 
-
-    <div id="detailContent"></div>
-
-
-    <!-- Color -->
-
-    <div class="color-control">
-
-      <label>
-        Schedule Color
-      </label>
-
-      <div
-        id="scheduleColorPalette"
-        class="color-palette"
-      ></div>
-
-    </div>
+  </fieldset>
 
 
-    <div class="detail-buttons">
+
+  <!-- Description -->
+  <label>
+
+    Description
+
+    <textarea
+      id="description"
+      rows="4"
+      maxlength="1000"
+    ></textarea>
+
+  </label>
+
+
+
+  <p
+    id="formError"
+    class="error"
+  ></p>
+
+
+
+  <div class="form-buttons">
+
+    <button
+      type="button"
+      id="deleteBtn"
+      class="delete-button"
+    >
+      Delete
+    </button>
+
+    <div>
 
       <button
-        id="editSchedule"
+        type="button"
+        id="cancelBtn"
         class="secondary-button"
       >
-        Edit
-      </button>
-
-      <button
-        id="detailClose"
-        class="main-button"
-      >
-        Close
-      </button>
-
-    </div>
-
-  </div>
-
-</dialog>
-
-
-<!-- =====================================================
-Admin Login
-====================================================== -->
-
-<dialog id="adminLoginDialog">
-
-  <form id="adminLoginForm">
-
-    <div class="dialog-header">
-
-      <h2>
-        Admin Login
-      </h2>
-
-      <button
-        type="button"
-        id="closeAdminLogin"
-        class="close-button"
-      >
-        ×
-      </button>
-
-    </div>
-
-
-    <label>
-
-      Email
-
-      <input
-        id="adminEmail"
-        type="email"
-        autocomplete="username"
-        required
-      >
-
-    </label>
-
-
-    <label>
-
-      Password
-
-      <input
-        id="adminPassword"
-        type="password"
-        autocomplete="current-password"
-        required
-      >
-
-    </label>
-
-
-    <p
-      id="adminLoginError"
-      class="error"
-    ></p>
-
-
-    <div class="admin-login-buttons">
-
-      <button
-        type="submit"
-        class="main-button"
-      >
-        Login
-      </button>
-
-    </div>
-
-  </form>
-
-</dialog>
-
-
-<!-- =====================================================
-Admin Panel
-====================================================== -->
-
-<dialog id="adminPanelDialog">
-
-  <form id="adminPanelForm">
-
-    <div class="dialog-header">
-
-      <h2>
-        Admin Panel
-      </h2>
-
-      <button
-        type="button"
-        id="closeAdminPanel"
-        class="close-button"
-      >
-        ×
-      </button>
-
-    </div>
-
-
-    <!-- Event Period -->
-
-    <fieldset class="admin-section">
-
-      <legend>
-        Event Period
-      </legend>
-
-      <div class="admin-period">
-
-        <div>
-
-          <span>
-            Start
-          </span>
-
-          <input
-            id="adminEventStart"
-            type="date"
-            required
-          >
-
-        </div>
-
-        <span class="admin-period-separator">
-          —
-        </span>
-
-        <div>
-
-          <span>
-            End
-          </span>
-
-          <input
-            id="adminEventEnd"
-            type="date"
-            required
-          >
-
-        </div>
-
-      </div>
-
-    </fieldset>
-
-
-    <!-- Level Release -->
-
-    <fieldset class="admin-section">
-
-      <legend>
-        Level Release
-      </legend>
-
-      <div class="release-list">
-
-        <div class="release-row">
-
-          <strong>
-            Lv4
-          </strong>
-
-          <input
-            id="adminLv4Release"
-            type="datetime-local"
-          >
-
-        </div>
-
-
-        <div class="release-row">
-
-          <strong>
-            Lv5
-          </strong>
-
-          <input
-            id="adminLv5Release"
-            type="datetime-local"
-          >
-
-        </div>
-
-
-        <div class="release-row">
-
-          <strong>
-            Lv6
-          </strong>
-
-          <input
-            id="adminLv6Release"
-            type="datetime-local"
-          >
-
-        </div>
-
-
-        <div class="release-row">
-
-          <strong>
-            Lv7
-          </strong>
-
-          <input
-            id="adminLv7Release"
-            type="datetime-local"
-          >
-
-        </div>
-
-      </div>
-
-
-      <p class="admin-note">
-        Level availability ends automatically with the Event Period.
-      </p>
-
-    </fieldset>
-
-
-    <p
-      id="adminPanelError"
-      class="error"
-    ></p>
-
-
-    <div class="admin-panel-buttons">
-
-      <button
-        type="button"
-        id="adminLogoutBtn"
-        class="secondary-button"
-      >
-        Logout
+        Cancel
       </button>
 
       <button
@@ -779,16 +445,325 @@ Admin Panel
 
     </div>
 
-  </form>
+  </div>
 
-</dialog>
+</form>
+```
+
+  </dialog>
+
+  <!-- =====================================================
+       Detail
+  ====================================================== -->
+
+  <dialog id="detailDialog">
+
+```
+<div class="detail">
+
+  <div class="dialog-header">
+
+    <h2 id="detailTitle"></h2>
+
+    <button
+      id="closeDetail"
+      class="close-button"
+    >
+      ×
+    </button>
+
+  </div>
 
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script src="calendar.js"></script>
+  <div id="detailContent"></div>
 
-<script src="summary.js"></script>
+
+
+  <!-- Color -->
+  <div class="color-control">
+
+    <label>
+      Schedule Color
+    </label>
+
+    <div
+      id="scheduleColorPalette"
+      class="color-palette"
+    ></div>
+
+  </div>
+
+
+
+  <div class="detail-buttons">
+
+    <button
+      id="editSchedule"
+      class="secondary-button"
+    >
+      Edit
+    </button>
+
+    <button
+      id="detailClose"
+      class="main-button"
+    >
+      Close
+    </button>
+
+  </div>
+
+</div>
+```
+
+  </dialog>
+
+  <!-- =====================================================
+       Admin Login
+  ====================================================== -->
+
+  <dialog id="adminLoginDialog">
+
+```
+<form id="adminLoginForm">
+
+  <div class="dialog-header">
+
+    <h2>Admin Login</h2>
+
+    <button
+      type="button"
+      id="closeAdminLogin"
+      class="close-button"
+    >
+      ×
+    </button>
+
+  </div>
+
+
+
+  <label>
+
+    Email
+
+    <input
+      id="adminEmail"
+      type="email"
+      autocomplete="username"
+      required
+    >
+
+  </label>
+
+
+
+  <label>
+
+    Password
+
+    <input
+      id="adminPassword"
+      type="password"
+      autocomplete="current-password"
+      required
+    >
+
+  </label>
+
+
+
+  <p
+    id="adminLoginError"
+    class="error"
+  ></p>
+
+
+
+  <div class="admin-login-buttons">
+
+    <button
+      type="submit"
+      class="main-button"
+    >
+      Login
+    </button>
+
+  </div>
+
+</form>
+```
+
+  </dialog>
+
+  <!-- =====================================================
+       Admin Panel
+  ====================================================== -->
+
+  <dialog id="adminPanelDialog">
+
+```
+<form id="adminPanelForm">
+
+  <div class="dialog-header">
+
+    <h2>Admin Panel</h2>
+
+    <button
+      type="button"
+      id="closeAdminPanel"
+      class="close-button"
+    >
+      ×
+    </button>
+
+  </div>
+
+
+
+  <!-- Event Period -->
+  <fieldset class="admin-section">
+
+    <legend>Event Period</legend>
+
+    <div class="admin-period">
+
+      <div>
+
+        <span>Start</span>
+
+        <input
+          id="adminEventStart"
+          type="date"
+          required
+        >
+
+      </div>
+
+      <span class="admin-period-separator">—</span>
+
+      <div>
+
+        <span>End</span>
+
+        <input
+          id="adminEventEnd"
+          type="date"
+          required
+        >
+
+      </div>
+
+    </div>
+
+  </fieldset>
+
+
+
+  <!-- Level Release -->
+  <fieldset class="admin-section">
+
+    <legend>Level Release</legend>
+
+    <div class="release-list">
+
+      <div class="release-row">
+
+        <strong>Lv4</strong>
+
+        <input
+          id="adminLv4Release"
+          type="datetime-local"
+        >
+
+      </div>
+
+
+
+      <div class="release-row">
+
+        <strong>Lv5</strong>
+
+        <input
+          id="adminLv5Release"
+          type="datetime-local"
+        >
+
+      </div>
+
+
+
+      <div class="release-row">
+
+        <strong>Lv6</strong>
+
+        <input
+          id="adminLv6Release"
+          type="datetime-local"
+        >
+
+      </div>
+
+
+
+      <div class="release-row">
+
+        <strong>Lv7</strong>
+
+        <input
+          id="adminLv7Release"
+          type="datetime-local"
+        >
+
+      </div>
+
+    </div>
+
+    <p class="admin-note">
+      Level availability ends automatically with the Event Period.
+    </p>
+
+  </fieldset>
+
+
+
+  <p
+    id="adminPanelError"
+    class="error"
+  ></p>
+
+
+
+  <div class="admin-panel-buttons">
+
+    <button
+      type="button"
+      id="adminLogoutBtn"
+      class="secondary-button"
+    >
+      Logout
+    </button>
+
+    <button
+      type="submit"
+      class="main-button"
+    >
+      Save
+    </button>
+
+  </div>
+
+</form>
+```
+
+  </dialog>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script src="calendar.js"></script>
+
+  <script src="summary.js"></script>
 
 </body>
 </html>
