@@ -1861,7 +1861,56 @@ document
       dialog.close()
   );
 
+/* =========================================================
+   Fortress Options by League
+========================================================= */
 
+function updateFortressOptions() {
+
+  const league =
+    document.getElementById(
+      "league"
+    ).value;
+
+  const fortressSelect =
+    document.getElementById(
+      "fortress"
+    );
+
+  if (!fortressSelect)
+    return;
+
+  const maxLevel = {
+
+    Bronze: 5,
+    Silver: 6,
+    Gold: 7
+
+  }[league];
+
+  Array.from(
+    fortressSelect.options
+  ).forEach(
+    option => {
+
+      const level =
+        parseInt(
+          option.value.replace(
+            "Lv",
+            ""
+          ),
+          10
+        );
+
+      option.hidden =
+        maxLevel
+          ? level > maxLevel
+          : false;
+
+    }
+  );
+
+}
 /* =========================================================
    League Validation
 ========================================================= */
