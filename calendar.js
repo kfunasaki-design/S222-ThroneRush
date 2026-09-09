@@ -437,110 +437,30 @@ function fortressIcon(level) {
    GMT / JST Input Conversion
 ========================================================= */
 
-function updateJST(
-  gmtInput,
-  jstInput
-) {
-
-  if (!gmtInput.value)
-    return;
-
-
-  const [
-    hour,
-    minute
-  ] =
-    gmtInput.value
-      .split(":")
-      .map(Number);
-
-
-  const date =
-    new Date();
-
-
-  date.setUTCHours(
-    hour,
-    minute,
-    0,
-    0
-  );
-
-
-  date.setHours(
-    date.getHours() + 9
-  );
-
-
-  jstInput.value =
-    String(
-      date.getHours()
-    ).padStart(
-      2,
-      "0"
-    )
-    +
-    ":"
-    +
-    String(
-      date.getMinutes()
-    ).padStart(
-      2,
-      "0"
-    );
-
-}
-
-
-function updateGMT(
-  jstInput,
-  gmtInput
-) {
+function updateGMT(jstInput, gmtInput) {
 
   if (!jstInput.value)
     return;
 
+  const [hour, minute] =
+    jstInput.value.split(":").map(Number);
 
-  const [
-    hour,
-    minute
-  ] =
-    jstInput.value
-      .split(":")
-      .map(Number);
+  const totalMinutes =
+    hour * 60 +
+    minute -
+    9 * 60;
 
+  const gmtHour =
+    Math.floor(((totalMinutes + 1440) % 1440) / 60);
 
-  const date =
-    new Date();
-
-
-  date.setUTCHours(
-    hour - 9,
-    minute,
-    0,
-    0
-  );
-
+  const gmtMinute =
+    (totalMinutes + 1440) % 60;
 
   gmtInput.value =
-    String(
-      date.getUTCHours()
-    ).padStart(
-      2,
-      "0"
-    )
-    +
-    ":"
-    +
-    String(
-      date.getUTCMinutes()
-    ).padStart(
-      2,
-      "0"
-    );
-
+    String(gmtHour).padStart(2, "0") +
+    ":" +
+    String(gmtMinute).padStart(2, "0");
 }
-
 
 /* =========================================================
    Current Time
