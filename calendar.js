@@ -615,16 +615,17 @@ if (title) {
       "addScheduleBtn"
     );
 
+if (addButton) {
 
-  if (addButton) {
+  addButton.textContent =
+    "Add Schedule";
 
-    addButton.textContent =
-      mobile
-        ? "予定を追加"
-        : "Add Schedule";
+  addButton.setAttribute(
+    "translate",
+    "no"
+  );
 
-  }
-
+}
 
   const refreshButton =
     document.getElementById(
