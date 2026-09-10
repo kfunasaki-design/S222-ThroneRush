@@ -2117,9 +2117,9 @@ form.addEventListener(
       else {
 
         if (
-          selectedSchedule.creatorId
-          !==
-          creatorId
+  selectedSchedule.creatorId !== creatorId
+  &&
+  !window.s222AdminState?.isAdmin
         ) {
 
           error.textContent =
@@ -2332,14 +2332,14 @@ function showDetails(
   `;
 
 
-  document.getElementById(
-    "editSchedule"
-  ).style.display =
-    schedule.creatorId
-    ===
-    creatorId
-      ? "inline-block"
-      : "none";
+document.getElementById(
+  "editSchedule"
+).style.display =
+  schedule.creatorId === creatorId
+  ||
+  window.s222AdminState?.isAdmin
+    ? "inline-block"
+    : "none";
 
 
   detailDialog.showModal();
@@ -2638,9 +2638,9 @@ document
 
 
       if (
-        selectedSchedule.creatorId
-        !==
-        creatorId
+  selectedSchedule.creatorId !== creatorId
+  &&
+  !window.s222AdminState?.isAdmin
       )
         return;
 
