@@ -1484,12 +1484,12 @@ legend {
 
 /* Alliance Total: Lv4–Lv7 separator */
 
-#summaryTable .summary-total-row td:nth-child(3) {
+#summaryTable .summary-total-row td:nth-child(2) {
   box-shadow:
     inset 1px 0 #217346;
 }
 
-#summaryTable .summary-total-row td:nth-child(6) {
+#summaryTable .summary-total-row td:nth-child(5) {
   box-shadow:
     inset -1px 0 #217346;
 }
