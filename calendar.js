@@ -109,16 +109,13 @@ function getScheduleTextColor(color) {
   if (!color)
     return "#FFFFFF";
 
-
   const hex =
     color
       .replace("#", "")
       .trim();
 
-
   if (hex.length !== 6)
     return "#FFFFFF";
-
 
   const r =
     parseInt(
@@ -138,7 +135,6 @@ function getScheduleTextColor(color) {
       16
     );
 
-
   const luminance =
     (
       0.299 * r
@@ -147,7 +143,6 @@ function getScheduleTextColor(color) {
       +
       0.114 * b
     );
-
 
   return luminance > 150
     ? "#111111"
@@ -167,13 +162,10 @@ function setupGuildSelect() {
       "guild"
     );
 
-
   if (!guildSelect)
     return;
 
-
   guildSelect.innerHTML = "";
-
 
   const placeholder =
     document.createElement(
@@ -192,7 +184,6 @@ function setupGuildSelect() {
   guildSelect.appendChild(
     placeholder
   );
-
 
   GUILD_LIST.forEach(
     guild => {
@@ -308,7 +299,6 @@ let creatorId =
     "s222_creator_id"
   );
 
-
 if (!creatorId) {
 
   creatorId =
@@ -365,17 +355,6 @@ const detailDialog =
   document.getElementById(
     "detailDialog"
   );
-
-
-/* =========================================================
-   Device
-========================================================= */
-
-function isMobile() {
-
-  return window.innerWidth <= 700;
-
-}
 
 
 /* =========================================================
@@ -437,7 +416,6 @@ function fortressIcon(level) {
    GMT / JST Input Conversion
 ========================================================= */
 
-
 function updateGMT(jstInput, gmtInput) {
 
   if (!jstInput.value)
@@ -452,7 +430,9 @@ function updateGMT(jstInput, gmtInput) {
     9 * 60;
 
   const gmtHour =
-    Math.floor(((totalMinutes + 1440) % 1440) / 60);
+    Math.floor(
+      ((totalMinutes + 1440) % 1440) / 60
+    );
 
   const gmtMinute =
     (totalMinutes + 1440) % 60;
@@ -461,7 +441,9 @@ function updateGMT(jstInput, gmtInput) {
     String(gmtHour).padStart(2, "0") +
     ":" +
     String(gmtMinute).padStart(2, "0");
+
 }
+
 
 /* =========================================================
    Current Time
@@ -472,7 +454,6 @@ function updateCurrentTime() {
   if (!eventPeriod)
     return;
 
-
   eventPeriod.textContent =
     `Event: ${event.start.replace("T", " ")} → ${event.end.replace("T", " ")}`;
 
@@ -480,18 +461,16 @@ function updateCurrentTime() {
 
 
 /* =========================================================
-   Responsive Translation
+   Language
+   Calendar UI is English only.
 ========================================================= */
 
 function updateLanguage() {
-
-
 
   const title =
     document.querySelector(
       ".header h1"
     );
-
 
   if (title) {
 
@@ -511,7 +490,6 @@ function updateLanguage() {
       "addScheduleBtn"
     );
 
-
   if (addButton) {
 
     addButton.textContent =
@@ -530,7 +508,6 @@ function updateLanguage() {
       "refreshBtn"
     );
 
-
   if (refreshButton) {
 
     refreshButton.textContent =
@@ -544,7 +521,6 @@ function updateLanguage() {
       ".weekday-cell"
     );
 
-
   const weekdaysEN = [
     "Sun",
     "Mon",
@@ -555,18 +531,14 @@ function updateLanguage() {
     "Sat"
   ];
 
-
-
-
-
   weekdayCells.forEach(
     (
       cell,
       index
     ) => {
 
-cell.textContent =
-  weekdaysEN[index];
+      cell.textContent =
+        weekdaysEN[index];
 
     }
   );
@@ -577,7 +549,6 @@ cell.textContent =
       "dialogTitle"
     );
 
-
   if (dialogTitle) {
 
     if (
@@ -586,15 +557,15 @@ cell.textContent =
       "edit"
     ) {
 
-dialogTitle.textContent =
-  "Edit Schedule";
+      dialogTitle.textContent =
+        "Edit Schedule";
 
     }
 
     else {
 
-dialogTitle.textContent =
-  "Add Schedule";
+      dialogTitle.textContent =
+        "Add Schedule";
 
     }
 
@@ -606,13 +577,10 @@ dialogTitle.textContent =
       "detailClose"
     );
 
-
   if (detailClose) {
 
     detailClose.textContent =
-      mobile
-        ? "閉じる"
-        : "Close";
+      "Close";
 
   }
 
@@ -622,13 +590,10 @@ dialogTitle.textContent =
       "editSchedule"
     );
 
-
   if (editButton) {
 
     editButton.textContent =
-      mobile
-        ? "編集"
-        : "Edit";
+      "Edit";
 
   }
 
@@ -638,13 +603,10 @@ dialogTitle.textContent =
       "cancelBtn"
     );
 
-
   if (cancelButton) {
 
     cancelButton.textContent =
-      mobile
-        ? "キャンセル"
-        : "Cancel";
+      "Cancel";
 
   }
 
@@ -654,13 +616,10 @@ dialogTitle.textContent =
       'button[type="submit"]'
     );
 
-
   if (saveButton) {
 
     saveButton.textContent =
-      mobile
-        ? "保存"
-        : "Save";
+      "Save";
 
   }
 
@@ -670,13 +629,10 @@ dialogTitle.textContent =
       "deleteBtn"
     );
 
-
   if (deleteButton) {
 
     deleteButton.textContent =
-      mobile
-        ? "削除"
-        : "Delete";
+      "Delete";
 
   }
 
@@ -705,7 +661,6 @@ async function loadSchedules() {
           ascending: true
         }
       );
-
 
   if (error) {
 
@@ -975,12 +930,10 @@ function renderCalendar() {
 
     weekdayHeader.innerHTML = "";
 
-
     const weekdayRow =
       document.createElement(
         "div"
       );
-
 
     weekdayRow.className =
       "weekday-row";
@@ -1004,7 +957,6 @@ function renderCalendar() {
           document.createElement(
             "div"
           );
-
 
         cell.className =
           "weekday-cell";
@@ -1096,10 +1048,8 @@ function renderCalendar() {
         "div"
       );
 
-
     week.className =
       "week";
-
 
     week.style.position =
       "relative";
@@ -1110,7 +1060,6 @@ function renderCalendar() {
         "div"
       );
 
-
     dayGrid.className =
       "day-grid";
 
@@ -1119,7 +1068,6 @@ function renderCalendar() {
       document.createElement(
         "div"
       );
-
 
     scheduleLayer.className =
       "schedule-layer";
@@ -1738,8 +1686,8 @@ function resetForm() {
     "add";
 
 
-title.textContent =
-  "Add Schedule";
+  title.textContent =
+    "Add Schedule";
 
 
   selectedSchedule =
@@ -1959,8 +1907,8 @@ form.addEventListener(
       )
     ) {
 
-error.textContent =
-  "This league cannot challenge the selected fortress.";
+      error.textContent =
+        "This league cannot challenge the selected fortress.";
 
       return;
 
@@ -1990,7 +1938,7 @@ error.textContent =
     ) {
 
       error.textContent =
-          : "Please enter valid dates and times.";
+        "Please enter valid dates and times.";
 
       return;
 
@@ -2004,7 +1952,7 @@ error.textContent =
     ) {
 
       error.textContent =
-          : "End must be at least 3 days after Start.";
+        "End must be at least 3 days after Start.";
 
       return;
 
@@ -2030,7 +1978,7 @@ error.textContent =
     ) {
 
       error.textContent =
-          : "The schedule must be inside the event period.";
+        "The schedule must be inside the event period.";
 
       return;
 
@@ -2091,13 +2039,13 @@ error.textContent =
       else {
 
         if (
-  selectedSchedule.creatorId !== creatorId
-  &&
-  !window.s222AdminState?.isAdmin
+          selectedSchedule.creatorId !== creatorId
+          &&
+          !window.s222AdminState?.isAdmin
         ) {
 
           error.textContent =
-              : "Only the creator can edit this schedule.";
+            "Only the creator can edit this schedule.";
 
           return;
 
@@ -2127,7 +2075,7 @@ error.textContent =
 
 
       error.textContent =
-          : "Failed to save schedule.";
+        "Failed to save schedule.";
 
     }
 
@@ -2173,16 +2121,12 @@ function showDetails(
     );
 
 
-  const mobile =
-    isMobile();
-
-
   content.innerHTML = `
 
     <div class="detail-item">
 
       <div class="detail-label">
-Guild VS League
+        Guild VS League
       </div>
 
       <div class="detail-value">
@@ -2197,7 +2141,7 @@ Guild VS League
     <div class="detail-item">
 
       <div class="detail-label">
-Fortress
+        Fortress
       </div>
 
       <div class="detail-value">
@@ -2212,7 +2156,7 @@ Fortress
     <div class="detail-item">
 
       <div class="detail-label">
-Coordinate
+        Coordinate
       </div>
 
       <div class="detail-value">
@@ -2229,7 +2173,7 @@ Coordinate
     <div class="detail-item">
 
       <div class="detail-label">
-Guild
+        Guild
       </div>
 
       <div class="detail-value">
@@ -2244,7 +2188,7 @@ Guild
     <div class="detail-item">
 
       <div class="detail-label">
-Start
+        Start
       </div>
 
       <div class="detail-value">
@@ -2265,7 +2209,7 @@ Start
     <div class="detail-item">
 
       <div class="detail-label">
-End / Planned Handover
+        End / Planned Handover
       </div>
 
       <div class="detail-value">
@@ -2286,7 +2230,7 @@ End / Planned Handover
     <div class="detail-item">
 
       <div class="detail-label">
-Description
+        Description
       </div>
 
       <div class="detail-value">
@@ -2302,14 +2246,14 @@ Description
   `;
 
 
-document.getElementById(
-  "editSchedule"
-).style.display =
-  schedule.creatorId === creatorId
-  ||
-  window.s222AdminState?.isAdmin
-    ? "inline-block"
-    : "none";
+  document.getElementById(
+    "editSchedule"
+  ).style.display =
+    schedule.creatorId === creatorId
+    ||
+    window.s222AdminState?.isAdmin
+      ? "inline-block"
+      : "none";
 
 
   detailDialog.showModal();
@@ -2461,7 +2405,7 @@ function openEditForm(
 
 
   title.textContent =
-      : "Edit Schedule";
+    "Edit Schedule";
 
 
   document.getElementById(
@@ -2606,16 +2550,16 @@ document
 
 
       if (
-  selectedSchedule.creatorId !== creatorId
-  &&
-  !window.s222AdminState?.isAdmin
+        selectedSchedule.creatorId !== creatorId
+        &&
+        !window.s222AdminState?.isAdmin
       )
         return;
 
 
       if (
         !confirm(
-            : "Delete this schedule?"
+          "Delete this schedule?"
         )
       )
         return;
@@ -2639,8 +2583,8 @@ document
         console.error(error);
 
 
-alert(
-  "Failed to delete schedule."
+        alert(
+          "Failed to delete schedule."
         );
 
       }
