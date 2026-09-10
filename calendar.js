@@ -1143,7 +1143,7 @@ function renderCalendar() {
         (
           lanes.length
           *
-          22
+          20
         )
         +
         10
@@ -1524,7 +1524,7 @@ function createSchedule(
     `calc(${segment.endColumn - segment.startColumn + 1} * (100% / 7) - 8px)`;
 
   button.style.top =
-    `${38 + laneIndex * 22}px`;
+    `${38 + laneIndex * 20}px`;
 
   button.addEventListener(
     "click",
