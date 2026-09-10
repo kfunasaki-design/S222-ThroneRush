@@ -1,43 +1,43 @@
 /* =========================================================
-   S222 Throne Rush Calendar
+S222 Throne Rush Calendar
 ========================================================= */
 
 
 /* =========================================================
-   Supabase
+Supabase
 ========================================================= */
 
 const SUPABASE_URL =
-  "https://pvppgvjhfslizkudjxru.supabase.co";
+"https://pvppgvjhfslizkudjxru.supabase.co";
 
 const SUPABASE_ANON_KEY =
-  "sb_publishable_R9RKZAlPhesQKiiwnEq84A_s88z57bk";
+"sb_publishable_R9RKZAlPhesQKiiwnEq84A_s88z57bk";
 
 const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
 
 
 /* =========================================================
-   State
+State
 ========================================================= */
 
 let schedules = [];
 
 let currentMonth =
-  new Date(
-    new Date().getFullYear(),
-    new Date().getMonth(),
-    1
-  );
+new Date(
+  new Date().getFullYear(),
+  new Date().getMonth(),
+  1
+);
 
 let selectedSchedule = null;
 
 
 /* =========================================================
-   Guild Settings
+Guild Settings
 ========================================================= */
 
 const GUILD_COLORS = {
@@ -86,7 +86,7 @@ const GUILD_LIST = [
 
 
 /* =========================================================
-   Guild Color
+Guild Color
 ========================================================= */
 
 function guildColor(guild) {
@@ -101,7 +101,7 @@ function guildColor(guild) {
 
 
 /* =========================================================
-   Schedule Text Color
+Schedule Text Color
 ========================================================= */
 
 function getScheduleTextColor(color) {
@@ -152,7 +152,7 @@ function getScheduleTextColor(color) {
 
 
 /* =========================================================
-   Guild Select
+Guild Select
 ========================================================= */
 
 function setupGuildSelect() {
@@ -210,7 +210,7 @@ function setupGuildSelect() {
 
 
 /* =========================================================
-   Event Period
+Event Period
 ========================================================= */
 
 const event = {
@@ -220,10 +220,10 @@ const event = {
 
 
 /* =========================================================
-   League Restrictions
+League Restrictions
 
-   Higher leagues can challenge
-   all lower league fortress levels.
+Higher leagues can challenge
+all lower league fortress levels.
 ========================================================= */
 
 const LEAGUE_LIMITS = {
@@ -250,7 +250,7 @@ const LEAGUE_LIMITS = {
 
 
 /* =========================================================
-   Fortress Settings
+Fortress Settings
 ========================================================= */
 
 const FORTRESS_SETTINGS = {
@@ -274,7 +274,7 @@ const FORTRESS_SETTINGS = {
 
 
 /* =========================================================
-   Balance Settings
+Balance Settings
 ========================================================= */
 
 const BALANCE_SETTINGS = {
@@ -291,7 +291,7 @@ const BALANCE_SETTINGS = {
 
 
 /* =========================================================
-   User Identity
+User Identity
 ========================================================= */
 
 let creatorId =
@@ -313,7 +313,7 @@ if (!creatorId) {
 
 
 /* =========================================================
-   DOM
+DOM
 ========================================================= */
 
 const calendar =
@@ -358,7 +358,7 @@ const detailDialog =
 
 
 /* =========================================================
-   Helpers
+Helpers
 ========================================================= */
 
 function formatDate(date) {
@@ -388,7 +388,7 @@ function formatDate(date) {
 
 
 /* =========================================================
-   Fortress Icon
+Fortress Icon
 ========================================================= */
 
 function fortressIcon(level) {
@@ -413,7 +413,7 @@ function fortressIcon(level) {
 
 
 /* =========================================================
-   GMT / JST Input Conversion
+GMT / JST Input Conversion
 ========================================================= */
 
 function updateGMT(jstInput, gmtInput) {
@@ -422,7 +422,9 @@ function updateGMT(jstInput, gmtInput) {
     return;
 
   const [hour, minute] =
-    jstInput.value.split(":").map(Number);
+    jstInput.value
+      .split(":")
+      .map(Number);
 
   const totalMinutes =
     hour * 60 +
@@ -446,7 +448,7 @@ function updateGMT(jstInput, gmtInput) {
 
 
 /* =========================================================
-   Current Time
+Current Time
 ========================================================= */
 
 function updateCurrentTime() {
@@ -461,8 +463,7 @@ function updateCurrentTime() {
 
 
 /* =========================================================
-   Language
-   Calendar UI is English only.
+Language
 ========================================================= */
 
 function updateLanguage() {
@@ -484,7 +485,6 @@ function updateLanguage() {
 
   }
 
-
   const addButton =
     document.getElementById(
       "addScheduleBtn"
@@ -502,7 +502,6 @@ function updateLanguage() {
 
   }
 
-
   const refreshButton =
     document.getElementById(
       "refreshBtn"
@@ -514,7 +513,6 @@ function updateLanguage() {
       "R";
 
   }
-
 
   const weekdayCells =
     document.querySelectorAll(
@@ -543,7 +541,6 @@ function updateLanguage() {
     }
   );
 
-
   const dialogTitle =
     document.getElementById(
       "dialogTitle"
@@ -552,9 +549,7 @@ function updateLanguage() {
   if (dialogTitle) {
 
     if (
-      dialogTitle.dataset.mode
-      ===
-      "edit"
+      dialogTitle.dataset.mode === "edit"
     ) {
 
       dialogTitle.textContent =
@@ -571,7 +566,6 @@ function updateLanguage() {
 
   }
 
-
   const detailClose =
     document.getElementById(
       "detailClose"
@@ -583,7 +577,6 @@ function updateLanguage() {
       "Close";
 
   }
-
 
   const editButton =
     document.getElementById(
@@ -597,7 +590,6 @@ function updateLanguage() {
 
   }
 
-
   const cancelButton =
     document.getElementById(
       "cancelBtn"
@@ -609,7 +601,6 @@ function updateLanguage() {
       "Cancel";
 
   }
-
 
   const saveButton =
     form?.querySelector(
@@ -623,7 +614,6 @@ function updateLanguage() {
 
   }
 
-
   const deleteButton =
     document.getElementById(
       "deleteBtn"
@@ -636,14 +626,13 @@ function updateLanguage() {
 
   }
 
-
   updateCurrentTime();
 
 }
 
 
 /* =========================================================
-   Supabase Load
+Supabase Load
 ========================================================= */
 
 async function loadSchedules() {
@@ -682,7 +671,6 @@ async function loadSchedules() {
     return;
 
   }
-
 
   schedules =
     (data || []).map(
@@ -731,7 +719,6 @@ async function loadSchedules() {
       })
     );
 
-
   renderCalendar();
 
   renderGuildSummary();
@@ -740,7 +727,7 @@ async function loadSchedules() {
 
 
 /* =========================================================
-   Supabase Insert
+Supabase Insert
 ========================================================= */
 
 async function insertSchedule(
@@ -789,7 +776,6 @@ async function insertSchedule(
 
       });
 
-
   if (error) {
 
     console.error(
@@ -805,7 +791,7 @@ async function insertSchedule(
 
 
 /* =========================================================
-   Supabase Update
+Supabase Update
 ========================================================= */
 
 async function updateSchedule(
@@ -855,7 +841,6 @@ async function updateSchedule(
         schedule.id
       );
 
-
   if (error) {
 
     console.error(
@@ -871,7 +856,7 @@ async function updateSchedule(
 
 
 /* =========================================================
-   Supabase Delete
+Supabase Delete
 ========================================================= */
 
 async function deleteSchedule(
@@ -889,7 +874,6 @@ async function deleteSchedule(
         scheduleId
       );
 
-
   if (error) {
 
     console.error(
@@ -905,7 +889,7 @@ async function deleteSchedule(
 
 
 /* =========================================================
-   Calendar
+Calendar
 ========================================================= */
 
 function renderCalendar() {
@@ -913,9 +897,7 @@ function renderCalendar() {
   if (!calendar)
     return;
 
-
   calendar.innerHTML = "";
-
 
   monthTitle.textContent =
     `${currentMonth.getFullYear()}/${String(
@@ -924,7 +906,6 @@ function renderCalendar() {
       2,
       "0"
     )}`;
-
 
   if (weekdayHeader) {
 
@@ -938,7 +919,6 @@ function renderCalendar() {
     weekdayRow.className =
       "weekday-row";
 
-
     const weekdays = [
       "Sun",
       "Mon",
@@ -948,7 +928,6 @@ function renderCalendar() {
       "Fri",
       "Sat"
     ];
-
 
     weekdays.forEach(
       weekday => {
@@ -964,7 +943,6 @@ function renderCalendar() {
         cell.textContent =
           weekday;
 
-
         weekdayRow.appendChild(
           cell
         );
@@ -972,13 +950,11 @@ function renderCalendar() {
       }
     );
 
-
     weekdayHeader.appendChild(
       weekdayRow
     );
 
   }
-
 
   const firstDay =
     new Date(
@@ -987,7 +963,6 @@ function renderCalendar() {
       1
     );
 
-
   const lastDay =
     new Date(
       currentMonth.getFullYear(),
@@ -995,10 +970,8 @@ function renderCalendar() {
       0
     );
 
-
   const calendarStart =
     new Date(firstDay);
-
 
   calendarStart.setDate(
     firstDay.getDate()
@@ -1006,25 +979,20 @@ function renderCalendar() {
     firstDay.getDay()
   );
 
-
   const calendarEnd =
     new Date(lastDay);
-
 
   calendarEnd.setDate(
     lastDay.getDate()
     +
     (
-      6
-      -
+      6 -
       lastDay.getDay()
     )
   );
 
-
   let cursor =
     new Date(calendarStart);
-
 
   while (
     cursor <= calendarEnd
@@ -1033,15 +1001,12 @@ function renderCalendar() {
     const weekStart =
       new Date(cursor);
 
-
     const weekEnd =
       new Date(cursor);
-
 
     weekEnd.setDate(
       weekEnd.getDate() + 6
     );
-
 
     const week =
       document.createElement(
@@ -1054,7 +1019,6 @@ function renderCalendar() {
     week.style.position =
       "relative";
 
-
     const dayGrid =
       document.createElement(
         "div"
@@ -1063,7 +1027,6 @@ function renderCalendar() {
     dayGrid.className =
       "day-grid";
 
-
     const scheduleLayer =
       document.createElement(
         "div"
@@ -1071,7 +1034,6 @@ function renderCalendar() {
 
     scheduleLayer.className =
       "schedule-layer";
-
 
     for (
       let i = 0;
@@ -1082,15 +1044,12 @@ function renderCalendar() {
       const date =
         new Date(weekStart);
 
-
       date.setDate(
         weekStart.getDate() + i
       );
 
-
       const day =
         createDay(date);
-
 
       dayGrid.appendChild(
         day
@@ -1098,14 +1057,11 @@ function renderCalendar() {
 
     }
 
-
     week.appendChild(
       dayGrid
     );
 
-
     const lanes = [];
-
 
     const weekSchedules =
       schedules.filter(
@@ -1117,7 +1073,6 @@ function renderCalendar() {
           )
       );
 
-
     weekSchedules.forEach(
       schedule => {
 
@@ -1128,13 +1083,10 @@ function renderCalendar() {
             weekEnd
           );
 
-
         if (!segment)
           return;
 
-
         let laneIndex = 0;
-
 
         while (true) {
 
@@ -1145,7 +1097,6 @@ function renderCalendar() {
             lanes[laneIndex] = [];
 
           }
-
 
           const overlaps =
             lanes[laneIndex].some(
@@ -1159,20 +1110,16 @@ function renderCalendar() {
                 segment.startColumn
             );
 
-
           if (!overlaps)
             break;
-
 
           laneIndex++;
 
         }
 
-
         lanes[laneIndex].push(
           segment
         );
-
 
         const item =
           createSchedule(
@@ -1181,14 +1128,12 @@ function renderCalendar() {
             laneIndex
           );
 
-
         scheduleLayer.appendChild(
           item
         );
 
       }
     );
-
 
     const scheduleHeight =
       Math.max(
@@ -1204,20 +1149,16 @@ function renderCalendar() {
         10
       );
 
-
     week.style.minHeight =
       `${scheduleHeight}px`;
-
 
     week.appendChild(
       scheduleLayer
     );
 
-
     calendar.appendChild(
       week
     );
-
 
     cursor.setDate(
       cursor.getDate() + 7
@@ -1225,14 +1166,13 @@ function renderCalendar() {
 
   }
 
-
   updateLanguage();
 
 }
 
 
 /* =========================================================
-   Day
+Day
 ========================================================= */
 
 function createDay(date) {
@@ -1242,10 +1182,8 @@ function createDay(date) {
       "div"
     );
 
-
   day.className =
     "day";
-
 
   if (
     date.getMonth()
@@ -1259,10 +1197,8 @@ function createDay(date) {
 
   }
 
-
   const today =
     new Date();
-
 
   if (
     formatDate(date)
@@ -1276,25 +1212,20 @@ function createDay(date) {
 
   }
 
-
   const header =
     document.createElement(
       "div"
     );
 
-
   header.className =
     "day-header";
-
 
   header.textContent =
     date.getDate();
 
-
   day.appendChild(
     header
   );
-
 
   return day;
 
@@ -1302,7 +1233,7 @@ function createDay(date) {
 
 
 /* =========================================================
-   Schedule / Week
+Schedule / Week
 ========================================================= */
 
 function scheduleOverlapsWeek(
@@ -1316,12 +1247,10 @@ function scheduleOverlapsWeek(
       schedule.start
     );
 
-
   const scheduleEnd =
     new Date(
       schedule.end
     );
-
 
   if (
     Number.isNaN(
@@ -1337,10 +1266,8 @@ function scheduleOverlapsWeek(
 
   }
 
-
   const rangeStart =
     new Date(weekStart);
-
 
   rangeStart.setHours(
     0,
@@ -1349,15 +1276,12 @@ function scheduleOverlapsWeek(
     0
   );
 
-
   const rangeEnd =
     new Date(weekEnd);
-
 
   rangeEnd.setDate(
     rangeEnd.getDate() + 1
   );
-
 
   rangeEnd.setHours(
     0,
@@ -1365,7 +1289,6 @@ function scheduleOverlapsWeek(
     0,
     0
   );
-
 
   return (
     scheduleStart < rangeEnd
@@ -1377,7 +1300,7 @@ function scheduleOverlapsWeek(
 
 
 /* =========================================================
-   Week Schedule Segment
+Week Schedule Segment
 ========================================================= */
 
 function getWeekScheduleSegment(
@@ -1391,12 +1314,10 @@ function getWeekScheduleSegment(
       schedule.start
     );
 
-
   const scheduleEnd =
     new Date(
       schedule.end
     );
-
 
   if (
     Number.isNaN(
@@ -1411,7 +1332,6 @@ function getWeekScheduleSegment(
     return null;
 
   }
-
 
   function getJSTDate(date) {
 
@@ -1436,13 +1356,11 @@ function getWeekScheduleSegment(
           date
         );
 
-
     const year =
       parts.find(
         part =>
           part.type === "year"
       ).value;
-
 
     const month =
       parts.find(
@@ -1450,13 +1368,11 @@ function getWeekScheduleSegment(
           part.type === "month"
       ).value;
 
-
     const day =
       parts.find(
         part =>
           part.type === "day"
       ).value;
-
 
     return new Date(
       Number(year),
@@ -1466,18 +1382,15 @@ function getWeekScheduleSegment(
 
   }
 
-
   const startDate =
     getJSTDate(
       scheduleStart
     );
 
-
   const endDate =
     getJSTDate(
       scheduleEnd
     );
-
 
   const weekStartDate =
     new Date(
@@ -1485,7 +1398,6 @@ function getWeekScheduleSegment(
       weekStart.getMonth(),
       weekStart.getDate()
     );
-
 
   let startColumn =
     Math.round(
@@ -1506,7 +1418,6 @@ function getWeekScheduleSegment(
       )
     );
 
-
   let endColumn =
     Math.round(
       (
@@ -1526,7 +1437,6 @@ function getWeekScheduleSegment(
       )
     );
 
-
   startColumn =
     Math.max(
       0,
@@ -1535,7 +1445,6 @@ function getWeekScheduleSegment(
         startColumn
       )
     );
-
 
   endColumn =
     Math.max(
@@ -1546,7 +1455,6 @@ function getWeekScheduleSegment(
       )
     );
 
-
   return {
     startColumn,
     endColumn
@@ -1556,7 +1464,7 @@ function getWeekScheduleSegment(
 
 
 /* =========================================================
-   Schedule
+Schedule
 ========================================================= */
 
 function createSchedule(
@@ -1570,64 +1478,53 @@ function createSchedule(
       "button"
     );
 
-
   button.className =
     "schedule";
-
 
   button.setAttribute(
     "translate",
     "no"
   );
 
-
   button.style.position =
     "absolute";
 
-
   /*
-    Guild determines the schedule color.
-    The stored database color is intentionally
-    ignored here so old schedules are also
-    automatically converted.
+  Guild determines the schedule color.
+  The stored database color is intentionally
+  ignored here so old schedules are also
+  automatically converted.
   */
+
   const scheduleColor =
     guildColor(
       schedule.guild
     );
 
-
   button.style.background =
     scheduleColor;
-
 
   button.style.color =
     getScheduleTextColor(
       scheduleColor
     );
 
-
   button.style.pointerEvents =
     "auto";
-
 
   button.textContent =
     `${fortressIcon(
       schedule.fortress
     )} ${schedule.x}:${schedule.y} ${schedule.guild}`;
 
-
   button.style.left =
     `calc(${segment.startColumn} * (100% / 7) + 4px)`;
-
 
   button.style.width =
     `calc(${segment.endColumn - segment.startColumn + 1} * (100% / 7) - 8px)`;
 
-
   button.style.top =
     `${38 + laneIndex * 34}px`;
-
 
   button.addEventListener(
     "click",
@@ -1637,14 +1534,13 @@ function createSchedule(
       )
   );
 
-
   return button;
 
 }
 
 
 /* =========================================================
-   Add Schedule
+Add Schedule
 ========================================================= */
 
 document
@@ -1669,26 +1565,21 @@ function resetForm() {
 
   updateFortressOptions();
 
-
   document.getElementById(
     "deleteBtn"
   ).style.display =
     "none";
-
 
   const title =
     document.getElementById(
       "dialogTitle"
     );
 
-
   title.dataset.mode =
     "add";
 
-
   title.textContent =
     "Add Schedule";
-
 
   selectedSchedule =
     null;
@@ -1697,7 +1588,7 @@ function resetForm() {
 
 
 /* =========================================================
-   Dialog Close
+Dialog Close
 ========================================================= */
 
 document
@@ -1723,7 +1614,7 @@ document
 
 
 /* =========================================================
-   Fortress Options by League
+Fortress Options by League
 ========================================================= */
 
 function updateFortressOptions() {
@@ -1733,16 +1624,13 @@ function updateFortressOptions() {
       "league"
     ).value;
 
-
   const fortressSelect =
     document.getElementById(
       "fortress"
     );
 
-
   if (!fortressSelect)
     return;
-
 
   const maxLevel = {
 
@@ -1753,7 +1641,6 @@ function updateFortressOptions() {
     Gold: 7
 
   }[league] || 4;
-
 
   Array.from(
     fortressSelect.options
@@ -1769,7 +1656,6 @@ function updateFortressOptions() {
           10
         );
 
-
       option.hidden =
         maxLevel
           ? level > maxLevel
@@ -1782,7 +1668,7 @@ function updateFortressOptions() {
 
 
 /* =========================================================
-   League Validation
+League Validation
 ========================================================= */
 
 function validateLeagueFortress(
@@ -1791,8 +1677,9 @@ function validateLeagueFortress(
 ) {
 
   /*
-    Lv4 has no league restriction.
+  Lv4 has no league restriction.
   */
+
   if (
     fortress === "Lv4"
   ) {
@@ -1801,16 +1688,13 @@ function validateLeagueFortress(
 
   }
 
-
   const allowed =
     LEAGUE_LIMITS[
       league
     ];
 
-
   if (!allowed)
     return false;
-
 
   return allowed.includes(
     fortress
@@ -1820,7 +1704,7 @@ function validateLeagueFortress(
 
 
 /* =========================================================
-   Save
+Save
 ========================================================= */
 
 form.addEventListener(
@@ -1829,76 +1713,63 @@ form.addEventListener(
 
     eventSubmit.preventDefault();
 
-
     const league =
       document.getElementById(
         "league"
       ).value;
-
 
     const fortress =
       document.getElementById(
         "fortress"
       ).value;
 
-
     const x =
       document.getElementById(
         "coordinateX"
       ).value;
-
 
     const y =
       document.getElementById(
         "coordinateY"
       ).value;
 
-
     const guild =
       document.getElementById(
         "guild"
       ).value;
-
 
     const startDate =
       document.getElementById(
         "startDate"
       ).value;
 
-
     const startGMT =
       document.getElementById(
         "startGMT"
       ).value;
-
 
     const endDate =
       document.getElementById(
         "endDate"
       ).value;
 
-
     const endGMT =
       document.getElementById(
         "endGMT"
       ).value;
-
 
     const description =
       document.getElementById(
         "description"
       ).value.trim();
 
-
     const error =
       document.getElementById(
         "formError"
       );
 
-
     error.textContent =
       "";
-
 
     if (
       !validateLeagueFortress(
@@ -1914,18 +1785,15 @@ form.addEventListener(
 
     }
 
-
     const start =
       new Date(
         `${startDate}T${startGMT}:00Z`
       );
 
-
     const end =
       new Date(
         `${endDate}T${endGMT}:00Z`
       );
-
 
     if (
       Number.isNaN(
@@ -1944,7 +1812,6 @@ form.addEventListener(
 
     }
 
-
     if (
       end - start
       <
@@ -1958,18 +1825,15 @@ form.addEventListener(
 
     }
 
-
     const eventStart =
       new Date(
         `${event.start}T00:00:00Z`
       );
 
-
     const eventEnd =
       new Date(
         `${event.end}T23:59:59Z`
       );
-
 
     if (
       start < eventStart
@@ -1983,7 +1847,6 @@ form.addEventListener(
       return;
 
     }
-
 
     const schedule = {
 
@@ -2011,9 +1874,10 @@ form.addEventListener(
       description,
 
       /*
-        Guild color is always determined
-        automatically.
+      Guild color is always determined
+      automatically.
       */
+
       color:
         guildColor(
           guild
@@ -2022,7 +1886,6 @@ form.addEventListener(
       creatorId
 
     };
-
 
     try {
 
@@ -2051,13 +1914,11 @@ form.addEventListener(
 
         }
 
-
         await updateSchedule(
           schedule
         );
 
       }
-
 
       await loadSchedules();
 
@@ -2073,7 +1934,6 @@ form.addEventListener(
         saveError
       );
 
-
       error.textContent =
         "Failed to save schedule.";
 
@@ -2084,7 +1944,7 @@ form.addEventListener(
 
 
 /* =========================================================
-   Details
+Details
 ========================================================= */
 
 function showDetails(
@@ -2094,7 +1954,6 @@ function showDetails(
   selectedSchedule =
     schedule;
 
-
   document.getElementById(
     "detailTitle"
   ).textContent =
@@ -2102,149 +1961,144 @@ function showDetails(
       schedule.fortress
     )} ${schedule.x}:${schedule.y} ${schedule.guild}`;
 
-
   const start =
     new Date(
       schedule.start
     );
-
 
   const end =
     new Date(
       schedule.end
     );
 
-
   const content =
     document.getElementById(
       "detailContent"
     );
 
-
   content.innerHTML = `
 
-    <div class="detail-item">
+<div class="detail-item">
 
-      <div class="detail-label">
-        Guild VS League
-      </div>
+  <div class="detail-label">
+    Guild VS League
+  </div>
 
-      <div class="detail-value">
-        ${escapeHTML(
-          schedule.league || "—"
-        )}
-      </div>
+  <div class="detail-value">
+    ${escapeHTML(
+      schedule.league || "—"
+    )}
+  </div>
 
-    </div>
-
-
-    <div class="detail-item">
-
-      <div class="detail-label">
-        Fortress
-      </div>
-
-      <div class="detail-value">
-        ${escapeHTML(
-          schedule.fortress
-        )}
-      </div>
-
-    </div>
+</div>
 
 
-    <div class="detail-item">
+<div class="detail-item">
 
-      <div class="detail-label">
-        Coordinate
-      </div>
+  <div class="detail-label">
+    Fortress
+  </div>
 
-      <div class="detail-value">
-        ${escapeHTML(
-          schedule.x
-        )}:${escapeHTML(
-          schedule.y
-        )}
-      </div>
+  <div class="detail-value">
+    ${escapeHTML(
+      schedule.fortress
+    )}
+  </div>
 
-    </div>
+</div>
 
 
-    <div class="detail-item">
+<div class="detail-item">
 
-      <div class="detail-label">
-        Guild
-      </div>
+  <div class="detail-label">
+    Coordinate
+  </div>
 
-      <div class="detail-value">
-        ${escapeHTML(
-          schedule.guild
-        )}
-      </div>
+  <div class="detail-value">
+    ${escapeHTML(
+      schedule.x
+    )}:${escapeHTML(
+      schedule.y
+    )}
+  </div>
 
-    </div>
-
-
-    <div class="detail-item">
-
-      <div class="detail-label">
-        Start
-      </div>
-
-      <div class="detail-value">
-
-        ${formatGMT(start)}
-        GMT
-
-        <br>
-
-        ${formatJST(start)}
-        JST
-
-      </div>
-
-    </div>
+</div>
 
 
-    <div class="detail-item">
+<div class="detail-item">
 
-      <div class="detail-label">
-        End / Planned Handover
-      </div>
+  <div class="detail-label">
+    Guild
+  </div>
 
-      <div class="detail-value">
+  <div class="detail-value">
+    ${escapeHTML(
+      schedule.guild
+    )}
+  </div>
 
-        ${formatGMT(end)}
-        GMT
-
-        <br>
-
-        ${formatJST(end)}
-        JST
-
-      </div>
-
-    </div>
+</div>
 
 
-    <div class="detail-item">
+<div class="detail-item">
 
-      <div class="detail-label">
-        Description
-      </div>
+  <div class="detail-label">
+    Start
+  </div>
 
-      <div class="detail-value">
+  <div class="detail-value">
 
-        ${escapeHTML(
-          schedule.description || "—"
-        )}
+    ${formatGMT(start)}
+    GMT
 
-      </div>
+    <br>
 
-    </div>
+    ${formatJST(start)}
+    JST
 
-  `;
+  </div>
 
+</div>
+
+
+<div class="detail-item">
+
+  <div class="detail-label">
+    End / Planned Handover
+  </div>
+
+  <div class="detail-value">
+
+    ${formatGMT(end)}
+    GMT
+
+    <br>
+
+    ${formatJST(end)}
+    JST
+
+  </div>
+
+</div>
+
+
+<div class="detail-item">
+
+  <div class="detail-label">
+    Description
+  </div>
+
+  <div class="detail-value">
+
+    ${escapeHTML(
+      schedule.description || "—"
+    )}
+
+  </div>
+
+</div>
+
+`;
 
   document.getElementById(
     "editSchedule"
@@ -2255,14 +2109,13 @@ function showDetails(
       ? "inline-block"
       : "none";
 
-
   detailDialog.showModal();
 
 }
 
 
 /* =========================================================
-   Date Formatting
+Date Formatting
 ========================================================= */
 
 function formatGMT(date) {
@@ -2322,7 +2175,6 @@ function escapeHTML(text) {
 
         };
 
-
         return map[
           character
         ];
@@ -2334,7 +2186,7 @@ function escapeHTML(text) {
 
 
 /* =========================================================
-   Detail Buttons
+Detail Buttons
 ========================================================= */
 
 document
@@ -2370,9 +2222,7 @@ document
       if (!selectedSchedule)
         return;
 
-
       detailDialog.close();
-
 
       openEditForm(
         selectedSchedule
@@ -2383,7 +2233,7 @@ document
 
 
 /* =========================================================
-   Edit Form
+Edit Form
 ========================================================= */
 
 function openEditForm(
@@ -2393,65 +2243,53 @@ function openEditForm(
   selectedSchedule =
     schedule;
 
-
   const title =
     document.getElementById(
       "dialogTitle"
     );
 
-
   title.dataset.mode =
     "edit";
 
-
   title.textContent =
     "Edit Schedule";
-
 
   document.getElementById(
     "league"
   ).value =
     schedule.league || "";
 
-
   updateFortressOptions();
-
 
   document.getElementById(
     "fortress"
   ).value =
     schedule.fortress;
 
-
   document.getElementById(
     "coordinateX"
   ).value =
     schedule.x;
-
 
   document.getElementById(
     "coordinateY"
   ).value =
     schedule.y;
 
-
   document.getElementById(
     "guild"
   ).value =
     schedule.guild;
-
 
   const start =
     new Date(
       schedule.start
     );
 
-
   const end =
     new Date(
       schedule.end
     );
-
 
   document.getElementById(
     "startDate"
@@ -2459,19 +2297,16 @@ function openEditForm(
     start.toISOString()
       .slice(0, 10);
 
-
   document.getElementById(
     "startGMT"
   ).value =
     start.toISOString()
       .slice(11, 16);
 
-
   document.getElementById(
     "startJST"
   ).value =
     formatTimeJST(start);
-
 
   document.getElementById(
     "endDate"
@@ -2479,37 +2314,31 @@ function openEditForm(
     end.toISOString()
       .slice(0, 10);
 
-
   document.getElementById(
     "endGMT"
   ).value =
     end.toISOString()
       .slice(11, 16);
 
-
   document.getElementById(
     "endJST"
   ).value =
     formatTimeJST(end);
-
 
   document.getElementById(
     "description"
   ).value =
     schedule.description || "";
 
-
   document.getElementById(
     "deleteBtn"
   ).style.display =
     "block";
 
-
   document.getElementById(
     "formError"
   ).textContent =
     "";
-
 
   dialog.showModal();
 
@@ -2534,7 +2363,7 @@ function formatTimeJST(
 
 
 /* =========================================================
-   Delete
+Delete
 ========================================================= */
 
 document
@@ -2548,14 +2377,12 @@ document
       if (!selectedSchedule)
         return;
 
-
       if (
         selectedSchedule.creatorId !== creatorId
         &&
         !window.s222AdminState?.isAdmin
       )
         return;
-
 
       if (
         !confirm(
@@ -2564,13 +2391,11 @@ document
       )
         return;
 
-
       try {
 
         await deleteSchedule(
           selectedSchedule.id
         );
-
 
         await loadSchedules();
 
@@ -2581,7 +2406,6 @@ document
       catch (error) {
 
         console.error(error);
-
 
         alert(
           "Failed to delete schedule."
@@ -2594,7 +2418,7 @@ document
 
 
 /* =========================================================
-   Month Navigation
+Month Navigation
 ========================================================= */
 
 document
@@ -2611,7 +2435,6 @@ document
           currentMonth.getMonth() - 1,
           1
         );
-
 
       renderCalendar();
 
@@ -2634,7 +2457,6 @@ document
           1
         );
 
-
       renderCalendar();
 
     }
@@ -2642,7 +2464,7 @@ document
 
 
 /* =========================================================
-   Refresh
+Refresh
 ========================================================= */
 
 document
@@ -2657,7 +2479,7 @@ document
 
 
 /* =========================================================
-   Resize
+Resize
 ========================================================= */
 
 window.addEventListener(
@@ -2671,7 +2493,7 @@ window.addEventListener(
 
 
 /* =========================================================
-   GMT / JST Inputs
+GMT / JST Inputs
 ========================================================= */
 
 const startGMT =
@@ -2679,18 +2501,15 @@ const startGMT =
     "startGMT"
   );
 
-
 const startJST =
   document.getElementById(
     "startJST"
   );
 
-
 const endGMT =
   document.getElementById(
     "endGMT"
   );
-
 
 const endJST =
   document.getElementById(
@@ -2712,7 +2531,6 @@ if (
         startJST
       )
   );
-
 
   startJST.addEventListener(
     "input",
@@ -2741,7 +2559,6 @@ if (
       )
   );
 
-
   endJST.addEventListener(
     "input",
     () =>
@@ -2755,7 +2572,7 @@ if (
 
 
 /* =========================================================
-   League Change
+League Change
 ========================================================= */
 
 document
@@ -2769,7 +2586,7 @@ document
 
 
 /* =========================================================
-   Initial
+Initial
 ========================================================= */
 
 setupGuildSelect();
