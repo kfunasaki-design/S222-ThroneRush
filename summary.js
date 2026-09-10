@@ -701,7 +701,15 @@ function renderGuildSummary() {
           "td"
         );
 
-
+const league =
+  guildData.league === "Gold"
+    ? "GL"
+    : guildData.league === "Silver"
+      ? "SL"
+      : guildData.league === "Bronze"
+        ? "BL"
+        : guildData.league || "—";
+       
       leagueCell.className =
         "summary-league";
 
