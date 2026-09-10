@@ -485,8 +485,6 @@ function updateCurrentTime() {
 
 function updateLanguage() {
 
-  const mobile =
-    isMobile();
 
 
   const title =
@@ -558,15 +556,7 @@ function updateLanguage() {
   ];
 
 
-  const weekdaysJP = [
-    "日",
-    "月",
-    "火",
-    "水",
-    "木",
-    "金",
-    "土"
-  ];
+
 
 
   weekdayCells.forEach(
@@ -575,10 +565,8 @@ function updateLanguage() {
       index
     ) => {
 
-      cell.textContent =
-        mobile
-          ? weekdaysJP[index]
-          : weekdaysEN[index];
+cell.textContent =
+  weekdaysEN[index];
 
     }
   );
@@ -598,19 +586,15 @@ function updateLanguage() {
       "edit"
     ) {
 
-      dialogTitle.textContent =
-        mobile
-          ? "予定を編集"
-          : "Edit Schedule";
+dialogTitle.textContent =
+  "Edit Schedule";
 
     }
 
     else {
 
-      dialogTitle.textContent =
-        mobile
-          ? "予定を追加"
-          : "Add Schedule";
+dialogTitle.textContent =
+  "Add Schedule";
 
     }
 
@@ -1754,10 +1738,8 @@ function resetForm() {
     "add";
 
 
-  title.textContent =
-    isMobile()
-      ? "予定を追加"
-      : "Add Schedule";
+title.textContent =
+  "Add Schedule";
 
 
   selectedSchedule =
@@ -1977,10 +1959,8 @@ form.addEventListener(
       )
     ) {
 
-      error.textContent =
-        isMobile()
-          ? "このリーグでは選択した城に挑戦できません。"
-          : "This league cannot challenge the selected fortress.";
+error.textContent =
+  "This league cannot challenge the selected fortress.";
 
       return;
 
@@ -2011,7 +1991,6 @@ form.addEventListener(
 
       error.textContent =
         isMobile()
-          ? "日時を正しく入力してください。"
           : "Please enter valid dates and times.";
 
       return;
@@ -2027,7 +2006,6 @@ form.addEventListener(
 
       error.textContent =
         isMobile()
-          ? "終了日時は開始日時から3日以上後にしてください。"
           : "End must be at least 3 days after Start.";
 
       return;
@@ -2055,7 +2033,6 @@ form.addEventListener(
 
       error.textContent =
         isMobile()
-          ? "予定はイベント期間内に設定してください。"
           : "The schedule must be inside the event period.";
 
       return;
@@ -2124,7 +2101,6 @@ form.addEventListener(
 
           error.textContent =
             isMobile()
-              ? "この予定を編集できるのは作成者だけです。"
               : "Only the creator can edit this schedule.";
 
           return;
@@ -2156,7 +2132,6 @@ form.addEventListener(
 
       error.textContent =
         isMobile()
-          ? "予定の保存に失敗しました。"
           : "Failed to save schedule.";
 
     }
@@ -2212,7 +2187,7 @@ function showDetails(
     <div class="detail-item">
 
       <div class="detail-label">
-        ${mobile ? "リーグ" : "Guild VS League"}
+Guild VS League
       </div>
 
       <div class="detail-value">
@@ -2227,7 +2202,7 @@ function showDetails(
     <div class="detail-item">
 
       <div class="detail-label">
-        ${mobile ? "要塞" : "Fortress"}
+Fortress
       </div>
 
       <div class="detail-value">
@@ -2242,7 +2217,7 @@ function showDetails(
     <div class="detail-item">
 
       <div class="detail-label">
-        ${mobile ? "座標" : "Coordinate"}
+Coordinate
       </div>
 
       <div class="detail-value">
@@ -2259,7 +2234,7 @@ function showDetails(
     <div class="detail-item">
 
       <div class="detail-label">
-        ${mobile ? "ギルド" : "Guild"}
+Guild
       </div>
 
       <div class="detail-value">
@@ -2274,7 +2249,7 @@ function showDetails(
     <div class="detail-item">
 
       <div class="detail-label">
-        ${mobile ? "開始" : "Start"}
+Start
       </div>
 
       <div class="detail-value">
@@ -2295,7 +2270,7 @@ function showDetails(
     <div class="detail-item">
 
       <div class="detail-label">
-        ${mobile ? "終了 / 引き渡し予定" : "End / Planned Handover"}
+End / Planned Handover
       </div>
 
       <div class="detail-value">
@@ -2316,7 +2291,7 @@ function showDetails(
     <div class="detail-item">
 
       <div class="detail-label">
-        ${mobile ? "説明" : "Description"}
+Description
       </div>
 
       <div class="detail-value">
@@ -2647,8 +2622,6 @@ document
 
       if (
         !confirm(
-          isMobile()
-            ? "この予定を削除しますか？"
             : "Delete this schedule?"
         )
       )
@@ -2673,10 +2646,8 @@ document
         console.error(error);
 
 
-        alert(
-          isMobile()
-            ? "予定の削除に失敗しました。"
-            : "Failed to delete schedule."
+alert(
+  "Failed to delete schedule."
         );
 
       }
