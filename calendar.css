@@ -1482,6 +1482,17 @@ legend {
     inset 1px 0 #217346;
 }
 
+/* Alliance Total: Lv4–Lv7 separator */
+
+#summaryTable .summary-total-row td:nth-child(3) {
+  box-shadow:
+    inset 1px 0 #217346;
+}
+
+#summaryTable .summary-total-row td:nth-child(6) {
+  box-shadow:
+    inset -1px 0 #217346;
+}
 
 /* =========================================================
    Alliance Total Top Separator
