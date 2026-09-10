@@ -700,6 +700,8 @@ function renderGuildSummary() {
         document.createElement(
           "td"
         );
+      leagueCell.className =
+        "summary-league";
 
 const league =
   guildData.league === "Gold"
@@ -709,15 +711,12 @@ const league =
       : guildData.league === "Bronze"
         ? "BL"
         : guildData.league || "—";
+
+leagueCell.textContent =
+  league;
        
-      leagueCell.className =
-        "summary-league";
 
 
-      leagueCell.textContent =
-        guildData.league
-        ||
-        "—";
 
 
       row.appendChild(
