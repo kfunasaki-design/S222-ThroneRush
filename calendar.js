@@ -1990,7 +1990,6 @@ error.textContent =
     ) {
 
       error.textContent =
-        isMobile()
           : "Please enter valid dates and times.";
 
       return;
@@ -2005,7 +2004,6 @@ error.textContent =
     ) {
 
       error.textContent =
-        isMobile()
           : "End must be at least 3 days after Start.";
 
       return;
@@ -2032,7 +2030,6 @@ error.textContent =
     ) {
 
       error.textContent =
-        isMobile()
           : "The schedule must be inside the event period.";
 
       return;
@@ -2100,7 +2097,6 @@ error.textContent =
         ) {
 
           error.textContent =
-            isMobile()
               : "Only the creator can edit this schedule.";
 
           return;
@@ -2131,7 +2127,6 @@ error.textContent =
 
 
       error.textContent =
-        isMobile()
           : "Failed to save schedule.";
 
     }
@@ -2466,8 +2461,6 @@ function openEditForm(
 
 
   title.textContent =
-    isMobile()
-      ? "予定を編集"
       : "Edit Schedule";
 
 
