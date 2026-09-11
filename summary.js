@@ -909,9 +909,9 @@ function renderGuildSummary() {
 ========================================================= */
 
 function updateSummaryPreview(
-  guilds
+  guilds,
+  averages
 ) {
-
   const guildElement =
     document.getElementById(
       "summaryPreviewGuild"
@@ -922,59 +922,77 @@ function updateSummaryPreview(
       "summaryPreviewLeague"
     );
 
+  const levelElement =
+    document.getElementById(
+      "summaryPreviewLevel"
+    );
+
   const daysElement =
     document.getElementById(
       "summaryPreviewDays"
     );
-
 
   if (
     !guildElement
     ||
     !leagueElement
     ||
+    !levelElement
+    ||
     !daysElement
   ) {
-
     return;
-
   }
 
+  /*
+    Show selected level average
+  */
 
-  if (
-    !guilds
-    ||
-    guilds.length === 0
-  ) {
-
-    guildElement.textContent =
-      "—";
-
-    leagueElement.textContent =
-      "—";
+  function updateAverage() {
+    const selectedLevel =
+      levelElement.value;
 
     daysElement.textContent =
-      "0";
-
-    return;
-
+      formatSummaryDays(
+        averages[selectedLevel] || 0
+      );
   }
 
+  /*
+    Level selection
+  */
+
+  levelElement.onchange =
+    updateAverage;
 
   /*
     Use the latest schedule created
     by this browser as the preview guild.
   */
 
-  let previewGuild = null;
+  if (
+    !guilds
+    ||
+    guilds.length === 0
+  ) {
+    guildElement.textContent =
+      "—";
 
+    leagueElement.textContent =
+      "—";
+
+    updateAverage();
+
+    return;
+  }
+
+  let previewGuild = null;
 
   if (
     Array.isArray(
       schedules
     )
   ) {
-
     const mySchedules =
       schedules.filter(
         schedule =>
@@ -985,16 +1003,13 @@ function updateSummaryPreview(
           schedule.guild?.trim()
       );
 
-
     if (
       mySchedules.length > 0
     ) {
-
       const latestSchedule =
         mySchedules[
           mySchedules.length - 1
         ];
-
 
       previewGuild =
         guilds.find(
@@ -1003,47 +1018,32 @@ function updateSummaryPreview(
             ===
             latestSchedule.guild.trim()
         );
-
     }
-
   }
-
 
   if (
     !previewGuild
   ) {
-
     previewGuild =
       guilds[0];
-
   }
-
-
-  const lv6 =
-    previewGuild.levels.Lv6
-    ||
-    {
-      days: 0
-    };
-
 
   guildElement.textContent =
     previewGuild.guild
     ||
     "—";
 
-
   leagueElement.textContent =
     previewGuild.league
     ||
     "—";
 
+  /*
+    Display the average for the
+    currently selected level.
+  */
 
-  daysElement.textContent =
-    formatSummaryDays(
-      lv6.days
-    );
-
+  updateAverage();
 }
 
 
