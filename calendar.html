@@ -286,38 +286,30 @@ Schedule Input
 
 
 
-    <!-- Coordinate -->
+<!-- Coordinate -->
 
-    <fieldset>
+<fieldset>
 
-      <legend>
-        Coordinate
-      </legend>
+  <legend>
+    Coordinate
+  </legend>
 
-      <div class="coordinate">
+  <select
+    id="coordinate"
+    required
+  >
 
-        <input
-          id="coordinateX"
-          type="number"
-          min="0"
-          placeholder="X"
-          required
-        >
+    <option
+      value=""
+      selected
+      disabled
+    >
+      Select Coordinate
+    </option>
 
-        <span>:</span>
+  </select>
 
-        <input
-          id="coordinateY"
-          type="number"
-          min="0"
-          placeholder="Y"
-          required
-        >
-
-      </div>
-
-    </fieldset>
-
+</fieldset>
 
 
     <!-- Guild -->
