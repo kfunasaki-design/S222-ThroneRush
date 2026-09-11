@@ -290,13 +290,13 @@ Fortress Coordinates
 const FORTRESS_COORDINATES = {
 
   Lv4: [
-    { x: 380, y: 375, label: "10" },
-    { x: 465, y: 360, label: "15" },
+    { x: 620, y: 475, label: "10" },
+    { x: 625, y: 380, label: "15" },
     { x: 570, y: 370, label: "20" },
-    { x: 625, y: 380, label: "25" },
-    { x: 620, y: 475, label: "30" },
-    { x: 565, y: 645, label: "45" },
-    { x: 385, y: 570, label: "55" }
+    { x: 465, y: 360, label: "25" },
+    { x: 380, y: 375, label: "30" },
+    { x: 385, y: 570, label: "45" },
+    { x: 565, y: 645, label: "55" }
   ],
 
   Lv5: [
