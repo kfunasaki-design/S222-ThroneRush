@@ -1368,28 +1368,28 @@ async function loadAdminSettings() {
     Fill Admin Panel
   */
 
-  if (
-    adminEventStart
-  ) {
+if (
+  adminEventStart
+) {
 
-    adminEventStart.value =
-      data.event_start
-      ||
-      "";
+  setAdminReleaseInput(
+    adminEventStart,
+    data.event_start
+  );
 
-  }
+}
 
 
-  if (
-    adminEventEnd
-  ) {
+if (
+  adminEventEnd
+) {
 
-    adminEventEnd.value =
-      data.event_end
-      ||
-      "";
+  setAdminReleaseInput(
+    adminEventEnd,
+    data.event_end
+  );
 
-  }
+}
 
 
   setAdminReleaseInput(
