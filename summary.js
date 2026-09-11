@@ -67,12 +67,12 @@ function getEventDays() {
 
   const start =
     new Date(
-      `${event.start}T00:00:00Z`
+      event.start
     );
 
   const end =
     new Date(
-      `${event.end}T00:00:00Z`
+      event.end
     );
 
 
@@ -700,23 +700,24 @@ function renderGuildSummary() {
         document.createElement(
           "td"
         );
+
+
       leagueCell.className =
         "summary-league";
 
-const league =
-  guildData.league === "Gold"
-    ? "GL"
-    : guildData.league === "Silver"
-      ? "SL"
-      : guildData.league === "Bronze"
-        ? "BL"
-        : guildData.league || "—";
 
-leagueCell.textContent =
-  league;
-       
+      const league =
+        guildData.league === "Gold"
+          ? "GL"
+          : guildData.league === "Silver"
+            ? "SL"
+            : guildData.league === "Bronze"
+              ? "BL"
+              : guildData.league || "—";
 
 
+      leagueCell.textContent =
+        league;
 
 
       row.appendChild(
@@ -1368,28 +1369,28 @@ async function loadAdminSettings() {
     Fill Admin Panel
   */
 
-if (
-  adminEventStart
-) {
+  if (
+    adminEventStart
+  ) {
 
-  setAdminReleaseInput(
-    adminEventStart,
-    data.event_start
-  );
+    setAdminReleaseInput(
+      adminEventStart,
+      data.event_start
+    );
 
-}
+  }
 
 
-if (
-  adminEventEnd
-) {
+  if (
+    adminEventEnd
+  ) {
 
-  setAdminReleaseInput(
-    adminEventEnd,
-    data.event_end
-  );
+    setAdminReleaseInput(
+      adminEventEnd,
+      data.event_end
+    );
 
-}
+  }
 
 
   setAdminReleaseInput(
@@ -1785,17 +1786,6 @@ async function initializeAdminAuth() {
 
   }
 
-async function initializeAdminAuth() {
-
-  if (
-    typeof supabaseClient ===
-    "undefined"
-  ) {
-
-    return;
-
-  }
-
 
   const {
     data
@@ -1856,6 +1846,100 @@ async function initializeAdminAuth() {
 }
 
 
+/* =========================================================
+   Public Event Period Load
+========================================================= */
+
+async function loadEventPeriod() {
+
+  if (
+    typeof supabaseClient ===
+    "undefined"
+  ) {
+
+    return;
+
+  }
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from(
+        "admin_settings"
+      )
+      .select(
+        "event_start, event_end"
+      )
+      .eq(
+        "id",
+        ADMIN_SETTINGS_ID
+      )
+      .maybeSingle();
+
+
+  if (
+    error
+  ) {
+
+    console.error(
+      "Event period load error:",
+      error
+    );
+
+    return;
+
+  }
+
+
+  if (
+    !data
+  ) {
+
+    return;
+
+  }
+
+
+  event.start =
+    data.event_start
+    ||
+    "";
+
+  event.end =
+    data.event_end
+    ||
+    "";
+
+
+  if (
+    typeof updateCurrentTime ===
+    "function"
+  ) {
+
+    updateCurrentTime();
+
+  }
+
+
+  if (
+    typeof renderCalendar ===
+    "function"
+  ) {
+
+    renderCalendar();
+
+  }
+
+}
+
+
+/* =========================================================
+   Auth State Change
+========================================================= */
+
 if (
   typeof supabaseClient !==
   "undefined"
@@ -1905,53 +1989,7 @@ if (
 
 }
 
-async function loadEventPeriod() {
 
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("admin_settings")
-      .select(
-        "event_start, event_end"
-      )
-      .eq(
-        "id",
-        ADMIN_SETTINGS_ID
-      )
-      .maybeSingle();
-
-
-  if (error) {
-
-    console.error(
-      "Event period load error:",
-      error
-    );
-
-    return;
-
-  }
-
-
-  if (!data) {
-    return;
-  }
-
-
-  event.start =
-    data.event_start
-    || "";
-
-  event.end =
-    data.event_end
-    || "";
-
-
-  updateCurrentTime();
-
-}
 /* =========================================================
    Close Admin Login
 ========================================================= */
@@ -2102,12 +2140,12 @@ if (
 
       const eventStartDate =
         new Date(
-          `${eventStart}T00:00:00`
+          eventStart
         );
 
       const eventEndDate =
         new Date(
-          `${eventEnd}T23:59:59`
+          eventEnd
         );
 
 
@@ -2169,11 +2207,15 @@ if (
             )
             .update({
 
-event_start:
-  getAdminReleaseValue(adminEventStart),
+              event_start:
+                getAdminReleaseValue(
+                  adminEventStart
+                ),
 
-event_end:
-  getAdminReleaseValue(adminEventEnd),
+              event_end:
+                getAdminReleaseValue(
+                  adminEventEnd
+                ),
 
               lv4_release:
                 releaseValues[0],
@@ -2318,5 +2360,12 @@ if (
 /* =========================================================
    Admin Initialization
 ========================================================= */
+
+/*
+  Event Period is public information,
+  so load it independently from admin authentication.
+*/
+
+loadEventPeriod();
 
 initializeAdminAuth();
