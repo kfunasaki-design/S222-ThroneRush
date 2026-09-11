@@ -1785,7 +1785,18 @@ async function initializeAdminAuth() {
 
   }
 
+async function initializeAdminAuth() {
 
+  if (
+    typeof supabaseClient ===
+    "undefined"
+  ) {
+
+    return;
+
+  }
+
+  await loadEventPeriod();
   const {
     data
   } =
@@ -1894,7 +1905,53 @@ if (
 
 }
 
+async function loadEventPeriod() {
 
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("admin_settings")
+      .select(
+        "event_start, event_end"
+      )
+      .eq(
+        "id",
+        ADMIN_SETTINGS_ID
+      )
+      .maybeSingle();
+
+
+  if (error) {
+
+    console.error(
+      "Event period load error:",
+      error
+    );
+
+    return;
+
+  }
+
+
+  if (!data) {
+    return;
+  }
+
+
+  event.start =
+    data.event_start
+    || "";
+
+  event.end =
+    data.event_end
+    || "";
+
+
+  updateCurrentTime();
+
+}
 /* =========================================================
    Close Admin Login
 ========================================================= */
