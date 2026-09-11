@@ -20,6 +20,7 @@ window.supabase.createClient(
 );
 
 
+
 /* =========================================================
 State
 ========================================================= */
@@ -34,6 +35,7 @@ new Date(
 );
 
 let selectedSchedule = null;
+
 
 
 /* =========================================================
@@ -69,6 +71,7 @@ const GUILD_COLORS = {
 };
 
 
+
 const GUILD_LIST = [
   "Natureborne Echelon",
   "Garuda Muda",
@@ -85,6 +88,7 @@ const GUILD_LIST = [
 ];
 
 
+
 /* =========================================================
 Guild Color
 ========================================================= */
@@ -98,6 +102,7 @@ function guildColor(guild) {
   );
 
 }
+
 
 
 /* =========================================================
@@ -149,6 +154,7 @@ function getScheduleTextColor(color) {
     : "#FFFFFF";
 
 }
+
 
 
 /* =========================================================
@@ -209,6 +215,7 @@ function setupGuildSelect() {
 }
 
 
+
 /* =========================================================
 Event Period
 ========================================================= */
@@ -217,6 +224,7 @@ const event = {
   start: "",
   end: ""
 };
+
 
 
 /* =========================================================
@@ -249,6 +257,7 @@ const LEAGUE_LIMITS = {
 };
 
 
+
 /* =========================================================
 Fortress Settings
 ========================================================= */
@@ -273,6 +282,44 @@ const FORTRESS_SETTINGS = {
 };
 
 
+
+/* =========================================================
+Fortress Coordinates
+========================================================= */
+
+const FORTRESS_COORDINATES = {
+
+  Lv4: [
+    { x: 385, y: 570 },
+    { x: 380, y: 375 },
+    { x: 465, y: 360 },
+    { x: 570, y: 370 },
+    { x: 625, y: 380 },
+    { x: 620, y: 475 },
+    { x: 565, y: 645 }
+  ],
+
+  Lv5: [
+    { x: 480, y: 615, label: "5W" },
+    { x: 365, y: 455, label: "5N" },
+    { x: 545, y: 455, label: "5E" },
+    { x: 635, y: 565, label: "5S" }
+  ],
+
+  Lv6: [
+    { x: 460, y: 545, label: "6W" },
+    { x: 460, y: 460, label: "6N" },
+    { x: 545, y: 545, label: "6S" }
+  ],
+
+  Lv7: [
+    { x: 500, y: 500, label: "Central" }
+  ]
+
+};
+
+
+
 /* =========================================================
 Balance Settings
 ========================================================= */
@@ -288,6 +335,7 @@ const BALANCE_SETTINGS = {
   dayAverageTolerance: 0.25
 
 };
+
 
 
 /* =========================================================
@@ -310,6 +358,7 @@ if (!creatorId) {
   );
 
 }
+
 
 
 /* =========================================================
@@ -357,6 +406,7 @@ const detailDialog =
   );
 
 
+
 /* =========================================================
 Helpers
 ========================================================= */
@@ -387,6 +437,7 @@ function formatDate(date) {
 }
 
 
+
 /* =========================================================
 Fortress Icon
 ========================================================= */
@@ -410,6 +461,7 @@ function fortressIcon(level) {
   }
 
 }
+
 
 
 /* =========================================================
@@ -446,6 +498,8 @@ function updateGMT(jstInput, gmtInput) {
 
 }
 
+
+
 function updateJST(gmtInput, jstInput) {
 
   if (!gmtInput.value)
@@ -475,6 +529,9 @@ function updateJST(gmtInput, jstInput) {
     String(jstMinute).padStart(2, "0");
 
 }
+
+
+
 /* =========================================================
 Current Time
 ========================================================= */
@@ -493,7 +550,10 @@ function formatEventDate(value) {
       day: "2-digit"
     }
   );
+
 }
+
+
 
 function updateCurrentTime() {
 
@@ -504,6 +564,9 @@ function updateCurrentTime() {
     `Event: ${formatEventDate(event.start)} → ${formatEventDate(event.end)}`;
 
 }
+
+
+
 /* =========================================================
 Language
 ========================================================= */
@@ -673,6 +736,7 @@ function updateLanguage() {
 }
 
 
+
 /* =========================================================
 Supabase Load
 ========================================================= */
@@ -750,6 +814,7 @@ async function loadSchedules() {
           This also updates old schedules that
           were saved with the previous color system.
         */
+
         color:
           guildColor(
             schedule.guild
@@ -766,6 +831,7 @@ async function loadSchedules() {
   renderGuildSummary();
 
 }
+
 
 
 /* =========================================================
@@ -830,6 +896,7 @@ async function insertSchedule(
   }
 
 }
+
 
 
 /* =========================================================
@@ -897,6 +964,7 @@ async function updateSchedule(
 }
 
 
+
 /* =========================================================
 Supabase Delete
 ========================================================= */
@@ -928,6 +996,7 @@ async function deleteSchedule(
   }
 
 }
+
 
 
 /* =========================================================
@@ -1213,6 +1282,7 @@ function renderCalendar() {
 }
 
 
+
 /* =========================================================
 Day
 ========================================================= */
@@ -1272,6 +1342,7 @@ function createDay(date) {
   return day;
 
 }
+
 
 
 /* =========================================================
@@ -1339,6 +1410,7 @@ function scheduleOverlapsWeek(
   );
 
 }
+
 
 
 /* =========================================================
@@ -1505,6 +1577,7 @@ function getWeekScheduleSegment(
 }
 
 
+
 /* =========================================================
 Schedule
 ========================================================= */
@@ -1581,6 +1654,7 @@ function createSchedule(
 }
 
 
+
 /* =========================================================
 Add Schedule
 ========================================================= */
@@ -1599,6 +1673,7 @@ document
 
     }
   );
+
 
 
 function resetForm() {
@@ -1629,6 +1704,7 @@ function resetForm() {
 }
 
 
+
 /* =========================================================
 Dialog Close
 ========================================================= */
@@ -1644,6 +1720,7 @@ document
   );
 
 
+
 document
   .getElementById(
     "cancelBtn"
@@ -1653,6 +1730,7 @@ document
     () =>
       dialog.close()
   );
+
 
 
 /* =========================================================
@@ -1706,7 +1784,81 @@ function updateFortressOptions() {
     }
   );
 
+  updateCoordinateOptions();
+
 }
+
+
+
+/* =========================================================
+Coordinate Options by Fortress
+========================================================= */
+
+function updateCoordinateOptions() {
+
+  const fortress =
+    document.getElementById(
+      "fortress"
+    ).value;
+
+  const coordinateSelect =
+    document.getElementById(
+      "coordinate"
+    );
+
+  if (!coordinateSelect)
+    return;
+
+  coordinateSelect.innerHTML = "";
+
+  const placeholder =
+    document.createElement(
+      "option"
+    );
+
+  placeholder.value = "";
+
+  placeholder.textContent =
+    "Select Coordinate";
+
+  placeholder.selected = true;
+
+  placeholder.disabled = true;
+
+  coordinateSelect.appendChild(
+    placeholder
+  );
+
+  const coordinates =
+    FORTRESS_COORDINATES[
+      fortress
+    ] || [];
+
+  coordinates.forEach(
+    coordinate => {
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+      option.value =
+        `${coordinate.x}:${coordinate.y}`;
+
+      option.textContent =
+        coordinate.label
+          ? `${coordinate.x}:${coordinate.y} (${coordinate.label})`
+          : `${coordinate.x}:${coordinate.y}`;
+
+      coordinateSelect.appendChild(
+        option
+      );
+
+    }
+  );
+
+}
+
 
 
 /* =========================================================
@@ -1745,6 +1897,7 @@ function validateLeagueFortress(
 }
 
 
+
 /* =========================================================
 Save
 ========================================================= */
@@ -1765,15 +1918,13 @@ form.addEventListener(
         "fortress"
       ).value;
 
-    const x =
+    const coordinate =
       document.getElementById(
-        "coordinateX"
+        "coordinate"
       ).value;
 
-    const y =
-      document.getElementById(
-        "coordinateY"
-      ).value;
+    const [x, y] =
+      coordinate.split(":");
 
     const guild =
       document.getElementById(
@@ -1827,6 +1978,17 @@ form.addEventListener(
 
     }
 
+    if (
+      !coordinate
+    ) {
+
+      error.textContent =
+        "Please select a coordinate.";
+
+      return;
+
+    }
+
     const start =
       new Date(
         `${startDate}T${startGMT}:00Z`
@@ -1867,15 +2029,15 @@ form.addEventListener(
 
     }
 
-const eventStart =
-  new Date(
-    event.start
-  );
+    const eventStart =
+      new Date(
+        event.start
+      );
 
-const eventEnd =
-  new Date(
-    event.end
-  );
+    const eventEnd =
+      new Date(
+        event.end
+      );
 
     if (
       start < eventStart
@@ -1985,6 +2147,7 @@ const eventEnd =
 );
 
 
+
 /* =========================================================
 Details
 ========================================================= */
@@ -2035,6 +2198,7 @@ function showDetails(
 </div>
 
 
+
 <div class="detail-item">
 
   <div class="detail-label">
@@ -2048,6 +2212,7 @@ function showDetails(
   </div>
 
 </div>
+
 
 
 <div class="detail-item">
@@ -2067,6 +2232,7 @@ function showDetails(
 </div>
 
 
+
 <div class="detail-item">
 
   <div class="detail-label">
@@ -2080,6 +2246,7 @@ function showDetails(
   </div>
 
 </div>
+
 
 
 <div class="detail-item">
@@ -2103,6 +2270,7 @@ function showDetails(
 </div>
 
 
+
 <div class="detail-item">
 
   <div class="detail-label">
@@ -2122,6 +2290,7 @@ function showDetails(
   </div>
 
 </div>
+
 
 
 <div class="detail-item">
@@ -2156,6 +2325,7 @@ function showDetails(
 }
 
 
+
 /* =========================================================
 Date Formatting
 ========================================================= */
@@ -2178,6 +2348,7 @@ function formatGMT(date) {
 }
 
 
+
 function formatJST(date) {
 
   return date.toLocaleString(
@@ -2194,6 +2365,7 @@ function formatJST(date) {
   );
 
 }
+
 
 
 function escapeHTML(text) {
@@ -2227,6 +2399,7 @@ function escapeHTML(text) {
 }
 
 
+
 /* =========================================================
 Detail Buttons
 ========================================================= */
@@ -2242,6 +2415,7 @@ document
   );
 
 
+
 document
   .getElementById(
     "detailClose"
@@ -2251,6 +2425,7 @@ document
     () =>
       detailDialog.close()
   );
+
 
 
 document
@@ -2272,6 +2447,7 @@ document
 
     }
   );
+
 
 
 /* =========================================================
@@ -2301,22 +2477,17 @@ function openEditForm(
   ).value =
     schedule.league || "";
 
-  updateFortressOptions();
-
   document.getElementById(
     "fortress"
   ).value =
     schedule.fortress;
 
-  document.getElementById(
-    "coordinateX"
-  ).value =
-    schedule.x;
+  updateFortressOptions();
 
   document.getElementById(
-    "coordinateY"
+    "coordinate"
   ).value =
-    schedule.y;
+    `${schedule.x}:${schedule.y}`;
 
   document.getElementById(
     "guild"
@@ -2387,6 +2558,7 @@ function openEditForm(
 }
 
 
+
 function formatTimeJST(
   date
 ) {
@@ -2402,6 +2574,7 @@ function formatTimeJST(
   );
 
 }
+
 
 
 /* =========================================================
@@ -2459,6 +2632,7 @@ document
   );
 
 
+
 /* =========================================================
 Month Navigation
 ========================================================= */
@@ -2484,6 +2658,7 @@ document
   );
 
 
+
 document
   .getElementById(
     "nextMonth"
@@ -2505,6 +2680,7 @@ document
   );
 
 
+
 /* =========================================================
 Refresh
 ========================================================= */
@@ -2520,6 +2696,7 @@ document
   );
 
 
+
 /* =========================================================
 Resize
 ========================================================= */
@@ -2532,6 +2709,7 @@ window.addEventListener(
 
   }
 );
+
 
 
 /* =========================================================
@@ -2557,6 +2735,7 @@ const endJST =
   document.getElementById(
     "endJST"
   );
+
 
 
 if (
@@ -2586,6 +2765,7 @@ if (
 }
 
 
+
 if (
   endGMT
   &&
@@ -2613,6 +2793,7 @@ if (
 }
 
 
+
 /* =========================================================
 League Change
 ========================================================= */
@@ -2625,6 +2806,22 @@ document
     "change",
     updateFortressOptions
   );
+
+
+
+/* =========================================================
+Fortress Change
+========================================================= */
+
+document
+  .getElementById(
+    "fortress"
+  )
+  .addEventListener(
+    "change",
+    updateCoordinateOptions
+  );
+
 
 
 /* =========================================================
