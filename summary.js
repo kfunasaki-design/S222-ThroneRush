@@ -1796,7 +1796,7 @@ async function initializeAdminAuth() {
 
   }
 
-  await loadEventPeriod();
+
   const {
     data
   } =
