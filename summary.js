@@ -1119,6 +1119,22 @@ if (
 }
 
 
+const summaryPreviewLevel =
+  document.getElementById(
+    "summaryPreviewLevel"
+  );
+
+if (
+  summaryPreviewLevel
+) {
+  summaryPreviewLevel.addEventListener(
+    "click",
+    event => {
+      event.stopPropagation();
+    }
+  );
+}
+
 /* =========================================================
    Admin DOM
 ========================================================= */
