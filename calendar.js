@@ -1582,6 +1582,30 @@ function getWeekScheduleSegment(
 Schedule
 ========================================================= */
 
+
+
+
+function getCoordinateLabel(
+  level,
+  x,
+  y
+) {
+
+  const coordinates =
+    FORTRESS_COORDINATES[level] || [];
+
+  const match =
+    coordinates.find(
+      coordinate =>
+        String(coordinate.x) === String(x) &&
+        String(coordinate.y) === String(y)
+    );
+
+  return match?.label || `${x}:${y}`;
+
+}
+
+
 function createSchedule(
   schedule,
   segment,
@@ -1627,10 +1651,15 @@ function createSchedule(
   button.style.pointerEvents =
     "auto";
 
-  button.textContent =
-    `${fortressIcon(
-      schedule.fortress
-    )} ${schedule.x}:${schedule.y} ${schedule.guild}`;
+const coordinateLabel =
+  getCoordinateLabel(
+    schedule.fortress,
+    schedule.x,
+    schedule.y
+  );
+
+button.textContent =
+  `${coordinateLabel} ${schedule.guild}`;
 
   button.style.left =
     `calc(${segment.startColumn} * (100% / 7) + 4px)`;
