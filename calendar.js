@@ -479,17 +479,37 @@ function updateJST(gmtInput, jstInput) {
 Current Time
 ========================================================= */
 
+function formatEventDate(value) {
+
+  if (!value) {
+    return "";
+  }
+
+  return new Date(value).toLocaleString(
+    "sv-SE",
+    {
+      timeZone: "Asia/Tokyo",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false
+    }
+  );
+
+}
+
+
 function updateCurrentTime() {
 
   if (!eventPeriod)
     return;
 
   eventPeriod.textContent =
-    `Event: ${event.start.replace("T", " ")} → ${event.end.replace("T", " ")}`;
+    `Event: ${formatEventDate(event.start)} → ${formatEventDate(event.end)}`;
 
 }
-
-
 /* =========================================================
 Language
 ========================================================= */
