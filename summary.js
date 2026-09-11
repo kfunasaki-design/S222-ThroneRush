@@ -2112,11 +2112,11 @@ if (
             )
             .update({
 
-              event_start:
-                eventStart,
+event_start:
+  getAdminReleaseValue(adminEventStart),
 
-              event_end:
-                eventEnd,
+event_end:
+  getAdminReleaseValue(adminEventEnd),
 
               lv4_release:
                 releaseValues[0],
