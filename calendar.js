@@ -1873,15 +1873,15 @@ form.addEventListener(
 
     }
 
-    const eventStart =
-      new Date(
-        `${event.start}T00:00:00Z`
-      );
+const eventStart =
+  new Date(
+    event.start
+  );
 
-    const eventEnd =
-      new Date(
-        `${event.end}T23:59:59Z`
-      );
+const eventEnd =
+  new Date(
+    event.end
+  );
 
     if (
       start < eventStart
