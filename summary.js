@@ -897,9 +897,10 @@ function renderGuildSummary() {
      Preview
   ======================================================= */
 
-  updateSummaryPreview(
-    guilds
-  );
+updateSummaryPreview(
+  guilds,
+  averages
+);
 
 }
 
