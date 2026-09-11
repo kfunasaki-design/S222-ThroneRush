@@ -485,21 +485,15 @@ function formatEventDate(value) {
     return "";
   }
 
-  return new Date(value).toLocaleString(
-    "sv-SE",
+  return new Date(value).toLocaleDateString(
+    "en-US",
     {
       timeZone: "Asia/Tokyo",
-      year: "numeric",
       month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false
+      day: "2-digit"
     }
   );
-
 }
-
 
 function updateCurrentTime() {
 
