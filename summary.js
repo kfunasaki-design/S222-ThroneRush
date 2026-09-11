@@ -949,6 +949,22 @@ function updateSummaryPreview(
     Show selected level average
   */
 
+const savedLevel =
+  localStorage.getItem(
+    "s222_summary_preview_level"
+  );
+
+if (
+  savedLevel
+  &&
+  SUMMARY_LEVELS.includes(
+    savedLevel
+  )
+) {
+  levelElement.value =
+    savedLevel;
+}
+   
   function updateAverage() {
     const selectedLevel =
       levelElement.value;
@@ -963,8 +979,16 @@ function updateSummaryPreview(
     Level selection
   */
 
-  levelElement.onchange =
-    updateAverage;
+levelElement.onchange = () => {
+
+  updateAverage();
+
+  localStorage.setItem(
+    "s222_summary_preview_level",
+    levelElement.value
+  );
+
+};
 
   /*
     Use the latest schedule created
