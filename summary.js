@@ -2648,3 +2648,10 @@ if (
 loadEventPeriod();
 
 initializeAdminAuth();
+
+loadEventPeriod()
+  .then(() => {
+    loadSchedules();
+  });
+
+initializeAdminAuth();
