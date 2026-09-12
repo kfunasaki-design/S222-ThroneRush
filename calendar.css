@@ -1556,10 +1556,10 @@ legend {
   align-items: center;
   justify-content: center;
 
-  width: 34px;
+  width: 30px;
   height: 18px;
   margin-right: 6px;
-
+  margin-top: -1px;
   box-sizing: border-box;
 
   background: #000;
