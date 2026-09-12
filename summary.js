@@ -2046,9 +2046,9 @@ async function loadEventPeriod() {
       .from(
         "admin_settings"
       )
-      .select(
-        "event_start, event_end"
-      )
+.select(
+  "event_start, event_end, guild_colors"
+)
       .eq(
         "id",
         ADMIN_SETTINGS_ID
@@ -2088,7 +2088,39 @@ async function loadEventPeriod() {
     data.event_end
     ||
     "";
+/*
+  Guild Colors
+*/
 
+if (
+  data.guild_colors
+  &&
+  typeof data.guild_colors === "object"
+) {
+
+  GUILD_LIST.forEach(
+    guild => {
+
+      const color =
+        data.guild_colors[guild];
+
+      if (
+        /^#[0-9A-Fa-f]{6}$/.test(
+          color || ""
+        )
+      ) {
+
+        setGuildColor(
+          guild,
+          color
+        );
+
+      }
+
+    }
+  );
+
+}
 
   if (
     typeof updateCurrentTime ===
