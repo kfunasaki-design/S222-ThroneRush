@@ -1658,8 +1658,23 @@ const coordinateLabel =
     schedule.y
   );
 
-button.textContent =
+const icon =
+  document.createElement("span");
+
+icon.className =
+  `schedule-icon ${schedule.fortress.toLowerCase()}`;
+
+icon.textContent = "●";
+
+button.appendChild(icon);
+
+const label =
+  document.createElement("span");
+
+label.textContent =
   `${coordinateLabel} ${schedule.guild}`;
+
+button.appendChild(label);
 
   button.style.left =
     `calc(${segment.startColumn} * (100% / 7) + 4px)`;
