@@ -1538,3 +1538,37 @@ legend {
   box-shadow:
     inset 0 1px 0 #217346;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+.schedule-icon {
+  display: inline-block;
+  margin-right: 5px;
+  font-size: 10px;
+  vertical-align: middle;
+}
+
+.schedule-icon.lv4 {
+  color: #00ff00;
+}
+
+.schedule-icon.lv5 {
+  color: #ffff00;
+}
+
+.schedule-icon.lv6 {
+  color: #ff0000;
+}
+
+.schedule-icon.lv7 {
+  color: #0080ff;
+}
