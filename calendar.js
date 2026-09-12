@@ -857,7 +857,29 @@ async function loadSchedules() {
 
       })
     );
+schedules.sort(
+  (a, b) => {
 
+    const guildA =
+      GUILD_LIST.indexOf(a.guild);
+
+    const guildB =
+      GUILD_LIST.indexOf(b.guild);
+
+    if (guildA !== guildB) {
+
+      return guildA - guildB;
+
+    }
+
+    return (
+      new Date(a.start)
+      -
+      new Date(b.start)
+    );
+
+  }
+);
   renderCalendar();
 
   renderGuildSummary();
