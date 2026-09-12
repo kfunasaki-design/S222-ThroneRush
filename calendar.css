@@ -1550,27 +1550,8 @@ legend {
    簡易版アイコン
 ========================================================= */
 
-.icon-test {
-  background: #000;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-}
-
-.test-schedule {
-  display: flex;
-  align-items: center;
-  height: 34px;
-  padding: 0 8px;
-  margin-bottom: 6px;
-  border-radius: 4px;
-  background: #333;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-/* Coordinate Icon */
-.coordinate-icon {
+/* Coordinate Badge */
+.coordinate-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1592,24 +1573,24 @@ legend {
   font-weight: 800;
   line-height: 1;
 
-box-shadow:
-  0 0 4px rgba(0,0,0,.9),
-  0 0 8px rgba(0,0,0,.65),
-  0 0 12px rgba(0,0,0,.35),
-  inset 0 0 0 1px rgba(255,255,255,.08);
+  box-shadow:
+    0 0 4px rgba(0,0,0,.9),
+    0 0 8px rgba(0,0,0,.65),
+    0 0 12px rgba(0,0,0,.35),
+    inset 0 0 0 1px rgba(255,255,255,.08);
 }
 
 /* Lv5 */
-.lv5 .coordinate-icon {
+.coordinate-badge.lv5 {
   color: #00E5FF;
 }
 
 /* Lv6 */
-.lv6 .coordinate-icon {
+.coordinate-badge.lv6 {
   color: #D000FF;
 }
 
 /* Lv7 */
-.lv7 .coordinate-icon {
+.coordinate-badge.lv7 {
   color: #FF7F00;
 }
