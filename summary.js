@@ -798,26 +798,17 @@ function renderGuildSummary() {
 
   /* Guild */
 
-  const totalGuildCell =
-    document.createElement(
-      "td"
-    );
+// Guild column
+const totalGuildCell = document.createElement("td");
+totalGuildCell.className = "summary-guild";
+totalGuildCell.textContent = "";
+totalRow.appendChild(totalGuildCell);
 
-
-  totalGuildCell.className =
-    "summary-guild";
-
-
-  totalGuildCell.textContent =
-    "Alliance Total　";
-
-
-  totalGuildCell.colSpan = 2;
-
-
-  totalRow.appendChild(
-    totalGuildCell
-  );
+// League column
+const totalLeagueCell = document.createElement("td");
+totalLeagueCell.className = "summary-league";
+totalLeagueCell.textContent = "Alliance Total";
+totalRow.appendChild(totalLeagueCell);
 
 
   /* Lv4 - Lv7 */
