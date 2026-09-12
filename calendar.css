@@ -676,12 +676,12 @@ button {
 
 #summaryTable th:nth-child(1),
 #summaryTable td:nth-child(1) {
-  width: 16%;
+  width: 23%;
 }
 
 #summaryTable th:nth-child(2),
 #summaryTable td:nth-child(2) {
-  width: 10%;
+  width: 5%;
 }
 
 #summaryTable th:nth-child(3),
@@ -692,12 +692,12 @@ button {
 #summaryTable td:nth-child(5),
 #summaryTable th:nth-child(6),
 #summaryTable td:nth-child(6) {
-  width: 16%;
+  width: 15%;
 }
 
 #summaryTable th:nth-child(7),
 #summaryTable td:nth-child(7) {
-  width: 10%;
+  width: 12%;
 }
 
 #summaryTable th,
