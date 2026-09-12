@@ -103,7 +103,22 @@ function guildColor(guild) {
 
 }
 
+function setGuildColor(guild, color) {
 
+  if (
+    !GUILD_COLORS[guild]
+  ) {
+
+    return false;
+
+  }
+
+  GUILD_COLORS[guild] =
+    color;
+
+  return true;
+
+}
 
 /* =========================================================
 Schedule Text Color
