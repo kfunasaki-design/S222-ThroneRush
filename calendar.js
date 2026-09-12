@@ -103,7 +103,12 @@ function guildColor(guild) {
 
 }
 
-function setGuildColor(guild, color) {
+
+
+function setGuildColor(
+  guild,
+  color
+) {
 
   if (
     !GUILD_COLORS[guild]
@@ -112,6 +117,18 @@ function setGuildColor(guild, color) {
     return false;
 
   }
+
+
+  if (
+    !/^#[0-9A-Fa-f]{6}$/.test(
+      color
+    )
+  ) {
+
+    return false;
+
+  }
+
 
   GUILD_COLORS[guild] =
     color;
