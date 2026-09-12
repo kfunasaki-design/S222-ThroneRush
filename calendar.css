@@ -1543,23 +1543,42 @@ legend {
     inset 1px 0 #217346;
 }
 
-/* Alliance Total: Lv4–Lv7 separator */
-.summary-total-row td:first-child {
-  box-shadow:
-    inset 0 1px 0 #217346;
+/* =========================================================
+   Alliance Total: Lv4–Lv7 separator
+========================================================= */
 
-  border-right:
-    1px solid #217346 !important;
-}
-
+.summary-total-row td:first-child,
 .summary-total-row td:last-child {
-  box-shadow:
-    inset 0 1px 0 #217346;
-
-  border-left:
-    1px solid #217346 !important;
+  position: relative;
 }
 
+.summary-total-row td:first-child::after {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  right: -1px;
+  bottom: 0;
+
+  width: 1px;
+
+  background: #217346;
+}
+
+.summary-total-row td:last-child::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -1px;
+  bottom: 0;
+
+  width: 1px;
+
+  background: #217346;
+}
 /* =========================================================
    Alliance Total Top Separator
 ========================================================= */
