@@ -676,12 +676,12 @@ button {
 
 #summaryTable th:nth-child(1),
 #summaryTable td:nth-child(1) {
-  width: 20%;
+  width: 18%;
 }
 
 #summaryTable th:nth-child(2),
 #summaryTable td:nth-child(2) {
-  width: 7%;
+  width: 9%;
 }
 
 #summaryTable th:nth-child(3),
