@@ -1214,11 +1214,6 @@ const adminPanelForm =
     "adminPanelForm"
   );
 
-const adminGuildColors =
-  document.getElementById(
-    "adminGuildColors"
-  );
-
 const adminEventStart =
   document.getElementById(
     "adminEventStart"
@@ -1252,6 +1247,11 @@ const adminLv7Release =
 const adminPanelError =
   document.getElementById(
     "adminPanelError"
+  );
+
+const adminGuildColors =
+  document.getElementById(
+    "adminGuildColors"
   );
 
 const closeAdminPanel =
@@ -1296,7 +1296,98 @@ function updateAdminStatus(
 
 }
 
+/* =========================================================
+   Admin Guild Colors
+========================================================= */
 
+function renderAdminGuildColors() {
+
+  if (
+    !adminGuildColors
+    ||
+    !Array.isArray(
+      GUILD_LIST
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  adminGuildColors.innerHTML =
+    "";
+
+
+  GUILD_LIST.forEach(
+    guild => {
+
+      const row =
+        document.createElement(
+          "div"
+        );
+
+
+      row.className =
+        "guild-color-row";
+
+
+      const label =
+        document.createElement(
+          "span"
+        );
+
+
+      label.textContent =
+        guild;
+
+
+      label.className =
+        "guild-color-name";
+
+
+      const input =
+        document.createElement(
+          "input"
+        );
+
+
+      input.type =
+        "color";
+
+
+      input.className =
+        "guild-color-input";
+
+
+      input.dataset.guild =
+        guild;
+
+
+      input.value =
+        guildColor(
+          guild
+        );
+
+
+      row.appendChild(
+        label
+      );
+
+
+      row.appendChild(
+        input
+      );
+
+
+      adminGuildColors.appendChild(
+        row
+      );
+
+    }
+  );
+
+}
 /* =========================================================
    Admin Settings Load
 ========================================================= */
@@ -1357,7 +1448,46 @@ async function loadAdminSettings() {
 
   }
 
+/*
+  Guild Colors
+*/
 
+if (
+  data.guild_colors
+  &&
+  typeof data.guild_colors === "object"
+) {
+
+  GUILD_LIST.forEach(
+    guild => {
+
+      const color =
+        data.guild_colors[guild];
+
+
+      if (
+        /^#[0-9A-Fa-f]{6}$/.test(
+          color || ""
+        )
+      ) {
+
+        setGuildColor(
+          guild,
+          color
+        );
+
+      }
+
+    }
+  );
+
+}
+
+
+renderAdminGuildColors();
+
+
+   
   /*
     Event period
   */
@@ -2177,7 +2307,49 @@ if (
               input
             )
         );
+/*
+  Guild Colors
+*/
 
+const guildColors = {};
+
+if (
+  adminGuildColors
+) {
+
+  const colorInputs =
+    adminGuildColors.querySelectorAll(
+      ".guild-color-input"
+    );
+
+
+  colorInputs.forEach(
+    input => {
+
+      const guild =
+        input.dataset.guild;
+
+      const color =
+        input.value;
+
+
+      if (
+        guild
+        &&
+        /^#[0-9A-Fa-f]{6}$/.test(
+          color
+        )
+      ) {
+
+        guildColors[guild] =
+          color;
+
+      }
+
+    }
+  );
+
+}
 
       /*
         Release dates must be inside
@@ -2251,34 +2423,37 @@ if (
             .from(
               "admin_settings"
             )
-            .update({
+.update({
 
-              event_start:
-                getAdminReleaseValue(
-                  adminEventStart
-                ),
+  event_start:
+    getAdminReleaseValue(
+      adminEventStart
+    ),
 
-              event_end:
-                getAdminReleaseValue(
-                  adminEventEnd
-                ),
+  event_end:
+    getAdminReleaseValue(
+      adminEventEnd
+    ),
 
-              lv4_release:
-                releaseValues[0],
+  lv4_release:
+    releaseValues[0],
 
-              lv5_release:
-                releaseValues[1],
+  lv5_release:
+    releaseValues[1],
 
-              lv6_release:
-                releaseValues[2],
+  lv6_release:
+    releaseValues[2],
 
-              lv7_release:
-                releaseValues[3],
+  lv7_release:
+    releaseValues[3],
 
-              updated_at:
-                new Date().toISOString()
+  guild_colors:
+    guildColors,
 
-            })
+  updated_at:
+    new Date().toISOString()
+
+})
             .eq(
               "id",
               ADMIN_SETTINGS_ID
@@ -2294,6 +2469,32 @@ if (
         }
 
 
+
+/*
+  Update guild colors.
+*/
+
+GUILD_LIST.forEach(
+  guild => {
+
+    const color =
+      guildColors[guild];
+
+
+    if (
+      color
+    ) {
+
+      setGuildColor(
+        guild,
+        color
+      );
+
+    }
+
+  }
+);
+         
         /*
           Update live event settings.
         */
