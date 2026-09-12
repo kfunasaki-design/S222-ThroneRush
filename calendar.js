@@ -1659,8 +1659,24 @@ const coordinateLabel =
     schedule.y
   );
 
-button.textContent =
-  `${coordinateLabel} ${schedule.guild}`;
+const coordinateBadge =
+  document.createElement("span");
+
+coordinateBadge.className =
+  `coordinate-badge ${schedule.fortress.toLowerCase()}`;
+
+coordinateBadge.textContent =
+  coordinateLabel;
+
+button.appendChild(coordinateBadge);
+
+const guildLabel =
+  document.createElement("span");
+
+guildLabel.textContent =
+  ` ${schedule.guild}`;
+
+button.appendChild(guildLabel);
 
   
 
