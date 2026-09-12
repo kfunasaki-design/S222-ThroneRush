@@ -1651,6 +1651,7 @@ function createSchedule(
   button.style.pointerEvents =
     "auto";
 
+
 const coordinateLabel =
   getCoordinateLabel(
     schedule.fortress,
@@ -1658,23 +1659,10 @@ const coordinateLabel =
     schedule.y
   );
 
-const icon =
-  document.createElement("span");
-
-icon.className =
-  `schedule-icon ${schedule.fortress.toLowerCase()}`;
-
-icon.textContent = "●";
-
-button.appendChild(icon);
-
-const label =
-  document.createElement("span");
-
-label.textContent =
+button.textContent =
   `${coordinateLabel} ${schedule.guild}`;
 
-button.appendChild(label);
+  
 
   button.style.left =
     `calc(${segment.startColumn} * (100% / 7) + 4px)`;
