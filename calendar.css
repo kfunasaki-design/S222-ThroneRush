@@ -1550,25 +1550,33 @@ legend {
    簡易版アイコン
 ========================================================= */
 
-.schedule-icon {
+.coordinate-badge {
   display: inline-block;
-  margin-right: 5px;
+  padding: 1px 5px;
+  margin-right: 4px;
+  border-radius: 4px;
   font-size: 10px;
+  font-weight: 700;
+  line-height: 16px;
   vertical-align: middle;
 }
 
-.schedule-icon.lv4 {
-  color: #00ff00;
+.coordinate-badge.lv4 {
+  background: #00ff00;
+  color: #000;
 }
 
-.schedule-icon.lv5 {
-  color: #ffff00;
+.coordinate-badge.lv5 {
+  background: #ffff00;
+  color: #000;
 }
 
-.schedule-icon.lv6 {
-  color: #ff0000;
+.coordinate-badge.lv6 {
+  background: #ff0000;
+  color: #fff;
 }
 
-.schedule-icon.lv7 {
-  color: #0080ff;
+.coordinate-badge.lv7 {
+  background: #0080ff;
+  color: #fff;
 }
