@@ -1557,7 +1557,7 @@ legend {
   justify-content: center;
 
   width: 34px;
-  height: 20px;
+  height: 18px;
   margin-right: 6px;
 
   box-sizing: border-box;
@@ -1569,7 +1569,7 @@ legend {
   color: #00FF00;
 
   font-family: monospace;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 800;
   line-height: 1;
 
