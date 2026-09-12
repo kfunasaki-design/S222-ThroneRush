@@ -2927,5 +2927,3 @@ updateFortressOptions();
 updateLanguage();
 
 updateCurrentTime();
-
-loadSchedules();
