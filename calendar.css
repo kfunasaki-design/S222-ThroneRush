@@ -1248,7 +1248,36 @@ legend {
     0 0 0 2px #5865f2;
 }
 
+.guild-color-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 
+.guild-color-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.guild-color-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.guild-color-input {
+  width: 42px;
+  height: 30px;
+  padding: 2px;
+  border: 1px solid #555;
+  border-radius: 5px;
+  background: #111;
+  cursor: pointer;
+}
 /* =========================================================
    Admin Login
 ========================================================= */
