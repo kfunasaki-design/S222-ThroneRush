@@ -1214,6 +1214,11 @@ const adminPanelForm =
     "adminPanelForm"
   );
 
+const adminGuildColors =
+  document.getElementById(
+    "adminGuildColors"
+  );
+
 const adminEventStart =
   document.getElementById(
     "adminEventStart"
