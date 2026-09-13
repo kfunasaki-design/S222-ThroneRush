@@ -1321,13 +1321,7 @@ function renderCalendar() {
 /* =========================================================
 Day
 ========================================================= */
-.day-grid {
-  display: grid;
-  grid-template-columns:
-    repeat(7, minmax(0, 1fr));
-  width: 100%;
-  height: 100%;
-}
+
 function createDay(date) {
 
   const day =
