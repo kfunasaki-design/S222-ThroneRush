@@ -1,3939 +1,767 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<link rel="stylesheet" href="style.css">
-<meta charset="UTF-8">
+// =====================================
+// S222 ThroneRush Manual
+// Markdown Loader + Section Control
+// =====================================
 
-<meta
-  name="viewport"
-  content="width=device-width,
-           initial-scale=1.0,
-           maximum-scale=1.0,
-           user-scalable=no">
+document.addEventListener("DOMContentLoaded", function () {
 
-<title>S222TH ImageEditor</title>
+    const markdownContainer =
+        document.getElementById("markdown-content");
 
-<style>
+    const searchInput =
+        document.getElementById("manual-search");
 
-/* =========================================================
-   Base
-========================================================= */
+    const resultsBox =
+        document.getElementById("manual-search-results");
 
-* {
-  box-sizing: border-box;
-}
 
-html,
-body {
-  width: 100%;
-  height: 100%;
+    // =====================================
+    // SECTION ID MAP
+    // Markdown見出し → 固定ID
+    // =====================================
 
-  margin: 0;
-  padding: 0;
+    const sectionIdMap = {
 
-  overflow: hidden;
+        // Basic
+        "overview": "overview",
+        "rules": "rules",
+        "restriction": "restriction",
+        "faq": "faq",
 
-  background: #111214;
-  color: #dcddde;
+        // Fortress
+        "lv1-4 fortresses": "lv1-4",
+        "lv1–4 fortresses": "lv1-4",
+        "lv1 — 4 fortresses": "lv1-4",
+        "lv1 to 4 fortresses": "lv1-4",
+        "lv1-4 fortress": "lv1-4",
+        "lv1–4 fortress": "lv1-4",
 
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-}
+        "lv4 fortress": "lv1-4",
+        "lv4": "lv1-4",
 
+        "lv5 fortress": "lv5",
+        "lv5": "lv5",
 
-/* =========================================================
-   App
-========================================================= */
+        "lv6 fortress": "lv6",
+        "lv6": "lv6",
 
-#app {
-  position: relative;
+        "lv7 fortress": "lv7",
+        "lv7": "lv7",
 
-  width: 100%;
-  height: 100%;
-
-  overflow: hidden;
-
-  background: #111214;
-}
-
-
-/* =========================================================
-   Editor
-========================================================= */
-
-.editor {
-  position: absolute;
-
-  inset: 0;
-
-  width: 100%;
-  height: 100%;
-
-  overflow: hidden;
-
-  background: #111214;
-
-  touch-action: none;
-}
-
-
-/* =========================================================
-   Canvas
-========================================================= */
-
-#canvas {
-  position: absolute;
-
-  left: 0;
-  top: 0;
-
-  display: block;
-
-  touch-action: none;
-
-  transform-origin: 0 0;
-}
-
-
-/* =========================================================
-   Header
-========================================================= */
-
-.header {
-  position: absolute;
-
-  top: 10px;
-  left: 50%;
-
-  transform:
-    translateX(-50%);
-
-  z-index: 40;
-
-  padding:
-    7px 16px;
-
-  border-radius: 10px;
-
-  background:
-    rgba(
-      30,
-      31,
-      34,
-      0.72
-    );
-
-  border:
-    1px solid
-    rgba(
-      255,
-      255,
-      255,
-      0.10
-    );
-
-  backdrop-filter:
-    blur(10px);
-
-  -webkit-backdrop-filter:
-    blur(10px);
-
-  box-shadow:
-    0 4px 18px
-    rgba(0,0,0,0.28);
-
-    pointer-events: auto;
-
-  white-space: nowrap;
-}
-
-.header-title {
-  font-size: 14px;
-
-  font-weight: 700;
-
-  letter-spacing:
-    0.3px;
-}
-
-
-/* =========================================================
-   Empty / Drop Zone
-========================================================= */
-
-.empty {
-  position: absolute;
-
-  left: 50%;
-  top: 50%;
-
-  transform:
-    translate(-50%, -50%);
-
-  width:
-    min(
-      88%,
-      420px
-    );
-
-  min-height: 190px;
-
-  padding: 30px 20px;
-
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-
-  justify-content: center;
-
-  text-align: center;
-
-  color: #b5bac1;
-
-  background:
-    rgba(
-      43,
-      45,
-      49,
-      0.55
-    );
-
-  border:
-    2px dashed
-    rgba(
-      255,
-      255,
-      255,
-      0.20
-    );
-
-  border-radius: 18px;
-
-  cursor: pointer;
-
-  z-index: 5;
-
-  transition:
-    background 0.15s ease,
-    border-color 0.15s ease,
-    transform 0.15s ease;
-
-  touch-action: manipulation;
-}
-
-.empty.dragover {
-  background:
-    rgba(
-      88,
-      101,
-      242,
-      0.22
-    );
-
-  border-color:
-    rgba(
-      88,
-      101,
-      242,
-      0.85
-    );
-
-  transform:
-    translate(-50%, -50%)
-    scale(1.02);
-}
-
-.empty-title {
-  font-size: 18px;
-
-  font-weight: 700;
-
-  margin-bottom: 9px;
-}
-
-.empty-text {
-  font-size: 13px;
-
-  line-height: 1.6;
-
-  color: #72767d;
-}
-
-
-/* =========================================================
-   Crop Overlay
-========================================================= */
-
-#cropOverlay {
-  position: absolute;
-
-  display: none;
-
-  border:
-    2px dashed #ffffff;
-
-  background:
-    rgba(
-      255,
-      255,
-      255,
-      0.08
-    );
-
-  pointer-events: none;
-
-  z-index: 10;
-}
-
-.crop-corner {
-  position: absolute;
-
-  width: 12px;
-  height: 12px;
-
-  background: #fff;
-
-  border:
-    2px solid #5865f2;
-
-  border-radius: 50%;
-}
-
-.crop-tl {
-  left: -7px;
-  top: -7px;
-}
-
-.crop-tr {
-  right: -7px;
-  top: -7px;
-}
-
-.crop-bl {
-  left: -7px;
-  bottom: -7px;
-}
-
-.crop-br {
-  right: -7px;
-  bottom: -7px;
-}
-
-
-/* =========================================================
-   Toolbar
-========================================================= */
-
-.toolbar {
-  position: absolute;
-
-  left: 50%;
-  bottom: 12px;
-
-  transform:
-    translateX(-50%);
-
-  width:
-    min(
-      calc(100% - 24px),
-      620px
-    );
-
-  padding: 8px;
-
-  background:
-    rgba(
-      30,
-      31,
-      34,
-      0.72
-    );
-
-  border:
-    1px solid
-    rgba(
-      255,
-      255,
-      255,
-      0.10
-    );
-
-  border-radius: 14px;
-
-  backdrop-filter:
-    blur(10px);
-
-  -webkit-backdrop-filter:
-    blur(10px);
-
-  box-shadow:
-    0 6px 24px
-    rgba(0,0,0,0.35);
-
-  display: grid;
-
-  grid-template-columns:
-    repeat(7, 1fr);
-
-  gap: 6px;
-
-  z-index: 30;
-}
-
-
-/* =========================================================
-   Tool Button
-========================================================= */
-
-.tool-button {
-  width: 100%;
-  height: 50px;
-
-  border: none;
-
-  border-radius: 9px;
-
-  background:
-    rgba(
-      43,
-      45,
-      49,
-      0.78
-    );
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  padding: 5px;
-
-  cursor: pointer;
-
-  -webkit-tap-highlight-color:
-    transparent;
-}
-
-.tool-button img {
-  width: 40px;
-  height: 40px;
-
-  display: block;
-
-  object-fit: contain;
-
-  pointer-events: none;
-}
-
-.tool-button.active {
-  background:
-    rgba(
-      88,
-      101,
-      242,
-      0.88
-    );
-}
-
-.tool-button:active {
-  transform:
-    scale(0.94);
-}
-
-
-/* =========================================================
-   Color Button
-========================================================= */
-
-.color-button {
-  position: relative;
-
-  width: 100%;
-  height: 50px;
-
-  border: none;
-
-  border-radius: 9px;
-
-  background:
-    rgba(
-      43,
-      45,
-      49,
-      0.78
-    );
-
-  padding: 5px;
-
-  cursor: pointer;
-
-  overflow: hidden;
-}
-
-.color-preview {
-  width: 100%;
-  height: 100%;
-
-  border-radius: 6px;
-
-  border:
-    2px solid
-    rgba(
-      255,
-      255,
-      255,
-      0.65
-    );
-}
-
-#colorInput {
-  position: absolute;
-
-  inset: 0;
-
-  width: 100%;
-  height: 100%;
-
-  opacity: 0;
-
-  cursor: pointer;
-}
-
-
-/* =========================================================
-   Save Button
-========================================================= */
-
-.save-button {
-  width: 100%;
-  height: 50px;
-
-  padding: 5px;
-
-  border: none;
-
-  border-radius: 9px;
-
-  background:
-    rgba(
-      43,
-      45,
-      49,
-      0.78
-    );
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  cursor: pointer;
-
-  -webkit-tap-highlight-color:
-    transparent;
-}
-
-.save-button img {
-  width: 40px;
-  height: 40px;
-
-  object-fit: contain;
-
-  pointer-events: none;
-}
-
-.save-button:active {
-  transform:
-    scale(0.94);
-}
-
-
-/* =========================================================
-   Toast
-========================================================= */
-
-.toast {
-  position: absolute;
-
-  left: 50%;
-  top: 50%;
-
-  transform:
-    translate(-50%, -50%)
-    scale(0.95);
-
-  z-index: 100;
-
-  padding:
-    12px 20px;
-
-  border-radius: 12px;
-
-  background:
-    rgba(
-      30,
-      31,
-      34,
-      0.90
-    );
-
-  border:
-    1px solid
-    rgba(
-      255,
-      255,
-      255,
-      0.12
-    );
-
-  box-shadow:
-    0 8px 30px
-    rgba(0,0,0,0.35);
-
-  color:
-    #ffffff;
-
-  font-size: 14px;
-
-  font-weight: 600;
-
-  white-space: nowrap;
-
-  opacity: 0;
-
-  pointer-events: none;
-
-  transition:
-    opacity 0.15s ease,
-    transform 0.15s ease;
-}
-
-.toast.show {
-  opacity: 1;
-
-  transform:
-    translate(-50%, -50%)
-    scale(1);
-}
-
-
-/* =========================================================
-   Desktop
-========================================================= */
-
-@media (min-width: 700px) {
-
-  .toolbar {
-    bottom: 18px;
-
-    grid-template-columns:
-      repeat(12, 58px);
-
-    width:
-      min(
-        calc(100% - 24px),
-        760px
-      );
-
-    justify-content: center;
-  }
-
-  .tool-button,
-  .color-button,
-  .save-button {
-    width: 58px;
-    height: 58px;
-  }
-
-  .tool-button img,
-  .save-button img {
-    width: 44px;
-    height: 44px;
-  }
-
-}
-
-</style>
-</head>
-
-
-<body>
-
-<div id="app">
-
-  <main
-    id="editor"
-    class="editor">
-
-
-    <!-- =====================================================
-         Header
-    ====================================================== -->
-
-<header class="header">
-
-  <div class="header-title">
-    S222TH ImageEditor
-  </div>
-
-</header>
-  <button
-    type="button"
-    class="site-menu-button"
-    aria-label="Navigation Menu"
-  >
-    ☰
-  </button>
-
-    <!-- =====================================================
-         Canvas
-    ====================================================== -->
-
-    <canvas
-      id="canvas">
-    </canvas>
-
-
-    <!-- =====================================================
-         Initial Drop Zone
-    ====================================================== -->
-
-    <div
-      id="empty"
-      class="empty">
-
-      <div
-        class="empty-title">
-
-        画像を読み込む
-
-      </div>
-
-      <div
-        class="empty-text">
-
-        ここに画像をドロップ<br>
-        またはタップしてファイルを選択
-
-      </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         Crop
-    ====================================================== -->
-
-    <div
-      id="cropOverlay">
-
-      <div
-        class="crop-corner crop-tl">
-      </div>
-
-      <div
-        class="crop-corner crop-tr">
-      </div>
-
-      <div
-        class="crop-corner crop-bl">
-      </div>
-
-      <div
-        class="crop-corner crop-br">
-      </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         Toast
-    ====================================================== -->
-
-    <div
-      id="toast"
-      class="toast">
-    </div>
-
-
-    <!-- =====================================================
-         Toolbar
-    ====================================================== -->
-
-    <nav class="toolbar">
-
-
-      <!-- Undo -->
-
-      <button
-        class="tool-button"
-        id="undoButton"
-        title="一つ前に戻す">
-
-        <img
-          src="image/undo-48.png"
-          alt="Undo">
-
-      </button>
-
-
-      <!-- Load -->
-
-      <button
-        class="tool-button"
-        id="loadButton"
-        title="画像読み込み">
-
-        <img
-          src="image/add-image-48.png"
-          alt="画像">
-
-      </button>
-
-
-      <!-- Crop -->
-
-      <button
-        class="tool-button"
-        id="cropButton"
-        title="切り抜き">
-
-        <img
-          src="image/trim-image-48.png"
-          alt="切り抜き">
-
-      </button>
-
-
-      <!-- Color -->
-
-      <label
-        class="color-button"
-        title="カラー">
-
-        <div
-          id="colorPreview"
-          class="color-preview">
-        </div>
-
-        <input
-          id="colorInput"
-          type="color"
-          value="#00ff00">
-
-      </label>
-
-
-      <!-- Circle -->
-
-      <button
-        class="tool-button"
-        data-tool="circle"
-        title="円">
-
-        <img
-          src="image/circle-48.png"
-          alt="円">
-
-      </button>
-
-
-      <!-- Square -->
-
-      <button
-        class="tool-button"
-        data-tool="rect"
-        title="四角">
-
-        <img
-          src="image/square-48.png"
-          alt="四角">
-
-      </button>
-
-
-      <!-- Arrow -->
-
-      <button
-        class="tool-button"
-        data-tool="arrow"
-        title="矢印">
-
-        <img
-          src="image/up-right-48.png"
-          alt="矢印">
-
-      </button>
-
-
-      <!-- Numbers -->
-
-      <button
-        class="tool-button"
-        data-tool="number"
-        title="1〜5">
-
-        <img
-          src="image/numbers-48.png"
-          alt="数字">
-
-      </button>
-
-
-      <!-- ABC -->
-
-      <button
-        class="tool-button"
-        data-tool="letter"
-        title="A〜E">
-
-        <img
-          src="image/abc-48.png"
-          alt="ABC">
-
-      </button>
-
-
-      <!-- Delete -->
-
-      <button
-        class="tool-button"
-        id="deleteButton"
-        title="削除">
-
-        <img
-          src="image/close-48.png"
-          alt="削除">
-
-      </button>
-
-
-      <!-- Clear -->
-
-      <button
-        class="tool-button"
-        id="clearButton"
-        title="全消去">
-
-        <img
-          src="image/dl-48.png"
-          alt="全消去">
-
-      </button>
-
-
-      <!-- Save -->
-
-      <button
-        class="save-button"
-        id="saveButton"
-        title="保存">
-
-        <img
-          src="image/save-48.png"
-          alt="保存">
-
-      </button>
-
-
-    </nav>
-
-
-  </main>
-
-
-  <!-- =======================================================
-       File Input
-  ======================================================== -->
-
-  <input
-    id="fileInput"
-    type="file"
-    accept="image/*"
-    hidden>
-
-</div>
-
-
-<script>
-const allowedHost =
-  "kfunasaki-design.github.io";
-
-if (
-  window.location.hostname !== allowedHost
-) {
-  document.body.innerHTML = `
-    <div style="
-      color:white;
-      background:#111214;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      font-family:sans-serif;
-      padding:30px;
-    ">
-      <div>
-        <h2>Access Denied</h2>
-        <p>This tool is available only from the S222 website.</p>
-      </div>
-    </div>
-  `;
-  throw new Error(
-    "Unauthorized host"
-  );
-}
-/* =========================================================
-   Elements
-========================================================= */
-
-const editor =
-  document.getElementById(
-    "editor"
-  );
-
-const canvas =
-  document.getElementById(
-    "canvas"
-  );
-
-const ctx =
-  canvas.getContext(
-    "2d"
-  );
-
-const empty =
-  document.getElementById(
-    "empty"
-  );
-
-const fileInput =
-  document.getElementById(
-    "fileInput"
-  );
-
-const loadButton =
-  document.getElementById(
-    "loadButton"
-  );
-
-const cropButton =
-  document.getElementById(
-    "cropButton"
-  );
-
-const deleteButton =
-  document.getElementById(
-    "deleteButton"
-  );
-
-const clearButton =
-  document.getElementById(
-    "clearButton"
-  );
-
-const undoButton =
-  document.getElementById(
-    "undoButton"
-  );
-
-const saveButton =
-  document.getElementById(
-    "saveButton"
-  );
-
-const colorInput =
-  document.getElementById(
-    "colorInput"
-  );
-
-const colorPreview =
-  document.getElementById(
-    "colorPreview"
-  );
-
-const cropOverlay =
-  document.getElementById(
-    "cropOverlay"
-  );
-
-const toast =
-  document.getElementById(
-    "toast"
-  );
-
-
-/* =========================================================
-   State
-========================================================= */
-
-let image = null;
-
-let objects = [];
-
-let selectedObject = null;
-
-let currentTool = null;
-
-let numberIndex = 0;
-
-let letterIndex = 0;
-
-let history = [];
-
-let cropMode = false;
-
-let cropStart = null;
-
-let cropEnd = null;
-
-
-/* =========================================================
-   View
-========================================================= */
-
-let viewScale = 1;
-
-let viewX = 0;
-
-let viewY = 0;
-
-let minScale = 0.1;
-
-let maxScale = 5;
-
-
-/* =========================================================
-   Pointer
-========================================================= */
-
-let pointerMode = null;
-
-let startPointer = null;
-
-let lastPointer = null;
-
-let startObjectState = null;
-
-const pointers =
-  new Map();
-
-let pinchStartDistance = 0;
-
-let pinchStartScale = 1;
-
-let pinchStartView = null;
-
-
-/* =========================================================
-   Color
-========================================================= */
-
-function updateColorPreview() {
-
-  colorPreview.style.background =
-    colorInput.value;
-
-}
-
-updateColorPreview();
-
-colorInput.addEventListener(
-  "input",
-  () => {
-
-    updateColorPreview();
-
-  }
-);
-
-
-/* =========================================================
-   Toast
-========================================================= */
-
-let toastTimer = null;
-
-function showToast(
-  message
-) {
-
-  toast.textContent =
-    message;
-
-  toast.classList.add(
-    "show"
-  );
-
-  clearTimeout(
-    toastTimer
-  );
-
-  toastTimer =
-    setTimeout(
-      () => {
-
-        toast.classList.remove(
-          "show"
-        );
-
-      },
-      1500
-    );
-
-}
-
-
-/* =========================================================
-   History
-========================================================= */
-
-function cloneObjects() {
-
-  return JSON.parse(
-    JSON.stringify(
-      objects
-    )
-  );
-
-}
-
-
-function saveHistory() {
-
-  history.push({
-
-    objects:
-      cloneObjects(),
-
-    numberIndex,
-
-    letterIndex,
-
-    imageSrc:
-      image
-        ? canvas.toDataURL(
-            "image/png"
-          )
-        : null,
-
-    canvasWidth:
-      canvas.width,
-
-    canvasHeight:
-      canvas.height
-
-  });
-
-  if (
-    history.length > 30
-  ) {
-
-    history.shift();
-
-  }
-
-}
-
-
-/* =========================================================
-   Undo
-========================================================= */
-
-async function undo() {
-
-  if (
-    !history.length
-  ) {
-
-    return;
-
-  }
-
-  const state =
-    history.pop();
-
-  objects =
-    state.objects || [];
-
-  numberIndex =
-    state.numberIndex || 0;
-
-  letterIndex =
-    state.letterIndex || 0;
-
-  selectedObject = null;
-
-
-  if (
-    state.imageSrc
-  ) {
-
-    const restored =
-      new Image();
-
-    restored.onload =
-      () => {
-
-        image =
-          restored;
-
-        canvas.width =
-          state.canvasWidth;
-
-        canvas.height =
-          state.canvasHeight;
-
-        fitImage();
-
-        draw();
-
-      };
-
-    restored.src =
-      state.imageSrc;
-
-  } else {
-
-    draw();
-
-  }
-
-}
-
-
-undoButton.addEventListener(
-  "click",
-  event => {
-
-    event.stopPropagation();
-
-    undo();
-
-  }
-);
-
-
-/* =========================================================
-   Load
-========================================================= */
-
-loadButton.addEventListener(
-  "click",
-  () => {
-
-    fileInput.click();
-
-  }
-);
-
-
-empty.addEventListener(
-  "click",
-  () => {
-
-    fileInput.click();
-
-  }
-);
-
-
-/* =========================================================
-   Drag & Drop
-========================================================= */
-
-empty.addEventListener(
-  "dragover",
-  event => {
-
-    event.preventDefault();
-
-    empty.classList.add(
-      "dragover"
-    );
-
-  }
-);
-
-
-empty.addEventListener(
-  "dragleave",
-  event => {
-
-    event.preventDefault();
-
-    empty.classList.remove(
-      "dragover"
-    );
-
-  }
-);
-
-
-empty.addEventListener(
-  "drop",
-  event => {
-
-    event.preventDefault();
-
-    empty.classList.remove(
-      "dragover"
-    );
-
-    const files =
-      event.dataTransfer.files;
-
-    if (
-      !files ||
-      !files.length
-    ) {
-
-      return;
-
-    }
-
-    loadImageFile(
-      files[0]
-    );
-
-  }
-);
-
-
-/* =========================================================
-   File Input
-========================================================= */
-
-fileInput.addEventListener(
-  "change",
-  event => {
-
-    const file =
-      event.target.files[0];
-
-    if (!file) {
-
-      return;
-
-    }
-
-    loadImageFile(
-      file
-    );
-
-    fileInput.value = "";
-
-  }
-);
-
-
-/* =========================================================
-   Load Image File
-========================================================= */
-
-function loadImageFile(
-  file
-) {
-
-  if (
-    !file.type.startsWith(
-      "image/"
-    )
-  ) {
-
-    return;
-
-  }
-
-  const reader =
-    new FileReader();
-
-  reader.onload =
-    event => {
-
-      const img =
-        new Image();
-
-      img.onload =
-        () => {
-
-          image =
-            img;
-
-          canvas.width =
-            img.naturalWidth;
-
-          canvas.height =
-            img.naturalHeight;
-
-          objects = [];
-
-          history = [];
-
-          selectedObject = null;
-
-          numberIndex = 0;
-
-          letterIndex = 0;
-
-          currentTool = null;
-
-          cropMode = false;
-
-          cropButton.classList.remove(
-            "active"
-          );
-
-          document
-            .querySelectorAll(
-              "[data-tool]"
-            )
-            .forEach(
-              b =>
-                b.classList.remove(
-                  "active"
-                )
-            );
-
-          empty.style.display =
-            "none";
-
-          fitImage();
-
-          draw();
-
-        };
-
-      img.src =
-        event.target.result;
+        // Tools
+        "calendar": "calendar",
+        "image editor": "image-editor",
+        "forum": "forum"
 
     };
 
-  reader.readAsDataURL(
-    file
-  );
 
-}
+    // =====================================
+    // NORMALIZE TITLE
+    // =====================================
 
+    function normalizeTitle(text) {
 
-/* =========================================================
-   Fit Image
-========================================================= */
+        return text
+            .toLowerCase()
+            .trim()
+            .replace(/[–—]/g, "-")
+            .replace(/\s+/g, " ");
 
-function fitImage() {
-
-  if (!image) {
-
-    return;
-
-  }
-
-  const width =
-    editor.clientWidth;
-
-  const height =
-    editor.clientHeight;
-
-  viewScale =
-    height /
-    canvas.height;
-
-  viewX =
-    (
-      width -
-      canvas.width *
-      viewScale
-    ) / 2;
-
-  viewY = 0;
-
-  applyCanvasTransform();
-
-}
+    }
 
 
-/* =========================================================
-   Canvas Transform
-========================================================= */
+    // =====================================
+    // GET SECTION ID
+    // =====================================
 
-function applyCanvasTransform() {
+    function getSectionId(title) {
 
-  canvas.style.transform =
-    `translate(
-      ${viewX}px,
-      ${viewY}px
-    )
-    scale(
-      ${viewScale}
-    )`;
+        const normalized =
+            normalizeTitle(title);
 
-  updateCropOverlay();
+        if (sectionIdMap[normalized]) {
 
-}
+            return sectionIdMap[normalized];
 
+        }
 
-/* =========================================================
-   Screen -> Image
-========================================================= */
+        // Mapにない場合は自動生成
+        return normalized
+            .replace(/[^a-z0-9\s-]/g, "")
+            .replace(/\s+/g, "-");
 
-function screenToImage(
-  clientX,
-  clientY
-) {
-
-  const rect =
-    editor.getBoundingClientRect();
-
-  return {
-
-    x:
-      (
-        clientX -
-        rect.left -
-        viewX
-      ) /
-      viewScale,
-
-    y:
-      (
-        clientY -
-        rect.top -
-        viewY
-      ) /
-      viewScale
-
-  };
-
-}
+    }
 
 
-/* =========================================================
-   Image -> Screen
-========================================================= */
+    // =====================================
+    // CLOSE ALL SECTIONS
+    // =====================================
 
-function imageToScreen(
-  x,
-  y
-) {
+    function closeAllSections() {
 
-  return {
+        document
+            .querySelectorAll("#markdown-content section")
+            .forEach(function (section) {
 
-    x:
-      x *
-      viewScale +
-      viewX,
+                section.classList.remove("open");
 
-    y:
-      y *
-      viewScale +
-      viewY
+            });
 
-  };
-
-}
+    }
 
 
-/* =========================================================
-   Tools
-========================================================= */
+    // =====================================
+    // OPEN SECTION
+    // Roadmap / Search / Hash
+    // =====================================
 
-document
-  .querySelectorAll(
-    "[data-tool]"
-  )
-  .forEach(
-    button => {
+    window.openSection = function (sectionId) {
 
-      button.addEventListener(
-        "click",
-        () => {
+        if (!sectionId) return;
 
-          if (!image) {
+        const target =
+            document.getElementById(sectionId);
+
+        if (!target) {
+
+            console.warn(
+                "Section not found:",
+                sectionId
+            );
 
             return;
 
-          }
+        }
 
-          currentTool =
-            button.dataset.tool;
+        closeAllSections();
 
-          cropMode = false;
+        target.classList.add("open");
 
-          cropButton.classList.remove(
-            "active"
-          );
+        // hashも更新
+        if (
+            window.history &&
+            window.history.replaceState
+        ) {
 
-          document
+            window.history.replaceState(
+                null,
+                "",
+                "#" + sectionId
+            );
+
+        }
+
+        setTimeout(function () {
+
+            target.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        }, 50);
+
+    };
+
+
+    // =====================================
+    // BUILD SECTIONS FROM MARKDOWN
+    // H2を親セクションとして構築
+    // =====================================
+
+    function buildSections() {
+
+        const nodes =
+            Array.from(
+                markdownContainer.childNodes
+            );
+
+        markdownContainer.innerHTML = "";
+
+        let currentSection = null;
+        let currentContent = null;
+
+        nodes.forEach(function (node) {
+
+            // -----------------------------
+            // CATEGORY TITLE
+            // 独立したカテゴリーとして扱う
+            // -----------------------------
+
+            if (
+                node.nodeType === Node.ELEMENT_NODE &&
+                node.classList.contains("category-title")
+            ) {
+
+                currentSection = null;
+                currentContent = null;
+
+                markdownContainer.appendChild(node);
+
+                return;
+
+            }
+
+
+            // -----------------------------
+            // H2 = Main Section
+            // -----------------------------
+
+            if (
+                node.nodeType === Node.ELEMENT_NODE &&
+                node.tagName === "H2"
+            ) {
+
+                const title =
+                    node.textContent.trim();
+
+                const sectionId =
+                    getSectionId(title);
+
+                currentSection =
+                    document.createElement("section");
+
+                currentSection.id =
+                    sectionId;
+
+                // 見出し
+                currentSection.appendChild(node);
+
+                // 開閉コンテンツ
+                currentContent =
+                    document.createElement("div");
+
+                currentContent.className =
+                    "section-content";
+
+                currentSection.appendChild(
+                    currentContent
+                );
+
+                markdownContainer.appendChild(
+                    currentSection
+                );
+
+                return;
+
+            }
+
+
+            // -----------------------------
+            // H2以外
+            // 現在のセクションに追加
+            // -----------------------------
+
+            if (currentContent) {
+
+                currentContent.appendChild(node);
+
+            }
+
+            // H2以前の要素がある場合
+            else {
+
+                markdownContainer.appendChild(node);
+
+            }
+
+        });
+
+
+        // =====================================
+        // SECTION TITLE CLICK
+        // =====================================
+
+        const sectionHeadings =
+            markdownContainer.querySelectorAll(
+                "section > h2"
+            );
+
+        sectionHeadings.forEach(function (heading) {
+
+            heading.style.cursor = "pointer";
+
+            heading.setAttribute(
+                "role",
+                "button"
+            );
+
+            heading.addEventListener(
+                "click",
+                function () {
+
+                    const section =
+                        heading.closest("section");
+
+                    if (!section) return;
+
+                    const isOpen =
+                        section.classList.contains(
+                            "open"
+                        );
+
+                    // 他を閉じる
+                    closeAllSections();
+
+                    // 閉じていた場合だけ開く
+                    if (!isOpen) {
+
+                        section.classList.add(
+                            "open"
+                        );
+
+                    }
+
+                }
+            );
+
+        });
+
+    }
+
+
+    // =====================================
+    // MARKDOWN LOAD
+    // =====================================
+
+    if (markdownContainer) {
+
+        fetch("manual.md")
+
+            .then(function (response) {
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Failed to load manual.md"
+                    );
+
+                }
+
+                return response.text();
+
+            })
+
+            .then(function (markdown) {
+
+                // Markdown → HTML
+                markdownContainer.innerHTML =
+                    marked.parse(markdown);
+
+                // HTML → Collapsible Sections
+                buildSections();
+
+                // URL Hash
+                const hash =
+                    window.location.hash.replace(
+                        "#",
+                        ""
+                    );
+
+                if (hash) {
+
+                    setTimeout(function () {
+
+                        openSection(hash);
+
+                    }, 100);
+
+                }
+
+            })
+
+            .catch(function (error) {
+
+                console.error(
+                    "Markdown loading error:",
+                    error
+                );
+
+                markdownContainer.innerHTML =
+                    "<p>Failed to load manual content.</p>";
+
+            });
+
+    }
+
+
+    // =====================================
+    // HASH CHANGE
+    // Browser Back / Direct Links
+    // =====================================
+
+    window.addEventListener(
+        "hashchange",
+        function () {
+
+            const hash =
+                window.location.hash.replace(
+                    "#",
+                    ""
+                );
+
+            if (hash) {
+
+                openSection(hash);
+
+            }
+
+        }
+    );
+
+
+    // =====================================
+    // SEARCH
+    // =====================================
+
+    function normalize(text) {
+
+        return text
+            .toLowerCase()
+            .replace(/\s+/g, " ")
+            .trim();
+
+    }
+
+
+    // =====================================
+    // CLEAR HIGHLIGHTS
+    // =====================================
+
+    function clearHighlights() {
+
+        document
             .querySelectorAll(
-              "[data-tool]"
+                "#markdown-content section"
             )
-            .forEach(
-              b =>
-                b.classList.remove(
-                  "active"
+            .forEach(function (section) {
+
+                section.classList.remove(
+                    "manual-highlight"
+                );
+
+            });
+
+    }
+
+
+    // =====================================
+    // SHOW SEARCH RESULTS
+    // =====================================
+
+    function showResults(query) {
+
+        if (!resultsBox) return;
+
+        resultsBox.innerHTML = "";
+
+        if (!query) {
+
+            resultsBox.style.display =
+                "none";
+
+            clearHighlights();
+
+            return;
+
+        }
+
+        const normalizedQuery =
+            normalize(query);
+
+        const sections =
+            Array.from(
+                document.querySelectorAll(
+                    "#markdown-content section"
                 )
             );
 
-          button.classList.add(
-            "active"
-          );
+        const matches =
+            sections.filter(function (section) {
+
+                return normalize(
+                    section.innerText
+                ).includes(
+                    normalizedQuery
+                );
+
+            });
+
+        resultsBox.style.display =
+            "block";
+
+        if (matches.length === 0) {
+
+            resultsBox.innerHTML =
+                '<div class="manual-search-empty">No results found.</div>';
+
+            return;
 
         }
-      );
 
-    }
-  );
+        matches.forEach(function (section) {
 
+            const heading =
+                section.querySelector("h2");
 
-/* =========================================================
-   Crop
-========================================================= */
+            const title =
+                heading
+                    ? heading.textContent.trim()
+                    : "Section";
 
-cropButton.addEventListener(
-  "click",
-  () => {
+            const result =
+                document.createElement("a");
 
-    if (!image) {
+            result.href =
+                "#" + section.id;
 
-      return;
+            result.className =
+                "manual-search-result";
 
-    }
+            result.innerHTML = `
 
-    cropMode =
-      !cropMode;
+                <span class="manual-search-result-title">
+                    ${title}
+                </span>
 
-    currentTool = null;
+                <span class="manual-search-result-text">
+                    ${normalize(section.innerText)
+                        .substring(0, 120)}
+                </span>
 
-    document
-      .querySelectorAll(
-        "[data-tool]"
-      )
-      .forEach(
-        b =>
-          b.classList.remove(
-            "active"
-          )
-      );
+            `;
 
-    cropButton.classList.toggle(
-      "active",
-      cropMode
-    );
+            result.addEventListener(
+                "click",
+                function (event) {
 
-    cropStart = null;
+                    event.preventDefault();
 
-    cropEnd = null;
+                    openSection(
+                        section.id
+                    );
 
-    cropOverlay.style.display =
-      "none";
+                    clearHighlights();
 
-  }
-);
+                    setTimeout(function () {
 
+                        section.classList.add(
+                            "manual-highlight"
+                        );
 
-/* =========================================================
-   Pointer Down
-========================================================= */
+                    }, 300);
 
-editor.addEventListener(
-  "pointerdown",
-  event => {
+                    setTimeout(function () {
 
-    if (!image) {
+                        section.classList.remove(
+                            "manual-highlight"
+                        );
 
-      return;
+                    }, 2100);
 
-    }
+                }
+            );
 
-    if (
-      event.target.closest(
-        ".toolbar"
-      ) ||
-      event.target.closest(
-        ".header"
-      ) ||
-      event.target.closest(
-        ".toast"
-      )
-    ) {
+            resultsBox.appendChild(
+                result
+            );
 
-      return;
+        });
 
     }
 
 
-    pointers.set(
-      event.pointerId,
-      {
-        x:
-          event.clientX,
+    // =====================================
+    // SEARCH EVENTS
+    // =====================================
 
-        y:
-          event.clientY
-      }
-    );
+    if (searchInput) {
 
-    editor.setPointerCapture(
-      event.pointerId
-    );
+        searchInput.addEventListener(
+            "input",
+            function () {
 
+                showResults(
+                    this.value
+                );
 
-    if (
-      pointers.size === 2
-    ) {
-
-      const values =
-        [...pointers.values()];
-
-      pinchStartDistance =
-        distance(
-          values[0],
-          values[1]
+            }
         );
 
-      pinchStartScale =
-        viewScale;
+        searchInput.addEventListener(
+            "keydown",
+            function (event) {
 
-      pinchStartView = {
+                if (
+                    event.key === "Escape"
+                ) {
 
-        x: viewX,
-        y: viewY
+                    this.value = "";
 
-      };
+                    showResults("");
 
-      pointerMode =
-        "pinch";
+                    this.blur();
 
-      return;
+                }
 
-    }
-
-
-    const point =
-      screenToImage(
-        event.clientX,
-        event.clientY
-      );
-
-
-    if (cropMode) {
-
-      cropStart =
-        clampPoint(
-          point
+            }
         );
 
-      cropEnd =
-        cropStart;
-
-      pointerMode =
-        "crop";
-
-      updateCropOverlay();
-
-      return;
-
     }
 
 
-    if (
-      currentTool === "number" ||
-      currentTool === "letter"
-    ) {
+    // =====================================
+    // SITE MENU
+    // =====================================
 
-      saveHistory();
+    const menuButton =
+        document.querySelector(".site-menu-button");
 
-      const obj = {
 
-        type:
-          currentTool,
+    if (menuButton) {
 
-        x:
-          point.x,
+        const menu =
+            document.createElement("nav");
 
-        y:
-          point.y,
+        menu.className = "site-menu";
+        menu.hidden = true;
 
-        size:
-          Math.max(
-            48,
-            canvas.width *
-            0.045
-          ),
 
-        color:
-          colorInput.value
+        const menuItems = [
+            {
+                label: "Manual",
+                href: "https://kfunasaki-design.github.io/S222-ThroneRush/"
+            },
+            {
+                label: "Restriction",
+                href: "https://kfunasaki-design.github.io/S222-ThroneRush/guild-restriction.html"
+            },
+            {
+                label: "Calendar",
+                href: "https://kfunasaki-design.github.io/S222-ThroneRush/calendar.html"
+            },
+            {
+                label: "Image Editor",
+                href: "https://kfunasaki-design.github.io/S222-ThroneRush/image-editor.html"
+            }
+        ];
 
-      };
 
+        menuItems.forEach(function (item) {
 
-      if (
-        currentTool ===
-        "number"
-      ) {
+            const link =
+                document.createElement("a");
 
-        obj.text =
-          [
-            "1",
-            "2",
-            "3",
-            "4",
-            "5"
-          ][numberIndex];
+            link.href = item.href;
+            link.textContent = item.label;
 
-        numberIndex++;
+            menu.appendChild(link);
 
-        if (
-          numberIndex >= 5
-        ) {
+        });
 
-          numberIndex = 0;
 
-        }
+        document.body.appendChild(menu);
 
-      } else {
 
-        obj.text =
-          String.fromCharCode(
-            65 +
-            letterIndex
-          );
+        // ---------------------------------
+        // OPEN / CLOSE
+        // ---------------------------------
 
-        letterIndex++;
+        menuButton.addEventListener(
+            "click",
+            function (event) {
 
-        if (
-          letterIndex >= 5
-        ) {
+                event.stopPropagation();
 
-          letterIndex = 0;
 
-        }
+                if (menu.hidden) {
 
-      }
+                    const rect =
+                        menuButton.getBoundingClientRect();
 
-      objects.push(
-        obj
-      );
 
-      selectedObject =
-        obj;
+                    menu.style.position =
+                        "fixed";
 
-      draw();
+                    menu.style.top =
+                        `${rect.bottom + 8}px`;
 
-      currentTool = null;
+                    menu.style.right =
+                        `${window.innerWidth - rect.right}px`;
 
-      document
-        .querySelectorAll(
-          "[data-tool]"
-        )
-        .forEach(
-          b =>
-            b.classList.remove(
-              "active"
-            )
-        );
+                }
 
-      return;
 
-    }
+                menu.hidden =
+                    !menu.hidden;
 
-
-    if (
-      currentTool === "circle" ||
-      currentTool === "rect" ||
-      currentTool === "arrow"
-    ) {
-
-      saveHistory();
-
-      startPointer =
-        point;
-
-      pointerMode =
-        "draw";
-
-      return;
-
-    }
-
-
-    const hit =
-      hitTest(
-        point.x,
-        point.y
-      );
-
-    if (hit) {
-
-      selectedObject =
-        hit;
-
-      saveHistory();
-
-      startObjectState =
-        JSON.parse(
-          JSON.stringify(
-            hit
-          )
-        );
-
-      startPointer =
-        point;
-
-      pointerMode =
-        "object";
-
-      draw();
-
-      return;
-
-    }
-
-
-    pointerMode =
-      "pan";
-
-    lastPointer = {
-
-      x:
-        event.clientX,
-
-      y:
-        event.clientY
-
-    };
-
-  }
-);
-
-
-/* =========================================================
-   Pointer Move
-========================================================= */
-
-editor.addEventListener(
-  "pointermove",
-  event => {
-
-    if (!image) {
-
-      return;
-
-    }
-
-    if (
-      !pointers.has(
-        event.pointerId
-      )
-    ) {
-
-      return;
-
-    }
-
-    pointers.set(
-      event.pointerId,
-      {
-        x:
-          event.clientX,
-
-        y:
-          event.clientY
-      }
-    );
-
-
-    if (
-      pointerMode === "pinch" &&
-      pointers.size >= 2
-    ) {
-
-      const values =
-        [...pointers.values()];
-
-      const currentDistance =
-        distance(
-          values[0],
-          values[1]
-        );
-
-      if (
-        pinchStartDistance <= 0
-      ) {
-
-        return;
-
-      }
-
-      const ratio =
-        currentDistance /
-        pinchStartDistance;
-
-      let newScale =
-        pinchStartScale *
-        ratio;
-
-      newScale =
-        Math.max(
-          minScale,
-          Math.min(
-            maxScale,
-            newScale
-          )
+            }
         );
 
 
-      const center =
-        midpoint(
-          values[0],
-          values[1]
+        // ---------------------------------
+        // OUTSIDE CLICK
+        // ---------------------------------
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    !menu.contains(event.target) &&
+                    !menuButton.contains(event.target)
+                ) {
+
+                    menu.hidden = true;
+
+                }
+
+            }
         );
 
-      const rect =
-        editor.getBoundingClientRect();
 
-      const cx =
-        center.x -
-        rect.left;
+        // ---------------------------------
+        // ESC
+        // ---------------------------------
 
-      const cy =
-        center.y -
-        rect.top;
+        document.addEventListener(
+            "keydown",
+            function (event) {
 
+                if (event.key === "Escape") {
 
-      const imageX =
-        (
-          cx -
-          pinchStartView.x
-        ) /
-        pinchStartScale;
+                    menu.hidden = true;
 
-      const imageY =
-        (
-          cy -
-          pinchStartView.y
-        ) /
-        pinchStartScale;
+                }
 
-
-      viewScale =
-        newScale;
-
-      viewX =
-        cx -
-        imageX *
-        newScale;
-
-      viewY =
-        cy -
-        imageY *
-        newScale;
-
-      applyCanvasTransform();
-
-      return;
-
-    }
-
-
-    const point =
-      screenToImage(
-        event.clientX,
-        event.clientY
-      );
-
-
-    if (
-      pointerMode === "crop"
-    ) {
-
-      cropEnd =
-        clampPoint(
-          point
+            }
         );
 
-      updateCropOverlay();
 
-      return;
+        // ---------------------------------
+        // WINDOW RESIZE
+        // ---------------------------------
 
-    }
+        window.addEventListener(
+            "resize",
+            function () {
 
+                if (menu.hidden) {
+                    return;
+                }
 
-    if (
-      pointerMode === "draw"
-    ) {
+                const rect =
+                    menuButton.getBoundingClientRect();
 
-      drawPreview(
-        point
-      );
+                menu.style.top =
+                    `${rect.bottom + 8}px`;
 
-      return;
+                menu.style.right =
+                    `${window.innerWidth - rect.right}px`;
 
-    }
-
-
-    if (
-      pointerMode === "object" &&
-      selectedObject
-    ) {
-
-      const dx =
-        point.x -
-        startPointer.x;
-
-      const dy =
-        point.y -
-        startPointer.y;
-
-      const original =
-        startObjectState;
-
-
-      if (
-        selectedObject.type ===
-        "arrow"
-      ) {
-
-        selectedObject.x1 =
-          original.x1 +
-          dx;
-
-        selectedObject.y1 =
-          original.y1 +
-          dy;
-
-        selectedObject.x2 =
-          original.x2 +
-          dx;
-
-        selectedObject.y2 =
-          original.y2 +
-          dy;
-
-      } else {
-
-        selectedObject.x =
-          original.x +
-          dx;
-
-        selectedObject.y =
-          original.y +
-          dy;
-
-      }
-
-      draw();
-
-      return;
-
-    }
-
-
-    if (
-      pointerMode === "pan"
-    ) {
-
-      if (!lastPointer) {
-
-        lastPointer = {
-
-          x:
-            event.clientX,
-
-          y:
-            event.clientY
-
-        };
-
-        return;
-
-      }
-
-      viewX +=
-        event.clientX -
-        lastPointer.x;
-
-      viewY +=
-        event.clientY -
-        lastPointer.y;
-
-      lastPointer = {
-
-        x:
-          event.clientX,
-
-        y:
-          event.clientY
-
-      };
-
-      applyCanvasTransform();
-
-    }
-
-  }
-);
-
-
-/* =========================================================
-   Pointer Up
-========================================================= */
-
-editor.addEventListener(
-  "pointerup",
-  event => {
-
-    pointers.delete(
-      event.pointerId
-    );
-
-
-    if (
-      pointerMode ===
-      "pinch"
-    ) {
-
-      if (
-        pointers.size < 2
-      ) {
-
-        pointerMode = null;
-
-      }
-
-      return;
-
-    }
-
-
-    if (
-      pointerMode ===
-      "crop"
-    ) {
-
-      if (
-        cropStart &&
-        cropEnd
-      ) {
-
-        applyCrop();
-
-      }
-
-      pointerMode = null;
-
-      return;
-
-    }
-
-
-    if (
-      pointerMode ===
-      "draw"
-    ) {
-
-      const point =
-        screenToImage(
-          event.clientX,
-          event.clientY
+            }
         );
 
-      finishDrawing(
-        point
-      );
-
-      pointerMode = null;
-
-      return;
-
     }
 
-
-    if (
-      pointerMode ===
-      "object"
-    ) {
-
-      pointerMode = null;
-
-      startPointer = null;
-
-      startObjectState = null;
-
-      draw();
-
-      return;
-
-    }
-
-
-    if (
-      pointerMode ===
-      "pan"
-    ) {
-
-      pointerMode = null;
-
-      lastPointer = null;
-
-    }
-
-  }
-);
-
-
-/* =========================================================
-   Pointer Cancel
-========================================================= */
-
-editor.addEventListener(
-  "pointercancel",
-  event => {
-
-    pointers.delete(
-      event.pointerId
-    );
-
-    pointerMode = null;
-
-  }
-);
-
-
-/* =========================================================
-   Draw Preview
-========================================================= */
-
-function drawPreview(
-  endPoint
-) {
-
-  draw();
-
-  if (!startPointer) {
-
-    return;
-
-  }
-
-  ctx.save();
-
-  ctx.strokeStyle =
-    colorInput.value;
-
-  ctx.fillStyle =
-    colorInput.value;
-
-  ctx.lineWidth =
-    16;
-
-  ctx.lineCap =
-    "round";
-
-  ctx.lineJoin =
-    "round";
-
-
-  if (
-    currentTool ===
-    "circle"
-  ) {
-
-    const radius =
-      distance(
-        startPointer,
-        endPoint
-      );
-
-    ctx.beginPath();
-
-    ctx.arc(
-      startPointer.x,
-      startPointer.y,
-      radius,
-      0,
-      Math.PI * 2
-    );
-
-    ctx.stroke();
-
-  }
-
-
-  if (
-    currentTool ===
-    "rect"
-  ) {
-
-    const x =
-      Math.min(
-        startPointer.x,
-        endPoint.x
-      );
-
-    const y =
-      Math.min(
-        startPointer.y,
-        endPoint.y
-      );
-
-    const width =
-      Math.abs(
-        endPoint.x -
-        startPointer.x
-      );
-
-    const height =
-      Math.abs(
-        endPoint.y -
-        startPointer.y
-      );
-
-    ctx.strokeRect(
-      x,
-      y,
-      width,
-      height
-    );
-
-  }
-
-
-  if (
-    currentTool ===
-    "arrow"
-  ) {
-
-    drawArrow(
-      startPointer.x,
-      startPointer.y,
-      endPoint.x,
-      endPoint.y,
-      colorInput.value
-    );
-
-  }
-
-  ctx.restore();
-
-}
-
-
-/* =========================================================
-   Finish Drawing
-========================================================= */
-
-function finishDrawing(
-  endPoint
-) {
-
-  if (!startPointer) {
-
-    return;
-
-  }
-
-  let obj = null;
-
-
-  if (
-    currentTool ===
-    "circle"
-  ) {
-
-    const radius =
-      distance(
-        startPointer,
-        endPoint
-      );
-
-    if (
-      radius > 5
-    ) {
-
-      obj = {
-
-        type:
-          "circle",
-
-        x:
-          startPointer.x,
-
-        y:
-          startPointer.y,
-
-        radius,
-
-        color:
-          colorInput.value
-
-      };
-
-    }
-
-  }
-
-
-  if (
-    currentTool ===
-    "rect"
-  ) {
-
-    const width =
-      Math.abs(
-        endPoint.x -
-        startPointer.x
-      );
-
-    const height =
-      Math.abs(
-        endPoint.y -
-        startPointer.y
-      );
-
-    if (
-      width > 5 &&
-      height > 5
-    ) {
-
-      obj = {
-
-        type:
-          "rect",
-
-        x:
-          (
-            startPointer.x +
-            endPoint.x
-          ) / 2,
-
-        y:
-          (
-            startPointer.y +
-            endPoint.y
-          ) / 2,
-
-        width,
-
-        height,
-
-        color:
-          colorInput.value
-
-      };
-
-    }
-
-  }
-
-
-  if (
-    currentTool ===
-    "arrow"
-  ) {
-
-    if (
-      distance(
-        startPointer,
-        endPoint
-      ) > 10
-    ) {
-
-      obj = {
-
-        type:
-          "arrow",
-
-        x1:
-          startPointer.x,
-
-        y1:
-          startPointer.y,
-
-        x2:
-          endPoint.x,
-
-        y2:
-          endPoint.y,
-
-        color:
-          colorInput.value
-
-      };
-
-    }
-
-  }
-
-
-  if (obj) {
-
-    objects.push(
-      obj
-    );
-
-    selectedObject =
-      obj;
-
-  }
-
-
-  currentTool = null;
-
-  document
-    .querySelectorAll(
-      "[data-tool]"
-    )
-    .forEach(
-      b =>
-        b.classList.remove(
-          "active"
-        )
-    );
-
-  draw();
-
-}
-
-
-/* =========================================================
-   Hit Test
-========================================================= */
-
-function hitTest(
-  x,
-  y
-) {
-
-  for (
-    let i =
-      objects.length - 1;
-    i >= 0;
-    i--
-  ) {
-
-    const o =
-      objects[i];
-
-
-    if (
-      o.type ===
-      "circle"
-    ) {
-
-      const d =
-        distance(
-          {
-            x,
-            y
-          },
-          {
-            x: o.x,
-            y: o.y
-          }
-        );
-
-      if (
-        d <=
-        o.radius + 25
-      ) {
-
-        return o;
-
-      }
-
-    }
-
-
-    if (
-      o.type ===
-      "rect"
-    ) {
-
-      const left =
-        o.x -
-        o.width / 2;
-
-      const right =
-        o.x +
-        o.width / 2;
-
-      const top =
-        o.y -
-        o.height / 2;
-
-      const bottom =
-        o.y +
-        o.height / 2;
-
-      if (
-        x >= left &&
-        x <= right &&
-        y >= top &&
-        y <= bottom
-      ) {
-
-        return o;
-
-      }
-
-    }
-
-
-    if (
-      o.type ===
-      "arrow"
-    ) {
-
-      if (
-        pointToLineDistance(
-          x,
-          y,
-          o.x1,
-          o.y1,
-          o.x2,
-          o.y2
-        ) < 35
-      ) {
-
-        return o;
-
-      }
-
-    }
-
-
-    if (
-      o.type === "number" ||
-      o.type === "letter"
-    ) {
-
-      const size =
-        o.size || 70;
-
-      if (
-        x >=
-          o.x - size &&
-        x <=
-          o.x + size &&
-        y >=
-          o.y - size &&
-        y <=
-          o.y + size
-      ) {
-
-        return o;
-
-      }
-
-    }
-
-  }
-
-  return null;
-
-}
-
-
-/* =========================================================
-   Line Distance
-========================================================= */
-
-function pointToLineDistance(
-  px,
-  py,
-  x1,
-  y1,
-  x2,
-  y2
-) {
-
-  const A =
-    px - x1;
-
-  const B =
-    py - y1;
-
-  const C =
-    x2 - x1;
-
-  const D =
-    y2 - y1;
-
-  const dot =
-    A * C +
-    B * D;
-
-  const length =
-    C * C +
-    D * D;
-
-  let parameter =
-    -1;
-
-  if (
-    length !== 0
-  ) {
-
-    parameter =
-      dot /
-      length;
-
-  }
-
-  let xx;
-  let yy;
-
-
-  if (
-    parameter < 0
-  ) {
-
-    xx = x1;
-    yy = y1;
-
-  } else if (
-    parameter > 1
-  ) {
-
-    xx = x2;
-    yy = y2;
-
-  } else {
-
-    xx =
-      x1 +
-      parameter *
-      C;
-
-    yy =
-      y1 +
-      parameter *
-      D;
-
-  }
-
-  const dx =
-    px - xx;
-
-  const dy =
-    py - yy;
-
-  return Math.sqrt(
-    dx * dx +
-    dy * dy
-  );
-
-}
-
-
-/* =========================================================
-   Draw
-========================================================= */
-
-function draw() {
-
-  ctx.clearRect(
-    0,
-    0,
-    canvas.width,
-    canvas.height
-  );
-
-  if (image) {
-
-    ctx.drawImage(
-      image,
-      0,
-      0,
-      canvas.width,
-      canvas.height
-    );
-
-  }
-
-  objects.forEach(
-    drawObject
-  );
-
-}
-
-
-/* =========================================================
-   Draw Object
-========================================================= */
-
-function drawObject(
-  o
-) {
-
-  ctx.save();
-
-
-  if (
-    o.type ===
-    "circle"
-  ) {
-
-    ctx.strokeStyle =
-      o.color ||
-      "#00ff00";
-
-    ctx.lineWidth =
-      16;
-
-    ctx.lineCap =
-      "round";
-
-    ctx.lineJoin =
-      "round";
-
-    ctx.beginPath();
-
-    ctx.arc(
-      o.x,
-      o.y,
-      o.radius,
-      0,
-      Math.PI * 2
-    );
-
-    ctx.stroke();
-
-  }
-
-
-  if (
-    o.type ===
-    "rect"
-  ) {
-
-    ctx.strokeStyle =
-      o.color ||
-      "#00ff00";
-
-    ctx.lineWidth =
-      16;
-
-    ctx.lineCap =
-      "round";
-
-    ctx.lineJoin =
-      "round";
-
-    ctx.strokeRect(
-      o.x -
-        o.width / 2,
-
-      o.y -
-        o.height / 2,
-
-      o.width,
-
-      o.height
-    );
-
-  }
-
-
-  if (
-    o.type ===
-    "arrow"
-  ) {
-
-    drawArrow(
-      o.x1,
-      o.y1,
-      o.x2,
-      o.y2,
-      o.color
-    );
-
-  }
-
-
-  if (
-    o.type === "number" ||
-    o.type === "letter"
-  ) {
-
-    drawMarker(o);
-
-  }
-
-
-  if (
-    o ===
-    selectedObject
-  ) {
-
-    drawSelection(o);
-
-  }
-
-  ctx.restore();
-
-}
-
-
-/* =========================================================
-   Arrow
-========================================================= */
-
-function drawArrow(
-  x1,
-  y1,
-  x2,
-  y2,
-  color
-) {
-
-  const dx =
-    x2 - x1;
-
-  const dy =
-    y2 - y1;
-
-  const angle =
-    Math.atan2(
-      dy,
-      dx
-    );
-
-  const length =
-    Math.sqrt(
-      dx * dx +
-      dy * dy
-    );
-
-  const headLength =
-    Math.min(
-      55,
-      Math.max(
-        28,
-        length * 0.17
-      )
-    );
-
-  const lineEndX =
-    x2 -
-    headLength *
-    0.62 *
-    Math.cos(
-      angle
-    );
-
-  const lineEndY =
-    y2 -
-    headLength *
-    0.62 *
-    Math.sin(
-      angle
-    );
-
-
-  ctx.save();
-
-  ctx.strokeStyle =
-    color ||
-    "#00ff00";
-
-  ctx.fillStyle =
-    color ||
-    "#00ff00";
-
-  ctx.lineWidth =
-    16;
-
-  ctx.lineCap =
-    "round";
-
-  ctx.lineJoin =
-    "round";
-
-
-  ctx.beginPath();
-
-  ctx.moveTo(
-    x1,
-    y1
-  );
-
-  ctx.lineTo(
-    lineEndX,
-    lineEndY
-  );
-
-  ctx.stroke();
-
-
-  ctx.beginPath();
-
-  ctx.moveTo(
-    x2,
-    y2
-  );
-
-  ctx.lineTo(
-    x2 -
-      headLength *
-      Math.cos(
-        angle -
-        Math.PI / 6
-      ),
-
-    y2 -
-      headLength *
-      Math.sin(
-        angle -
-        Math.PI / 6
-      )
-  );
-
-  ctx.lineTo(
-    x2 -
-      headLength *
-      Math.cos(
-        angle +
-        Math.PI / 6
-      ),
-
-    y2 -
-      headLength *
-      Math.sin(
-        angle +
-        Math.PI / 6
-      )
-  );
-
-  ctx.closePath();
-
-  ctx.fill();
-
-  ctx.restore();
-
-}
-
-
-/* =========================================================
-   Marker
-========================================================= */
-
-function drawMarker(
-  o
-) {
-
-  const size =
-    o.size || 70;
-
-
-  /* -------------------------------------------------------
-     Numbers
-     白い円背景 ＋ 黒文字
-  ------------------------------------------------------- */
-
-  if (
-    o.type === "number"
-  ) {
-
-    ctx.save();
-
-    /* 白丸 */
-
-    ctx.fillStyle =
-      "#ffffff";
-
-    ctx.beginPath();
-
-    ctx.arc(
-      o.x,
-      o.y,
-      size * 0.62,
-      0,
-      Math.PI * 2
-    );
-
-    ctx.fill();
-
-
-    /* 黒文字 */
-
-    ctx.fillStyle =
-      "#000000";
-
-    ctx.font =
-      `bold ${size * 0.78}px sans-serif`;
-
-    ctx.textAlign =
-      "center";
-
-    ctx.textBaseline =
-      "middle";
-
-    ctx.fillText(
-      o.text,
-      o.x,
-      o.y
-    );
-
-    ctx.restore();
-
-    return;
-
-  }
-
-
-  /* -------------------------------------------------------
-     ABC
-     黒い四角＋白文字
-  ------------------------------------------------------- */
-
-  if (
-    o.type === "letter"
-  ) {
-
-    const boxSize =
-      size * 1.35;
-
-    ctx.fillStyle =
-      "#000000";
-
-    ctx.fillRect(
-      o.x -
-        boxSize / 2,
-
-      o.y -
-        boxSize / 2,
-
-      boxSize,
-
-      boxSize
-    );
-
-
-    ctx.fillStyle =
-      "#ffffff";
-
-    ctx.font =
-      `bold ${size * 0.72}px sans-serif`;
-
-    ctx.textAlign =
-      "center";
-
-    ctx.textBaseline =
-      "middle";
-
-    ctx.fillText(
-      o.text,
-      o.x,
-      o.y
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   Selection
-========================================================= */
-
-function drawSelection(
-  o
-) {
-
-  ctx.save();
-
-  ctx.strokeStyle =
-    "#5865f2";
-
-  ctx.lineWidth =
-    3;
-
-  ctx.setLineDash(
-    [10,8]
-  );
-
-
-  if (
-    o.type ===
-    "circle"
-  ) {
-
-    ctx.beginPath();
-
-    ctx.arc(
-      o.x,
-      o.y,
-      o.radius + 12,
-      0,
-      Math.PI * 2
-    );
-
-    ctx.stroke();
-
-  }
-
-
-  if (
-    o.type ===
-    "rect"
-  ) {
-
-    ctx.strokeRect(
-      o.x -
-        o.width / 2 -
-        10,
-
-      o.y -
-        o.height / 2 -
-        10,
-
-      o.width + 20,
-
-      o.height + 20
-    );
-
-  }
-
-
-  if (
-    o.type ===
-    "arrow"
-  ) {
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-      o.x1,
-      o.y1
-    );
-
-    ctx.lineTo(
-      o.x2,
-      o.y2
-    );
-
-    ctx.stroke();
-
-  }
-
-
-  if (
-    o.type === "number"
-  ) {
-
-    const size =
-      o.size || 70;
-
-    ctx.strokeRect(
-      o.x - size,
-      o.y - size,
-      size * 2,
-      size * 2
-    );
-
-  }
-
-
-  if (
-    o.type === "letter"
-  ) {
-
-    const size =
-      o.size || 70;
-
-    const boxSize =
-      size * 1.35;
-
-    ctx.strokeRect(
-      o.x -
-        boxSize / 2 -
-        8,
-
-      o.y -
-        boxSize / 2 -
-        8,
-
-      boxSize + 16,
-
-      boxSize + 16
-    );
-
-  }
-
-  ctx.restore();
-
-}
-
-
-/* =========================================================
-   Delete
-========================================================= */
-
-deleteButton.addEventListener(
-  "click",
-  () => {
-
-    if (!selectedObject) {
-
-      return;
-
-    }
-
-    saveHistory();
-
-    objects =
-      objects.filter(
-        o =>
-          o !==
-          selectedObject
-      );
-
-    selectedObject = null;
-
-    draw();
-
-  }
-);
-
-
-/* =========================================================
-   Clear
-========================================================= */
-
-clearButton.addEventListener(
-  "click",
-  () => {
-
-    if (!objects.length) {
-
-      return;
-
-    }
-
-    saveHistory();
-
-    objects = [];
-
-    selectedObject = null;
-
-    numberIndex = 0;
-
-    letterIndex = 0;
-
-    draw();
-
-    showToast(
-      "すべて削除しました"
-    );
-
-  }
-);
-
-
-/* =========================================================
-   Crop
-========================================================= */
-
-function applyCrop() {
-
-  if (
-    !cropStart ||
-    !cropEnd
-  ) {
-
-    return;
-
-  }
-
-
-  const x =
-    Math.max(
-      0,
-      Math.min(
-        cropStart.x,
-        cropEnd.x
-      )
-    );
-
-  const y =
-    Math.max(
-      0,
-      Math.min(
-        cropStart.y,
-        cropEnd.y
-      )
-    );
-
-  const right =
-    Math.min(
-      canvas.width,
-      Math.max(
-        cropStart.x,
-        cropEnd.x
-      )
-    );
-
-  const bottom =
-    Math.min(
-      canvas.height,
-      Math.max(
-        cropStart.y,
-        cropEnd.y
-      )
-    );
-
-  const width =
-    right - x;
-
-  const height =
-    bottom - y;
-
-
-  if (
-    width < 10 ||
-    height < 10
-  ) {
-
-    cropStart = null;
-
-    cropEnd = null;
-
-    cropOverlay.style.display =
-      "none";
-
-    return;
-
-  }
-
-
-  saveHistory();
-
-
-  const tempCanvas =
-    document.createElement(
-      "canvas"
-    );
-
-  tempCanvas.width =
-    width;
-
-  tempCanvas.height =
-    height;
-
-  const tempCtx =
-    tempCanvas.getContext(
-      "2d"
-    );
-
-
-  tempCtx.drawImage(
-    canvas,
-
-    x,
-    y,
-    width,
-    height,
-
-    0,
-    0,
-    width,
-    height
-  );
-
-
-  const cropped =
-    new Image();
-
-  cropped.onload =
-    () => {
-
-      image =
-        cropped;
-
-      canvas.width =
-        width;
-
-      canvas.height =
-        height;
-
-      objects = [];
-
-      selectedObject = null;
-
-      cropMode = false;
-
-      cropButton.classList.remove(
-        "active"
-      );
-
-      cropStart = null;
-
-      cropEnd = null;
-
-      cropOverlay.style.display =
-        "none";
-
-      fitImage();
-
-      draw();
-
-    };
-
-  cropped.src =
-    tempCanvas.toDataURL(
-      "image/png"
-    );
-
-}
-
-
-/* =========================================================
-   Crop Overlay
-========================================================= */
-
-function updateCropOverlay() {
-
-  if (
-    !cropMode ||
-    !cropStart ||
-    !cropEnd
-  ) {
-
-    cropOverlay.style.display =
-      "none";
-
-    return;
-
-  }
-
-  const a =
-    imageToScreen(
-      cropStart.x,
-      cropStart.y
-    );
-
-  const b =
-    imageToScreen(
-      cropEnd.x,
-      cropEnd.y
-    );
-
-  const rect =
-    editor.getBoundingClientRect();
-
-  const left =
-    Math.min(
-      a.x,
-      b.x
-    );
-
-  const top =
-    Math.min(
-      a.y,
-      b.y
-    );
-
-  const width =
-    Math.abs(
-      b.x -
-      a.x
-    );
-
-  const height =
-    Math.abs(
-      b.y -
-      a.y
-    );
-
-  cropOverlay.style.left =
-    `${left -
-      rect.left}px`;
-
-  cropOverlay.style.top =
-    `${top -
-      rect.top}px`;
-
-  cropOverlay.style.width =
-    `${width}px`;
-
-  cropOverlay.style.height =
-    `${height}px`;
-
-  cropOverlay.style.display =
-    "block";
-
-}
-
-
-/* =========================================================
-   Save
-========================================================= */
-
-saveButton.addEventListener(
-  "click",
-  event => {
-
-    event.stopPropagation();
-
-    if (!image) {
-
-      return;
-
-    }
-
-    selectedObject = null;
-
-    draw();
-
-    canvas.toBlob(
-      blob => {
-
-        if (!blob) {
-
-          return;
-
-        }
-
-        const url =
-          URL.createObjectURL(
-            blob
-          );
-
-        const a =
-          document.createElement(
-            "a"
-          );
-
-        a.href =
-          url;
-
-        a.download =
-          `S222-image-${Date.now()}.png`;
-
-        document.body.appendChild(
-          a
-        );
-
-        a.click();
-
-        a.remove();
-
-        URL.revokeObjectURL(
-          url
-        );
-
-        showToast(
-          "保存しました ✓"
-        );
-
-      },
-      "image/png"
-    );
-
-  }
-);
-
-
-/* =========================================================
-   Helpers
-========================================================= */
-
-function distance(
-  a,
-  b
-) {
-
-  const dx =
-    b.x - a.x;
-
-  const dy =
-    b.y - a.y;
-
-  return Math.sqrt(
-    dx * dx +
-    dy * dy
-  );
-
-}
-
-
-function midpoint(
-  a,
-  b
-) {
-
-  return {
-
-    x:
-      (a.x + b.x) / 2,
-
-    y:
-      (a.y + b.y) / 2
-
-  };
-
-}
-
-
-function clampPoint(
-  p
-) {
-
-  return {
-
-    x:
-      Math.max(
-        0,
-        Math.min(
-          canvas.width,
-          p.x
-        )
-      ),
-
-    y:
-      Math.max(
-        0,
-        Math.min(
-          canvas.height,
-          p.y
-        )
-      )
-
-  };
-
-}
-
-
-/* =========================================================
-   Resize
-========================================================= */
-
-window.addEventListener(
-  "resize",
-  () => {
-
-    if (!image) {
-      return;
-    }
-
-    applyCanvasTransform();
-
-  }
-);
-
-</script>
-
-<script src="script.js"></script>
-
-</body>
-</html>
+});
