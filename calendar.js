@@ -1281,26 +1281,29 @@ function renderCalendar() {
       }
     );
 
-    const scheduleHeight =
-      Math.max(
-        180,
-        42
-        +
-        (
-          lanes.length
-          *
-          22
-        )
-        +
-        10
-      );
+const scheduleHeight =
+  Math.max(
+    180,
+    42
+    +
+    (
+      lanes.length
+      *
+      22
+    )
+    +
+    10
+  );
 
-    week.style.minHeight =
-      `${scheduleHeight}px`;
+week.style.minHeight =
+  `${scheduleHeight}px`;
 
-    week.appendChild(
-      scheduleLayer
-    );
+dayGrid.style.minHeight =
+  `${scheduleHeight}px`;
+
+week.appendChild(
+  scheduleLayer
+);
 
     calendar.appendChild(
       week
