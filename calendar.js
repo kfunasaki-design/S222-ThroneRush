@@ -611,7 +611,12 @@ function updateLanguage() {
     document.getElementById(
       "addScheduleBtn"
     );
+  const refreshButton =
+    document.getElementById("refreshBtn");
 
+  if (refreshButton) {
+    refreshButton.textContent = "R";
+  }
   if (addButton) {
 
     addButton.textContent =
