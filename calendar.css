@@ -67,8 +67,18 @@ body {
 
 .header h1 {
   margin: 0;
-
   font-size: 20px;
+  font-weight: 600;
+}
+
+.header h1 a {
+  color: #949ba4;
+  text-decoration: none;
+}
+
+.header h1 a:hover {
+  color: #dbdee1;
+  text-decoration: underline;
 }
 
 .header p {
@@ -895,7 +905,7 @@ button {
 
   font-weight: 750;
 
-  text-align: right;
+  text-align: center;
 
   line-height: 3;
 
@@ -914,7 +924,7 @@ button {
 }
 
 #summaryTable .summary-total-row td:first-child {
-  text-align: right;
+  text-align: center;
 }
 
 .summary-total-level {
@@ -1627,9 +1637,3 @@ legend {
   color: #FFCCFF;
 }
 
-.schedule {
-  text-shadow:
-    0 0 3px rgba(0,0,0,1),
-    0 0 7px rgba(0,0,0,.8),
-    0 0 11px rgba(0,0,0,.5);
-}
