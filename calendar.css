@@ -479,6 +479,55 @@ button {
   line-height: 18px;
 }
 
+/* =========================================================
+   Schedule icon
+========================================================= */
+
+/* Coordinate Badge */
+.coordinate-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  height: 18px;
+  margin-right: 6px;
+  box-sizing: border-box;
+
+  background: #000;
+  border: 3px solid currentColor;
+  border-radius: 6px;
+
+  color: #00FF00;
+
+  font-family: monospace;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+
+  box-shadow:
+    0 0 4px rgba(0,0,0,.9),
+    0 0 8px rgba(0,0,0,.65),
+    0 0 12px rgba(0,0,0,.35),
+    inset 0 0 0 1px rgba(255,255,255,.08);
+}
+
+/* Lv5 */
+.coordinate-badge.lv5 {
+  color: #00E5FF;
+}
+
+/* Lv6 */
+.coordinate-badge.lv6 {
+  color: #FF33FF;
+}
+
+/* Lv7 */
+.coordinate-badge.lv7 {
+  color: #FFCCFF;
+}
+
+
 
 /* =========================================================
    Guild Summary
@@ -1312,7 +1361,49 @@ legend {
   margin-top: 18px;
 }
 
+.admin-login-links {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin: 4px 0 20px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+}
 
+.admin-login-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0 10px;
+  box-sizing: border-box;
+
+  color: #d8d8d8;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.admin-login-link:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.10);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.admin-login-link:active {
+  background: rgba(255, 255, 255, 0.14);
+}
 /* =========================================================
    Admin Panel
 ========================================================= */
@@ -1581,103 +1672,3 @@ legend {
 
 
 
-
-
-
-
-
-/* =========================================================
-   簡易版アイコン
-========================================================= */
-
-/* Coordinate Badge */
-.coordinate-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 34px;
-  height: 18px;
-  margin-right: 6px;
-  box-sizing: border-box;
-
-  background: #000;
-  border: 3px solid currentColor;
-  border-radius: 6px;
-
-  color: #00FF00;
-
-  font-family: monospace;
-  font-size: 10px;
-  font-weight: 800;
-  line-height: 1;
-
-  box-shadow:
-    0 0 4px rgba(0,0,0,.9),
-    0 0 8px rgba(0,0,0,.65),
-    0 0 12px rgba(0,0,0,.35),
-    inset 0 0 0 1px rgba(255,255,255,.08);
-}
-
-/* Lv5 */
-.coordinate-badge.lv5 {
-  color: #00E5FF;
-}
-
-/* Lv6 */
-.coordinate-badge.lv6 {
-  color: #FF33FF;
-}
-
-/* Lv7 */
-.coordinate-badge.lv7 {
-  color: #FFCCFF;
-}
-
-
-
-
-
-.admin-login-links {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-  margin: 4px 0 20px;
-  padding: 12px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
-}
-
-.admin-login-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 34px;
-  padding: 0 10px;
-  box-sizing: border-box;
-
-  color: #d8d8d8;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 6px;
-
-  font-size: 13px;
-  font-weight: 500;
-  text-decoration: none;
-
-  transition:
-    background 0.15s ease,
-    color 0.15s ease,
-    border-color 0.15s ease;
-}
-
-.admin-login-link:hover {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.10);
-  border-color: rgba(255, 255, 255, 0.18);
-}
-
-.admin-login-link:active {
-  background: rgba(255, 255, 255, 0.14);
-}
