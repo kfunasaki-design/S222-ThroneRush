@@ -18,6 +18,10 @@ body {
 /* Header */
 
 header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
     padding: 16px;
     background: #2b2d31;
     border-bottom: 1px solid #18191c;
