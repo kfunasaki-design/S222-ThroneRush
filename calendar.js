@@ -1684,14 +1684,6 @@ const textColor =
 button.style.color =
   textColor;
 
-button.style.textShadow =
-  textColor === "#111111"
-    ? "none"
-    : `
-      0 0 3px rgba(0,0,0,1),
-      0 0 7px rgba(0,0,0,.8),
-      0 0 11px rgba(0,0,0,.5)
-    `;
 
   button.style.pointerEvents =
     "auto";
