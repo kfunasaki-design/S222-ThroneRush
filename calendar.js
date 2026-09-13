@@ -2772,19 +2772,13 @@ document
 Refresh
 ========================================================= */
 
-console.log("BEFORE REFRESH");
-
 document
   .getElementById("refreshBtn")
   .addEventListener(
     "click",
-    () => {
-      console.log("REFRESH CLICK");
-      loadSchedules();
-    }
+    () =>
+      loadSchedules()
   );
-
-console.log("AFTER REFRESH");
 
 
 /* =========================================================
