@@ -2777,6 +2777,7 @@ document
   .addEventListener(
     "click",
     () =>
+      console.log("REFRESH CLICK");
       loadSchedules()
   );
 
