@@ -665,3 +665,126 @@ nodes.forEach(function (node) {
     }
 
 });
+    // =====================================
+    // SITE MENU
+    // =====================================
+
+    const menuButton =
+        document.querySelector(".site-menu-button");
+
+
+    if (menuButton) {
+
+        const menu =
+            document.createElement("nav");
+
+        menu.className = "site-menu";
+        menu.hidden = true;
+
+
+        const menuItems = [
+            {
+                label: "Manual",
+                href: "https://kfunasaki-design.github.io/S222-ThroneRush/"
+            },
+            {
+                label: "Restriction",
+                href: "https://kfunasaki-design.github.io/S222-ThroneRush/guild-restriction.html"
+            },
+            {
+                label: "Calendar",
+                href: "https://kfunasaki-design.github.io/S222-ThroneRush/calendar.html"
+            },
+            {
+                label: "Image Editor",
+                href: "https://kfunasaki-design.github.io/S222-ThroneRush/image-editor.html"
+            }
+        ];
+
+
+        menuItems.forEach(function (item) {
+
+            const link =
+                document.createElement("a");
+
+            link.href = item.href;
+            link.textContent = item.label;
+
+            menu.appendChild(link);
+
+        });
+
+
+        const menuParent =
+            menuButton.parentElement;
+
+
+        if (menuParent) {
+
+            if (
+                window.getComputedStyle(menuParent).position ===
+                "static"
+            ) {
+                menuParent.style.position = "relative";
+            }
+
+            menuParent.appendChild(menu);
+
+        }
+
+
+        // ---------------------------------
+        // OPEN / CLOSE
+        // ---------------------------------
+
+        menuButton.addEventListener(
+            "click",
+            function (event) {
+
+                event.stopPropagation();
+
+                menu.hidden = !menu.hidden;
+
+            }
+        );
+
+
+        // ---------------------------------
+        // OUTSIDE CLICK
+        // ---------------------------------
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    !menu.contains(event.target) &&
+                    !menuButton.contains(event.target)
+                ) {
+
+                    menu.hidden = true;
+
+                }
+
+            }
+        );
+
+
+        // ---------------------------------
+        // ESC
+        // ---------------------------------
+
+        document.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (event.key === "Escape") {
+
+                    menu.hidden = true;
+
+                }
+
+            }
+        );
+
+    }
