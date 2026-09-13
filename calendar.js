@@ -605,22 +605,7 @@ Language
 
 function updateLanguage() {
 
-  const title =
-    document.querySelector(
-      ".header h1"
-    );
 
-  if (title) {
-
-    title.textContent =
-      "S222TR Calendar";
-
-    title.setAttribute(
-      "translate",
-      "no"
-    );
-
-  }
 
   const addButton =
     document.getElementById(
@@ -639,17 +624,6 @@ function updateLanguage() {
 
   }
 
-  const refreshButton =
-    document.getElementById(
-      "refreshBtn"
-    );
-
-  if (refreshButton) {
-
-    refreshButton.textContent =
-      "R";
-
-  }
 
   const weekdayCells =
     document.querySelectorAll(
