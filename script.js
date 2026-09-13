@@ -80,13 +80,11 @@ document.addEventListener("DOMContentLoaded", function () {
         const normalized =
             normalizeTitle(title);
 
-
         if (sectionIdMap[normalized]) {
 
             return sectionIdMap[normalized];
 
         }
-
 
         // Mapにない場合は自動生成
         return normalized
@@ -122,10 +120,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (!sectionId) return;
 
-
         const target =
             document.getElementById(sectionId);
-
 
         if (!target) {
 
@@ -138,12 +134,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         }
 
-
         closeAllSections();
 
-
         target.classList.add("open");
-
 
         // hashも更新
         if (
@@ -158,7 +151,6 @@ document.addEventListener("DOMContentLoaded", function () {
             );
 
         }
-
 
         setTimeout(function () {
 
@@ -184,83 +176,71 @@ document.addEventListener("DOMContentLoaded", function () {
                 markdownContainer.childNodes
             );
 
-
         markdownContainer.innerHTML = "";
-
 
         let currentSection = null;
         let currentContent = null;
 
+        nodes.forEach(function (node) {
 
-nodes.forEach(function (node) {
+            // -----------------------------
+            // CATEGORY TITLE
+            // 独立したカテゴリーとして扱う
+            // -----------------------------
 
-    // -----------------------------
-    // CATEGORY TITLE
-    // 独立したカテゴリーとして扱う
-    // -----------------------------
+            if (
+                node.nodeType === Node.ELEMENT_NODE &&
+                node.classList.contains("category-title")
+            ) {
 
-    if (
-        node.nodeType === Node.ELEMENT_NODE &&
-        node.classList.contains("category-title")
-    ) {
+                currentSection = null;
+                currentContent = null;
 
-        currentSection = null;
-        currentContent = null;
+                markdownContainer.appendChild(node);
 
-        markdownContainer.appendChild(node);
+                return;
 
-        return;
-
-    }
+            }
 
 
-    // -----------------------------
-    // H2 = Main Section
-    // -----------------------------
+            // -----------------------------
+            // H2 = Main Section
+            // -----------------------------
 
-    if (
-        node.nodeType === Node.ELEMENT_NODE &&
-        node.tagName === "H2"
-    ) {
+            if (
+                node.nodeType === Node.ELEMENT_NODE &&
+                node.tagName === "H2"
+            ) {
 
                 const title =
                     node.textContent.trim();
 
-
                 const sectionId =
                     getSectionId(title);
-
 
                 currentSection =
                     document.createElement("section");
 
-
                 currentSection.id =
                     sectionId;
 
-
                 // 見出し
                 currentSection.appendChild(node);
-
 
                 // 開閉コンテンツ
                 currentContent =
                     document.createElement("div");
 
-
                 currentContent.className =
                     "section-content";
-
 
                 currentSection.appendChild(
                     currentContent
                 );
 
-
                 markdownContainer.appendChild(
                     currentSection
                 );
-
 
                 return;
 
@@ -297,17 +277,14 @@ nodes.forEach(function (node) {
                 "section > h2"
             );
 
-
         sectionHeadings.forEach(function (heading) {
 
             heading.style.cursor = "pointer";
-
 
             heading.setAttribute(
                 "role",
                 "button"
             );
-
 
             heading.addEventListener(
                 "click",
@@ -316,19 +293,15 @@ nodes.forEach(function (node) {
                     const section =
                         heading.closest("section");
 
-
                     if (!section) return;
-
 
                     const isOpen =
                         section.classList.contains(
                             "open"
                         );
 
-
                     // 他を閉じる
                     closeAllSections();
-
 
                     // 閉じていた場合だけ開く
                     if (!isOpen) {
@@ -351,68 +324,65 @@ nodes.forEach(function (node) {
     // MARKDOWN LOAD
     // =====================================
 
-    fetch("manual.md")
+    if (markdownContainer) {
 
-        .then(function (response) {
+        fetch("manual.md")
 
-            if (!response.ok) {
+            .then(function (response) {
 
-                throw new Error(
-                    "Failed to load manual.md"
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Failed to load manual.md"
+                    );
+
+                }
+
+                return response.text();
+
+            })
+
+            .then(function (markdown) {
+
+                // Markdown → HTML
+                markdownContainer.innerHTML =
+                    marked.parse(markdown);
+
+                // HTML → Collapsible Sections
+                buildSections();
+
+                // URL Hash
+                const hash =
+                    window.location.hash.replace(
+                        "#",
+                        ""
+                    );
+
+                if (hash) {
+
+                    setTimeout(function () {
+
+                        openSection(hash);
+
+                    }, 100);
+
+                }
+
+            })
+
+            .catch(function (error) {
+
+                console.error(
+                    "Markdown loading error:",
+                    error
                 );
 
-            }
+                markdownContainer.innerHTML =
+                    "<p>Failed to load manual content.</p>";
 
+            });
 
-            return response.text();
-
-        })
-
-
-        .then(function (markdown) {
-
-            // Markdown → HTML
-            markdownContainer.innerHTML =
-                marked.parse(markdown);
-
-
-            // HTML → Collapsible Sections
-            buildSections();
-
-
-            // URL Hash
-            const hash =
-                window.location.hash.replace(
-                    "#",
-                    ""
-                );
-
-
-            if (hash) {
-
-                setTimeout(function () {
-
-                    openSection(hash);
-
-                }, 100);
-
-            }
-
-        })
-
-
-        .catch(function (error) {
-
-            console.error(
-                "Markdown loading error:",
-                error
-            );
-
-
-            markdownContainer.innerHTML =
-                "<p>Failed to load manual content.</p>";
-
-        });
+    }
 
 
     // =====================================
@@ -429,7 +399,6 @@ nodes.forEach(function (node) {
                     "#",
                     ""
                 );
-
 
             if (hash) {
 
@@ -484,15 +453,12 @@ nodes.forEach(function (node) {
 
         if (!resultsBox) return;
 
-
         resultsBox.innerHTML = "";
-
 
         if (!query) {
 
             resultsBox.style.display =
                 "none";
-
 
             clearHighlights();
 
@@ -500,10 +466,8 @@ nodes.forEach(function (node) {
 
         }
 
-
         const normalizedQuery =
             normalize(query);
-
 
         const sections =
             Array.from(
@@ -511,7 +475,6 @@ nodes.forEach(function (node) {
                     "#markdown-content section"
                 )
             );
-
 
         const matches =
             sections.filter(function (section) {
@@ -524,45 +487,36 @@ nodes.forEach(function (node) {
 
             });
 
-
         resultsBox.style.display =
             "block";
-
 
         if (matches.length === 0) {
 
             resultsBox.innerHTML =
                 '<div class="manual-search-empty">No results found.</div>';
 
-
             return;
 
         }
-
 
         matches.forEach(function (section) {
 
             const heading =
                 section.querySelector("h2");
 
-
             const title =
                 heading
                     ? heading.textContent.trim()
                     : "Section";
 
-
             const result =
                 document.createElement("a");
-
 
             result.href =
                 "#" + section.id;
 
-
             result.className =
                 "manual-search-result";
-
 
             result.innerHTML = `
 
@@ -577,21 +531,17 @@ nodes.forEach(function (node) {
 
             `;
 
-
             result.addEventListener(
                 "click",
                 function (event) {
 
                     event.preventDefault();
 
-
                     openSection(
                         section.id
                     );
 
-
                     clearHighlights();
-
 
                     setTimeout(function () {
 
@@ -600,7 +550,6 @@ nodes.forEach(function (node) {
                         );
 
                     }, 300);
-
 
                     setTimeout(function () {
 
@@ -612,7 +561,6 @@ nodes.forEach(function (node) {
 
                 }
             );
-
 
             resultsBox.appendChild(
                 result
@@ -640,7 +588,6 @@ nodes.forEach(function (node) {
             }
         );
 
-
         searchInput.addEventListener(
             "keydown",
             function (event) {
@@ -651,9 +598,7 @@ nodes.forEach(function (node) {
 
                     this.value = "";
 
-
                     showResults("");
-
 
                     this.blur();
 
@@ -664,7 +609,7 @@ nodes.forEach(function (node) {
 
     }
 
-});
+
     // =====================================
     // SITE MENU
     // =====================================
@@ -725,7 +670,9 @@ nodes.forEach(function (node) {
                 window.getComputedStyle(menuParent).position ===
                 "static"
             ) {
+
                 menuParent.style.position = "relative";
+
             }
 
             menuParent.appendChild(menu);
@@ -788,3 +735,5 @@ nodes.forEach(function (node) {
         );
 
     }
+
+});
