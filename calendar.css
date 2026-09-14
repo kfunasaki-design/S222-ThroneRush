@@ -519,8 +519,7 @@ button {
 
 /* Lv6 */
 .coordinate-badge.lv6 {
-  0 0 2px #fff,
-  0 0 4px rgba(255,255,255,.7);
+  color: #FFD6FF;
 }
 
 /* Lv7 */
