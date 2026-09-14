@@ -12,13 +12,7 @@
            user-scalable=no">
 
 <title>S222TH ImageEditor</title>
-  <button
-    type="button"
-    class="site-menu-button"
-    aria-label="Navigation Menu"
-  >
-    ☰
-  </button>
+
 <style>
 
 /* =========================================================
@@ -112,15 +106,16 @@ body {
   position: absolute;
 
   top: 10px;
-  left: 50%;
-
-  transform:
-    translateX(-50%);
+  right: 10px;
 
   z-index: 40;
 
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
   padding:
-    7px 16px;
+    7px 10px 7px 14px;
 
   border-radius: 10px;
 
@@ -151,7 +146,7 @@ body {
     0 4px 18px
     rgba(0,0,0,0.28);
 
-    pointer-events: auto;
+  pointer-events: auto;
 
   white-space: nowrap;
 }
@@ -686,8 +681,16 @@ body {
     <header class="header">
 
       <div class="header-title">
-        S222 Image Editor
-      </div>
+        S222TH ImageEditor
+  </div>
+
+  <button
+    type="button"
+    class="site-menu-button"
+    aria-label="Navigation Menu"
+  >
+    ☰
+  </button>
 
     </header>
 
