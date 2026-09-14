@@ -104,51 +104,33 @@ body {
 
 .header {
   position: absolute;
-
   top: 10px;
   right: 10px;
-
   z-index: 40;
 
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
 
-  padding:
-    7px 10px 7px 14px;
+  padding: 0;
+  border-radius: 0;
 
-  border-radius: 10px;
+  background: rgba(30,31,34,0.72);
+  border: none;
 
-  background:
-    rgba(
-      30,
-      31,
-      34,
-      0.72
-    );
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 
-  border:
-    1px solid
-    rgba(
-      255,
-      255,
-      255,
-      0.10
-    );
-
-  backdrop-filter:
-    blur(10px);
-
-  -webkit-backdrop-filter:
-    blur(10px);
-
-  box-shadow:
-    0 4px 18px
-    rgba(0,0,0,0.28);
+  box-shadow: none;
 
   pointer-events: auto;
-
   white-space: nowrap;
+}
+
+.header-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
 }
 
 .header-title {
