@@ -518,6 +518,7 @@ button {
 }
 
 /* Lv6 */
+.coordinate-badge.lv6 {
   color: #FF33FF;
   font-weight: 400;
   -webkit-text-stroke: 0.5px #fff;
