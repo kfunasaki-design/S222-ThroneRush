@@ -14,6 +14,7 @@
 <title>S222TR Guild Restriction</title>
 
 
+
 <style>
 
 /* =========================================
@@ -45,6 +46,7 @@ body {
   margin: 24px auto 60px;
 
 }
+
 
 
 /* =========================================
@@ -79,6 +81,7 @@ body {
   color: #ffffff;
 
 }
+
 
 
 /* =========================================
@@ -120,6 +123,7 @@ body {
 }
 
 
+
 /* =========================================
    SECTION
 ========================================= */
@@ -147,6 +151,7 @@ body {
 }
 
 
+
 /* =========================================
    NOTICE
 ========================================= */
@@ -166,6 +171,7 @@ body {
   margin-bottom: 15px;
 
 }
+
 
 
 /* =========================================
@@ -197,6 +203,7 @@ body {
   font-size: 14px;
 
 }
+
 
 
 /* =========================================
@@ -235,6 +242,7 @@ body {
 }
 
 
+
 /* =========================================
    STATUS
 ========================================= */
@@ -249,6 +257,7 @@ td:first-child {
   white-space: nowrap;
 
 }
+
 
 
 /* =========================================
@@ -267,6 +276,7 @@ td:nth-child(2) {
 }
 
 
+
 /* =========================================
    DATE
 ========================================= */
@@ -281,6 +291,7 @@ td:nth-child(3) {
   white-space: nowrap;
 
 }
+
 
 
 /* =========================================
@@ -313,6 +324,7 @@ td:nth-child(4) {
 }
 
 
+
 /* =========================================
    TABLE HEADER
 ========================================= */
@@ -332,6 +344,7 @@ td:nth-child(4) {
   font-size: 14px;
 
 }
+
 
 
 /* =========================================
@@ -363,6 +376,7 @@ td:nth-child(4) {
 }
 
 
+
 /* =========================================
    STATUS CELL
 ========================================= */
@@ -372,6 +386,7 @@ td:nth-child(4) {
   font-size: 18px;
 
 }
+
 
 
 /* =========================================
@@ -395,6 +410,7 @@ td:nth-child(4) {
   text-decoration-color: #fff;
 
 }
+
 
 
 /* =========================================
@@ -440,7 +456,6 @@ td:nth-child(4) {
   padding: 12px;
 
   border:
-
     1px solid
     #2b2d31;
 
@@ -457,6 +472,7 @@ td:nth-child(4) {
   word-break: break-word;
 
 }
+
 
 
 /* =========================================
@@ -509,7 +525,6 @@ textarea {
   border-radius: 6px;
 
   border:
-
     1px solid
     #34363b;
 
@@ -528,6 +543,7 @@ textarea {
   resize: vertical;
 
 }
+
 
 
 /* =========================================
@@ -565,6 +581,7 @@ button.secondary {
 }
 
 
+
 /* =========================================
    ACTIONS
 ========================================= */
@@ -580,6 +597,7 @@ button.secondary {
   flex-wrap: wrap;
 
 }
+
 
 
 /* =========================================
@@ -601,6 +619,7 @@ button.secondary {
 }
 
 
+
 /* =========================================
    COLLAPSIBLE DETAILS
 ========================================= */
@@ -610,7 +629,6 @@ details {
   background: #1a1b1e;
 
   border:
-
     1px solid
     #2b2d31;
 
@@ -645,7 +663,6 @@ details summary:hover {
 .details-content {
 
   padding:
-
     0
     20px
     20px
@@ -678,6 +695,66 @@ details summary:hover {
   word-break: break-word;
 
 }
+
+
+
+/* =========================================
+   RESTRICTION DOCUMENT
+========================================= */
+
+.restriction-document h1 {
+
+  font-size: 20px;
+
+  color: #ffffff;
+
+  margin:
+    20px
+    0
+    15px;
+
+}
+
+.restriction-document h2 {
+
+  font-size: 15px;
+
+  color: #aaa;
+
+  margin:
+    22px
+    0
+    8px;
+
+}
+
+.restriction-document p {
+
+  color: #ccc;
+
+  font-size: 14px;
+
+  line-height: 1.7;
+
+  margin:
+    0
+    0
+    12px;
+
+  white-space: normal;
+
+  overflow-wrap: anywhere;
+
+  word-break: break-word;
+
+}
+
+.restriction-document strong {
+
+  color: #fff;
+
+}
+
 
 
 /* =========================================
@@ -717,6 +794,7 @@ details summary:hover {
 }
 
 
+
 /* =========================================
    MOBILE
 ========================================= */
@@ -752,6 +830,7 @@ details summary:hover {
   }
 
 
+
   /* STATUS */
 
   .records-table
@@ -762,6 +841,7 @@ details summary:hover {
     width: 65px;
 
   }
+
 
 
   /* PLAYER */
@@ -776,6 +856,7 @@ details summary:hover {
   }
 
 
+
   /* DATE */
 
   .records-table
@@ -786,6 +867,7 @@ details summary:hover {
     width: 95px;
 
   }
+
 
 
   /* CONTENT */
@@ -804,6 +886,7 @@ details summary:hover {
     max-width: 150px;
 
   }
+
 
 
   .form-grid {
@@ -826,10 +909,14 @@ details summary:hover {
 
 
 
+
+
 <body>
 
 
+
 <div class="container">
+
 
 
 <!-- =========================================
@@ -859,6 +946,7 @@ details summary:hover {
   </div>
 
 
+
   <button
     type="button"
     class="site-menu-button"
@@ -868,6 +956,37 @@ details summary:hover {
   </button>
 
 </header>
+
+
+
+
+
+<!-- =========================================
+     PARTICIPATION RESTRICTION
+========================================= -->
+
+<details>
+
+<summary>
+PARTICIPATION RESTRICTION
+</summary>
+
+
+
+<div
+  id="restrictionContent"
+  class="details-content restriction-document"
+>
+
+<p>
+Loading...
+</p>
+
+</div>
+
+</details>
+
+
 
 
 
@@ -882,11 +1001,14 @@ Restricted Players
 </h2>
 
 
+
 <div class="notice">
 
 Current participation restriction records are displayed below.
 
 </div>
+
+
 
 
 
@@ -905,6 +1027,8 @@ Current participation restriction records are displayed below.
 >
 
 </div>
+
+
 
 
 
@@ -928,6 +1052,7 @@ STATUS
 </th>
 
 
+
 <th>
 
 PLAYER
@@ -940,6 +1065,7 @@ PLAYER
 </button>
 
 </th>
+
 
 
 <th>
@@ -956,6 +1082,7 @@ DATE
 </th>
 
 
+
 <th>
 
 CONTENT
@@ -967,6 +1094,7 @@ CONTENT
 </thead>
 
 
+
 <tbody
   id="playerList"
 >
@@ -975,6 +1103,8 @@ CONTENT
 </table>
 
 </section>
+
+
 
 
 
@@ -989,6 +1119,7 @@ Player Details
 </h2>
 
 
+
 <div
   id="detailEmpty"
   class="empty"
@@ -999,10 +1130,12 @@ Select a player from the list above.
 </div>
 
 
+
 <div
   id="detailContent"
   class="hidden"
 >
+
 
 
 <div class="detail-row">
@@ -1017,6 +1150,8 @@ STATUS
 ></div>
 
 </div>
+
+
 
 
 
@@ -1035,6 +1170,8 @@ PLAYER
 
 
 
+
+
 <div class="detail-row">
 
 <div class="detail-label">
@@ -1050,6 +1187,8 @@ DATE
 
 
 
+
+
 <div class="detail-row">
 
 <div class="detail-label">
@@ -1062,6 +1201,8 @@ DETAILS
 ></div>
 
 </div>
+
+
 
 
 
@@ -1083,6 +1224,8 @@ RECORD HISTORY
 
 
 
+
+
 <!-- =========================================
      ADMINISTRATION
 ========================================= -->
@@ -1094,13 +1237,16 @@ RECORD HISTORY
 </summary>
 
 
+
 <div class="details-content">
+
 
 
 <div
   id="adminLock"
   class="admin-lock"
 >
+
 
 
 <div class="lock-message">
@@ -1110,7 +1256,9 @@ Administrator access required.
 </div>
 
 
+
 <div class="unlock-row">
+
 
 
 <input
@@ -1124,6 +1272,7 @@ Administrator access required.
 >
 
 
+
 <button
   onclick="unlockAdmin()"
 >
@@ -1131,9 +1280,12 @@ UNLOCK
 </button>
 
 
+
 </div>
 
 </div>
+
+
 
 
 
@@ -1143,7 +1295,9 @@ UNLOCK
 >
 
 
+
 <div class="form-grid">
+
 
 
 <div class="form-group">
@@ -1159,6 +1313,8 @@ PLAYER
 >
 
 </div>
+
+
 
 
 
@@ -1190,6 +1346,8 @@ STATUS
 
 
 
+
+
 <div class="form-group">
 
 <label>
@@ -1202,6 +1360,8 @@ DATE
 >
 
 </div>
+
+
 
 
 
@@ -1222,7 +1382,10 @@ DETAILS
 
 
 
+
+
 <div class="actions">
+
 
 
 <button
@@ -1230,6 +1393,7 @@ DETAILS
 >
 Add Record
 </button>
+
 
 
 <button
@@ -1240,85 +1404,235 @@ Clear
 </button>
 
 
-</div>
 
 </div>
 
 </div>
-
-</details>
-
-
-
-<!-- =========================================
-     PARTICIPATION RESTRICTION DETAILS
-========================================= -->
-
-<details>
-
-<summary>
-PARTICIPATION RESTRICTION DETAILS
-</summary>
-
-
-<div class="details-content">
-
-
-<h3>
-PURPOSE
-</h3>
-
-<p>
-Details regarding the participation restriction system will be provided here.
-</p>
-
-
-<h3>
-RESTRICTION／制限
-</h3>
-
-<p>
-Details of the restrictions applied to guild alliance features will be provided here.
-</p>
-
-
-<h3>
-RECORD
-</h3>
-
-<p>
-Information regarding how participation restriction records are created and maintained will be provided here.
-</p>
-
-
-<h3>
-REVIEW & RELEASE
-</h3>
-
-<p>
-Details regarding review, partial restoration, and release of restrictions will be provided here.
-</p>
-
-
-<h3>
-REPEAT CASES
-</h3>
-
-<p>
-Details regarding repeated cases will be provided here.
-</p>
-
 
 </div>
 
 </details>
 
 
+
+
+
 </div>
+
+
 
 
 
 <script>
+
+/* =========================================
+   RESTRICTION DOCUMENT
+========================================= */
+
+async function loadRestrictionDocument() {
+
+  const container =
+    document.getElementById(
+      "restrictionContent"
+    );
+
+
+
+  try {
+
+    const response =
+      await fetch("restriction.md");
+
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Failed to load restriction.md"
+      );
+
+    }
+
+
+
+    const markdown =
+      await response.text();
+
+
+
+    container.innerHTML =
+      markdownToHtml(markdown);
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+    container.innerHTML = `
+
+      <p>
+        Failed to load participation restriction details.
+      </p>
+
+    `;
+
+  }
+
+}
+
+
+
+
+
+function markdownToHtml(markdown) {
+
+  const lines =
+    markdown.split(/\r?\n/);
+
+  let html = "";
+
+  let paragraph = [];
+
+
+
+  function flushParagraph() {
+
+    if (!paragraph.length) {
+
+      return;
+
+    }
+
+
+
+    const text =
+      paragraph.join(" ");
+
+
+
+    html +=
+      "<p>" +
+      formatInlineMarkdown(
+        text
+      ) +
+      "</p>";
+
+
+
+    paragraph = [];
+
+  }
+
+
+
+  lines.forEach(
+
+    line => {
+
+      const trimmed =
+        line.trim();
+
+
+
+      if (!trimmed) {
+
+        flushParagraph();
+
+        return;
+
+      }
+
+
+
+      if (
+        trimmed.startsWith("# ")
+      ) {
+
+        flushParagraph();
+
+
+
+        html +=
+          "<h1>" +
+          formatInlineMarkdown(
+            trimmed.substring(2)
+          ) +
+          "</h1>";
+
+
+
+        return;
+
+      }
+
+
+
+      if (
+        trimmed.startsWith("## ")
+      ) {
+
+        flushParagraph();
+
+
+
+        html +=
+          "<h2>" +
+          formatInlineMarkdown(
+            trimmed.substring(3)
+          ) +
+          "</h2>";
+
+
+
+        return;
+
+      }
+
+
+
+      paragraph.push(
+        trimmed
+      );
+
+    }
+
+  );
+
+
+
+  flushParagraph();
+
+
+
+  return html;
+
+}
+
+
+
+
+
+function formatInlineMarkdown(text) {
+
+  const escaped =
+    escapeHtml(text);
+
+
+
+  return escaped.replace(
+
+    /\*\*(.*?)\*\*/g,
+
+    "<strong>$1</strong>"
+
+  );
+
+}
+
+
+
+
 
 /* =========================================
    DATA
@@ -1326,6 +1640,7 @@ Details regarding repeated cases will be provided here.
 
 const STORAGE_KEY =
   "s222_participation_restrictions";
+
 
 
 const sampleData = [
@@ -1373,6 +1688,8 @@ const sampleData = [
 
 
 
+
+
 /* =========================================
    SORT
 ========================================= */
@@ -1380,6 +1697,8 @@ const sampleData = [
 let currentSort = "date";
 
 let sortDirection = "desc";
+
+
 
 
 
@@ -1395,11 +1714,13 @@ function loadRecords() {
     );
 
 
+
   if (saved) {
 
     return JSON.parse(saved);
 
   }
+
 
 
   localStorage.setItem(
@@ -1413,9 +1734,12 @@ function loadRecords() {
   );
 
 
+
   return sampleData;
 
 }
+
+
 
 
 
@@ -1434,6 +1758,8 @@ function saveRecords(records) {
   );
 
 }
+
+
 
 
 
@@ -1463,9 +1789,12 @@ function sortBy(type) {
   }
 
 
+
   renderList();
 
 }
+
+
 
 
 
@@ -1486,11 +1815,14 @@ function statusValue(status) {
   };
 
 
+
   return (
     order[status] || 99
   );
 
 }
+
+
 
 
 
@@ -1507,7 +1839,9 @@ function contentPreview(text) {
   }
 
 
+
   const maxLength = 45;
+
 
 
   if (
@@ -1518,6 +1852,7 @@ function contentPreview(text) {
     return text;
 
   }
+
 
 
   return (
@@ -1532,6 +1867,8 @@ function contentPreview(text) {
 
 
 
+
+
 /* =========================================
    RENDER LIST
 ========================================= */
@@ -1542,6 +1879,7 @@ function renderList() {
     loadRecords();
 
 
+
   const search =
     document
       .getElementById(
@@ -1550,6 +1888,7 @@ function renderList() {
       .value
       .trim()
       .toLowerCase();
+
 
 
   if (search) {
@@ -1568,11 +1907,14 @@ function renderList() {
 
 
 
+
+
   records.sort(
 
     (a, b) => {
 
       let result = 0;
+
 
 
       if (
@@ -1589,6 +1931,7 @@ function renderList() {
           );
 
       }
+
 
 
       else if (
@@ -1612,6 +1955,7 @@ function renderList() {
       }
 
 
+
       else if (
         currentSort === "date"
       ) {
@@ -1622,6 +1966,7 @@ function renderList() {
           new Date(b.date);
 
       }
+
 
 
       return
@@ -1635,13 +1980,18 @@ function renderList() {
 
 
 
+
+
   const list =
     document.getElementById(
       "playerList"
     );
 
 
+
   list.innerHTML = "";
+
+
 
 
 
@@ -1670,6 +2020,8 @@ function renderList() {
 
 
 
+
+
   records.forEach(
 
     record => {
@@ -1680,6 +2032,7 @@ function renderList() {
         );
 
 
+
       row.innerHTML = `
 
         <td
@@ -1687,6 +2040,7 @@ function renderList() {
         >
           ${record.status}
         </td>
+
 
 
         <td>
@@ -1709,9 +2063,11 @@ function renderList() {
         </td>
 
 
+
         <td>
           ${record.date}
         </td>
+
 
 
         <td>
@@ -1736,6 +2092,7 @@ function renderList() {
       `;
 
 
+
       list.appendChild(row);
 
     }
@@ -1743,6 +2100,8 @@ function renderList() {
   );
 
 }
+
+
 
 
 
@@ -1756,6 +2115,7 @@ function showDetails(id) {
     loadRecords();
 
 
+
   const record =
     records.find(
 
@@ -1765,7 +2125,10 @@ function showDetails(id) {
     );
 
 
+
   if (!record) return;
+
+
 
 
 
@@ -1777,12 +2140,15 @@ function showDetails(id) {
     .add("hidden");
 
 
+
   document
     .getElementById(
       "detailContent"
     )
     .classList
     .remove("hidden");
+
+
 
 
 
@@ -1794,12 +2160,14 @@ function showDetails(id) {
       record.status;
 
 
+
   document
     .getElementById(
       "detailPlayer"
     )
     .textContent =
       record.player;
+
 
 
   document
@@ -1810,6 +2178,7 @@ function showDetails(id) {
       record.date;
 
 
+
   document
     .getElementById(
       "detailDescription"
@@ -1817,6 +2186,8 @@ function showDetails(id) {
     .textContent =
       record.description ||
       "No details.";
+
+
 
 
 
@@ -1830,13 +2201,17 @@ function showDetails(id) {
     );
 
 
+
   const historyList =
     document.getElementById(
       "historyList"
     );
 
 
+
   historyList.innerHTML = "";
+
+
 
 
 
@@ -1850,8 +2225,10 @@ function showDetails(id) {
         );
 
 
+
       div.className =
         "history-item";
+
 
 
       div.innerHTML = `
@@ -1877,6 +2254,7 @@ function showDetails(id) {
       `;
 
 
+
       historyList.appendChild(
         div
       );
@@ -1889,12 +2267,16 @@ function showDetails(id) {
 
 
 
+
+
 /* =========================================
    ADMIN UNLOCK
 ========================================= */
 
 const ADMIN_PASSWORD =
   "S222";
+
+
 
 
 
@@ -1908,6 +2290,7 @@ function unlockAdmin() {
       .value;
 
 
+
   if (
     password ===
     ADMIN_PASSWORD
@@ -1919,6 +2302,7 @@ function unlockAdmin() {
       )
       .classList
       .add("hidden");
+
 
 
     document
@@ -1942,6 +2326,8 @@ function unlockAdmin() {
 
 
 
+
+
 /* =========================================
    ADD RECORD
 ========================================= */
@@ -1957,12 +2343,14 @@ function addRecord() {
       .trim();
 
 
+
   const status =
     document
       .getElementById(
         "statusInput"
       )
       .value;
+
 
 
   const date =
@@ -1973,6 +2361,7 @@ function addRecord() {
       .value;
 
 
+
   const description =
     document
       .getElementById(
@@ -1980,6 +2369,8 @@ function addRecord() {
       )
       .value
       .trim();
+
+
 
 
 
@@ -1994,6 +2385,7 @@ function addRecord() {
   }
 
 
+
   if (!date) {
 
     alert(
@@ -2006,8 +2398,11 @@ function addRecord() {
 
 
 
+
+
   const records =
     loadRecords();
+
 
 
   records.unshift({
@@ -2026,13 +2421,17 @@ function addRecord() {
   });
 
 
+
   saveRecords(records);
+
 
 
   renderList();
 
 
+
   clearForm();
+
 
 
   alert(
@@ -2040,6 +2439,8 @@ function addRecord() {
   );
 
 }
+
+
 
 
 
@@ -2056,12 +2457,14 @@ function clearForm() {
     .value = "";
 
 
+
   document
     .getElementById(
       "statusInput"
     )
     .value =
       "🚫";
+
 
 
   document
@@ -2071,6 +2474,7 @@ function clearForm() {
     .value = "";
 
 
+
   document
     .getElementById(
       "descriptionInput"
@@ -2078,6 +2482,8 @@ function clearForm() {
     .value = "";
 
 }
+
+
 
 
 
@@ -2093,7 +2499,9 @@ function escapeHtml(text) {
     );
 
 
+
   div.textContent = text;
+
 
 
   return div.innerHTML;
@@ -2102,13 +2510,18 @@ function escapeHtml(text) {
 
 
 
+
+
 /* =========================================
    INITIALIZE
 ========================================= */
 
+loadRestrictionDocument();
+
 renderList();
 
 </script>
+
 
 
 </body>
