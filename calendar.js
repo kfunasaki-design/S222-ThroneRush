@@ -1460,8 +1460,65 @@ function createDay(date) {
     levelColors[activeLevel]
   ) {
 
+    let opacity = 1;
+
+    const activeIndex =
+      levels.indexOf(activeLevel);
+
+    const nextLevel =
+      levels[activeIndex + 1];
+
+    if (
+      nextLevel
+      &&
+      releaseDates[nextLevel]
+    ) {
+
+      const nextRelease =
+        new Date(
+          releaseDates[nextLevel]
+        );
+
+      const nextReleaseDate =
+        new Date(
+          nextRelease.getFullYear(),
+          nextRelease.getMonth(),
+          nextRelease.getDate()
+        );
+
+      const currentDate =
+        new Date(
+          date.getFullYear(),
+          date.getMonth(),
+          date.getDate()
+        );
+
+      const daysUntilNext =
+        Math.round(
+          (
+            nextReleaseDate
+            -
+            currentDate
+          )
+          /
+          86400000
+        );
+
+      if (daysUntilNext === 2) {
+        opacity = 0.75;
+      }
+
+      else if (daysUntilNext === 1) {
+        opacity = 0.5;
+      }
+
+    }
+
     header.style.backgroundColor =
-      levelColors[activeLevel];
+      hexToRgba(
+        levelColors[activeLevel],
+        opacity
+      );
 
   }
   
