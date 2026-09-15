@@ -1759,6 +1759,19 @@ document
 
       resetForm();
 
+      const now = new Date();
+      now.setDate(now.getDate() + 3);
+
+      const today =
+        now.getFullYear() +
+        "-" +
+        String(now.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(now.getDate()).padStart(2, "0");
+
+      document.getElementById("startDate").value = today;
+      document.getElementById("endDate").value = today;
+
       dialog.showModal();
 
     }
