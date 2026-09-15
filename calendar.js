@@ -1397,130 +1397,148 @@ function createDay(date) {
   header.textContent =
     date.getDate();
 
-  /* =======================================================
-  Level Release
-  ======================================================= */
+/* =======================================================
+Level Release
+======================================================= */
 
-  const releaseDates =
-    window.s222ReleaseDates || {};
+const releaseDates =
+  window.s222ReleaseDates || {};
 
-  const levels = [
-    "Lv4",
-    "Lv5",
-    "Lv6",
-    "Lv7"
-  ];
+const levels = [
+  "Lv4",
+  "Lv5",
+  "Lv6",
+  "Lv7"
+];
 
-  let activeLevel = null;
+let activeLevel = null;
 
-  levels.forEach(
-    level => {
-
-      const release =
-        releaseDates[level];
-
-      if (!release)
-        return;
-
-      const releaseDate =
-        new Date(release);
-
-      if (
-        date >=
-        new Date(
-          releaseDate.getFullYear(),
-          releaseDate.getMonth(),
-          releaseDate.getDate()
-        )
-      ) {
-
-        activeLevel = level;
-
-      }
-
-    }
-  );
-
-  if (activeLevel) {
-
-    header.dataset.level =
-      activeLevel;
+levels.forEach(
+  level => {
 
     const release =
-      releaseDates[activeLevel];
+      releaseDates[level];
 
-    if (release) {
+    if (!release)
+      return;
 
-      const releaseDate =
-        new Date(release);
+    const releaseDate =
+      new Date(release);
 
-      const releaseOnly =
-        new Date(
-          releaseDate.getFullYear(),
-          releaseDate.getMonth(),
-          releaseDate.getDate()
-        );
+    const releaseOnly =
+      new Date(
+        releaseDate.getFullYear(),
+        releaseDate.getMonth(),
+        releaseDate.getDate()
+      );
 
-      const currentDate =
-        new Date(
-          date.getFullYear(),
-          date.getMonth(),
-          date.getDate()
-        );
+    const currentDate =
+      new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate()
+      );
 
-      const daysFromRelease =
-        Math.round(
-          (
-            currentDate
-            -
-            releaseOnly
-          )
-          /
-          86400000
-        );
+    /*
+      Only the release date
+      and the following 2 days
+      are treated as the display period.
+    */
 
-      /*
-        Release day + next 2 days only
-        0 = 100%
-        1 = 75%
-        2 = 50%
-      */
+    const daysFromRelease =
+      Math.round(
+        (
+          currentDate
+          -
+          releaseOnly
+        )
+        /
+        86400000
+      );
 
-      if (
-        daysFromRelease >= 0
-        &&
-        daysFromRelease <= 2
-      ) {
+    if (
+      daysFromRelease >= 0
+      &&
+      daysFromRelease <= 2
+    ) {
 
-        const levelColors = {
-          Lv4: "#4CAF50",
-          Lv5: "#FF9800",
-          Lv6: "#E91E63",
-          Lv7: "#9C27B0"
-        };
-
-        let opacity = 1;
-
-        if (daysFromRelease === 1) {
-          opacity = 0.75;
-        }
-
-        else if (daysFromRelease === 2) {
-          opacity = 0.5;
-        }
-
-        header.style.backgroundColor =
-          hexToRgba(
-            levelColors[activeLevel],
-            opacity
-          );
-
-      }
+      activeLevel = level;
 
     }
 
   }
+);
 
+const levelColors = {
+  Lv4: "#4CAF50",
+  Lv5: "#FF9800",
+  Lv6: "#E91E63",
+  Lv7: "#9C27B0"
+};
+
+if (
+  activeLevel
+  &&
+  levelColors[activeLevel]
+) {
+
+  header.dataset.level =
+    activeLevel;
+
+  let opacity = 1;
+
+  const releaseDate =
+    new Date(
+      releaseDates[activeLevel]
+    );
+
+  const releaseOnly =
+    new Date(
+      releaseDate.getFullYear(),
+      releaseDate.getMonth(),
+      releaseDate.getDate()
+    );
+
+  const currentDate =
+    new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate()
+    );
+
+  const daysFromRelease =
+    Math.round(
+      (
+        currentDate
+        -
+        releaseOnly
+      )
+      /
+      86400000
+    );
+
+  if (daysFromRelease === 1) {
+    opacity = 0.75;
+  }
+
+  else if (daysFromRelease === 2) {
+    opacity = 0.5;
+  }
+
+  header.style.backgroundColor =
+    hexToRgba(
+      levelColors[activeLevel],
+      opacity
+    );
+
+}
+
+day.appendChild(
+  header
+);
+
+return day;
+}
 /* =========================================================
 Schedule / Week
 ========================================================= */
