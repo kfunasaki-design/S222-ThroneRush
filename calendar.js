@@ -1446,44 +1446,19 @@ function createDay(date) {
     header.dataset.level =
       activeLevel;
 
-  }
-  const levelColors = {
-    Lv4: "#4CAF50",
-    Lv5: "#FF9800",
-    Lv6: "#E91E63",
-    Lv7: "#9C27B0"
-  };
+    const release =
+      releaseDates[activeLevel];
 
-  if (
-    activeLevel
-    &&
-    levelColors[activeLevel]
-  ) {
+    if (release) {
 
-    let opacity = 1;
+      const releaseDate =
+        new Date(release);
 
-    const activeIndex =
-      levels.indexOf(activeLevel);
-
-    const nextLevel =
-      levels[activeIndex + 1];
-
-    if (
-      nextLevel
-      &&
-      releaseDates[nextLevel]
-    ) {
-
-      const nextRelease =
+      const releaseOnly =
         new Date(
-          releaseDates[nextLevel]
-        );
-
-      const nextReleaseDate =
-        new Date(
-          nextRelease.getFullYear(),
-          nextRelease.getMonth(),
-          nextRelease.getDate()
+          releaseDate.getFullYear(),
+          releaseDate.getMonth(),
+          releaseDate.getDate()
         );
 
       const currentDate =
@@ -1493,42 +1468,58 @@ function createDay(date) {
           date.getDate()
         );
 
-      const daysUntilNext =
+      const daysFromRelease =
         Math.round(
           (
-            nextReleaseDate
-            -
             currentDate
+            -
+            releaseOnly
           )
           /
           86400000
         );
 
-      if (daysUntilNext === 2) {
-        opacity = 0.75;
-      }
+      /*
+        Release day + next 2 days only
+        0 = 100%
+        1 = 75%
+        2 = 50%
+      */
 
-      else if (daysUntilNext === 1) {
-        opacity = 0.5;
+      if (
+        daysFromRelease >= 0
+        &&
+        daysFromRelease <= 2
+      ) {
+
+        const levelColors = {
+          Lv4: "#4CAF50",
+          Lv5: "#FF9800",
+          Lv6: "#E91E63",
+          Lv7: "#9C27B0"
+        };
+
+        let opacity = 1;
+
+        if (daysFromRelease === 1) {
+          opacity = 0.75;
+        }
+
+        else if (daysFromRelease === 2) {
+          opacity = 0.5;
+        }
+
+        header.style.backgroundColor =
+          hexToRgba(
+            levelColors[activeLevel],
+            opacity
+          );
+
       }
 
     }
 
-    header.style.backgroundColor =
-      hexToRgba(
-        levelColors[activeLevel],
-        opacity
-      );
-
   }
-  
-  day.appendChild(
-    header
-  );
-
-  return day;
-
-}
 
 
 /* =========================================================
