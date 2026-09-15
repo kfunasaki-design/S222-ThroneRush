@@ -1447,7 +1447,23 @@ function createDay(date) {
       activeLevel;
 
   }
+  const levelColors = {
+    Lv4: "#4CAF50",
+    Lv5: "#FF9800",
+    Lv6: "#E91E63",
+    Lv7: "#9C27B0"
+  };
 
+  if (
+    activeLevel
+    &&
+    levelColors[activeLevel]
+  ) {
+
+    header.style.backgroundColor =
+      levelColors[activeLevel];
+
+  }
   
   day.appendChild(
     header
