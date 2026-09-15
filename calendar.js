@@ -1470,7 +1470,7 @@ levels.forEach(
 );
 
 const levelColors = {
-  Lv4: "#065433",
+  Lv4: "#185138",
   Lv5: "#001d42",
   Lv6: "#4b1a47",
   Lv7: "#1A1110"
