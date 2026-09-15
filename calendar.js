@@ -2673,8 +2673,6 @@ function hexToRgba(hex, alpha) {
 
 function createDay(date) {
 
-function createDay(date) {
-
   const day =
     document.createElement(
       "div"
