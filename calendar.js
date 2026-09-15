@@ -1758,7 +1758,41 @@ document
     () => {
 
       resetForm();
+      
+      const startDate =
+        new Date();
 
+      const endDate =
+        new Date();
+
+      endDate.setDate(
+        endDate.getDate() + 3
+      );
+
+      const formatInputDate =
+        date =>
+          date.getFullYear() +
+          "-" +
+          String(
+            date.getMonth() + 1
+          ).padStart(2, "0") +
+          "-" +
+          String(
+            date.getDate()
+          ).padStart(2, "0");
+
+      document.getElementById(
+        "startDate"
+      ).value =
+        formatInputDate(startDate);
+
+      document.getElementById(
+        "endDate"
+      ).value =
+        formatInputDate(endDate);
+
+
+      
       dialog.showModal();
 
     }
