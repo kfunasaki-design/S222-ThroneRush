@@ -2177,7 +2177,10 @@ form.addEventListener(
           guild
         ),
 
-      creatorId
+  creatorId:
+    selectedSchedule
+      ? selectedSchedule.creatorId
+      : creatorId
 
     };
 
