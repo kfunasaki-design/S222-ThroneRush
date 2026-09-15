@@ -2925,3 +2925,23 @@ updateFortressOptions();
 updateLanguage();
 
 updateCurrentTime();
+
+
+/* =========================================================
+Supabase Realtime
+========================================================= */
+
+supabaseClient
+  .channel("s222-calendar")
+  .on(
+    "postgres_changes",
+    {
+      event: "*",
+      schema: "public",
+      table: "schedules"
+    },
+    () => {
+      loadSchedules();
+    }
+  )
+  .subscribe();
