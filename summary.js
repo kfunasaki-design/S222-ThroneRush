@@ -2032,7 +2032,7 @@ async function loadEventPeriod() {
         "admin_settings"
       )
 .select(
-  "event_start, event_end, guild_colors"
+  "event_start, event_end, lv4_release, lv5_release, lv6_release, lv7_release, guild_colors"
 )
       .eq(
         "id",
@@ -2073,6 +2073,30 @@ async function loadEventPeriod() {
     data.event_end
     ||
     "";
+window.s222ReleaseDates = {
+
+  Lv4:
+    data.lv4_release
+    ||
+    null,
+
+  Lv5:
+    data.lv5_release
+    ||
+    null,
+
+  Lv6:
+    data.lv6_release
+    ||
+    null,
+
+  Lv7:
+    data.lv7_release
+    ||
+    null
+
+};
+   
 /*
   Guild Colors
 */
