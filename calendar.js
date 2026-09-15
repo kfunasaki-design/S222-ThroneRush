@@ -1397,6 +1397,58 @@ function createDay(date) {
   header.textContent =
     date.getDate();
 
+  /* =======================================================
+  Level Release
+  ======================================================= */
+
+  const releaseDates =
+    window.s222ReleaseDates || {};
+
+  const levels = [
+    "Lv4",
+    "Lv5",
+    "Lv6",
+    "Lv7"
+  ];
+
+  let activeLevel = null;
+
+  levels.forEach(
+    level => {
+
+      const release =
+        releaseDates[level];
+
+      if (!release)
+        return;
+
+      const releaseDate =
+        new Date(release);
+
+      if (
+        date >=
+        new Date(
+          releaseDate.getFullYear(),
+          releaseDate.getMonth(),
+          releaseDate.getDate()
+        )
+      ) {
+
+        activeLevel = level;
+
+      }
+
+    }
+  );
+
+  if (activeLevel) {
+
+    header.dataset.level =
+      activeLevel;
+
+  }
+
+  
   day.appendChild(
     header
   );
