@@ -798,11 +798,23 @@ function renderGuildSummary() {
 
   /* Guild */
 
-const totalGuildCell = document.createElement("td");
-totalGuildCell.className = "summary-guild";
-totalGuildCell.textContent = "Alliance Total　";
-totalGuildCell.colSpan = 2;
-totalRow.appendChild(totalGuildCell);
+  const totalGuildCell =
+    document.createElement(
+      "td"
+    );
+
+  totalGuildCell.className =
+    "summary-guild";
+
+  totalGuildCell.textContent =
+    "Alliance Total　";
+
+  totalGuildCell.colSpan =
+    2;
+
+  totalRow.appendChild(
+    totalGuildCell
+  );
 
 
   /* Lv4 - Lv7 */
@@ -882,10 +894,10 @@ totalRow.appendChild(totalGuildCell);
      Preview
   ======================================================= */
 
-updateSummaryPreview(
-  guilds,
-  averages
-);
+  updateSummaryPreview(
+    guilds,
+    averages
+  );
 
 }
 
@@ -898,6 +910,7 @@ function updateSummaryPreview(
   guilds,
   averages
 ) {
+
   const guildElement =
     document.getElementById(
       "summaryPreviewGuild"
@@ -918,6 +931,7 @@ function updateSummaryPreview(
       "summaryPreviewDays"
     );
 
+
   if (
     !guildElement
     ||
@@ -927,53 +941,65 @@ function updateSummaryPreview(
     ||
     !daysElement
   ) {
+
     return;
+
   }
+
 
   /*
     Show selected level average
   */
 
-const savedLevel =
-  localStorage.getItem(
-    "s222_summary_preview_level"
-  );
+  const savedLevel =
+    localStorage.getItem(
+      "s222_summary_preview_level"
+    );
 
-if (
-  savedLevel
-  &&
-  SUMMARY_LEVELS.includes(
+
+  if (
     savedLevel
-  )
-) {
-  levelElement.value =
-    savedLevel;
-}
-   
+    &&
+    SUMMARY_LEVELS.includes(
+      savedLevel
+    )
+  ) {
+
+    levelElement.value =
+      savedLevel;
+
+  }
+
+
   function updateAverage() {
+
     const selectedLevel =
       levelElement.value;
+
 
     daysElement.textContent =
       formatSummaryDays(
         averages[selectedLevel] || 0
       );
+
   }
+
 
   /*
     Level selection
   */
 
-levelElement.onchange = () => {
+  levelElement.onchange = () => {
 
-  updateAverage();
+    updateAverage();
 
-  localStorage.setItem(
-    "s222_summary_preview_level",
-    levelElement.value
-  );
+    localStorage.setItem(
+      "s222_summary_preview_level",
+      levelElement.value
+    );
 
-};
+  };
+
 
   /*
     Use the latest schedule created
@@ -985,6 +1011,7 @@ levelElement.onchange = () => {
     ||
     guilds.length === 0
   ) {
+
     guildElement.textContent =
       "—";
 
@@ -994,15 +1021,19 @@ levelElement.onchange = () => {
     updateAverage();
 
     return;
+
   }
 
+
   let previewGuild = null;
+
 
   if (
     Array.isArray(
       schedules
     )
   ) {
+
     const mySchedules =
       schedules.filter(
         schedule =>
@@ -1013,13 +1044,16 @@ levelElement.onchange = () => {
           schedule.guild?.trim()
       );
 
+
     if (
       mySchedules.length > 0
     ) {
+
       const latestSchedule =
         mySchedules[
           mySchedules.length - 1
         ];
+
 
       previewGuild =
         guilds.find(
@@ -1028,25 +1062,33 @@ levelElement.onchange = () => {
             ===
             latestSchedule.guild.trim()
         );
+
     }
+
   }
+
 
   if (
     !previewGuild
   ) {
+
     previewGuild =
       guilds[0];
+
   }
+
 
   guildElement.textContent =
     previewGuild.guild
     ||
     "—";
 
+
   leagueElement.textContent =
     previewGuild.league
     ||
     "—";
+
 
   /*
     Display the average for the
@@ -1054,6 +1096,7 @@ levelElement.onchange = () => {
   */
 
   updateAverage();
+
 }
 
 
@@ -1134,475 +1177,558 @@ const summaryPreviewLevel =
     "summaryPreviewLevel"
   );
 
+
 if (
   summaryPreviewLevel
 ) {
+
   summaryPreviewLevel.addEventListener(
     "click",
     event => {
+
       event.stopPropagation();
+
     }
   );
+
 }
- /* =========================================================
-    Event Position HUD
- ========================================================= */
-
- const eventPositionTrigger =
-   document.getElementById(
-     "eventPositionTrigger"
-   );
-
- const eventPositionHUD =
-   document.getElementById(
-     "eventPositionHUD"
-   );
 
 
- if (
-   eventPositionTrigger
-   &&
-   eventPositionHUD
- ) {
+/* =========================================================
+   Event Position HUD
+========================================================= */
 
-   let isDragging = false;
-   let startY = 0;
-   let startTop = 0;
-
-   let eventPositionTop =
-     eventPositionTrigger.offsetTop;
-
-   /* =========================================================
-      Apply Position
-   ========================================================= */
-
-   function applyEventPosition() {
-
-     eventPositionTrigger.style.top =
-       `${eventPositionTop}px`;
-
-     eventPositionHUD.style.top =
-       `${eventPositionTop}px`;
-
-   }
+const eventPositionTrigger =
+  document.getElementById(
+    "eventPositionTrigger"
+  );
 
 
-   applyEventPosition();
+const eventPositionHUD =
+  document.getElementById(
+    "eventPositionHUD"
+  );
 
 
-   /* =========================================================
-      Start Drag
-   ========================================================= */
+/* =========================================================
+   Timeline Release Position
+========================================================= */
 
-   function startEventPositionDrag(
-     target,
-     event
-   ) {
+function updateTimelinePositions() {
 
-     isDragging = false;
-
-     startY =
-       event.clientY;
-
-     startTop =
-       eventPositionTop;
-
-     target.setPointerCapture(
-       event.pointerId
-     );
-
-   }
+  const eventInfo =
+    window.s222EventInfo;
 
 
-   /* =========================================================
-      Move
-   ========================================================= */
+  if (
+    !eventInfo
+  ) {
 
-   function moveEventPositionDrag(
-     target,
-     event
-   ) {
+    return;
 
-     if (
-       !target.hasPointerCapture(
-         event.pointerId
-       )
-     ) {
-       return;
-     }
+  }
 
 
-     const deltaY =
-       event.clientY -
-       startY;
+  if (
+    !eventPositionHUD
+  ) {
+
+    return;
+
+  }
 
 
-     if (
-       Math.abs(deltaY) > 4
-     ) {
-       isDragging = true;
-     }
+  const timeline =
+    eventPositionHUD.querySelector(
+      ".timeline"
+    );
 
 
-     if (!isDragging) {
-       return;
-     }
-  /* =========================================================
-     Timeline Release Position
-  ========================================================= */
-
-  function updateTimelinePositions() {
-
-    const eventInfo =
-      window.s222EventInfo;
-
-    if (
-      !eventInfo
-    ) {
-      return;
-    }
+  const graphics =
+    eventPositionHUD.querySelector(
+      ".timeline-graphics"
+    );
 
 
-    const timeline =
-      eventPositionHUD.querySelector(
-        ".timeline"
-      );
+  if (
+    !timeline
+    ||
+    !graphics
+  ) {
 
-    const graphics =
-      eventPositionHUD.querySelector(
-        ".timeline-graphics"
-      );
+    return;
 
-
-    if (
-      !timeline
-      ||
-      !graphics
-    ) {
-      return;
-    }
+  }
 
 
-    const eventStart =
-      eventInfo.start
-        ? new Date(eventInfo.start)
-        : null;
-
-    const eventEnd =
-      eventInfo.end
-        ? new Date(eventInfo.end)
-        : null;
+  const eventStart =
+    eventInfo.start
+      ? new Date(
+          eventInfo.start
+        )
+      : null;
 
 
-    if (
-      !eventStart
-      ||
-      !eventEnd
-      ||
-      Number.isNaN(eventStart.getTime())
-      ||
-      Number.isNaN(eventEnd.getTime())
-    ) {
-      return;
-    }
+  const eventEnd =
+    eventInfo.end
+      ? new Date(
+          eventInfo.end
+        )
+      : null;
 
 
-    const totalTime =
+  if (
+    !eventStart
+    ||
+    !eventEnd
+    ||
+    Number.isNaN(
+      eventStart.getTime()
+    )
+    ||
+    Number.isNaN(
       eventEnd.getTime()
-      -
-      eventStart.getTime();
+    )
+  ) {
+
+    return;
+
+  }
 
 
-    if (
-      totalTime <= 0
-    ) {
-      return;
-    }
+  const totalTime =
+    eventEnd.getTime()
+    -
+    eventStart.getTime();
 
 
-    const levels = [
-      "Lv4",
-      "Lv5",
-      "Lv6",
-      "Lv7"
-    ];
+  if (
+    totalTime <= 0
+  ) {
+
+    return;
+
+  }
 
 
-    levels.forEach(
-      level => {
-
-        const marker =
-          graphics.querySelector(
-            `.timeline-marker.${level.toLowerCase()}`
-          );
-
-
-        if (
-          !marker
-        ) {
-          return;
-        }
+  const levels = [
+    "Lv4",
+    "Lv5",
+    "Lv6",
+    "Lv7"
+  ];
 
 
-        const release =
-          eventInfo[level]
-            ? new Date(
-                eventInfo[level]
-              )
-            : null;
+  levels.forEach(
+    level => {
+
+      const marker =
+        graphics.querySelector(
+          `.timeline-marker.${level.toLowerCase()}`
+        );
 
 
-        if (
-          !release
-          ||
-          Number.isNaN(
-            release.getTime()
-          )
-        ) {
+      if (
+        !marker
+      ) {
 
-          marker.style.display =
-            "none";
-
-          return;
-
-        }
-
-
-        const elapsed =
-          release.getTime()
-          -
-          eventStart.getTime();
-
-
-        const position =
-          Math.max(
-            0,
-            Math.min(
-              100,
-              (elapsed / totalTime) * 100
-            )
-          );
-
-
-        marker.style.display =
-          "flex";
-
-        marker.style.left =
-          `${position}%`;
+        return;
 
       }
+
+
+      const release =
+        eventInfo[level]
+          ? new Date(
+              eventInfo[level]
+            )
+          : null;
+
+
+      if (
+        !release
+        ||
+        Number.isNaN(
+          release.getTime()
+        )
+      ) {
+
+        marker.style.display =
+          "none";
+
+        return;
+
+      }
+
+
+      const elapsed =
+        release.getTime()
+        -
+        eventStart.getTime();
+
+
+      const position =
+        Math.max(
+          0,
+          Math.min(
+            100,
+            (elapsed / totalTime) * 100
+          )
+        );
+
+
+      marker.style.display =
+        "flex";
+
+
+      marker.style.left =
+        `${position}%`;
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   Event Position Drag
+========================================================= */
+
+if (
+  eventPositionTrigger
+  &&
+  eventPositionHUD
+) {
+
+  let isDragging = false;
+  let startY = 0;
+  let startTop = 0;
+
+
+  let eventPositionTop =
+    eventPositionTrigger.offsetTop;
+
+
+  /* =========================================================
+     Apply Position
+  ========================================================= */
+
+  function applyEventPosition() {
+
+    eventPositionTrigger.style.top =
+      `${eventPositionTop}px`;
+
+    eventPositionHUD.style.top =
+      `${eventPositionTop}px`;
+
+  }
+
+
+  applyEventPosition();
+
+
+  /* =========================================================
+     Start Drag
+  ========================================================= */
+
+  function startEventPositionDrag(
+    target,
+    event
+  ) {
+
+    isDragging = false;
+
+
+    startY =
+      event.clientY;
+
+
+    startTop =
+      eventPositionTop;
+
+
+    target.setPointerCapture(
+      event.pointerId
     );
 
   }
 
 
-  updateTimelinePositions();
+  /* =========================================================
+     Move
+  ========================================================= */
 
-     const wrapper =
-       document.getElementById(
-         "calendarWrapper"
-       );
+  function moveEventPositionDrag(
+    target,
+    event
+  ) {
 
+    if (
+      !target.hasPointerCapture(
+        event.pointerId
+      )
+    ) {
 
-     if (!wrapper) {
-       return;
-     }
+      return;
 
-
-     const height =
-       target.offsetHeight;
-
-
-     const maxTop =
-       wrapper.clientHeight -
-       height -
-       10;
+    }
 
 
-     eventPositionTop =
-       Math.max(
-         10,
-         Math.min(
-           maxTop,
-           startTop + deltaY
-         )
-       );
+    const deltaY =
+      event.clientY -
+      startY;
 
 
-     applyEventPosition();
+    if (
+      Math.abs(deltaY) > 4
+    ) {
 
-   }
+      isDragging = true;
 
-
-   /* =========================================================
-      Finish Drag
-   ========================================================= */
-
-   function finishEventPositionDrag(
-     target,
-     event
-   ) {
-
-     if (
-       target.hasPointerCapture(
-         event.pointerId
-       )
-     ) {
-       target.releasePointerCapture(
-         event.pointerId
-       );
-     }
-
-   }
+    }
 
 
-   /* =========================================================
-      Trigger
-   ========================================================= */
+    if (
+      !isDragging
+    ) {
 
-   eventPositionTrigger.addEventListener(
-     "pointerdown",
-     event => {
+      return;
 
-       startEventPositionDrag(
-         eventPositionTrigger,
-         event
-       );
-
-     }
-   );
+    }
 
 
-   eventPositionTrigger.addEventListener(
-     "pointermove",
-     event => {
-
-       moveEventPositionDrag(
-         eventPositionTrigger,
-         event
-       );
-
-     }
-   );
+    const wrapper =
+      document.getElementById(
+        "calendarWrapper"
+      );
 
 
-   eventPositionTrigger.addEventListener(
-     "pointerup",
-     event => {
+    if (
+      !wrapper
+    ) {
 
-       if (isDragging) {
+      return;
 
-         isDragging = false;
-
-         finishEventPositionDrag(
-           eventPositionTrigger,
-           event
-         );
-
-         return;
-       }
+    }
 
 
-       eventPositionHUD.classList.add(
-         "open"
-       );
-
-       eventPositionTrigger.classList.add(
-         "open"
-       );
-
-       eventPositionTrigger.setAttribute(
-         "aria-expanded",
-         "true"
-       );
+    const height =
+      target.offsetHeight;
 
 
-       applyEventPosition();
-       updateTimelinePositions();
-
-       finishEventPositionDrag(
-         eventPositionTrigger,
-         event
-       );
-
-   });
+    const maxTop =
+      wrapper.clientHeight -
+      height -
+      10;
 
 
-   /* =========================================================
-      HUD
-   ========================================================= */
-
-   eventPositionHUD.addEventListener(
-     "pointerdown",
-     event => {
-
-       startEventPositionDrag(
-         eventPositionHUD,
-         event
-       );
-
-     }
-   );
+    eventPositionTop =
+      Math.max(
+        10,
+        Math.min(
+          maxTop,
+          startTop + deltaY
+        )
+      );
 
 
-   eventPositionHUD.addEventListener(
-     "pointermove",
-     event => {
+    applyEventPosition();
 
-       moveEventPositionDrag(
-         eventPositionHUD,
-         event
-       );
-
-     }
-   );
+  }
 
 
-   eventPositionHUD.addEventListener(
-     "pointerup",
-     event => {
+  /* =========================================================
+     Finish Drag
+  ========================================================= */
 
-       if (isDragging) {
+  function finishEventPositionDrag(
+    target,
+    event
+  ) {
 
-         isDragging = false;
+    if (
+      target.hasPointerCapture(
+        event.pointerId
+      )
+    ) {
 
-         finishEventPositionDrag(
-           eventPositionHUD,
-           event
-         );
+      target.releasePointerCapture(
+        event.pointerId
+      );
 
-         return;
-       }
+    }
 
-
-       eventPositionHUD.classList.remove(
-         "open"
-       );
-
-       eventPositionTrigger.classList.remove(
-         "open"
-       );
-
-       eventPositionTrigger.setAttribute(
-         "aria-expanded",
-         "false"
-       );
+  }
 
 
-       finishEventPositionDrag(
-         eventPositionHUD,
-         event
-       );
+  /* =========================================================
+     Trigger
+  ========================================================= */
 
-     }
-   );
+  eventPositionTrigger.addEventListener(
+    "pointerdown",
+    event => {
+
+      startEventPositionDrag(
+        eventPositionTrigger,
+        event
+      );
+
+    }
+  );
+
+
+  eventPositionTrigger.addEventListener(
+    "pointermove",
+    event => {
+
+      moveEventPositionDrag(
+        eventPositionTrigger,
+        event
+      );
+
+    }
+  );
+
+
+  eventPositionTrigger.addEventListener(
+    "pointerup",
+    event => {
+
+      if (
+        isDragging
+      ) {
+
+        isDragging = false;
+
+
+        finishEventPositionDrag(
+          eventPositionTrigger,
+          event
+        );
+
+
+        return;
+
+      }
+
+
+      eventPositionHUD.classList.add(
+        "open"
+      );
+
+
+      eventPositionTrigger.classList.add(
+        "open"
+      );
+
+
+      eventPositionTrigger.setAttribute(
+        "aria-expanded",
+        "true"
+      );
+
+
+      applyEventPosition();
+
+      updateTimelinePositions();
+
+
+      finishEventPositionDrag(
+        eventPositionTrigger,
+        event
+      );
+
+    }
+  );
+
+
+  /* =========================================================
+     HUD
+  ========================================================= */
+
+  eventPositionHUD.addEventListener(
+    "pointerdown",
+    event => {
+
+      startEventPositionDrag(
+        eventPositionHUD,
+        event
+      );
+
+    }
+  );
+
+
+  eventPositionHUD.addEventListener(
+    "pointermove",
+    event => {
+
+      moveEventPositionDrag(
+        eventPositionHUD,
+        event
+      );
+
+    }
+  );
+
+
+  eventPositionHUD.addEventListener(
+    "pointerup",
+    event => {
+
+      if (
+        isDragging
+      ) {
+
+        isDragging = false;
+
+
+        finishEventPositionDrag(
+          eventPositionHUD,
+          event
+        );
+
+
+        return;
+
+      }
+
+
+      eventPositionHUD.classList.remove(
+        "open"
+      );
+
+
+      eventPositionTrigger.classList.remove(
+        "open"
+      );
+
+
+      eventPositionTrigger.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
+
+      finishEventPositionDrag(
+        eventPositionHUD,
+        event
+      );
+
+    }
+  );
+
+
   const calendarWrapper =
     document.getElementById(
       "calendarWrapper"
     );
 
 
-  if (calendarWrapper) {
+  if (
+    calendarWrapper
+  ) {
 
     calendarWrapper.addEventListener(
       "scroll",
@@ -1611,8 +1737,10 @@ if (
         const scrollY =
           calendarWrapper.scrollTop;
 
+
         eventPositionTrigger.style.transform =
           `translateY(${scrollY}px)`;
+
 
         eventPositionHUD.style.transform =
           `translateY(${scrollY}px)`;
@@ -1621,7 +1749,10 @@ if (
     );
 
   }
- }
+
+}
+
+
 /* =========================================================
    Admin DOM
 ========================================================= */
@@ -1631,95 +1762,114 @@ const adminStatus =
     "adminStatus"
   );
 
+
 const adminMenuBtn =
   document.getElementById(
     "adminMenuBtn"
   );
+
 
 const adminLoginDialog =
   document.getElementById(
     "adminLoginDialog"
   );
 
+
 const adminLoginForm =
   document.getElementById(
     "adminLoginForm"
   );
+
 
 const adminEmail =
   document.getElementById(
     "adminEmail"
   );
 
+
 const adminPassword =
   document.getElementById(
     "adminPassword"
   );
+
 
 const adminLoginError =
   document.getElementById(
     "adminLoginError"
   );
 
+
 const closeAdminLogin =
   document.getElementById(
     "closeAdminLogin"
   );
+
 
 const adminPanelDialog =
   document.getElementById(
     "adminPanelDialog"
   );
 
+
 const adminPanelForm =
   document.getElementById(
     "adminPanelForm"
   );
+
 
 const adminEventStart =
   document.getElementById(
     "adminEventStart"
   );
 
+
 const adminEventEnd =
   document.getElementById(
     "adminEventEnd"
   );
+
 
 const adminLv4Release =
   document.getElementById(
     "adminLv4Release"
   );
 
+
 const adminLv5Release =
   document.getElementById(
     "adminLv5Release"
   );
+
 
 const adminLv6Release =
   document.getElementById(
     "adminLv6Release"
   );
 
+
 const adminLv7Release =
   document.getElementById(
     "adminLv7Release"
   );
+
 
 const adminPanelError =
   document.getElementById(
     "adminPanelError"
   );
 
+
 const adminGuildColors =
   document.getElementById(
     "adminGuildColors"
   );
 
+
 const closeAdminPanel =
   document.getElementById(
     "closeAdminPanel"
   );
+
 
 const adminLogoutBtn =
   document.getElementById(
@@ -1757,6 +1907,7 @@ function updateAdminStatus(
   }
 
 }
+
 
 /* =========================================================
    Admin Guild Colors
@@ -1850,6 +2001,8 @@ function renderAdminGuildColors() {
   );
 
 }
+
+
 /* =========================================================
    Admin Settings Load
 ========================================================= */
@@ -1910,46 +2063,46 @@ async function loadAdminSettings() {
 
   }
 
-/*
-  Guild Colors
-*/
 
-if (
-  data.guild_colors
-  &&
-  typeof data.guild_colors === "object"
-) {
+  /*
+    Guild Colors
+  */
 
-  GUILD_LIST.forEach(
-    guild => {
+  if (
+    data.guild_colors
+    &&
+    typeof data.guild_colors === "object"
+  ) {
 
-      const color =
-        data.guild_colors[guild];
+    GUILD_LIST.forEach(
+      guild => {
+
+        const color =
+          data.guild_colors[guild];
 
 
-      if (
-        /^#[0-9A-Fa-f]{6}$/.test(
-          color || ""
-        )
-      ) {
+        if (
+          /^#[0-9A-Fa-f]{6}$/.test(
+            color || ""
+          )
+        ) {
 
-        setGuildColor(
-          guild,
-          color
-        );
+          setGuildColor(
+            guild,
+            color
+          );
+
+        }
 
       }
+    );
 
-    }
-  );
-
-}
+  }
 
 
-renderAdminGuildColors();
+  renderAdminGuildColors();
 
 
-   
   /*
     Event period
   */
@@ -2036,15 +2189,18 @@ renderAdminGuildColors();
     data.lv4_release
   );
 
+
   setAdminReleaseInput(
     adminLv5Release,
     data.lv5_release
   );
 
+
   setAdminReleaseInput(
     adminLv6Release,
     data.lv6_release
   );
+
 
   setAdminReleaseInput(
     adminLv7Release,
@@ -2276,6 +2432,7 @@ if (
       const email =
         adminEmail?.value.trim();
 
+
       const password =
         adminPassword?.value;
 
@@ -2449,9 +2606,11 @@ async function initializeAdminAuth() {
     window.s222AdminState.user =
       user;
 
+
     updateAdminStatus(
       true
     );
+
 
     await loadAdminSettings();
 
@@ -2476,6 +2635,7 @@ async function initializeAdminAuth() {
 
   window.s222AdminState.user =
     null;
+
 
   updateAdminStatus(
     false
@@ -2508,9 +2668,9 @@ async function loadEventPeriod() {
       .from(
         "admin_settings"
       )
-.select(
-  "event_start, event_end, lv4_release, lv5_release, lv6_release, lv7_release, guild_colors"
-)
+      .select(
+        "event_start, event_end, lv4_release, lv5_release, lv6_release, lv7_release, guild_colors"
+      )
       .eq(
         "id",
         ADMIN_SETTINGS_ID
@@ -2546,10 +2706,12 @@ async function loadEventPeriod() {
     ||
     "";
 
+
   event.end =
     data.event_end
     ||
     "";
+
 
   window.s222EventInfo = {
 
@@ -2585,6 +2747,15 @@ async function loadEventPeriod() {
 
   };
 
+
+  /*
+    Update timeline positions after
+    event information has been loaded.
+  */
+
+  updateTimelinePositions();
+
+
   window.s222ReleaseDates = {
 
     Lv4:
@@ -2609,39 +2780,42 @@ async function loadEventPeriod() {
 
   };
 
-/*
-  Guild Colors
-*/
 
-if (
-  data.guild_colors
-  &&
-  typeof data.guild_colors === "object"
-) {
+  /*
+    Guild Colors
+  */
 
-  GUILD_LIST.forEach(
-    guild => {
+  if (
+    data.guild_colors
+    &&
+    typeof data.guild_colors === "object"
+  ) {
 
-      const color =
-        data.guild_colors[guild];
+    GUILD_LIST.forEach(
+      guild => {
 
-      if (
-        /^#[0-9A-Fa-f]{6}$/.test(
-          color || ""
-        )
-      ) {
+        const color =
+          data.guild_colors[guild];
 
-        setGuildColor(
-          guild,
-          color
-        );
+
+        if (
+          /^#[0-9A-Fa-f]{6}$/.test(
+            color || ""
+          )
+        ) {
+
+          setGuildColor(
+            guild,
+            color
+          );
+
+        }
 
       }
+    );
 
-    }
-  );
+  }
 
-}
 
   if (
     typeof updateCurrentTime ===
@@ -2697,9 +2871,11 @@ if (
         window.s222AdminState.user =
           user;
 
+
         updateAdminStatus(
           true
         );
+
 
         return;
 
@@ -2708,6 +2884,7 @@ if (
 
       window.s222AdminState.user =
         null;
+
 
       updateAdminStatus(
         false
@@ -2796,6 +2973,7 @@ if (
       const eventStart =
         adminEventStart?.value;
 
+
       const eventEnd =
         adminEventEnd?.value;
 
@@ -2860,49 +3038,54 @@ if (
               input
             )
         );
-/*
-  Guild Colors
-*/
-
-const guildColors = {};
-
-if (
-  adminGuildColors
-) {
-
-  const colorInputs =
-    adminGuildColors.querySelectorAll(
-      ".guild-color-input"
-    );
 
 
-  colorInputs.forEach(
-    input => {
+      /*
+        Guild Colors
+      */
 
-      const guild =
-        input.dataset.guild;
-
-      const color =
-        input.value;
+      const guildColors = {};
 
 
       if (
-        guild
-        &&
-        /^#[0-9A-Fa-f]{6}$/.test(
-          color
-        )
+        adminGuildColors
       ) {
 
-        guildColors[guild] =
-          color;
+        const colorInputs =
+          adminGuildColors.querySelectorAll(
+            ".guild-color-input"
+          );
+
+
+        colorInputs.forEach(
+          input => {
+
+            const guild =
+              input.dataset.guild;
+
+
+            const color =
+              input.value;
+
+
+            if (
+              guild
+              &&
+              /^#[0-9A-Fa-f]{6}$/.test(
+                color
+              )
+            ) {
+
+              guildColors[guild] =
+                color;
+
+            }
+
+          }
+        );
 
       }
 
-    }
-  );
-
-}
 
       /*
         Release dates must be inside
@@ -2913,6 +3096,7 @@ if (
         new Date(
           eventStart
         );
+
 
       const eventEndDate =
         new Date(
@@ -2960,6 +3144,7 @@ if (
 
           }
 
+
           return;
 
         }
@@ -2976,37 +3161,37 @@ if (
             .from(
               "admin_settings"
             )
-.update({
+            .update({
 
-  event_start:
-    getAdminReleaseValue(
-      adminEventStart
-    ),
+              event_start:
+                getAdminReleaseValue(
+                  adminEventStart
+                ),
 
-  event_end:
-    getAdminReleaseValue(
-      adminEventEnd
-    ),
+              event_end:
+                getAdminReleaseValue(
+                  adminEventEnd
+                ),
 
-  lv4_release:
-    releaseValues[0],
+              lv4_release:
+                releaseValues[0],
 
-  lv5_release:
-    releaseValues[1],
+              lv5_release:
+                releaseValues[1],
 
-  lv6_release:
-    releaseValues[2],
+              lv6_release:
+                releaseValues[2],
 
-  lv7_release:
-    releaseValues[3],
+              lv7_release:
+                releaseValues[3],
 
-  guild_colors:
-    guildColors,
+              guild_colors:
+                guildColors,
 
-  updated_at:
-    new Date().toISOString()
+              updated_at:
+                new Date().toISOString()
 
-})
+            })
             .eq(
               "id",
               ADMIN_SETTINGS_ID
@@ -3022,32 +3207,32 @@ if (
         }
 
 
+        /*
+          Update guild colors.
+        */
 
-/*
-  Update guild colors.
-*/
+        GUILD_LIST.forEach(
+          guild => {
 
-GUILD_LIST.forEach(
-  guild => {
-
-    const color =
-      guildColors[guild];
+            const color =
+              guildColors[guild];
 
 
-    if (
-      color
-    ) {
+            if (
+              color
+            ) {
 
-      setGuildColor(
-        guild,
-        color
-      );
+              setGuildColor(
+                guild,
+                color
+              );
 
-    }
+            }
 
-  }
-);
-         
+          }
+        );
+
+
         /*
           Update live event settings.
         */
@@ -3055,29 +3240,41 @@ GUILD_LIST.forEach(
         event.start =
           eventStart;
 
+
         event.end =
           eventEnd;
-window.s222EventInfo = {
 
-  start:
-    eventStart,
 
-  end:
-    eventEnd,
+        window.s222EventInfo = {
 
-  Lv4:
-    releaseValues[0],
+          start:
+            eventStart,
 
-  Lv5:
-    releaseValues[1],
+          end:
+            eventEnd,
 
-  Lv6:
-    releaseValues[2],
+          Lv4:
+            releaseValues[0],
 
-  Lv7:
-    releaseValues[3]
+          Lv5:
+            releaseValues[1],
 
-};
+          Lv6:
+            releaseValues[2],
+
+          Lv7:
+            releaseValues[3]
+
+        };
+
+
+        /*
+          Update timeline positions immediately
+          after saving the event settings.
+        */
+
+        updateTimelinePositions();
+
 
         if (
           typeof updateCurrentTime ===
@@ -3192,7 +3389,9 @@ initializeAdminAuth();
 
 loadEventPeriod()
   .then(() => {
+
     loadSchedules();
+
   });
 
 initializeAdminAuth();
