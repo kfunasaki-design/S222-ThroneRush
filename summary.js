@@ -1144,35 +1144,345 @@ if (
     }
   );
 }
- /* =========================================================
-    Event Position HUD
- ========================================================= */
+/* =========================================================
+   Event Position HUD
+========================================================= */
 
- const eventPositionTrigger =
-   document.getElementById(
-     "eventPositionTrigger"
-   );
+const eventPositionTrigger =
+  document.getElementById(
+    "eventPositionTrigger"
+  );
 
- const eventPositionHUD =
-   document.getElementById(
-     "eventPositionHUD"
-   );
-
-
- if (
-   eventPositionTrigger
-   &&
-   eventPositionHUD
- ) {
-
-   let isDragging = false;
-   let startY = 0;
-   let startTop = 0;
-
-   let eventPositionTop =
-     eventPositionTrigger.offsetTop;
+const eventPositionHUD =
+  document.getElementById(
+    "eventPositionHUD"
+  );
 
 
+if (
+  eventPositionTrigger
+  &&
+  eventPositionHUD
+) {
+
+  const calendarWrapper =
+    document.getElementById(
+      "calendarWrapper"
+    );
+
+
+  let isDragging = false;
+  let startY = 0;
+  let startTop = 0;
+
+  let eventPositionTop =
+    eventPositionTrigger.offsetTop;
+
+
+  /* =========================================================
+     Apply Position
+  ========================================================= */
+
+  function applyEventPosition() {
+
+    if (!calendarWrapper) {
+      return;
+    }
+
+
+    const top =
+      calendarWrapper.scrollTop +
+      eventPositionTop;
+
+
+    eventPositionTrigger.style.top =
+      `${top}px`;
+
+    eventPositionHUD.style.top =
+      `${top}px`;
+
+  }
+
+
+  applyEventPosition();
+
+
+  /* =========================================================
+     Keep Position While Scrolling
+  ========================================================= */
+
+  if (calendarWrapper) {
+
+    calendarWrapper.addEventListener(
+      "scroll",
+      () => {
+
+        applyEventPosition();
+
+      }
+    );
+
+  }
+
+
+  /* =========================================================
+     Start Drag
+  ========================================================= */
+
+  function startEventPositionDrag(
+    target,
+    event
+  ) {
+
+    isDragging = false;
+
+    startY =
+      event.clientY;
+
+    startTop =
+      eventPositionTop;
+
+    target.setPointerCapture(
+      event.pointerId
+    );
+
+  }
+
+
+  /* =========================================================
+     Move
+  ========================================================= */
+
+  function moveEventPositionDrag(
+    target,
+    event
+  ) {
+
+    if (
+      !target.hasPointerCapture(
+        event.pointerId
+      )
+    ) {
+      return;
+    }
+
+
+    const deltaY =
+      event.clientY -
+      startY;
+
+
+    if (
+      Math.abs(deltaY) > 4
+    ) {
+      isDragging = true;
+    }
+
+
+    if (!isDragging) {
+      return;
+    }
+
+
+    if (!calendarWrapper) {
+      return;
+    }
+
+
+    const height =
+      target.offsetHeight;
+
+
+    const maxTop =
+      calendarWrapper.clientHeight -
+      height -
+      10;
+
+
+    eventPositionTop =
+      Math.max(
+        10,
+        Math.min(
+          maxTop,
+          startTop + deltaY
+        )
+      );
+
+
+    applyEventPosition();
+
+  }
+
+
+  /* =========================================================
+     Finish Drag
+  ========================================================= */
+
+  function finishEventPositionDrag(
+    target,
+    event
+  ) {
+
+    if (
+      target.hasPointerCapture(
+        event.pointerId
+      )
+    ) {
+
+      target.releasePointerCapture(
+        event.pointerId
+      );
+
+    }
+
+  }
+
+
+  /* =========================================================
+     Trigger
+  ========================================================= */
+
+  eventPositionTrigger.addEventListener(
+    "pointerdown",
+    event => {
+
+      startEventPositionDrag(
+        eventPositionTrigger,
+        event
+      );
+
+    }
+  );
+
+
+  eventPositionTrigger.addEventListener(
+    "pointermove",
+    event => {
+
+      moveEventPositionDrag(
+        eventPositionTrigger,
+        event
+      );
+
+    }
+  );
+
+
+  eventPositionTrigger.addEventListener(
+    "pointerup",
+    event => {
+
+      if (isDragging) {
+
+        isDragging = false;
+
+        finishEventPositionDrag(
+          eventPositionTrigger,
+          event
+        );
+
+        return;
+
+      }
+
+
+      eventPositionHUD.classList.add(
+        "open"
+      );
+
+      eventPositionTrigger.classList.add(
+        "open"
+      );
+
+      eventPositionTrigger.setAttribute(
+        "aria-expanded",
+        "true"
+      );
+
+
+      applyEventPosition();
+
+
+      finishEventPositionDrag(
+        eventPositionTrigger,
+        event
+      );
+
+    }
+  );
+
+
+  /* =========================================================
+     HUD
+  ========================================================= */
+
+  eventPositionHUD.addEventListener(
+    "pointerdown",
+    event => {
+
+      startEventPositionDrag(
+        eventPositionHUD,
+        event
+      );
+
+    }
+  );
+
+
+  eventPositionHUD.addEventListener(
+    "pointermove",
+    event => {
+
+      moveEventPositionDrag(
+        eventPositionHUD,
+        event
+      );
+
+    }
+  );
+
+
+  eventPositionHUD.addEventListener(
+    "pointerup",
+    event => {
+
+      if (isDragging) {
+
+        isDragging = false;
+
+        finishEventPositionDrag(
+          eventPositionHUD,
+          event
+        );
+
+        return;
+
+      }
+
+
+      eventPositionHUD.classList.remove(
+        "open"
+      );
+
+      eventPositionTrigger.classList.remove(
+        "open"
+      );
+
+      eventPositionTrigger.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
+
+      finishEventPositionDrag(
+        eventPositionHUD,
+        event
+      );
+
+    }
+  );
+
+}
    /* =========================================================
       Apply Position
    ========================================================= */
