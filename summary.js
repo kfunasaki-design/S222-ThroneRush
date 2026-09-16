@@ -2584,7 +2584,7 @@ async function loadEventPeriod() {
       null
 
   };
-
+updateTimelinePositions();
   window.s222ReleaseDates = {
 
     Lv4:
