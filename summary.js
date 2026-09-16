@@ -1165,21 +1165,26 @@ if (
   eventPositionHUD
 ) {
 
-  eventPositionTrigger.addEventListener(
-    "click",
-    () => {
+eventPositionTrigger.addEventListener(
+  "click",
+  () => {
 
-      const isOpen =
-        eventPositionHUD.classList.toggle(
-          "open"
-        );
-
-      eventPositionTrigger.setAttribute(
-        "aria-expanded",
-        isOpen
-          ? "true"
-          : "false"
+    const isOpen =
+      eventPositionHUD.classList.toggle(
+        "open"
       );
+
+    eventPositionTrigger.classList.toggle(
+      "open",
+      isOpen
+    );
+
+    eventPositionTrigger.setAttribute(
+      "aria-expanded",
+      isOpen
+        ? "true"
+        : "false"
+    );
 
     }
   );
