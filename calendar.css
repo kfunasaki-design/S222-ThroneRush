@@ -399,7 +399,7 @@ button {
 
     text-align: left;
 
-  margin-bottom: 2px;
+  margin-bottom: 8px;
 }
 
 
@@ -474,7 +474,7 @@ button {
   border: 1px solid #39FF14;
   border-radius: 50%;
 
-  background: transparent;
+background: #080c0a;
 
   box-sizing: border-box;
 }
