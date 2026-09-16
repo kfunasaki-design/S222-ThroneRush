@@ -343,8 +343,9 @@ button {
   pointer-events: auto;
 }
 
-
-/* HUD body */
+/* =========================================================
+   Event Position HUD
+========================================================= */
 
 #eventPositionHUD {
   position: absolute;
@@ -360,9 +361,12 @@ button {
 
   padding: 10px;
 
-  background: rgba(8, 12, 10, 0.82);
+  background: rgba(8, 12, 10, 0.88);
 
-  border: 1px solid rgba(57, 255, 20, 0.45);
+  border:
+    1px solid
+    rgba(57, 255, 20, 0.45);
+
   border-radius: 4px;
 
   color: #39FF14;
@@ -375,7 +379,6 @@ button {
 #eventPositionHUD.open {
   display: block;
 }
-
 /* =========================================================
    Calendar
 ========================================================= */
