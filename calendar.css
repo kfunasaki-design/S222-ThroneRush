@@ -342,7 +342,9 @@ button {
   user-select: none;
   pointer-events: auto;
 }
-
+#eventPositionTrigger.open {
+  display: none;
+}
 /* =========================================================
    Event Position HUD
 ========================================================= */
