@@ -1447,7 +1447,31 @@ if (
 
      }
    );
+  const calendarWrapper =
+    document.getElementById(
+      "calendarWrapper"
+    );
 
+
+  if (calendarWrapper) {
+
+    calendarWrapper.addEventListener(
+      "scroll",
+      () => {
+
+        const scrollY =
+          calendarWrapper.scrollTop;
+
+        eventPositionTrigger.style.transform =
+          `translateY(${scrollY}px)`;
+
+        eventPositionHUD.style.transform =
+          `translateY(${scrollY}px)`;
+
+      }
+    );
+
+  }
  }
 /* =========================================================
    Admin DOM
