@@ -2608,7 +2608,7 @@ async function loadEventPeriod() {
       null
 
   };
- updateTimelinePositions();  
+
 /*
   Guild Colors
 */
