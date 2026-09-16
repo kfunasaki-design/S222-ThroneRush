@@ -2401,29 +2401,64 @@ async function loadEventPeriod() {
     data.event_end
     ||
     "";
-window.s222ReleaseDates = {
 
-  Lv4:
-    data.lv4_release
-    ||
-    null,
+  window.s222EventInfo = {
 
-  Lv5:
-    data.lv5_release
-    ||
-    null,
+    start:
+      data.event_start
+      ||
+      "",
 
-  Lv6:
-    data.lv6_release
-    ||
-    null,
+    end:
+      data.event_end
+      ||
+      "",
 
-  Lv7:
-    data.lv7_release
-    ||
-    null
+    Lv4:
+      data.lv4_release
+      ||
+      null,
 
-};
+    Lv5:
+      data.lv5_release
+      ||
+      null,
+
+    Lv6:
+      data.lv6_release
+      ||
+      null,
+
+    Lv7:
+      data.lv7_release
+      ||
+      null
+
+  };
+
+  window.s222ReleaseDates = {
+
+    Lv4:
+      data.lv4_release
+      ||
+      null,
+
+    Lv5:
+      data.lv5_release
+      ||
+      null,
+
+    Lv6:
+      data.lv6_release
+      ||
+      null,
+
+    Lv7:
+      data.lv7_release
+      ||
+      null
+
+  };
    
 /*
   Guild Colors
