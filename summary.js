@@ -2908,7 +2908,27 @@ GUILD_LIST.forEach(
 
         event.end =
           eventEnd;
+window.s222EventInfo = {
 
+  start:
+    eventStart,
+
+  end:
+    eventEnd,
+
+  Lv4:
+    releaseValues[0],
+
+  Lv5:
+    releaseValues[1],
+
+  Lv6:
+    releaseValues[2],
+
+  Lv7:
+    releaseValues[3]
+
+};
 
         if (
           typeof updateCurrentTime ===
