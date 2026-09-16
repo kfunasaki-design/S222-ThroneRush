@@ -2584,7 +2584,7 @@ async function loadEventPeriod() {
       null
 
   };
-updateTimelinePositions();
+
   window.s222ReleaseDates = {
 
     Lv4:
@@ -2608,7 +2608,7 @@ updateTimelinePositions();
       null
 
   };
-   
+ updateTimelinePositions();  
 /*
   Guild Colors
 */
