@@ -1165,44 +1165,156 @@ if (
   eventPositionHUD
 ) {
 
-eventPositionTrigger.addEventListener(
-  "click",
-  () => {
+  let isDragging = false;
+  let startY = 0;
+  let startTop = 0;
 
-    eventPositionHUD.classList.add(
-      "open"
-    );
+  eventPositionTrigger.addEventListener(
+    "pointerdown",
+    event => {
 
-    eventPositionTrigger.classList.add(
-      "open"
-    );
+      isDragging = false;
 
-    eventPositionTrigger.setAttribute(
-      "aria-expanded",
-      "true"
-    );
+      startY =
+        event.clientY;
 
-  }
-);
-eventPositionHUD.addEventListener(
-  "click",
-  () => {
+      startTop =
+        eventPositionTrigger.offsetTop;
 
-    eventPositionHUD.classList.remove(
-      "open"
-    );
+      eventPositionTrigger.setPointerCapture(
+        event.pointerId
+      );
 
-    eventPositionTrigger.classList.remove(
-      "open"
-    );
+    }
+  );
 
-    eventPositionTrigger.setAttribute(
-      "aria-expanded",
-      "false"
-    );
 
-  }
-);
+  eventPositionTrigger.addEventListener(
+    "pointermove",
+    event => {
+
+      if (
+        !eventPositionTrigger.hasPointerCapture(
+          event.pointerId
+        )
+      ) {
+        return;
+      }
+
+      const deltaY =
+        event.clientY -
+        startY;
+
+
+      if (
+        Math.abs(deltaY) > 4
+      ) {
+        isDragging = true;
+      }
+
+
+      if (!isDragging) {
+        return;
+      }
+
+
+      const wrapper =
+        document.getElementById(
+          "calendarWrapper"
+        );
+
+      if (!wrapper) {
+        return;
+      }
+
+
+      const maxTop =
+        wrapper.clientHeight -
+        eventPositionTrigger.offsetHeight -
+        10;
+
+
+      const newTop =
+        Math.max(
+          10,
+          Math.min(
+            maxTop,
+            startTop + deltaY
+          )
+        );
+
+
+      eventPositionTrigger.style.top =
+        `${newTop}px`;
+
+    }
+  );
+
+
+  eventPositionTrigger.addEventListener(
+    "pointerup",
+    event => {
+
+      if (isDragging) {
+
+        isDragging = false;
+
+        eventPositionTrigger.releasePointerCapture(
+          event.pointerId
+        );
+
+        return;
+      }
+
+
+      eventPositionHUD.classList.add(
+        "open"
+      );
+
+      eventPositionTrigger.classList.add(
+        "open"
+      );
+
+      eventPositionTrigger.setAttribute(
+        "aria-expanded",
+        "true"
+      );
+
+
+      if (
+        eventPositionTrigger.hasPointerCapture(
+          event.pointerId
+        )
+      ) {
+        eventPositionTrigger.releasePointerCapture(
+          event.pointerId
+        );
+      }
+
+    }
+  );
+
+
+  eventPositionHUD.addEventListener(
+    "click",
+    () => {
+
+      eventPositionHUD.classList.remove(
+        "open"
+      );
+
+      eventPositionTrigger.classList.remove(
+        "open"
+      );
+
+      eventPositionTrigger.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
+    }
+  );
+
 }
 /* =========================================================
    Admin DOM
