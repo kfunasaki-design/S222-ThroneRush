@@ -330,7 +330,7 @@ button {
 
   background: rgba(16, 17, 20, 0.45);
 
-  color: rgba(242, 242, 242, 0.9);
+  color: #9CFF00;
 
   font-size: 32px;
   font-weight: 700;
@@ -339,9 +339,7 @@ button {
   border-radius: 4px;
 
   cursor: pointer;
-
   user-select: none;
-
   pointer-events: auto;
 }
 
