@@ -1144,178 +1144,312 @@ if (
     }
   );
 }
-/* =========================================================
-   Event Position HUD
-========================================================= */
+ /* =========================================================
+    Event Position HUD
+ ========================================================= */
 
-const eventPositionTrigger =
-  document.getElementById(
-    "eventPositionTrigger"
-  );
+ const eventPositionTrigger =
+   document.getElementById(
+     "eventPositionTrigger"
+   );
 
-const eventPositionHUD =
-  document.getElementById(
-    "eventPositionHUD"
-  );
-
-
-if (
-  eventPositionTrigger
-  &&
-  eventPositionHUD
-) {
-
-  let isDragging = false;
-  let startY = 0;
-  let startTop = 0;
-
-  eventPositionTrigger.addEventListener(
-    "pointerdown",
-    event => {
-
-      isDragging = false;
-
-      startY =
-        event.clientY;
-
-      startTop =
-        eventPositionTrigger.offsetTop;
-
-      eventPositionTrigger.setPointerCapture(
-        event.pointerId
-      );
-
-    }
-  );
+ const eventPositionHUD =
+   document.getElementById(
+     "eventPositionHUD"
+   );
 
 
-  eventPositionTrigger.addEventListener(
-    "pointermove",
-    event => {
+ if (
+   eventPositionTrigger
+   &&
+   eventPositionHUD
+ ) {
 
-      if (
-        !eventPositionTrigger.hasPointerCapture(
-          event.pointerId
-        )
-      ) {
-        return;
-      }
+   let isDragging = false;
+   let startY = 0;
+   let startTop = 0;
 
-      const deltaY =
-        event.clientY -
-        startY;
+   let eventPositionTop =
+     eventPositionTrigger.offsetTop;
 
 
-      if (
-        Math.abs(deltaY) > 4
-      ) {
-        isDragging = true;
-      }
+   /* =========================================================
+      Apply Position
+   ========================================================= */
+
+   function applyEventPosition() {
+
+     eventPositionTrigger.style.top =
+       `${eventPositionTop}px`;
+
+     eventPositionHUD.style.top =
+       `${eventPositionTop}px`;
+
+   }
 
 
-      if (!isDragging) {
-        return;
-      }
+   applyEventPosition();
 
 
-      const wrapper =
-        document.getElementById(
-          "calendarWrapper"
-        );
+   /* =========================================================
+      Start Drag
+   ========================================================= */
 
-      if (!wrapper) {
-        return;
-      }
+   function startEventPositionDrag(
+     target,
+     event
+   ) {
 
+     isDragging = false;
 
-      const maxTop =
-        wrapper.clientHeight -
-        eventPositionTrigger.offsetHeight -
-        10;
+     startY =
+       event.clientY;
 
+     startTop =
+       eventPositionTop;
 
-      const newTop =
-        Math.max(
-          10,
-          Math.min(
-            maxTop,
-            startTop + deltaY
-          )
-        );
+     target.setPointerCapture(
+       event.pointerId
+     );
+
+   }
 
 
-      eventPositionTrigger.style.top =
-        `${newTop}px`;
+   /* =========================================================
+      Move
+   ========================================================= */
 
-    }
-  );
+   function moveEventPositionDrag(
+     target,
+     event
+   ) {
 
-
-  eventPositionTrigger.addEventListener(
-    "pointerup",
-    event => {
-
-      if (isDragging) {
-
-        isDragging = false;
-
-        eventPositionTrigger.releasePointerCapture(
-          event.pointerId
-        );
-
-        return;
-      }
+     if (
+       !target.hasPointerCapture(
+         event.pointerId
+       )
+     ) {
+       return;
+     }
 
 
-      eventPositionHUD.classList.add(
-        "open"
-      );
-
-      eventPositionTrigger.classList.add(
-        "open"
-      );
-
-      eventPositionTrigger.setAttribute(
-        "aria-expanded",
-        "true"
-      );
+     const deltaY =
+       event.clientY -
+       startY;
 
 
-      if (
-        eventPositionTrigger.hasPointerCapture(
-          event.pointerId
-        )
-      ) {
-        eventPositionTrigger.releasePointerCapture(
-          event.pointerId
-        );
-      }
-
-    }
-  );
+     if (
+       Math.abs(deltaY) > 4
+     ) {
+       isDragging = true;
+     }
 
 
-  eventPositionHUD.addEventListener(
-    "click",
-    () => {
+     if (!isDragging) {
+       return;
+     }
 
-      eventPositionHUD.classList.remove(
-        "open"
-      );
 
-      eventPositionTrigger.classList.remove(
-        "open"
-      );
+     const wrapper =
+       document.getElementById(
+         "calendarWrapper"
+       );
 
-      eventPositionTrigger.setAttribute(
-        "aria-expanded",
-        "false"
-      );
 
-    }
-  );
+     if (!wrapper) {
+       return;
+     }
 
-}
+
+     const height =
+       target.offsetHeight;
+
+
+     const maxTop =
+       wrapper.clientHeight -
+       height -
+       10;
+
+
+     eventPositionTop =
+       Math.max(
+         10,
+         Math.min(
+           maxTop,
+           startTop + deltaY
+         )
+       );
+
+
+     applyEventPosition();
+
+   }
+
+
+   /* =========================================================
+      Finish Drag
+   ========================================================= */
+
+   function finishEventPositionDrag(
+     target,
+     event
+   ) {
+
+     if (
+       target.hasPointerCapture(
+         event.pointerId
+       )
+     ) {
+       target.releasePointerCapture(
+         event.pointerId
+       );
+     }
+
+   }
+
+
+   /* =========================================================
+      Trigger
+   ========================================================= */
+
+   eventPositionTrigger.addEventListener(
+     "pointerdown",
+     event => {
+
+       startEventPositionDrag(
+         eventPositionTrigger,
+         event
+       );
+
+     }
+   );
+
+
+   eventPositionTrigger.addEventListener(
+     "pointermove",
+     event => {
+
+       moveEventPositionDrag(
+         eventPositionTrigger,
+         event
+       );
+
+     }
+   );
+
+
+   eventPositionTrigger.addEventListener(
+     "pointerup",
+     event => {
+
+       if (isDragging) {
+
+         isDragging = false;
+
+         finishEventPositionDrag(
+           eventPositionTrigger,
+           event
+         );
+
+         return;
+       }
+
+
+       eventPositionHUD.classList.add(
+         "open"
+       );
+
+       eventPositionTrigger.classList.add(
+         "open"
+       );
+
+       eventPositionTrigger.setAttribute(
+         "aria-expanded",
+         "true"
+       );
+
+
+       applyEventPosition();
+
+
+       finishEventPositionDrag(
+         eventPositionTrigger,
+         event
+       );
+
+   });
+
+
+   /* =========================================================
+      HUD
+   ========================================================= */
+
+   eventPositionHUD.addEventListener(
+     "pointerdown",
+     event => {
+
+       startEventPositionDrag(
+         eventPositionHUD,
+         event
+       );
+
+     }
+   );
+
+
+   eventPositionHUD.addEventListener(
+     "pointermove",
+     event => {
+
+       moveEventPositionDrag(
+         eventPositionHUD,
+         event
+       );
+
+     }
+   );
+
+
+   eventPositionHUD.addEventListener(
+     "pointerup",
+     event => {
+
+       if (isDragging) {
+
+         isDragging = false;
+
+         finishEventPositionDrag(
+           eventPositionHUD,
+           event
+         );
+
+         return;
+       }
+
+
+       eventPositionHUD.classList.remove(
+         "open"
+       );
+
+       eventPositionTrigger.classList.remove(
+         "open"
+       );
+
+       eventPositionTrigger.setAttribute(
+         "aria-expanded",
+         "false"
+       );
+
+
+       finishEventPositionDrag(
+         eventPositionHUD,
+         event
+       );
+
+     }
+   );
+
+ }
 /* =========================================================
    Admin DOM
 ========================================================= */
