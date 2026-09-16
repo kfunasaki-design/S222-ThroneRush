@@ -342,8 +342,8 @@ button {
   user-select: none;
   pointer-events: auto;
 }
-#eventPositionTrigger.open #eventPositionDay {
-  visibility: hidden;
+#eventPositionTrigger.open {
+  display: none;
 }
 /* =========================================================
    Event Position HUD
