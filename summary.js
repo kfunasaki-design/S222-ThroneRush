@@ -1247,7 +1247,156 @@ if (
      if (!isDragging) {
        return;
      }
+  /* =========================================================
+     Timeline Release Position
+  ========================================================= */
 
+  function updateTimelinePositions() {
+
+    const eventInfo =
+      window.s222EventInfo;
+
+    if (
+      !eventInfo
+    ) {
+      return;
+    }
+
+
+    const timeline =
+      eventPositionHUD.querySelector(
+        ".timeline"
+      );
+
+    const graphics =
+      eventPositionHUD.querySelector(
+        ".timeline-graphics"
+      );
+
+
+    if (
+      !timeline
+      ||
+      !graphics
+    ) {
+      return;
+    }
+
+
+    const eventStart =
+      eventInfo.start
+        ? new Date(eventInfo.start)
+        : null;
+
+    const eventEnd =
+      eventInfo.end
+        ? new Date(eventInfo.end)
+        : null;
+
+
+    if (
+      !eventStart
+      ||
+      !eventEnd
+      ||
+      Number.isNaN(eventStart.getTime())
+      ||
+      Number.isNaN(eventEnd.getTime())
+    ) {
+      return;
+    }
+
+
+    const totalTime =
+      eventEnd.getTime()
+      -
+      eventStart.getTime();
+
+
+    if (
+      totalTime <= 0
+    ) {
+      return;
+    }
+
+
+    const levels = [
+      "Lv4",
+      "Lv5",
+      "Lv6",
+      "Lv7"
+    ];
+
+
+    levels.forEach(
+      level => {
+
+        const marker =
+          graphics.querySelector(
+            `.timeline-marker.${level.toLowerCase()}`
+          );
+
+
+        if (
+          !marker
+        ) {
+          return;
+        }
+
+
+        const release =
+          eventInfo[level]
+            ? new Date(
+                eventInfo[level]
+              )
+            : null;
+
+
+        if (
+          !release
+          ||
+          Number.isNaN(
+            release.getTime()
+          )
+        ) {
+
+          marker.style.display =
+            "none";
+
+          return;
+
+        }
+
+
+        const elapsed =
+          release.getTime()
+          -
+          eventStart.getTime();
+
+
+        const position =
+          Math.max(
+            0,
+            Math.min(
+              100,
+              (elapsed / totalTime) * 100
+            )
+          );
+
+
+        marker.style.display =
+          "flex";
+
+        marker.style.left =
+          `${position}%`;
+
+      }
+    );
+
+  }
+
+
+  updateTimelinePositions();
 
      const wrapper =
        document.getElementById(
