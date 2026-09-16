@@ -1518,7 +1518,7 @@ if (
 
 
        applyEventPosition();
-
+       updateTimelinePositions();
 
        finishEventPositionDrag(
          eventPositionTrigger,
