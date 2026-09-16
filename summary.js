@@ -1144,350 +1144,311 @@ if (
     }
   );
 }
-/* =========================================================
-   Event Position HUD
-========================================================= */
+ /* =========================================================
+    Event Position HUD
+ ========================================================= */
 
-const eventPositionTrigger =
-  document.getElementById(
-    "eventPositionTrigger"
-  );
+ const eventPositionTrigger =
+   document.getElementById(
+     "eventPositionTrigger"
+   );
 
-const eventPositionHUD =
-  document.getElementById(
-    "eventPositionHUD"
-  );
+ const eventPositionHUD =
+   document.getElementById(
+     "eventPositionHUD"
+   );
 
-const calendarWrapper =
-  document.getElementById(
-    "calendarWrapper"
-  );
 
+ if (
+   eventPositionTrigger
+   &&
+   eventPositionHUD
+ ) {
 
-if (
-  eventPositionTrigger
-  &&
-  eventPositionHUD
-  &&
-  calendarWrapper
-) {
+   let isDragging = false;
+   let startY = 0;
+   let startTop = 0;
 
-  let isDragging = false;
+   let eventPositionTop =
+     eventPositionTrigger.offsetTop;
 
-  let startY = 0;
+   /* =========================================================
+      Apply Position
+   ========================================================= */
 
-  let eventPositionTop =
-    eventPositionTrigger.offsetTop;
+   function applyEventPosition() {
 
+     eventPositionTrigger.style.top =
+       `${eventPositionTop}px`;
 
-  /* =========================================================
-     Apply Position
-  ========================================================= */
+     eventPositionHUD.style.top =
+       `${eventPositionTop}px`;
 
-  function applyEventPosition() {
+   }
 
-    const actualTop =
-      calendarWrapper.scrollTop +
-      eventPositionTop;
 
+   applyEventPosition();
 
-    eventPositionTrigger.style.top =
-      `${actualTop}px`;
 
-    eventPositionHUD.style.top =
-      `${actualTop}px`;
+   /* =========================================================
+      Start Drag
+   ========================================================= */
 
-  }
+   function startEventPositionDrag(
+     target,
+     event
+   ) {
 
+     isDragging = false;
 
-  applyEventPosition();
+     startY =
+       event.clientY;
 
+     startTop =
+       eventPositionTop;
 
-  /* =========================================================
-     Scroll Follow
-  ========================================================= */
+     target.setPointerCapture(
+       event.pointerId
+     );
 
-  calendarWrapper.addEventListener(
-    "scroll",
-    () => {
+   }
 
-      applyEventPosition();
 
-    }
-  );
+   /* =========================================================
+      Move
+   ========================================================= */
 
+   function moveEventPositionDrag(
+     target,
+     event
+   ) {
 
-  /* =========================================================
-     Start Drag
-  ========================================================= */
+     if (
+       !target.hasPointerCapture(
+         event.pointerId
+       )
+     ) {
+       return;
+     }
 
-  function startEventPositionDrag(
-    target,
-    event
-  ) {
 
-    isDragging = false;
+     const deltaY =
+       event.clientY -
+       startY;
 
-    startY =
-      event.clientY;
 
-    /*
-      Convert current absolute position
-      back to viewport-relative position.
-    */
+     if (
+       Math.abs(deltaY) > 4
+     ) {
+       isDragging = true;
+     }
 
-    eventPositionTop =
-      target.offsetTop -
-      calendarWrapper.scrollTop;
 
+     if (!isDragging) {
+       return;
+     }
 
-    target.setPointerCapture(
-      event.pointerId
-    );
 
-  }
+     const wrapper =
+       document.getElementById(
+         "calendarWrapper"
+       );
 
 
-  /* =========================================================
-     Move
-  ========================================================= */
+     if (!wrapper) {
+       return;
+     }
 
-  function moveEventPositionDrag(
-    target,
-    event
-  ) {
 
-    if (
-      !target.hasPointerCapture(
-        event.pointerId
-      )
-    ) {
+     const height =
+       target.offsetHeight;
 
-      return;
 
-    }
+     const maxTop =
+       wrapper.clientHeight -
+       height -
+       10;
 
 
-    const deltaY =
-      event.clientY -
-      startY;
+     eventPositionTop =
+       Math.max(
+         10,
+         Math.min(
+           maxTop,
+           startTop + deltaY
+         )
+       );
 
 
-    if (
-      Math.abs(deltaY) > 4
-    ) {
+     applyEventPosition();
 
-      isDragging = true;
+   }
 
-    }
 
+   /* =========================================================
+      Finish Drag
+   ========================================================= */
 
-    if (!isDragging) {
+   function finishEventPositionDrag(
+     target,
+     event
+   ) {
 
-      return;
+     if (
+       target.hasPointerCapture(
+         event.pointerId
+       )
+     ) {
+       target.releasePointerCapture(
+         event.pointerId
+       );
+     }
 
-    }
+   }
 
 
-    const maxTop =
-      calendarWrapper.clientHeight -
-      target.offsetHeight -
-      10;
+   /* =========================================================
+      Trigger
+   ========================================================= */
 
+   eventPositionTrigger.addEventListener(
+     "pointerdown",
+     event => {
 
-    eventPositionTop =
-      Math.max(
-        10,
-        Math.min(
-          maxTop,
-          eventPositionTop + deltaY
-        )
-      );
+       startEventPositionDrag(
+         eventPositionTrigger,
+         event
+       );
 
+     }
+   );
 
-    /*
-      Reset drag origin so the next movement
-      is calculated from the current position.
-    */
 
-    startY =
-      event.clientY;
+   eventPositionTrigger.addEventListener(
+     "pointermove",
+     event => {
 
+       moveEventPositionDrag(
+         eventPositionTrigger,
+         event
+       );
 
-    applyEventPosition();
+     }
+   );
 
-  }
 
+   eventPositionTrigger.addEventListener(
+     "pointerup",
+     event => {
 
-  /* =========================================================
-     Finish Drag
-  ========================================================= */
+       if (isDragging) {
 
-  function finishEventPositionDrag(
-    target,
-    event
-  ) {
+         isDragging = false;
 
-    if (
-      target.hasPointerCapture(
-        event.pointerId
-      )
-    ) {
+         finishEventPositionDrag(
+           eventPositionTrigger,
+           event
+         );
 
-      target.releasePointerCapture(
-        event.pointerId
-      );
+         return;
+       }
 
-    }
 
-  }
+       eventPositionHUD.classList.add(
+         "open"
+       );
 
+       eventPositionTrigger.classList.add(
+         "open"
+       );
 
-  /* =========================================================
-     Trigger
-  ========================================================= */
+       eventPositionTrigger.setAttribute(
+         "aria-expanded",
+         "true"
+       );
 
-  eventPositionTrigger.addEventListener(
-    "pointerdown",
-    event => {
 
-      startEventPositionDrag(
-        eventPositionTrigger,
-        event
-      );
+       applyEventPosition();
 
-    }
-  );
 
+       finishEventPositionDrag(
+         eventPositionTrigger,
+         event
+       );
 
-  eventPositionTrigger.addEventListener(
-    "pointermove",
-    event => {
+   });
 
-      moveEventPositionDrag(
-        eventPositionTrigger,
-        event
-      );
 
-    }
-  );
+   /* =========================================================
+      HUD
+   ========================================================= */
 
+   eventPositionHUD.addEventListener(
+     "pointerdown",
+     event => {
 
-  eventPositionTrigger.addEventListener(
-    "pointerup",
-    event => {
+       startEventPositionDrag(
+         eventPositionHUD,
+         event
+       );
 
-      if (isDragging) {
+     }
+   );
 
-        isDragging = false;
 
-        finishEventPositionDrag(
-          eventPositionTrigger,
-          event
-        );
+   eventPositionHUD.addEventListener(
+     "pointermove",
+     event => {
 
-        return;
+       moveEventPositionDrag(
+         eventPositionHUD,
+         event
+       );
 
-      }
+     }
+   );
 
 
-      eventPositionHUD.classList.add(
-        "open"
-      );
+   eventPositionHUD.addEventListener(
+     "pointerup",
+     event => {
 
-      eventPositionTrigger.classList.add(
-        "open"
-      );
+       if (isDragging) {
 
-      eventPositionTrigger.setAttribute(
-        "aria-expanded",
-        "true"
-      );
+         isDragging = false;
 
+         finishEventPositionDrag(
+           eventPositionHUD,
+           event
+         );
 
-      applyEventPosition();
+         return;
+       }
 
 
-      finishEventPositionDrag(
-        eventPositionTrigger,
-        event
-      );
+       eventPositionHUD.classList.remove(
+         "open"
+       );
 
-    }
-  );
+       eventPositionTrigger.classList.remove(
+         "open"
+       );
 
+       eventPositionTrigger.setAttribute(
+         "aria-expanded",
+         "false"
+       );
 
-  /* =========================================================
-     HUD
-  ========================================================= */
 
-  eventPositionHUD.addEventListener(
-    "pointerdown",
-    event => {
+       finishEventPositionDrag(
+         eventPositionHUD,
+         event
+       );
 
-      startEventPositionDrag(
-        eventPositionHUD,
-        event
-      );
+     }
+   );
 
-    }
-  );
-
-
-  eventPositionHUD.addEventListener(
-    "pointermove",
-    event => {
-
-      moveEventPositionDrag(
-        eventPositionHUD,
-        event
-      );
-
-    }
-  );
-
-
-  eventPositionHUD.addEventListener(
-    "pointerup",
-    event => {
-
-      if (isDragging) {
-
-        isDragging = false;
-
-        finishEventPositionDrag(
-          eventPositionHUD,
-          event
-        );
-
-        return;
-
-      }
-
-
-      eventPositionHUD.classList.remove(
-        "open"
-      );
-
-      eventPositionTrigger.classList.remove(
-        "open"
-      );
-
-      eventPositionTrigger.setAttribute(
-        "aria-expanded",
-        "false"
-      );
-
-
-      finishEventPositionDrag(
-        eventPositionHUD,
-        event
-      );
-
-    }
-  );
-
-}
+ }
 /* =========================================================
    Admin DOM
 ========================================================= */
