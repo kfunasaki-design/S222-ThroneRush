@@ -296,6 +296,8 @@ button {
 ========================================================= */
 
 #calendarWrapper {
+  position: relative;
+  
   width: 100%;
 
   flex: 1;
@@ -312,7 +314,36 @@ button {
 
   -webkit-overflow-scrolling: touch;
 }
+/* =========================================================
+   Event Position Trigger
+========================================================= */
 
+#eventPositionTrigger {
+  position: absolute;
+
+  top: 10px;
+  left: 10px;
+
+  z-index: 10;
+
+  padding: 2px 6px;
+
+  background: rgba(16, 17, 20, 0.45);
+
+  color: rgba(242, 242, 242, 0.9);
+
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+
+  border-radius: 4px;
+
+  cursor: pointer;
+
+  user-select: none;
+
+  pointer-events: auto;
+}
 
 /* =========================================================
    Calendar
