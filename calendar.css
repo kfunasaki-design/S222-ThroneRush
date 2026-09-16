@@ -385,30 +385,26 @@ button {
   display: block;
 }
 
+
 /* =========================================================
    Event Timeline HUD
 ========================================================= */
 
-.timeline-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  margin-bottom: 6px;
-
+.timeline-current {
   color: #39FF14;
 
   font-family: monospace;
   font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.5px;
+
+  text-align: right;
+
+  margin-bottom: 4px;
 }
 
 
 .timeline-pointer {
-  position: relative;
-
-  height: 18px;
+  height: 20px;
 
   color: #39FF14;
 
@@ -429,7 +425,9 @@ button {
 
   width: 100%;
 
-  padding-top: 2px;
+  padding-top: 3px;
+
+  box-sizing: border-box;
 }
 
 
@@ -440,7 +438,7 @@ button {
   left: 0;
   right: 0;
 
-  height: 2px;
+  height: 1px;
 
   background: #39FF14;
 }
@@ -449,13 +447,13 @@ button {
 .timeline-point {
   position: relative;
 
-  z-index: 1;
+  z-index: 2;
 
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  min-width: 28px;
+  min-width: 34px;
 
   color: #39FF14;
 
@@ -467,12 +465,12 @@ button {
 .point-marker {
   display: block;
 
-  width: 9px;
-  height: 9px;
+  width: 10px;
+  height: 10px;
 
-  margin-bottom: 4px;
+  margin-bottom: 5px;
 
-  border: 2px solid #39FF14;
+  border: 1px solid #39FF14;
   border-radius: 50%;
 
   background: transparent;
@@ -497,13 +495,14 @@ button {
 
 
 .point-date {
-  margin-top: 2px;
+  margin-top: 3px;
 
   font-size: 9px;
   line-height: 1;
 
   white-space: nowrap;
 }
+
 
 
 /* =========================================================
