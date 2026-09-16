@@ -1144,7 +1144,47 @@ if (
     }
   );
 }
+/* =========================================================
+   Event Position HUD
+========================================================= */
 
+const eventPositionTrigger =
+  document.getElementById(
+    "eventPositionTrigger"
+  );
+
+const eventPositionHUD =
+  document.getElementById(
+    "eventPositionHUD"
+  );
+
+
+if (
+  eventPositionTrigger
+  &&
+  eventPositionHUD
+) {
+
+  eventPositionTrigger.addEventListener(
+    "click",
+    () => {
+
+      const isOpen =
+        eventPositionHUD.classList.toggle(
+          "open"
+        );
+
+      eventPositionTrigger.setAttribute(
+        "aria-expanded",
+        isOpen
+          ? "true"
+          : "false"
+      );
+
+    }
+  );
+
+}
 /* =========================================================
    Admin DOM
 ========================================================= */
