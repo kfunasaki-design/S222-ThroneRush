@@ -1169,26 +1169,40 @@ eventPositionTrigger.addEventListener(
   "click",
   () => {
 
-    const isOpen =
-      eventPositionHUD.classList.toggle(
-        "open"
-      );
+    eventPositionHUD.classList.add(
+      "open"
+    );
 
-    eventPositionTrigger.classList.toggle(
-      "open",
-      isOpen
+    eventPositionTrigger.classList.add(
+      "open"
     );
 
     eventPositionTrigger.setAttribute(
       "aria-expanded",
-      isOpen
-        ? "true"
-        : "false"
+      "true"
     );
 
-    }
-  );
+  }
+);
+eventPositionHUD.addEventListener(
+  "click",
+  () => {
 
+    eventPositionHUD.classList.remove(
+      "open"
+    );
+
+    eventPositionTrigger.classList.remove(
+      "open"
+    );
+
+    eventPositionTrigger.setAttribute(
+      "aria-expanded",
+      "false"
+    );
+
+  }
+);
 }
 /* =========================================================
    Admin DOM
