@@ -1281,12 +1281,20 @@ if (pointer) {
      Today's date
   ======================================== */
 
-  const todayDate = String(now.getDate()).padStart(2, "0");
+const todayDate = String(now.getDate()).padStart(2, "0");
 
-  const todayElement = document.getElementById("timeline-today");
+const eventPositionDay =
+  document.getElementById("eventPositionDay");
 
-  if (todayElement) {
-    todayElement.textContent = todayDate;
+if (eventPositionDay) {
+  eventPositionDay.textContent = todayDate;
+}
+
+const todayElement =
+  document.getElementById("timeline-today");
+
+if (todayElement) {
+  todayElement.textContent = todayDate;
 
     /*
       Event startから50%日経過したら
