@@ -408,7 +408,7 @@ button {
 ========================================================= */
 
 .timeline-pointer {
-  margin-right: 10px;
+  margin-left: -10px;
   position: absolute;
 
   top: 0px;
