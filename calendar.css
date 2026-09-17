@@ -491,8 +491,8 @@ button {
 .timeline-graphics {
   position: relative;
   width: calc(100% + 20px);
-  margin-right: -20px;
-  margin-left: 10px;
+  margin-right: 0px;
+  margin-left: 0px;
   height: 18px;
 }
 
