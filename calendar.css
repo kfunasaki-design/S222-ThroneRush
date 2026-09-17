@@ -455,17 +455,6 @@ button {
 
   height: 18px;
 }
-.timeline-pointer {
-  position: absolute;
-  top: -18px;
-  z-index: 10;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  white-space: nowrap;
-  pointer-events: none;
-}
 
 .timeline-line {
   position: absolute;
