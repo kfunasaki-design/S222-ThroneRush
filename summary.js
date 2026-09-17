@@ -1259,6 +1259,11 @@ function updateTimelinePositions() {
         todayPosition
       )
     );
+   const pointer = eventPositionHUD.querySelector(".timeline-pointer");
+
+if (pointer) {
+  pointer.style.left = `${clampedTodayPosition}%`;
+}
   /* ========================================
      一時処理
   ======================================== */
