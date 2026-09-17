@@ -1259,7 +1259,19 @@ function updateTimelinePositions() {
         todayPosition
       )
     );
-
+  /* ========================================
+     一時処理
+  ======================================== */
+   console.log(
+  "TODAY:",
+  now,
+  "START:",
+  eventStart,
+  "END:",
+  eventEnd,
+  "POSITION:",
+  clampedTodayPosition
+);
   /* ========================================
      Today's date
   ======================================== */
