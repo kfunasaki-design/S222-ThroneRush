@@ -1298,7 +1298,44 @@ function updateTimelinePositions() {
     timelineCurrent.textContent =
       `TH Timeline［${year}/${month}/${day}］`;
   }
+  /* ========================================
+     Timeline dates
+  ======================================== */
 
+  function formatTimelineDate(value) {
+    if (!value) return "--/--";
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+      return "--/--";
+    }
+
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${month}/${day}`;
+  }
+
+  const timelineDates = {
+    "timeline-start-date": eventInfo.start,
+    "timeline-lv4-date": eventInfo.Lv4,
+    "timeline-lv5-date": eventInfo.Lv5,
+    "timeline-lv6-date": eventInfo.Lv6,
+    "timeline-lv7-date": eventInfo.Lv7,
+    "timeline-end-date": eventInfo.end
+  };
+
+  Object.entries(timelineDates).forEach(
+    ([id, value]) => {
+      const element = document.getElementById(id);
+
+      if (element) {
+        element.textContent =
+          formatTimelineDate(value);
+      }
+    }
+  );
   /* ========================================
      Level markers
   ======================================== */
