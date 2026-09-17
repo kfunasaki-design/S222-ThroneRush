@@ -1289,17 +1289,17 @@ if (pointer) {
     todayElement.textContent = todayDate;
 
     /*
-      Event startから15日経過したら
+      Event startから50%日経過したら
       日付を▼の左側へ移動
     */
     const elapsedDays =
       (now.getTime() - eventStart.getTime()) /
       (1000 * 60 * 60 * 24);
 
-    todayElement.classList.toggle(
-      "left",
-      elapsedDays >= 15
-    );
+todayElement.classList.toggle(
+  "left",
+  clampedTodayPosition > 50
+);
   }
 
   /* ========================================
