@@ -408,6 +408,10 @@ button {
 ========================================================= */
 
 .timeline-pointer {
+  position: absolute;
+
+  top: -18px;
+
   height: 20px;
 
   color: #39FF14;
@@ -416,12 +420,18 @@ button {
   font-size: 14px;
   font-weight: 700;
 
-  text-align: center;
-}
-.timeline-pointer {
-  position: absolute;
-  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+
+  gap: 4px;
+
   white-space: nowrap;
+
+  transform: translateX(-50%);
+
+  z-index: 10;
+
+  pointer-events: none;
 }
 
 #timeline-today {
