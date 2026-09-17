@@ -492,7 +492,7 @@ button {
   position: relative;
   width: calc(100% + 20px);
   margin-right: 0px;
-  margin-left: 0px;
+  margin-left: -10px;
   height: 18px;
 }
 
