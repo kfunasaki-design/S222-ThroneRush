@@ -408,7 +408,7 @@ button {
 ========================================================= */
 
 .timeline-pointer {
-  transform: translateX(calc(-50% - 14px));
+  transform: translateX(calc(-50% - 20px));
   position: absolute;
 
   top: 0px;
