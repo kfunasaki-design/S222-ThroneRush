@@ -418,7 +418,20 @@ button {
 
   text-align: center;
 }
+.timeline-pointer {
+  position: absolute;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
 
+#timeline-today {
+  margin-left: 6px;
+}
+
+#timeline-today.left {
+  margin-left: 0;
+  margin-right: 6px;
+}
 
 /* =========================================================
    Timeline
