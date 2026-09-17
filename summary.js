@@ -1241,21 +1241,20 @@ function updateTimelinePositions() {
      Today's position
   ======================================== */
 
-  const now = new Date();
-
-  const todayPosition =
-    ((now.getTime() - eventStart.getTime()) / totalTime) * 100;
-
-  const clampedTodayPosition = Math.max(
-    0,
-    Math.min(100, todayPosition)
-  );
-
-  /* ▼ position */
   const pointer = eventPositionHUD.querySelector(".timeline-pointer");
 
   if (pointer) {
     pointer.style.left = `${clampedTodayPosition}%`;
+
+    const elapsedDays =
+      (now.getTime() - eventStart.getTime()) /
+      (1000 * 60 * 60 * 24);
+
+    pointer.style.display = "flex";
+    pointer.style.alignItems = "center";
+    pointer.style.gap = "4px";
+    pointer.style.flexDirection =
+      elapsedDays >= 15 ? "row-reverse" : "row";
   }
 
   /* ========================================
