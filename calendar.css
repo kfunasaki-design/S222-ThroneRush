@@ -454,7 +454,35 @@ button {
 
   padding-top: 20px;
 }
+.timeline-pointer {
+  position: absolute;
 
+  top: 0;
+
+  left: 0;
+
+  height: 20px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 4px;
+
+  color: #39FF14;
+
+  font-family: monospace;
+  font-size: 14px;
+  font-weight: 700;
+
+  white-space: nowrap;
+
+  transform: translateX(-50%);
+
+  z-index: 10;
+
+  pointer-events: none;
+}
 
 /* =========================================================
    Moving Graphic Layer
