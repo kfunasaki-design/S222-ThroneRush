@@ -1236,26 +1236,29 @@ function updateTimelinePositions() {
 
   const totalTime = eventEnd.getTime() - eventStart.getTime();
   if (totalTime <= 0) return;
+   
 
   /* ========================================
      Today's position
   ======================================== */
 
-  const pointer = eventPositionHUD.querySelector(".timeline-pointer");
+  const now = new Date();
 
-  if (pointer) {
-    pointer.style.left = `${clampedTodayPosition}%`;
+  const todayPosition =
+    (
+      (now.getTime() - eventStart.getTime())
+      /
+      totalTime
+    ) * 100;
 
-    const elapsedDays =
-      (now.getTime() - eventStart.getTime()) /
-      (1000 * 60 * 60 * 24);
-
-    pointer.style.display = "flex";
-    pointer.style.alignItems = "center";
-    pointer.style.gap = "4px";
-    pointer.style.flexDirection =
-      elapsedDays >= 15 ? "row-reverse" : "row";
-  }
+  const clampedTodayPosition =
+    Math.max(
+      0,
+      Math.min(
+        100,
+        todayPosition
+      )
+    );
 
   /* ========================================
      Today's date
