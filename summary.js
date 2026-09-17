@@ -1215,178 +1215,126 @@ const eventPositionHUD =
 ========================================================= */
 
 function updateTimelinePositions() {
+  const eventInfo = window.s222EventInfo;
+  if (!eventInfo || !eventPositionHUD) return;
 
-  const eventInfo =
-    window.s222EventInfo;
+  const timeline = eventPositionHUD.querySelector(".timeline");
+  const graphics = eventPositionHUD.querySelector(".timeline-graphics");
+  if (!timeline || !graphics) return;
 
-
-  if (
-    !eventInfo
-  ) {
-
-    return;
-
-  }
-
+  const eventStart = eventInfo.start ? new Date(eventInfo.start) : null;
+  const eventEnd = eventInfo.end ? new Date(eventInfo.end) : null;
 
   if (
-    !eventPositionHUD
+    !eventStart ||
+    !eventEnd ||
+    Number.isNaN(eventStart.getTime()) ||
+    Number.isNaN(eventEnd.getTime())
   ) {
-
     return;
-
   }
 
+  const totalTime = eventEnd.getTime() - eventStart.getTime();
+  if (totalTime <= 0) return;
 
-  const timeline =
-    eventPositionHUD.querySelector(
-      ".timeline"
-    );
+  /* ========================================
+     Today's position
+  ======================================== */
 
+  const now = new Date();
 
-  const graphics =
-    eventPositionHUD.querySelector(
-      ".timeline-graphics"
-    );
+  const todayPosition =
+    ((now.getTime() - eventStart.getTime()) / totalTime) * 100;
 
-
-  if (
-    !timeline
-    ||
-    !graphics
-  ) {
-
-    return;
-
-  }
-
-
-  const eventStart =
-    eventInfo.start
-      ? new Date(
-          eventInfo.start
-        )
-      : null;
-
-
-  const eventEnd =
-    eventInfo.end
-      ? new Date(
-          eventInfo.end
-        )
-      : null;
-
-
-  if (
-    !eventStart
-    ||
-    !eventEnd
-    ||
-    Number.isNaN(
-      eventStart.getTime()
-    )
-    ||
-    Number.isNaN(
-      eventEnd.getTime()
-    )
-  ) {
-
-    return;
-
-  }
-
-
-  const totalTime =
-    eventEnd.getTime()
-    -
-    eventStart.getTime();
-
-
-  if (
-    totalTime <= 0
-  ) {
-
-    return;
-
-  }
-
-
-  const levels = [
-    "Lv4",
-    "Lv5",
-    "Lv6",
-    "Lv7"
-  ];
-
-
-  levels.forEach(
-    level => {
-
-      const marker =
-        graphics.querySelector(
-          `.timeline-marker.${level.toLowerCase()}`
-        );
-
-
-      if (
-        !marker
-      ) {
-
-        return;
-
-      }
-
-
-      const release =
-        eventInfo[level]
-          ? new Date(
-              eventInfo[level]
-            )
-          : null;
-
-
-      if (
-        !release
-        ||
-        Number.isNaN(
-          release.getTime()
-        )
-      ) {
-
-        marker.style.display =
-          "none";
-
-        return;
-
-      }
-
-
-      const elapsed =
-        release.getTime()
-        -
-        eventStart.getTime();
-
-
-      const position =
-        Math.max(
-          0,
-          Math.min(
-            100,
-            (elapsed / totalTime) * 100
-          )
-        );
-
-
-      marker.style.display =
-        "flex";
-
-
-      marker.style.left =
-        `${position}%`;
-
-    }
+  const clampedTodayPosition = Math.max(
+    0,
+    Math.min(100, todayPosition)
   );
 
+  /* ▼ position */
+  const pointer = eventPositionHUD.querySelector(".timeline-pointer");
+
+  if (pointer) {
+    pointer.style.left = `${clampedTodayPosition}%`;
+  }
+
+  /* ========================================
+     Today's date
+  ======================================== */
+
+  const todayDate = String(now.getDate()).padStart(2, "0");
+
+  const todayElement = document.getElementById("timeline-today");
+
+  if (todayElement) {
+    todayElement.textContent = todayDate;
+
+    /*
+      Event startから15日経過したら
+      日付を▼の左側へ移動
+    */
+    const elapsedDays =
+      (now.getTime() - eventStart.getTime()) /
+      (1000 * 60 * 60 * 24);
+
+    todayElement.classList.toggle(
+      "left",
+      elapsedDays >= 15
+    );
+  }
+
+  /* ========================================
+     Timeline title
+  ======================================== */
+
+  const timelineCurrent =
+    eventPositionHUD.querySelector(".timeline-current");
+
+  if (timelineCurrent) {
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+
+    timelineCurrent.textContent =
+      `TH Timeline［${year}/${month}/${day}］`;
+  }
+
+  /* ========================================
+     Level markers
+  ======================================== */
+
+  const levels = ["Lv4", "Lv5", "Lv6", "Lv7"];
+
+  levels.forEach(level => {
+    const marker = graphics.querySelector(
+      `.timeline-marker.${level.toLowerCase()}`
+    );
+
+    if (!marker) return;
+
+    const release = eventInfo[level]
+      ? new Date(eventInfo[level])
+      : null;
+
+    if (
+      !release ||
+      Number.isNaN(release.getTime())
+    ) {
+      marker.style.display = "none";
+      return;
+    }
+
+    const elapsed =
+      release.getTime() - eventStart.getTime();
+
+    const position = Math.max(
+      0,
+      Math.min(100, (elapsed / totalTime) * 100)
+    );
+
+    marker.style.display = "flex";
+    marker.style.left = `${position}%`;
+  });
 }
 
 
