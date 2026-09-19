@@ -456,12 +456,12 @@ button {
 }
 
 #timeline-today {
-  margin-left: 0px;
+  margin-left: -2px;
 }
 
 #timeline-today.left {
   margin-left: 0;
-  margin-right: 0px;
+  margin-right: -2px;
 }
 
 
