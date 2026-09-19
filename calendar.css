@@ -522,7 +522,7 @@ button {
 .timeline-line {
   position: absolute;
 
-  top: 7px;
+  top: 0px;
   left: 0;
   right: 0;
 
