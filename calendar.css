@@ -547,14 +547,29 @@ button {
   justify-content: center;
 
   color: #39FF14;
-  background: #082D16;
+background: rgba(8,45,22,0.72);
   font-family: monospace;
   font-size: 12px;
   line-height: 1;
 
   z-index: 2;
 }
+.timeline-marker::after {
+  content: "";
+  position: absolute;
 
+  width: 6px;
+  height: 1px;
+
+  background: #B6FF00;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  box-shadow: 0 0 3px rgba(182, 255, 0, 0.7);
+}
 
 /* START / END */
 
