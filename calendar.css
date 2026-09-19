@@ -595,7 +595,7 @@ button {
 
 .timeline-marker.start,
 .timeline-marker.end {
-  top: 4px;
+  top: 2px;
   width: 10px;
   height: 10px;
 
