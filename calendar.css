@@ -474,7 +474,7 @@ button {
 
   width: 100%;
 
-  padding-top: 23px;
+  padding-top: 22px;
 }
 
 .timeline-pointer {
@@ -521,7 +521,7 @@ button {
 .timeline-line {
   position: absolute;
 
-  top: 7px;
+  top: 9px;
   left: 5px;
   right: 5px;
 
