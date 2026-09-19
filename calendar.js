@@ -878,7 +878,7 @@ async function insertSchedule(
 ) {
 
   /* =====================================================
-  Check duplicate guild at same league
+  Check overlapping schedule at same coordinate
   ===================================================== */
 
   const {
@@ -887,9 +887,17 @@ async function insertSchedule(
   } =
     await supabaseClient
       .from("schedules")
-      .select("id, guild, league")
-      .eq("guild", schedule.guild)
-      .eq("league", schedule.league);
+      .select(
+        "id, coordinate_x, coordinate_y, start_at, end_at"
+      )
+      .eq(
+        "coordinate_x",
+        schedule.x
+      )
+      .eq(
+        "coordinate_y",
+        schedule.y
+      );
 
   if (checkError) {
 
@@ -902,13 +910,42 @@ async function insertSchedule(
 
   }
 
-  if (
-    existingSchedules &&
-    existingSchedules.length > 0
-  ) {
+  const newStart =
+    new Date(
+      schedule.start
+    );
+
+  const newEnd =
+    new Date(
+      schedule.end
+    );
+
+  const overlapping =
+    existingSchedules.some(
+      item => {
+
+        const existingStart =
+          new Date(
+            item.start_at
+          );
+
+        const existingEnd =
+          new Date(
+            item.end_at
+          );
+
+        return (
+          newStart < existingEnd &&
+          newEnd > existingStart
+        );
+
+      }
+    );
+
+  if (overlapping) {
 
     throw new Error(
-      "This guild has already reserved a schedule at this level."
+      "This coordinate is already reserved during this period."
     );
 
   }
@@ -972,7 +1009,6 @@ async function insertSchedule(
   }
 
 }
-
 
 
 /* =========================================================
