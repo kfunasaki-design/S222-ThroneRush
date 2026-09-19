@@ -1369,6 +1369,9 @@ todayElement.classList.toggle(
 
   const levels = ["Lv4", "Lv5", "Lv6", "Lv7"];
 
+  let nearestLevel = null;
+  let nearestDistance = Infinity;
+
   levels.forEach(level => {
     const marker = graphics.querySelector(
       `.timeline-marker.${level.toLowerCase()}`
@@ -1385,6 +1388,7 @@ todayElement.classList.toggle(
       Number.isNaN(release.getTime())
     ) {
       marker.style.display = "none";
+      marker.classList.remove("nearest");
       return;
     }
 
@@ -1398,9 +1402,32 @@ todayElement.classList.toggle(
 
     marker.style.display = "flex";
     marker.style.left = `${position}%`;
-  });
-}
 
+    /* 今日からの距離 */
+    const distance =
+      Math.abs(
+        release.getTime() - now.getTime()
+      );
+
+    if (distance < nearestDistance) {
+      nearestDistance = distance;
+      nearestLevel = level;
+    }
+
+    marker.classList.remove("nearest");
+  });
+
+  /* 最も近いLvを強調 */
+  if (nearestLevel) {
+    const nearestMarker =
+      graphics.querySelector(
+        `.timeline-marker.${nearestLevel.toLowerCase()}`
+      );
+
+    if (nearestMarker) {
+      nearestMarker.classList.add("nearest");
+    }
+  }
 
 /* =========================================================
    Event Position Drag
