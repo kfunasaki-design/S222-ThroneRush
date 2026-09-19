@@ -521,7 +521,7 @@ button {
 .timeline-line {
   position: absolute;
 
-  top: 8px;
+  top: 10px;
   left: 5px;
   right: 5px;
 
@@ -538,7 +538,7 @@ button {
 .timeline-marker {
   position: absolute;
 
-  top: 6px;
+  top: 4px;
 
   width: 8px;
   height: 8px;
@@ -562,6 +562,7 @@ button {
 
 .timeline-marker.start,
 .timeline-marker.end {
+  top: 2px;
   width: 10px;
   height: 10px;
 
