@@ -456,12 +456,12 @@ button {
 }
 
 #timeline-today {
-  margin-left: 2px;
+  margin-left: 0px;
 }
 
 #timeline-today.left {
   margin-left: 0;
-  margin-right: 2px;
+  margin-right: 0px;
 }
 
 
@@ -570,13 +570,13 @@ button {
 }
 
 .timeline-marker.start {
-  left: 0;
+  left: -2px;
 
   transform: translateX(0);
 }
 
 .timeline-marker.end {
-  right: 0;
+  right: -2px;
 
   transform: translateX(0);
 }
@@ -633,7 +633,7 @@ button {
 
 
 .point-date {
-  margin-top: 3px;
+  margin-top: 4px;
 
   font-size: 9px;
 
@@ -642,11 +642,11 @@ button {
   white-space: nowrap;
 }
 .timeline-info-item:first-child {
-  transform: translateX(-8px);
+  transform: translateX(-6px);
 }
 
 .timeline-info-item:last-child {
-  transform: translateX(8px);
+  transform: translateX(6px);
 }
 /* =========================================================
    Calendar
