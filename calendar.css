@@ -582,7 +582,7 @@ button {
 
 @keyframes scouterPulse {
   0% {
-    transform: translate(-50%, -50%) scale(0.3);
+    transform: translate(-50%, -50%) scale(1);
     opacity: 0.9;
   }
 
