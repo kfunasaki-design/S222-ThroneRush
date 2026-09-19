@@ -1428,7 +1428,7 @@ todayElement.classList.toggle(
       nearestMarker.classList.add("nearest");
     }
   }
-
+  }
 /* =========================================================
    Event Position Drag
 ========================================================= */
