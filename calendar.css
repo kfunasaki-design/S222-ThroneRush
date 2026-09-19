@@ -456,12 +456,12 @@ button {
 }
 
 #timeline-today {
-  margin-left: 6px;
+  margin-left: 2px;
 }
 
 #timeline-today.left {
   margin-left: 0;
-  margin-right: 6px;
+  margin-right: 2px;
 }
 
 
@@ -641,7 +641,13 @@ button {
 
   white-space: nowrap;
 }
+.timeline-info-item:first-child {
+  transform: translateX(-8px);
+}
 
+.timeline-info-item:last-child {
+  transform: translateX(8px);
+}
 /* =========================================================
    Calendar
 ========================================================= */
