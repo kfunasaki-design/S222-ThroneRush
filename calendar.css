@@ -315,7 +315,7 @@ button {
   -webkit-overflow-scrolling: touch;
 }
 /* =========================================================
-   Event Position HUD
+   Event Position Trigger
 ========================================================= */
 
 #eventPositionTrigger {
@@ -328,7 +328,7 @@ button {
 
   width: max-content;
 
-  padding: 4px 12px 4px 16px;
+  padding: 4px 12px 6px 16px;
 
   background: rgba(8, 45, 22, 0.62);
 
