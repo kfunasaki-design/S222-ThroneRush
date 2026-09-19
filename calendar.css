@@ -540,8 +540,8 @@ button {
 
   top: 4px;
 
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
 
   display: flex;
 
@@ -551,7 +551,7 @@ button {
   color: #39FF14;
 
   font-family: monospace;
-  font-size: 8px;
+  font-size: 7px;
   line-height: 1;
 
   z-index: 2;
@@ -566,8 +566,8 @@ button {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border: 1px solid rgba(57, 255, 20, 0.8);
   border-radius: 50%;
   box-sizing: border-box;
@@ -587,7 +587,7 @@ button {
   }
 
   100% {
-    transform: translate(-50%, -50%) scale(4);
+    transform: translate(-50%, -50%) scale(3.5);
     opacity: 0;
   }
 }
