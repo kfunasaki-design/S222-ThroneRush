@@ -877,6 +877,47 @@ async function insertSchedule(
   schedule
 ) {
 
+  /* =====================================================
+  Check duplicate guild at same league
+  ===================================================== */
+
+  const {
+    data: existingSchedules,
+    error: checkError
+  } =
+    await supabaseClient
+      .from("schedules")
+      .select("id, guild, league")
+      .eq("guild", schedule.guild)
+      .eq("league", schedule.league);
+
+  if (checkError) {
+
+    console.error(
+      "Supabase duplicate check error:",
+      checkError
+    );
+
+    throw checkError;
+
+  }
+
+  if (
+    existingSchedules &&
+    existingSchedules.length > 0
+  ) {
+
+    throw new Error(
+      "This guild has already reserved a schedule at this level."
+    );
+
+  }
+
+
+  /* =====================================================
+  Insert
+  ===================================================== */
+
   const {
     error
   } =
