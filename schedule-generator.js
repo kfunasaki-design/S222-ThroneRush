@@ -39,6 +39,27 @@ const generatorGoBtn =
   document.getElementById("generatorGoBtn");
 
 
+/* =========================================================
+Admin Panel View
+========================================================= */
+
+const adminSettingsTab =
+  document.getElementById("adminSettingsTab");
+
+const adminGeneratorTab =
+  document.getElementById("adminGeneratorTab");
+
+const adminSettingsView =
+  document.getElementById("adminSettingsView");
+
+const adminGeneratorView =
+  document.getElementById("adminGeneratorView");
+
+
+const ADMIN_PANEL_VIEW_KEY =
+  "s222_admin_panel_view";
+
+
 let generatedCandidate = null;
 
 
@@ -54,6 +75,98 @@ Constants
  * 実際に運用しやすい基準時間を作ること。
  */
 const GENERATOR_TIME_STEP = 30;
+
+
+/* =========================================================
+Admin Panel View Switch
+========================================================= */
+
+function initAdminPanelViewSwitch() {
+
+  if (
+    !adminSettingsTab ||
+    !adminGeneratorTab ||
+    !adminSettingsView ||
+    !adminGeneratorView
+  ) {
+    return;
+  }
+
+
+  function showAdminPanelView(
+    view
+  ) {
+
+    const isGenerator =
+      view === "generator";
+
+
+    adminSettingsView.hidden =
+      isGenerator;
+
+    adminGeneratorView.hidden =
+      !isGenerator;
+
+
+    adminSettingsTab.classList.toggle(
+      "active",
+      !isGenerator
+    );
+
+    adminGeneratorTab.classList.toggle(
+      "active",
+      isGenerator
+    );
+
+
+    localStorage.setItem(
+      ADMIN_PANEL_VIEW_KEY,
+      isGenerator
+        ? "generator"
+        : "settings"
+    );
+  }
+
+
+  adminSettingsTab.addEventListener(
+    "click",
+    () => {
+      showAdminPanelView(
+        "settings"
+      );
+    }
+  );
+
+
+  adminGeneratorTab.addEventListener(
+    "click",
+    () => {
+      showAdminPanelView(
+        "generator"
+      );
+    }
+  );
+
+
+  const savedView =
+    localStorage.getItem(
+      ADMIN_PANEL_VIEW_KEY
+    );
+
+
+  showAdminPanelView(
+    savedView === "generator"
+      ? "generator"
+      : "settings"
+  );
+}
+
+
+/*
+ * calendar.htmlはscriptをbody末尾で読み込むため、
+ * DOMは既に存在している。
+ */
+initAdminPanelViewSwitch();
 
 
 /* =========================================================
@@ -1785,7 +1898,11 @@ function generatorDisplayCandidate(
     )}`
   );
 
-  generatorResult.textContent =
+  /*
+   * generatorResultはtextareaなので
+   * textContentではなくvalueを使用。
+   */
+  generatorResult.value =
     lines.join("\n");
 }
 
@@ -1797,13 +1914,18 @@ Generate Button
 generatorGenerateBtn.addEventListener(
   "click",
   () => {
-    generatorResult.textContent = "";
+
+    /*
+     * generatorResultはtextarea。
+     */
+    generatorResult.value = "";
 
     generatorGoBtn.disabled = true;
 
     generatedCandidate = null;
 
     try {
+
       generatedCandidate =
         generatorGenerateCandidate();
 
@@ -1814,12 +1936,13 @@ generatorGenerateBtn.addEventListener(
       generatorGoBtn.disabled = false;
 
     } catch (error) {
+
       console.error(
         "Schedule Generator:",
         error
       );
 
-      generatorResult.textContent =
+      generatorResult.value =
         error.message ||
         "Could not generate schedule.";
     }
@@ -1834,11 +1957,13 @@ GO
 generatorGoBtn.addEventListener(
   "click",
   async () => {
+
     if (!generatedCandidate) {
       return;
     }
 
     try {
+
       generatorGoBtn.disabled =
         true;
 
@@ -1846,11 +1971,13 @@ generatorGoBtn.addEventListener(
         const originalSchedule of
           generatedCandidate.schedules
       ) {
+
         /*
          * Generator内部用の
          * _generatorGroup は除外。
          */
         const schedule = {
+
           league:
             originalSchedule.league,
 
@@ -1887,25 +2014,27 @@ generatorGoBtn.addEventListener(
         );
       }
 
-      generatorResult.textContent +=
+      generatorResult.value +=
         "\n\n✓ Schedule imported.";
 
       generatedCandidate =
         null;
 
     } catch (error) {
+
       console.error(
         "Schedule Generator GO:",
         error
       );
 
-      generatorResult.textContent +=
+      generatorResult.value +=
         `\n\nImport failed: ${
           error.message ||
           "Unknown error."
         }`;
 
     } finally {
+
       generatorGoBtn.disabled =
         true;
     }
