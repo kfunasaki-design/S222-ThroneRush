@@ -42,26 +42,34 @@ const generatorGoBtn =
   document.getElementById("generatorGoBtn");
 
 
+/* =========================================================
+Admin Panel View
+========================================================= */
+
+const adminSettingsTab =
+  document.getElementById("adminSettingsTab");
+
+const adminGeneratorTab =
+  document.getElementById("adminGeneratorTab");
+
+const adminSettingsView =
+  document.getElementById("adminSettingsView");
+
+const adminGeneratorView =
+  document.getElementById("adminGeneratorView");
+
+
+const ADMIN_PANEL_VIEW_KEY =
+  "s222_admin_panel_view";
+
+
 let generatedCandidate = null;
 
 
 /* =========================================================
-Constants
+Generator Defaults
 ========================================================= */
 
-/*
- * Generatorでは、ゲーム上の細かい攻撃時刻を
- * 30分単位で扱う。
- *
- * 目的は「分単位の完璧な数字」ではなく、
- * 実際に運用しやすい基準時間を作ること。
- */
-const GENERATOR_TIME_STEP = 30;
-
-
-/*
- * Generator初期値
- */
 const GENERATOR_DEFAULTS = {
   fortress: "Lv6",
   guildCount: "4",
@@ -74,14 +82,103 @@ const GENERATOR_DEFAULTS = {
 
 
 /* =========================================================
+Admin Panel View Switch
+========================================================= */
+
+function initAdminPanelViewSwitch() {
+
+  if (
+    !adminSettingsTab ||
+    !adminGeneratorTab ||
+    !adminSettingsView ||
+    !adminGeneratorView
+  ) {
+    return;
+  }
+
+
+  function showAdminPanelView(
+    view
+  ) {
+
+    const isGenerator =
+      view === "generator";
+
+
+    adminSettingsView.hidden =
+      isGenerator;
+
+    adminGeneratorView.hidden =
+      !isGenerator;
+
+
+    adminSettingsTab.classList.toggle(
+      "active",
+      !isGenerator
+    );
+
+    adminGeneratorTab.classList.toggle(
+      "active",
+      isGenerator
+    );
+
+
+    localStorage.setItem(
+      ADMIN_PANEL_VIEW_KEY,
+      isGenerator
+        ? "generator"
+        : "settings"
+    );
+  }
+
+
+  adminSettingsTab.addEventListener(
+    "click",
+    () => {
+      showAdminPanelView(
+        "settings"
+      );
+    }
+  );
+
+
+  adminGeneratorTab.addEventListener(
+    "click",
+    () => {
+      showAdminPanelView(
+        "generator"
+      );
+    }
+  );
+
+
+  const savedView =
+    localStorage.getItem(
+      ADMIN_PANEL_VIEW_KEY
+    );
+
+
+  showAdminPanelView(
+    savedView === "generator"
+      ? "generator"
+      : "settings"
+  );
+}
+
+
+/*
+ * calendar.htmlはscriptをbody末尾で読み込むため、
+ * DOMは既に存在している。
+ */
+initAdminPanelViewSwitch();
+
+
+/* =========================================================
 Generator Reset
 ========================================================= */
 
 function generatorReset() {
-  /*
-   * Generatorの入力値だけを
-   * 初期状態へ戻す。
-   */
+
   if (generatorFortress) {
     generatorFortress.value =
       GENERATOR_DEFAULTS.fortress;
@@ -117,21 +214,12 @@ function generatorReset() {
       GENERATOR_DEFAULTS.lag;
   }
 
-  /*
-   * 生成結果をクリア。
-   */
   if (generatorResult) {
     generatorResult.value = "";
   }
 
-  /*
-   * 現在のCandidateを破棄。
-   */
   generatedCandidate = null;
 
-  /*
-   * GOを無効化。
-   */
   if (generatorGoBtn) {
     generatorGoBtn.disabled = true;
   }
@@ -152,19 +240,15 @@ function generatorParseTime(value) {
 
 function generatorFormatDateTime(date) {
   const y = date.getUTCFullYear();
-
   const m = String(
     date.getUTCMonth() + 1
   ).padStart(2, "0");
-
   const d = String(
     date.getUTCDate()
   ).padStart(2, "0");
-
   const h = String(
     date.getUTCHours()
   ).padStart(2, "0");
-
   const min = String(
     date.getUTCMinutes()
   ).padStart(2, "0");
@@ -332,15 +416,6 @@ function generatorGetFortresses(level) {
 Attack Range
 ========================================================= */
 
-/*
- * 時刻だけを分単位で取得。
- *
- * 日跨ぎ:
- *   21:00 - 02:00
- *
- * も許可。
- */
-
 function generatorIsTimeInRange(
   minutes,
   rangeStart,
@@ -353,9 +428,6 @@ function generatorIsTimeInRange(
   const end =
     generatorParseTime(rangeEnd);
 
-  /*
-   * Allowed Lagを含めて判定。
-   */
   const expandedStart =
     start - lag;
 
@@ -401,9 +473,6 @@ function generatorIsAllowedStart(
 }
 
 
-/*
- * 境界時刻を30分単位に丸める。
- */
 function generatorRoundToStep(
   date
 ) {
@@ -429,15 +498,6 @@ function generatorRoundToStep(
 }
 
 
-/*
- * 指定された理想境界に最も近い
- * Attack Range内の時刻を探す。
- *
- * ただし、完全に範囲内へ入れるための
- * 調整が大きすぎる場合は、
- * Allowed Lagを含めた範囲内で最も近い
- * 時刻を採用する。
- */
 function generatorSnapBoundary(
   ideal,
   rangeStart,
@@ -446,19 +506,13 @@ function generatorSnapBoundary(
 ) {
   const candidates = [];
 
-  /*
-   * ideal周辺の日付について
-   * rangeStart / rangeEnd を候補にする。
-   */
   const startMinutes =
     generatorParseTime(
       rangeStart
     );
 
   const endMinutes =
-    generatorParseTime(
-      rangeEnd
-    );
+    generatorParseTime(rangeEnd);
 
   for (
     let dayOffset = -1;
@@ -504,9 +558,6 @@ function generatorSnapBoundary(
     }
   }
 
-  /*
-   * ideal自身が範囲内なら、それを優先。
-   */
   if (
     generatorIsAllowedStart(
       ideal,
@@ -545,21 +596,6 @@ function generatorSnapBoundary(
 /* =========================================================
 Fortress Slot Patterns
 ========================================================= */
-
-/*
- * totalSlots個を fortressCount個の砦へ
- * 1個以上ずつ割り当てる全パターンを作る。
- *
- * 例:
- *   8枠 / 3砦
- *
- *   1,1,6
- *   1,2,5
- *   1,3,4
- *   ...
- *   3,3,2
- *   ...
- */
 
 function generatorBuildCompositions(
   total,
@@ -613,9 +649,6 @@ function generatorBuildCompositions(
 }
 
 
-/*
- * 1本の砦を指定数のslotへ分割。
- */
 function generatorSplitFortress(
   fortress,
   start,
@@ -640,9 +673,6 @@ function generatorSplitFortress(
 
   const boundaries = [];
 
-  /*
-   * まず等分。
-   */
   for (
     let i = 1;
     i < slotCount;
@@ -676,9 +706,6 @@ function generatorSplitFortress(
     );
   }
 
-  /*
-   * 境界の順序を確認。
-   */
   for (
     let i = 0;
     i < boundaries.length;
@@ -746,15 +773,6 @@ function generatorSplitFortress(
 Guild Assignment Search
 ========================================================= */
 
-/*
- * slotをGuild A/B/C/Dへ割り当てる。
- *
- * 各GuildはAttack Count個。
- *
- * ギルド名そのものには意味がないので、
- * 同じ構成の重複パターンは除外する。
- */
-
 function generatorFindBestAssignment(
   slots,
   guildCount,
@@ -775,9 +793,6 @@ function generatorFindBestAssignment(
 
   let best = null;
 
-  /*
-   * 探索順を長いslotからにする。
-   */
   const orderedSlots =
     [...slots].sort(
       (a, b) =>
@@ -798,9 +813,6 @@ function generatorFindBestAssignment(
       slotIndex >=
       orderedSlots.length
     ) {
-      /*
-       * 全Guildの枠数確認。
-       */
       if (
         guilds.some(
           guild =>
@@ -826,9 +838,6 @@ function generatorFindBestAssignment(
       const difference =
         max - min;
 
-      /*
-       * Guildごとの最大差を最優先。
-       */
       if (
         !best ||
         difference <
@@ -864,9 +873,6 @@ function generatorFindBestAssignment(
         slot.end
       );
 
-    /*
-     * 同じ条件のGuildへの割当重複を避ける。
-     */
     const usedSignatures =
       new Set();
 
@@ -880,10 +886,6 @@ function generatorFindBestAssignment(
         continue;
       }
 
-      /*
-       * 現在の状態が同じGuildは
-       * 一度だけ試す。
-       */
       const signature =
         `${guild.slots.length}:${
           guild.totalMinutes
@@ -908,12 +910,6 @@ function generatorFindBestAssignment(
       guild.totalMinutes +=
         minutes;
 
-      /*
-       * 明らかに現時点で
-       * bestより悪い場合でも、
-       * 後続slotで変化するため
-       * 完全には切らない。
-       */
       search(
         slotIndex + 1
       );
@@ -935,16 +931,6 @@ function generatorFindBestAssignment(
 Boundary Optimization
 ========================================================= */
 
-/*
- * Guild AとGuild Bの累計差を利用して、
- * 境界を動かす。
- *
- * 境界の左側Guildに時間を与えるか、
- * 右側Guildから時間を奪うかを調整。
- *
- * これを何度か繰り返す。
- */
-
 function generatorOptimizeBoundaries(
   slots,
   assignment,
@@ -953,9 +939,6 @@ function generatorOptimizeBoundaries(
   lag,
   eventEnd
 ) {
-  /*
-   * 元slotを直接変更する。
-   */
   const result =
     slots.map(slot => ({
       fortress:
@@ -975,9 +958,6 @@ function generatorOptimizeBoundaries(
         slot.guildIndex
     }));
 
-  /*
-   * 砦ごとに処理。
-   */
   const fortressLabels =
     [
       ...new Set(
@@ -1022,10 +1002,6 @@ function generatorOptimizeBoundaries(
         const right =
           fortressSlots[i + 1];
 
-        /*
-         * 同じGuildなら境界を動かしても
-         * Guild合計差は変わらない。
-         */
         if (
           left.guildIndex ===
           right.guildIndex
@@ -1049,19 +1025,12 @@ function generatorOptimizeBoundaries(
             right.guildIndex
           ];
 
-        /*
-         * 左が短ければ境界を後ろへ。
-         * 左が長ければ前へ。
-         */
         let delta =
           (
             rightTotal -
             leftTotal
           ) / 2;
 
-        /*
-         * 30分単位。
-         */
         delta =
           Math.round(
             delta /
@@ -1086,9 +1055,6 @@ function generatorOptimizeBoundaries(
           current +
           delta * 60000;
 
-        /*
-         * 最低30分のslotを確保。
-         */
         const minTime =
           previousBoundary +
           GENERATOR_TIME_STEP *
@@ -1111,9 +1077,6 @@ function generatorOptimizeBoundaries(
         const candidate =
           new Date(target);
 
-        /*
-         * Event Endを越えない。
-         */
         if (
           candidate >=
           eventEnd
@@ -1121,9 +1084,6 @@ function generatorOptimizeBoundaries(
           continue;
         }
 
-        /*
-         * Attack Rangeを確認。
-         */
         if (
           !generatorIsAllowedStart(
             candidate,
@@ -1156,9 +1116,6 @@ function generatorOptimizeBoundaries(
           continue;
         }
 
-        /*
-         * 境界移動。
-         */
         left.end =
           generatorCloneDate(
             candidate
@@ -1169,9 +1126,6 @@ function generatorOptimizeBoundaries(
             candidate
           );
 
-        /*
-         * assignmentの累計も更新。
-         */
         assignment[
           left.guildIndex
         ].totalMinutes +=
@@ -1208,9 +1162,6 @@ function generatorEvaluate(
   lag,
   eventEnd
 ) {
-  /*
-   * まず割当を探す。
-   */
   const assignment =
     generatorFindBestAssignment(
       slots,
@@ -1222,9 +1173,6 @@ function generatorEvaluate(
     return null;
   }
 
-  /*
-   * 境界を調整。
-   */
   const optimizedSlots =
     generatorOptimizeBoundaries(
       slots,
@@ -1235,9 +1183,6 @@ function generatorEvaluate(
       eventEnd
     );
 
-  /*
-   * 境界変更後、もう一度最適割当。
-   */
   const finalAssignment =
     generatorFindBestAssignment(
       optimizedSlots,
@@ -1720,10 +1665,6 @@ function generatorGenerateCandidate() {
                 "s222_creator_id"
               ),
 
-            /*
-             * Generator内部だけで使用。
-             * GO時にはcalendar側へ渡さない。
-             */
             _generatorGroup:
               group.name
           });
@@ -1872,7 +1813,7 @@ function generatorDisplayCandidate(
   );
 
   /*
-   * textareaのvalueへ表示。
+   * textareaなのでvalueを使用。
    */
   generatorResult.value =
     lines.join("\n");
@@ -1886,6 +1827,7 @@ Generate Button
 generatorGenerateBtn.addEventListener(
   "click",
   () => {
+
     generatorResult.value = "";
 
     generatorGoBtn.disabled = true;
@@ -1893,6 +1835,7 @@ generatorGenerateBtn.addEventListener(
     generatedCandidate = null;
 
     try {
+
       generatedCandidate =
         generatorGenerateCandidate();
 
@@ -1903,6 +1846,7 @@ generatorGenerateBtn.addEventListener(
       generatorGoBtn.disabled = false;
 
     } catch (error) {
+
       console.error(
         "Schedule Generator:",
         error
@@ -1935,11 +1879,13 @@ GO
 generatorGoBtn.addEventListener(
   "click",
   async () => {
+
     if (!generatedCandidate) {
       return;
     }
 
     try {
+
       generatorGoBtn.disabled =
         true;
 
@@ -1947,11 +1893,13 @@ generatorGoBtn.addEventListener(
         const originalSchedule of
           generatedCandidate.schedules
       ) {
+
         /*
          * Generator内部用の
          * _generatorGroup は除外。
          */
         const schedule = {
+
           league:
             originalSchedule.league,
 
@@ -1995,6 +1943,7 @@ generatorGoBtn.addEventListener(
         null;
 
     } catch (error) {
+
       console.error(
         "Schedule Generator GO:",
         error
@@ -2007,6 +1956,7 @@ generatorGoBtn.addEventListener(
         }`;
 
     } finally {
+
       generatorGoBtn.disabled =
         true;
     }
@@ -2015,12 +1965,7 @@ generatorGoBtn.addEventListener(
 
 
 /* =========================================================
-Initial State
+Initial Generator State
 ========================================================= */
 
-/*
- * Generatorを初期状態で開始。
- *
- * Admin Panelの他の設定には触れない。
- */
 generatorReset();
