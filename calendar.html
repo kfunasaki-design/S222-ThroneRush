@@ -897,6 +897,144 @@ Admin Panel
   ></div>
 
 </fieldset>
+
+
+<!-- Schedule Generator -->
+
+<fieldset class="admin-section">
+
+  <legend>
+    Schedule Generator
+  </legend>
+
+  <div class="generator-form">
+
+    <label>
+
+      Guild Count
+
+      <input
+        id="generatorGuildCount"
+        type="number"
+        min="1"
+        step="1"
+        value="4"
+        required
+      >
+
+    </label>
+
+
+    <label>
+
+      Available Start
+
+      <input
+        id="generatorStart"
+        type="datetime-local"
+        required
+      >
+
+    </label>
+
+
+    <label>
+
+      Available End
+
+      <input
+        id="generatorEnd"
+        type="datetime-local"
+        required
+      >
+
+    </label>
+
+
+    <label>
+
+      Attack Count
+
+      <input
+        id="generatorAttackCount"
+        type="number"
+        min="1"
+        step="1"
+        value="1"
+        required
+      >
+
+    </label>
+
+
+    <label>
+
+      Allowed Lag
+
+      <select id="generatorLag">
+
+        <option value="0">
+          ±0 min
+        </option>
+
+        <option value="30">
+          ±30 min
+        </option>
+
+        <option value="60" selected>
+          ±1 hour
+        </option>
+
+        <option value="90">
+          ±1.5 hours
+        </option>
+
+        <option value="120">
+          ±2 hours
+        </option>
+
+      </select>
+
+    </label>
+
+  </div>
+
+
+  <div class="generator-buttons">
+
+    <button
+      type="button"
+      id="generatorGenerateBtn"
+      class="main-button"
+    >
+      Generate
+    </button>
+
+  </div>
+
+
+  <div
+    id="generatorResult"
+    class="generator-result"
+  ></div>
+
+
+  <div class="generator-go">
+
+    <button
+      type="button"
+      id="generatorGoBtn"
+      class="main-button"
+      disabled
+    >
+      GO
+    </button>
+
+  </div>
+
+</fieldset>
+
+
     
     <p
       id="adminPanelError"
@@ -932,8 +1070,8 @@ Admin Panel
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="calendar.js"></script>
-
 <script src="summary.js"></script>
+<script src="schedule-generator.js"></script>
 
 </body>
 </html>
