@@ -750,6 +750,24 @@ Admin Panel
         Admin Panel
       </h2>
 
+      <div class="admin-panel-switch">
+        <button
+          type="button"
+          id="adminSettingsTab"
+          class="admin-panel-tab active"
+        >
+          Settings
+        </button>
+
+        <button
+          type="button"
+          id="adminGeneratorTab"
+          class="admin-panel-tab"
+        >
+          Generator
+        </button>
+      </div>
+
       <button
         type="button"
         id="closeAdminPanel"
@@ -760,356 +778,342 @@ Admin Panel
 
     </div>
 
+<div id="adminSettingsView" class="admin-panel-view">
 
-    <!-- Event Period -->
+  <!-- Event Period -->
 
-    <fieldset class="admin-section">
+  <fieldset class="admin-section">
 
-      <legend>
-        Event Period
-      </legend>
+    <legend>
+      Event Period
+    </legend>
 
-      <div class="admin-period">
+    <div class="admin-period">
 
-        <div>
+      <div>
 
-          <span>
-            Start
-          </span>
-
-          <input
-            id="adminEventStart"
-            type="datetime-local"
-            required
-          >
-
-        </div>
-
-        <span class="admin-period-separator">
-          —
+        <span>
+          Start
         </span>
 
-        <div>
-
-          <span>
-            End
-          </span>
-
-          <input
-            id="adminEventEnd"
-            type="datetime-local"
-            required
-          >
-
-        </div>
+        <input
+          id="adminEventStart"
+          type="datetime-local"
+          required
+        >
 
       </div>
 
-    </fieldset>
+      <span class="admin-period-separator">
+        —
+      </span>
 
+      <div>
 
+        <span>
+          End
+        </span>
 
-    <!-- Level Release -->
-
-    <fieldset class="admin-section">
-
-      <legend>
-        Level Release
-      </legend>
-
-      <div class="release-list">
-
-        <div class="release-row">
-
-          <strong>
-            Lv4
-          </strong>
-
-          <input
-            id="adminLv4Release"
-            type="datetime-local"
-          >
-
-        </div>
-
-
-        <div class="release-row">
-
-          <strong>
-            Lv5
-          </strong>
-
-          <input
-            id="adminLv5Release"
-            type="datetime-local"
-          >
-
-        </div>
-
-
-        <div class="release-row">
-
-          <strong>
-            Lv6
-          </strong>
-
-          <input
-            id="adminLv6Release"
-            type="datetime-local"
-          >
-
-        </div>
-
-
-        <div class="release-row">
-
-          <strong>
-            Lv7
-          </strong>
-
-          <input
-            id="adminLv7Release"
-            type="datetime-local"
-          >
-
-        </div>
+        <input
+          id="adminEventEnd"
+          type="datetime-local"
+          required
+        >
 
       </div>
 
+    </div>
 
-      <p class="admin-note">
-        Level availability ends automatically with the Event Period.
-      </p>
+  </fieldset>
 
-    </fieldset>
 
-<!-- Guild Colors -->
+  <!-- Level Release -->
 
-<fieldset class="admin-section">
+  <fieldset class="admin-section">
 
-  <legend>
-    Guild Colors
-  </legend>
+    <legend>
+      Level Release
+    </legend>
 
-  <div
-    id="adminGuildColors"
-    class="guild-color-list"
-  ></div>
+    <div class="release-list">
 
-</fieldset>
+      <div class="release-row">
+        <strong>Lv4</strong>
+        <input
+          id="adminLv4Release"
+          type="datetime-local"
+        >
+      </div>
+
+      <div class="release-row">
+        <strong>Lv5</strong>
+        <input
+          id="adminLv5Release"
+          type="datetime-local"
+        >
+      </div>
+
+      <div class="release-row">
+        <strong>Lv6</strong>
+        <input
+          id="adminLv6Release"
+          type="datetime-local"
+        >
+      </div>
+
+      <div class="release-row">
+        <strong>Lv7</strong>
+        <input
+          id="adminLv7Release"
+          type="datetime-local"
+        >
+      </div>
+
+    </div>
+
+    <p class="admin-note">
+      Level availability ends automatically with the Event Period.
+    </p>
+
+  </fieldset>
+
+
+  <!-- Guild Colors -->
+
+  <fieldset class="admin-section">
+
+    <legend>
+      Guild Colors
+    </legend>
+
+    <div
+      id="adminGuildColors"
+      class="guild-color-list"
+    ></div>
+
+  </fieldset>
+
+</div>
 
 
 <!-- Schedule Generator -->
 
-<fieldset class="admin-section">
+<div
+  id="adminGeneratorView"
+  class="admin-panel-view"
+  hidden
+>
 
-  <legend>
-    Schedule Generator
-  </legend>
+  <fieldset class="admin-section">
+
+    <legend>
+      Schedule Generator
+    </legend>
 
 
-  <!-- Fortress Level -->
+    <!-- Fortress Level -->
 
-  <label>
+    <label>
 
-    Fortress Level
+      Fortress Level
 
-    <select
-      id="generatorFortress"
-      required
-    >
+      <select
+        id="generatorFortress"
+        required
+      >
 
-      <option
-        value=""
-        selected
+        <option
+          value="Lv6"
+          selected
+        >
+          Lv6
+        </option>
+
+        <option value="Lv7">
+          Lv7
+        </option>
+
+        <option value="Lv5">
+          Lv5
+        </option>
+
+      </select>
+
+    </label>
+
+
+    <!-- Guild Count -->
+
+    <label>
+
+      Guild Count
+
+      <input
+        id="generatorGuildCount"
+        type="number"
+        min="1"
+        step="1"
+        value="4"
+        required
+      >
+
+    </label>
+
+
+    <!-- Attack Count -->
+
+    <label>
+
+      Attack Count
+
+      <input
+        id="generatorAttackCount"
+        type="number"
+        min="1"
+        step="1"
+        value="2"
+        required
+      >
+
+    </label>
+
+
+    <!-- First Attack -->
+
+    <fieldset>
+
+      <legend>
+        First Attack
+      </legend>
+
+      <div class="datetime">
+
+        <div>
+
+          <span>
+            GMT
+          </span>
+
+          <input
+            id="generatorFirstAttack"
+            type="time"
+            value="12:00"
+            required
+          >
+
+        </div>
+
+      </div>
+
+    </fieldset>
+
+
+    <!-- Attack Time Range -->
+
+    <fieldset>
+
+      <legend>
+        Attack Time Range
+      </legend>
+
+      <div class="datetime">
+
+        <div>
+
+          <span>
+            Start GMT
+          </span>
+
+          <input
+            id="generatorRangeStart"
+            type="time"
+            value="08:00"
+            required
+          >
+
+        </div>
+
+        <div>
+
+          <span>
+            End GMT
+          </span>
+
+          <input
+            id="generatorRangeEnd"
+            type="time"
+            value="15:00"
+            required
+          >
+
+        </div>
+
+      </div>
+
+    </fieldset>
+
+
+    <!-- Allowed Lag -->
+
+    <label>
+
+      Allowed Lag (min)
+
+      <input
+        id="generatorLag"
+        type="number"
+        min="0"
+        step="1"
+        value="60"
+        required
+      >
+
+    </label>
+
+
+    <!-- Generate -->
+
+    <div class="generator-buttons">
+
+      <button
+        type="button"
+        id="generatorGenerateBtn"
+        class="main-button"
+      >
+        Generate
+      </button>
+
+    </div>
+
+
+    <!-- Candidate Text -->
+
+    <textarea
+      id="generatorResult"
+      class="generator-result"
+      spellcheck="false"
+      placeholder="Generated schedule will appear here."
+    ></textarea>
+
+
+    <!-- GO -->
+
+    <div class="generator-go">
+
+      <button
+        type="button"
+        id="generatorGoBtn"
+        class="main-button"
         disabled
       >
-        Select Level
-      </option>
-
-      <option value="Lv7">
-        Lv7
-      </option>
-
-      <option value="Lv6">
-        Lv6
-      </option>
-
-      <option value="Lv5">
-        Lv5
-      </option>
-
-    </select>
-
-  </label>
-
-
-  <!-- Guild Count -->
-
-  <label>
-
-    Guild Count
-
-    <input
-      id="generatorGuildCount"
-      type="number"
-      min="1"
-      step="1"
-      value="4"
-      required
-    >
-
-  </label>
-
-
-  <!-- Attack Count -->
-
-  <label>
-
-    Attack Count
-
-    <input
-      id="generatorAttackCount"
-      type="number"
-      min="1"
-      step="1"
-      value="2"
-      required
-    >
-
-  </label>
-
-
-  <!-- First Attack -->
-
-  <fieldset>
-
-    <legend>
-      First Attack
-    </legend>
-
-    <div class="datetime">
-
-      <div>
-
-        <span>
-          GMT
-        </span>
-
-        <input
-          id="generatorFirstAttack"
-          type="time"
-          value="12:00"
-          required
-        >
-
-      </div>
+        GO
+      </button>
 
     </div>
 
   </fieldset>
 
-
-  <!-- Attack Time Range -->
-
-  <fieldset>
-
-    <legend>
-      Attack Time Range
-    </legend>
-
-    <div class="datetime">
-
-      <div>
-
-        <span>
-          Start GMT
-        </span>
-
-        <input
-          id="generatorRangeStart"
-          type="time"
-          required
-        >
-
-      </div>
-
-      <div>
-
-        <span>
-          End GMT
-        </span>
-
-        <input
-          id="generatorRangeEnd"
-          type="time"
-          required
-        >
-
-      </div>
-
-    </div>
-
-  </fieldset>
-
-
-  <!-- Allowed Lag -->
-
-  <label>
-
-    Allowed Lag (min)
-
-    <input
-      id="generatorLag"
-      type="number"
-      min="0"
-      step="1"
-      value="60"
-      required
-    >
-
-  </label>
-
-
-  <!-- Generate -->
-
-  <div class="generator-buttons">
-
-    <button
-      type="button"
-      id="generatorGenerateBtn"
-      class="main-button"
-    >
-      Generate
-    </button>
-
-  </div>
-
-
-  <!-- Result -->
-
-  <pre
-    id="generatorResult"
-    class="generator-result"
-  ></pre>
-
-
-  <!-- GO -->
-
-  <div class="generator-go">
-
-    <button
-      type="button"
-      id="generatorGoBtn"
-      class="main-button"
-      disabled
-    >
-      GO
-    </button>
-
-  </div>
-
-</fieldset>
+</div>
 
 
     
