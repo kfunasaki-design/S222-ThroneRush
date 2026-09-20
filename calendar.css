@@ -2036,3 +2036,67 @@ legend {
   box-shadow:
     inset 0 1px 0 #217346;
 }
+/* =========================================================
+Admin Panel View Switch
+========================================================= */
+
+.admin-panel-switch {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+  margin-right: 8px;
+}
+
+.admin-panel-tab {
+  border: 1px solid #555;
+  background: #111;
+  color: #aaa;
+  padding: 5px 9px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.admin-panel-tab.active {
+  background: #333;
+  color: #fff;
+  border-color: #777;
+}
+
+.admin-panel-view[hidden] {
+  display: none;
+}
+
+
+/* =========================================================
+Schedule Generator Result
+========================================================= */
+
+.generator-result {
+  display: block;
+  width: 100%;
+  min-height: 280px;
+  box-sizing: border-box;
+
+  margin-top: 12px;
+  padding: 12px;
+
+  background: #000;
+  color: #ADFF2F;
+
+  border: 1px solid #333;
+  border-radius: 4px;
+
+  font-family: monospace;
+  font-size: 13px;
+  line-height: 1.5;
+
+  resize: vertical;
+
+  white-space: pre;
+  overflow: auto;
+}
+
+.generator-result::placeholder {
+  color: #555;
+}
