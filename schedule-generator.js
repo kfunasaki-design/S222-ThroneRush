@@ -32,32 +32,14 @@ const generatorLag =
 const generatorGenerateBtn =
   document.getElementById("generatorGenerateBtn");
 
+const generatorRestartBtn =
+  document.getElementById("generatorRestartBtn");
+
 const generatorResult =
   document.getElementById("generatorResult");
 
 const generatorGoBtn =
   document.getElementById("generatorGoBtn");
-
-
-/* =========================================================
-Admin Panel View
-========================================================= */
-
-const adminSettingsTab =
-  document.getElementById("adminSettingsTab");
-
-const adminGeneratorTab =
-  document.getElementById("adminGeneratorTab");
-
-const adminSettingsView =
-  document.getElementById("adminSettingsView");
-
-const adminGeneratorView =
-  document.getElementById("adminGeneratorView");
-
-
-const ADMIN_PANEL_VIEW_KEY =
-  "s222_admin_panel_view";
 
 
 let generatedCandidate = null;
@@ -77,96 +59,83 @@ Constants
 const GENERATOR_TIME_STEP = 30;
 
 
+/*
+ * Generator初期値
+ */
+const GENERATOR_DEFAULTS = {
+  fortress: "Lv6",
+  guildCount: "4",
+  attackCount: "2",
+  firstAttack: "12:00",
+  rangeStart: "08:00",
+  rangeEnd: "15:00",
+  lag: "60"
+};
+
+
 /* =========================================================
-Admin Panel View Switch
+Generator Reset
 ========================================================= */
 
-function initAdminPanelViewSwitch() {
-
-  if (
-    !adminSettingsTab ||
-    !adminGeneratorTab ||
-    !adminSettingsView ||
-    !adminGeneratorView
-  ) {
-    return;
+function generatorReset() {
+  /*
+   * Generatorの入力値だけを
+   * 初期状態へ戻す。
+   */
+  if (generatorFortress) {
+    generatorFortress.value =
+      GENERATOR_DEFAULTS.fortress;
   }
 
-
-  function showAdminPanelView(
-    view
-  ) {
-
-    const isGenerator =
-      view === "generator";
-
-
-    adminSettingsView.hidden =
-      isGenerator;
-
-    adminGeneratorView.hidden =
-      !isGenerator;
-
-
-    adminSettingsTab.classList.toggle(
-      "active",
-      !isGenerator
-    );
-
-    adminGeneratorTab.classList.toggle(
-      "active",
-      isGenerator
-    );
-
-
-    localStorage.setItem(
-      ADMIN_PANEL_VIEW_KEY,
-      isGenerator
-        ? "generator"
-        : "settings"
-    );
+  if (generatorGuildCount) {
+    generatorGuildCount.value =
+      GENERATOR_DEFAULTS.guildCount;
   }
 
+  if (generatorAttackCount) {
+    generatorAttackCount.value =
+      GENERATOR_DEFAULTS.attackCount;
+  }
 
-  adminSettingsTab.addEventListener(
-    "click",
-    () => {
-      showAdminPanelView(
-        "settings"
-      );
-    }
-  );
+  if (generatorFirstAttack) {
+    generatorFirstAttack.value =
+      GENERATOR_DEFAULTS.firstAttack;
+  }
 
+  if (generatorRangeStart) {
+    generatorRangeStart.value =
+      GENERATOR_DEFAULTS.rangeStart;
+  }
 
-  adminGeneratorTab.addEventListener(
-    "click",
-    () => {
-      showAdminPanelView(
-        "generator"
-      );
-    }
-  );
+  if (generatorRangeEnd) {
+    generatorRangeEnd.value =
+      GENERATOR_DEFAULTS.rangeEnd;
+  }
 
+  if (generatorLag) {
+    generatorLag.value =
+      GENERATOR_DEFAULTS.lag;
+  }
 
-  const savedView =
-    localStorage.getItem(
-      ADMIN_PANEL_VIEW_KEY
-    );
+  /*
+   * 生成結果をクリア。
+   */
+  if (generatorResult) {
+    generatorResult.value = "";
+  }
 
+  /*
+   * 現在のCandidateを破棄。
+   */
+  generatedCandidate = null;
 
-  showAdminPanelView(
-    savedView === "generator"
-      ? "generator"
-      : "settings"
-  );
+  /*
+   * GOを無効化。
+   */
+  if (generatorGoBtn) {
+    generatorGoBtn.disabled = true;
+  }
 }
-
-
-/*
- * calendar.htmlはscriptをbody末尾で読み込むため、
- * DOMは既に存在している。
- */
-initAdminPanelViewSwitch();
 
 
 /* =========================================================
@@ -183,15 +152,19 @@ function generatorParseTime(value) {
 
 function generatorFormatDateTime(date) {
   const y = date.getUTCFullYear();
+
   const m = String(
     date.getUTCMonth() + 1
   ).padStart(2, "0");
+
   const d = String(
     date.getUTCDate()
   ).padStart(2, "0");
+
   const h = String(
     date.getUTCHours()
   ).padStart(2, "0");
+
   const min = String(
     date.getUTCMinutes()
   ).padStart(2, "0");
@@ -1899,8 +1872,7 @@ function generatorDisplayCandidate(
   );
 
   /*
-   * generatorResultはtextareaなので
-   * textContentではなくvalueを使用。
+   * textareaのvalueへ表示。
    */
   generatorResult.value =
     lines.join("\n");
@@ -1914,10 +1886,6 @@ Generate Button
 generatorGenerateBtn.addEventListener(
   "click",
   () => {
-
-    /*
-     * generatorResultはtextarea。
-     */
     generatorResult.value = "";
 
     generatorGoBtn.disabled = true;
@@ -1925,7 +1893,6 @@ generatorGenerateBtn.addEventListener(
     generatedCandidate = null;
 
     try {
-
       generatedCandidate =
         generatorGenerateCandidate();
 
@@ -1936,7 +1903,6 @@ generatorGenerateBtn.addEventListener(
       generatorGoBtn.disabled = false;
 
     } catch (error) {
-
       console.error(
         "Schedule Generator:",
         error
@@ -1951,19 +1917,29 @@ generatorGenerateBtn.addEventListener(
 
 
 /* =========================================================
+Restart Button
+========================================================= */
+
+generatorRestartBtn.addEventListener(
+  "click",
+  () => {
+    generatorReset();
+  }
+);
+
+
+/* =========================================================
 GO
 ========================================================= */
 
 generatorGoBtn.addEventListener(
   "click",
   async () => {
-
     if (!generatedCandidate) {
       return;
     }
 
     try {
-
       generatorGoBtn.disabled =
         true;
 
@@ -1971,13 +1947,11 @@ generatorGoBtn.addEventListener(
         const originalSchedule of
           generatedCandidate.schedules
       ) {
-
         /*
          * Generator内部用の
          * _generatorGroup は除外。
          */
         const schedule = {
-
           league:
             originalSchedule.league,
 
@@ -2021,7 +1995,6 @@ generatorGoBtn.addEventListener(
         null;
 
     } catch (error) {
-
       console.error(
         "Schedule Generator GO:",
         error
@@ -2034,9 +2007,20 @@ generatorGoBtn.addEventListener(
         }`;
 
     } finally {
-
       generatorGoBtn.disabled =
         true;
     }
   }
 );
+
+
+/* =========================================================
+Initial State
+========================================================= */
+
+/*
+ * Generatorを初期状態で開始。
+ *
+ * Admin Panelの他の設定には触れない。
+ */
+generatorReset();
