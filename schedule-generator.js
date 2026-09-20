@@ -65,7 +65,7 @@ const ADMIN_PANEL_VIEW_KEY =
 
 let generatedCandidate = null;
 
-
+const GENERATOR_TIME_STEP = 30;
 /* =========================================================
 Generator Defaults
 ========================================================= */
