@@ -907,98 +907,175 @@ Admin Panel
     Schedule Generator
   </legend>
 
-  <div class="generator-form">
 
-    <label>
+  <!-- Fortress Level -->
 
-      Guild Count
+  <label>
 
-      <input
-        id="generatorGuildCount"
-        type="number"
-        min="1"
-        step="1"
-        value="4"
-        required
+    Fortress Level
+
+    <select
+      id="generatorFortress"
+      required
+    >
+
+      <option
+        value=""
+        selected
+        disabled
       >
+        Select Level
+      </option>
 
-    </label>
+      <option value="Lv7">
+        Lv7
+      </option>
 
+      <option value="Lv6">
+        Lv6
+      </option>
 
-    <label>
+      <option value="Lv5">
+        Lv5
+      </option>
 
-      Available Start
+      <option value="Lv4">
+        Lv4
+      </option>
 
-      <input
-        id="generatorStart"
-        type="datetime-local"
-        required
-      >
+    </select>
 
-    </label>
-
-
-    <label>
-
-      Available End
-
-      <input
-        id="generatorEnd"
-        type="datetime-local"
-        required
-      >
-
-    </label>
+  </label>
 
 
-    <label>
+  <!-- Guild Count -->
 
-      Attack Count
+  <label>
 
-      <input
-        id="generatorAttackCount"
-        type="number"
-        min="1"
-        step="1"
-        value="1"
-        required
-      >
+    Guild Count
 
-    </label>
+    <input
+      id="generatorGuildCount"
+      type="number"
+      min="1"
+      step="1"
+      value="4"
+      required
+    >
+
+  </label>
 
 
-    <label>
+  <!-- Attack Count -->
 
-      Allowed Lag
+  <label>
 
-      <select id="generatorLag">
+    Attack Count
 
-        <option value="0">
-          ±0 min
-        </option>
+    <input
+      id="generatorAttackCount"
+      type="number"
+      min="1"
+      step="1"
+      value="2"
+      required
+    >
 
-        <option value="30">
-          ±30 min
-        </option>
+  </label>
 
-        <option value="60" selected>
-          ±1 hour
-        </option>
 
-        <option value="90">
-          ±1.5 hours
-        </option>
+  <!-- First Attack -->
 
-        <option value="120">
-          ±2 hours
-        </option>
+  <fieldset>
 
-      </select>
+    <legend>
+      First Attack
+    </legend>
 
-    </label>
+    <div class="datetime">
 
-  </div>
+      <div>
 
+        <span>
+          GMT
+        </span>
+
+        <input
+          id="generatorFirstAttack"
+          type="time"
+          value="12:00"
+          required
+        >
+
+      </div>
+
+    </div>
+
+  </fieldset>
+
+
+  <!-- Attack Time Range -->
+
+  <fieldset>
+
+    <legend>
+      Attack Time Range
+    </legend>
+
+    <div class="datetime">
+
+      <div>
+
+        <span>
+          Start GMT
+        </span>
+
+        <input
+          id="generatorRangeStart"
+          type="time"
+          required
+        >
+
+      </div>
+
+      <div>
+
+        <span>
+          End GMT
+        </span>
+
+        <input
+          id="generatorRangeEnd"
+          type="time"
+          required
+        >
+
+      </div>
+
+    </div>
+
+  </fieldset>
+
+
+  <!-- Allowed Lag -->
+
+  <label>
+
+    Allowed Lag (min)
+
+    <input
+      id="generatorLag"
+      type="number"
+      min="0"
+      step="1"
+      value="60"
+      required
+    >
+
+  </label>
+
+
+  <!-- Generate -->
 
   <div class="generator-buttons">
 
@@ -1013,11 +1090,15 @@ Admin Panel
   </div>
 
 
-  <div
+  <!-- Result -->
+
+  <pre
     id="generatorResult"
     class="generator-result"
-  ></div>
+  ></pre>
 
+
+  <!-- GO -->
 
   <div class="generator-go">
 
