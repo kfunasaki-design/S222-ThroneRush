@@ -8,24 +8,34 @@ Schedule Generator
 Elements
 ========================================================= */
 
+const generatorFortress =
+  document.getElementById(
+    "generatorFortress"
+  );
+
 const generatorGuildCount =
   document.getElementById(
     "generatorGuildCount"
   );
 
-const generatorStart =
-  document.getElementById(
-    "generatorStart"
-  );
-
-const generatorEnd =
-  document.getElementById(
-    "generatorEnd"
-  );
-
 const generatorAttackCount =
   document.getElementById(
     "generatorAttackCount"
+  );
+
+const generatorFirstAttack =
+  document.getElementById(
+    "generatorFirstAttack"
+  );
+
+const generatorRangeStart =
+  document.getElementById(
+    "generatorRangeStart"
+  );
+
+const generatorRangeEnd =
+  document.getElementById(
+    "generatorRangeEnd"
   );
 
 const generatorLag =
@@ -53,9 +63,8 @@ const generatorGoBtn =
 State
 ========================================================= */
 
-let generatedCandidates = [];
-
-let selectedCandidate = null;
+let generatedCandidate =
+  null;
 
 
 /* =========================================================
@@ -72,33 +81,52 @@ generatorGenerateBtn.addEventListener(
     generatorGoBtn.disabled =
       true;
 
-    generatedCandidates =
-      [];
-
-    selectedCandidate =
+    generatedCandidate =
       null;
 
+
+    const fortress =
+      generatorFortress.value;
 
     const guildCount =
       Number(
         generatorGuildCount.value
       );
 
-    const start =
-      generatorStart.value;
-
-    const end =
-      generatorEnd.value;
-
     const attackCount =
       Number(
         generatorAttackCount.value
       );
 
+    const firstAttack =
+      generatorFirstAttack.value;
+
+    const rangeStart =
+      generatorRangeStart.value;
+
+    const rangeEnd =
+      generatorRangeEnd.value;
+
     const lag =
       Number(
         generatorLag.value
       );
+
+
+    /* -----------------------------------------------------
+    Validation
+    ----------------------------------------------------- */
+
+    if (
+      !fortress
+    ) {
+
+      generatorResult.textContent =
+        "Please select a Fortress Level.";
+
+      return;
+
+    }
 
 
     if (
@@ -108,33 +136,6 @@ generatorGenerateBtn.addEventListener(
 
       generatorResult.textContent =
         "Please enter a valid Guild Count.";
-
-      return;
-
-    }
-
-
-    if (
-      !start ||
-      !end
-    ) {
-
-      generatorResult.textContent =
-        "Please enter the available time.";
-
-      return;
-
-    }
-
-
-    if (
-      new Date(end)
-      <=
-      new Date(start)
-    ) {
-
-      generatorResult.textContent =
-        "Available End must be after Available Start.";
 
       return;
 
@@ -154,38 +155,93 @@ generatorGenerateBtn.addEventListener(
     }
 
 
-    /*
-      Temporary result.
+    if (
+      !firstAttack
+    ) {
 
-      Actual schedule generation
-      will be added later.
-    */
+      generatorResult.textContent =
+        "Please enter the First Attack time.";
 
-    generatedCandidates = [
+      return;
 
-      {
-        guildCount,
-        start,
-        end,
-        attackCount,
-        lag
-      }
-
-    ];
+    }
 
 
-    selectedCandidate =
-      generatedCandidates[0];
+    if (
+      !rangeStart ||
+      !rangeEnd
+    ) {
 
+      generatorResult.textContent =
+        "Please enter the Attack Time Range.";
+
+      return;
+
+    }
+
+
+    if (
+      rangeStart >= rangeEnd
+    ) {
+
+      generatorResult.textContent =
+        "Attack Time Range End must be after Start.";
+
+      return;
+
+    }
+
+
+    if (
+      lag < 0
+    ) {
+
+      generatorResult.textContent =
+        "Allowed Lag cannot be negative.";
+
+      return;
+
+    }
+
+
+    /* -----------------------------------------------------
+    Candidate
+
+    Actual calculation will be added later.
+    ----------------------------------------------------- */
+
+    generatedCandidate = {
+
+      fortress,
+
+      guildCount,
+
+      attackCount,
+
+      firstAttack,
+
+      rangeStart,
+
+      rangeEnd,
+
+      lag
+
+    };
+
+
+    /* -----------------------------------------------------
+    Temporary display
+    ----------------------------------------------------- */
 
     generatorResult.textContent =
       [
-        "Generator input received.",
+        "Generator Input",
         "",
+        `Fortress: ${fortress}`,
         `Guild Count: ${guildCount}`,
-        `Available Start: ${start}`,
-        `Available End: ${end}`,
         `Attack Count: ${attackCount}`,
+        `First Attack: GMT ${firstAttack}`,
+        `Attack Range: GMT ${rangeStart} - ${rangeEnd}`,
         `Allowed Lag: ±${lag} min`
       ].join("\n");
 
@@ -206,7 +262,7 @@ generatorGoBtn.addEventListener(
   () => {
 
     if (
-      !selectedCandidate
+      !generatedCandidate
     ) {
 
       return;
@@ -215,13 +271,14 @@ generatorGoBtn.addEventListener(
 
 
     /*
-      Calendar transfer
-      will be added later.
+      Calendar transfer will be added
+      after the schedule calculation
+      is completed.
     */
 
     console.log(
-      "Selected candidate:",
-      selectedCandidate
+      "Generated candidate:",
+      generatedCandidate
     );
 
   }
