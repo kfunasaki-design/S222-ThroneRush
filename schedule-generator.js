@@ -1219,7 +1219,24 @@ function generatorEvaluate(
   };
 }
 
+/* =========================================================
+Candidate Signature
+========================================================= */
 
+function generatorCreateCandidateSignature(
+  candidate
+) {
+  return candidate.slots
+    .map(slot =>
+      [
+        slot.fortress.label,
+        slot.start.getTime(),
+        slot.end.getTime()
+      ].join(":")
+    )
+    .sort()
+    .join("|");
+}
 /* =========================================================
 Generate Candidate
 ========================================================= */
