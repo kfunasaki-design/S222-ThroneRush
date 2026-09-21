@@ -228,7 +228,22 @@ function generatorReset() {
     generatorGoBtn.disabled = true;
   }
 }
+/* =========================================================
+Generator Restart
+========================================================= */
 
+function generatorRestart() {
+
+  if (generatorResult) {
+    generatorResult.value = "";
+  }
+
+  generatedCandidate = null;
+
+  if (generatorGoBtn) {
+    generatorGoBtn.disabled = true;
+  }
+}
 
 /* =========================================================
 Basic Utilities
@@ -1953,7 +1968,7 @@ Restart Button
 generatorRestartBtn.addEventListener(
   "click",
   () => {
-    generatorReset();
+    generatorRestart();
   }
 );
 
