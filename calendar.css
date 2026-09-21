@@ -2100,3 +2100,13 @@ Schedule Generator Result
 .generator-result::placeholder {
   color: #555;
 }
+/* =========================================================
+   Vertical Compression TEST
+   ※ 5 guilds超で表を縦50%に圧縮
+   ※ 不採用ならこのブロックごと削除
+   ========================================================= */
+
+.summary-table-compact {
+  transform: scaleY(0.5);
+  transform-origin: top center;
+}
