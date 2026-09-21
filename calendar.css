@@ -2109,7 +2109,7 @@ Schedule Generator Result
 #summaryTable.summary-vertical-compression-test {
 
   font-size: 70%;
-
+transform: scaleY(0.8);
 }
 
 #summaryTable.summary-vertical-compression-test th,
