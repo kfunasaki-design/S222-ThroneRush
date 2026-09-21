@@ -1529,7 +1529,60 @@ if (
     GENERATOR_CANDIDATE_POOL_SIZE;
 }
   }
+/*
+ * 候補プールからランダムに選ぶ。
+ *
+ * 最良候補だけではなく、
+ * 上位候補の中から選ぶことで
+ * 同じ条件でも結果に変化を持たせる。
+ */
+if (candidatePool.length) {
 
+  /*
+   * 最良候補を基準に、
+   * 上位候補から選択。
+   */
+  const selectableCandidates =
+    candidatePool.filter(
+      candidate =>
+        candidate.difference <=
+        candidatePool[0].difference +
+        Math.max(
+          GENERATOR_TIME_STEP * 2,
+          60
+        )
+    );
+
+  /*
+   * 直前と同じ候補を避ける。
+   */
+  const differentCandidates =
+    selectableCandidates.filter(
+      candidate =>
+        generatorCreateCandidateSignature(
+          candidate
+        ) !==
+        lastGeneratedSignature
+    );
+
+  const pool =
+    differentCandidates.length
+      ? differentCandidates
+      : selectableCandidates;
+
+  bestCandidate =
+    pool[
+      Math.floor(
+        Math.random() *
+        pool.length
+      )
+    ];
+
+  lastGeneratedSignature =
+    generatorCreateCandidateSignature(
+      bestCandidate
+    );
+}
   if (!bestCandidate) {
     throw new Error(
       "No valid schedule could be generated with the current conditions."
