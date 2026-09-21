@@ -931,7 +931,7 @@ function updateSummaryCompression(
 
   table.classList.toggle(
     "summary-vertical-compression-test",
-    guildCount > 5
+    guildCount > 4
   );
 
 }
