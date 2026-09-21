@@ -2106,7 +2106,7 @@ Schedule Generator Result
    ※ 不採用ならこのブロックごと削除
    ========================================================= */
 
-.summary-table-compact {
-  transform: scaleY(0.5);
+#summaryTable.summary-vertical-compression-test {
+  transform: scaleY(0.5) !important;
   transform-origin: top center;
 }
