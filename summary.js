@@ -899,8 +899,42 @@ function renderGuildSummary() {
     averages
   );
 
+  updateSummaryCompression(
+    guilds.length
+  );
+   
 }
+/* =========================================================
+   Guild Summary Vertical Compression TEST
+   ※ 5 guilds超で表を縦50%に圧縮
+   ※ 不採用ならこのブロックごと削除
+========================================================= */
 
+function updateSummaryCompression(
+  guildCount
+) {
+
+  const table =
+    document.getElementById(
+      "summaryTable"
+    );
+
+
+  if (
+    !table
+  ) {
+
+    return;
+
+  }
+
+
+  table.classList.toggle(
+    "summary-vertical-compression-test",
+    guildCount > 5
+  );
+
+}
 
 /* =========================================================
    Summary Preview
