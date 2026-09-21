@@ -32,9 +32,6 @@ const generatorLag =
 const generatorGenerateBtn =
   document.getElementById("generatorGenerateBtn");
 
-const generatorRestartBtn =
-  document.getElementById("generatorRestartBtn");
-
 const generatorResult =
   document.getElementById("generatorResult");
 
@@ -228,22 +225,7 @@ function generatorReset() {
     generatorGoBtn.disabled = true;
   }
 }
-/* =========================================================
-Generator Restart
-========================================================= */
 
-function generatorRestart() {
-
-  if (generatorResult) {
-    generatorResult.value = "";
-  }
-
-  generatedCandidate = null;
-
-  if (generatorGoBtn) {
-    generatorGoBtn.disabled = true;
-  }
-}
 
 /* =========================================================
 Basic Utilities
