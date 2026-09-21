@@ -3473,5 +3473,8 @@ function updateSummaryCompression(
     "summary-vertical-compression-test",
     guildCount > 4
   );
-
+console.log(
+  "SUMMARY CLASS:",
+  table.className
+);
 }
