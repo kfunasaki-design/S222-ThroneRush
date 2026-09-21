@@ -904,37 +904,7 @@ function renderGuildSummary() {
   );
    
 }
-/* =========================================================
-   Guild Summary Vertical Compression TEST
-   ※ 4 guilds超で表を縦50%に圧縮
-   ※ 不採用ならこのブロックごと削除
-========================================================= */
 
-function updateSummaryCompression(
-  guildCount
-) {
-
-  const table =
-    document.getElementById(
-      "summaryTable"
-    );
-
-
-  if (
-    !table
-  ) {
-
-    return;
-
-  }
-
-
-  table.classList.toggle(
-    "summary-vertical-compression-test",
-    guildCount > 4
-  );
-
-}
 
 /* =========================================================
    Summary Preview
@@ -3468,3 +3438,35 @@ loadEventPeriod()
   });
 
 initializeAdminAuth();
+
+/* =========================================================
+   Guild Summary Vertical Compression TEST
+   ※ 4 guilds超で表を縦50%に圧縮
+   ※ 不採用ならこのブロックごと削除
+========================================================= */
+
+function updateSummaryCompression(
+  guildCount
+) {
+
+  const table =
+    document.getElementById(
+      "summaryTable"
+    );
+
+
+  if (
+    !table
+  ) {
+
+    return;
+
+  }
+
+
+  table.classList.toggle(
+    "summary-vertical-compression-test",
+    guildCount > 4
+  );
+
+}
