@@ -65,7 +65,11 @@ const ADMIN_PANEL_VIEW_KEY =
 
 let generatedCandidate = null;
 
+let lastGeneratedSignature = null;
+
 const GENERATOR_TIME_STEP = 30;
+
+const GENERATOR_CANDIDATE_POOL_SIZE = 20;
 /* =========================================================
 Generator Defaults
 ========================================================= */
@@ -1429,7 +1433,8 @@ function generatorGenerateCandidate() {
       fortresses.length
     );
 
-  let bestCandidate = null;
+let bestCandidate = null;
+const candidatePool = [];
 
   /*
    * 各分割パターンを探索。
@@ -1494,24 +1499,35 @@ function generatorGenerateCandidate() {
       continue;
     }
 
-    if (
-      !bestCandidate ||
-      evaluated.difference <
-        bestCandidate.difference
-    ) {
-      bestCandidate =
-        evaluated;
-    }
+/*
+ * 候補プールへ追加。
+ *
+ * 完全な最適解だけでなく、
+ * 実用上十分に良い候補を複数保持する。
+ */
+candidatePool.push(
+  evaluated
+);
 
-    /*
-     * 0分差なら完全均等。
-     * これ以上探す必要なし。
-     */
-    if (
-      evaluated.difference === 0
-    ) {
-      break;
-    }
+/*
+ * 差の小さい順に並べる。
+ */
+candidatePool.sort(
+  (a, b) =>
+    a.difference -
+    b.difference
+);
+
+/*
+ * 上位候補だけ保持。
+ */
+if (
+  candidatePool.length >
+  GENERATOR_CANDIDATE_POOL_SIZE
+) {
+  candidatePool.length =
+    GENERATOR_CANDIDATE_POOL_SIZE;
+}
   }
 
   if (!bestCandidate) {
