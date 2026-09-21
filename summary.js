@@ -899,9 +899,14 @@ function renderGuildSummary() {
     averages
   );
 
-  updateSummaryCompression(
-    guilds.length
-  );
+console.log(
+  "SUMMARY GUILD COUNT:",
+  guilds.length
+);
+
+updateSummaryCompression(
+  guilds.length
+);
    
 }
 
