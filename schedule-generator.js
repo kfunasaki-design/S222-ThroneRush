@@ -1306,15 +1306,13 @@ function generatorEvaluate(
     return null;
   }
 
+  /*
+   * TEST:
+   * 時間パターン生成後の状態を
+   * そのまま確認する。
+   */
   const optimizedSlots =
-    generatorOptimizeBoundaries(
-      slots,
-      assignment.guilds,
-      rangeStart,
-      rangeEnd,
-      lag,
-      eventEnd
-    );
+    slots;
 
   const finalAssignment =
     generatorFindBestAssignment(
