@@ -1342,7 +1342,57 @@ function generatorCalculateGuilds(
   return guilds;
 }
 
+/* =========================================================
+   Guild Occupation Overlap Check
+   ---------------------------------------------------------
+   Same guild must not occupy multiple fortresses
+   at the same time.
+========================================================= */
 
+function generatorHasGuildOccupationOverlap(
+  guilds
+) {
+  for (const guild of guilds) {
+    if (!guild.slots || guild.slots.length <= 1) {
+      continue;
+    }
+
+    const sortedSlots =
+      [...guild.slots].sort(
+        (a, b) =>
+          a.start.getTime() -
+          b.start.getTime()
+      );
+
+    for (
+      let i = 1;
+      i < sortedSlots.length;
+      i++
+    ) {
+      const previous =
+        sortedSlots[i - 1];
+
+      const current =
+        sortedSlots[i];
+
+      /*
+        Equal time is allowed because the previous
+        occupation ends exactly when the next begins.
+
+        Actual overlap:
+        current.start < previous.end
+      */
+      if (
+        current.start.getTime() <
+        previous.end.getTime()
+      ) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
 /* =========================================================
 Balance Score
 ========================================================= */
