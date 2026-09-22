@@ -3445,9 +3445,9 @@ loadEventPeriod()
 initializeAdminAuth();
 
 /* =========================================================
-   Guild Summary Vertical Compression TEST
-   ※ 4 guilds超で表を縦50%に圧縮
-   ※ 不採用ならこのブロックごと削除
+   Guild Summary Vertical Compression
+   ※ 4 guilds = 基準となる完成形
+   ※ 5 guilds以上で基準高さに収まるよう自動縮小
 ========================================================= */
 
 function updateSummaryCompression(
@@ -3469,12 +3469,181 @@ function updateSummaryCompression(
   }
 
 
-  table.classList.toggle(
-    "summary-vertical-compression-test",
-    guildCount > 4
+  /* ========================================
+     Reset
+  ======================================== */
+
+  table.classList.remove(
+    "summary-vertical-compression-test"
   );
-console.log(
-  "SUMMARY CLASS:",
-  table.className
-);
+
+  table.style.transform =
+    "";
+
+  table.style.transformOrigin =
+    "";
+
+  table.style.marginBottom =
+    "";
+
+
+  /* ========================================
+     4 guilds以下
+  ======================================== */
+
+  if (
+    guildCount <= 4
+  ) {
+
+    console.log(
+      "SUMMARY COMPRESSION:",
+      "OFF",
+      "Guilds:",
+      guildCount
+    );
+
+    return;
+
+  }
+
+
+  /* ========================================
+     Measure 4-guild base height
+  ======================================== */
+
+  const rows =
+    Array.from(
+      table.querySelectorAll(
+        "tbody tr"
+      )
+    );
+
+
+  const guildRows =
+    rows.filter(
+      row =>
+        !row.classList.contains(
+          "summary-total-row"
+        )
+    );
+
+
+  /*
+    一旦5ギルド目以降を隠して、
+    4ギルド時の表の高さを測定
+  */
+
+  const hiddenRows =
+    guildRows.slice(4);
+
+
+  hiddenRows.forEach(
+    row => {
+
+      row.style.display =
+        "none";
+
+    }
+  );
+
+
+  const baseHeight =
+    table.offsetHeight;
+
+
+  /* 元に戻す */
+
+  hiddenRows.forEach(
+    row => {
+
+      row.style.display =
+        "";
+
+    }
+  );
+
+
+  /* ========================================
+     Current height
+  ======================================== */
+
+  const currentHeight =
+    table.offsetHeight;
+
+
+  if (
+    baseHeight <= 0
+    ||
+    currentHeight <= baseHeight
+  ) {
+
+    return;
+
+  }
+
+
+  /* ========================================
+     Calculate scale
+  ======================================== */
+
+  const scale =
+    baseHeight /
+    currentHeight;
+
+
+  /* ========================================
+     Apply compression
+  ======================================== */
+
+  table.classList.add(
+    "summary-vertical-compression-test"
+  );
+
+
+  table.style.transform =
+    `scaleY(${scale})`;
+
+
+  table.style.transformOrigin =
+    "top center";
+
+
+  /*
+    transformは見た目だけ縮むため、
+    縮んだ分だけ下側のレイアウト領域も削る
+  */
+
+  const removedHeight =
+    currentHeight -
+    baseHeight;
+
+
+  table.style.marginBottom =
+    `${-removedHeight}px`;
+
+
+  /* ========================================
+     Debug
+  ======================================== */
+
+  console.log(
+    "SUMMARY COMPRESSION:",
+    {
+      guilds:
+        guildCount,
+
+      baseHeight:
+        baseHeight,
+
+      currentHeight:
+        currentHeight,
+
+      scale:
+        scale,
+
+      removedHeight:
+        removedHeight
+    }
+  );
+
 }
