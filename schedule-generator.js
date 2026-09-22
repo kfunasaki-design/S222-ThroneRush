@@ -1,13 +1,3 @@
-// =========================================================
-// S222 Throne Rush
-// Schedule Generator
-// =========================================================
-
-
-// =========================================================
-// Elements
-// =========================================================
-
 const generatorFortress =
   document.getElementById("generatorFortress");
 
@@ -38,11 +28,6 @@ const generatorResult =
 const generatorGoBtn =
   document.getElementById("generatorGoBtn");
 
-
-// =========================================================
-// Admin panel view
-// =========================================================
-
 const adminSettingsTab =
   document.getElementById("adminSettingsTab");
 
@@ -58,21 +43,11 @@ const adminGeneratorView =
 const ADMIN_PANEL_VIEW_KEY =
   "s222_admin_panel_view";
 
-
-// =========================================================
-// State
-// =========================================================
-
 let generatedCandidate = null;
 let lastGeneratedSignature = null;
 
 const GENERATOR_TIME_STEP = 30;
 const GENERATOR_CANDIDATE_POOL_SIZE = 20;
-
-
-// =========================================================
-// Defaults
-// =========================================================
 
 const GENERATOR_DEFAULTS = {
   fortress: "Lv6",
@@ -83,11 +58,6 @@ const GENERATOR_DEFAULTS = {
   rangeEnd: "15:00",
   lag: "60"
 };
-
-
-// =========================================================
-// Admin panel view
-// =========================================================
 
 function initAdminPanelViewSwitch() {
 
@@ -126,9 +96,7 @@ function initAdminPanelViewSwitch() {
         ADMIN_PANEL_VIEW_KEY,
         view
       );
-    } catch (error) {
-      // Ignore storage errors.
-    }
+    } catch (error) {}
   }
 
   adminSettingsTab.addEventListener(
@@ -152,19 +120,12 @@ function initAdminPanelViewSwitch() {
       localStorage.getItem(
         ADMIN_PANEL_VIEW_KEY
       ) || "settings";
-  } catch (error) {
-    // Ignore storage errors.
-  }
+  } catch (error) {}
 
   showView(initialView);
 }
 
 initAdminPanelViewSwitch();
-
-
-// =========================================================
-// Reset
-// =========================================================
 
 function generatorReset() {
 
@@ -214,11 +175,6 @@ function generatorReset() {
   }
 }
 
-
-// =========================================================
-// Basic utilities
-// =========================================================
-
 function generatorParseTime(value) {
 
   if (
@@ -252,7 +208,6 @@ function generatorParseTime(value) {
   return hours * 60 + minutes;
 }
 
-
 function generatorFormatDateTime(date) {
 
   const year =
@@ -284,7 +239,6 @@ function generatorFormatDateTime(date) {
   );
 }
 
-
 function generatorFormatDisplay(date) {
 
   const month =
@@ -313,7 +267,6 @@ function generatorFormatDisplay(date) {
   );
 }
 
-
 function generatorMinutesBetween(
   start,
   end
@@ -324,11 +277,9 @@ function generatorMinutesBetween(
   );
 }
 
-
 function generatorCloneDate(date) {
   return new Date(date.getTime());
 }
-
 
 function generatorMinutesToText(minutes) {
 
@@ -372,11 +323,6 @@ function generatorMinutesToText(minutes) {
     : "0m";
 }
 
-
-// =========================================================
-// Event / release
-// =========================================================
-
 function generatorGetEventPeriod() {
 
   if (
@@ -407,7 +353,6 @@ function generatorGetEventPeriod() {
   return null;
 }
 
-
 function generatorGetReleaseDate(level) {
 
   if (
@@ -437,7 +382,6 @@ function generatorGetReleaseDate(level) {
   return null;
 }
 
-
 function generatorGetStartDate(
   level,
   eventStart
@@ -461,11 +405,6 @@ function generatorGetStartDate(
   );
 }
 
-
-// =========================================================
-// Fortress
-// =========================================================
-
 function generatorGetFortresses(level) {
 
   if (
@@ -485,11 +424,6 @@ function generatorGetFortresses(level) {
     y: fortress.y
   }));
 }
-
-
-// =========================================================
-// Attack range
-// =========================================================
 
 function generatorIsTimeInRange(
   minutes,
@@ -538,7 +472,6 @@ function generatorIsTimeInRange(
   );
 }
 
-
 function generatorIsAllowedStart(
   date,
   rangeStart,
@@ -557,7 +490,6 @@ function generatorIsAllowedStart(
     lag
   );
 }
-
 
 function generatorRoundToStep(date) {
 
@@ -582,61 +514,6 @@ function generatorRoundToStep(date) {
 
   return result;
 }
-
-
-// =========================================================
-// Time boundary candidates
-// =========================================================
-//
-// Allowed Lag is deliberately used here as
-// the actual movable boundary range.
-//
-// A boundary may move around the normal attack
-// window by ±lag.
-// =========================================================
-
-function generatorGetAllowedMinuteWindows(
-  rangeStart,
-  rangeEnd,
-  lag
-) {
-
-  let start =
-    rangeStart - lag;
-
-  let end =
-    rangeEnd + lag;
-
-  start =
-    ((start % 1440) + 1440) %
-    1440;
-
-  end =
-    ((end % 1440) + 1440) %
-    1440;
-
-  return {
-    start,
-    end
-  };
-}
-
-
-function generatorIsBoundaryAllowed(
-  date,
-  rangeStart,
-  rangeEnd,
-  lag
-) {
-
-  return generatorIsAllowedStart(
-    date,
-    rangeStart,
-    rangeEnd,
-    lag
-  );
-}
-
 
 function generatorBuildBoundaryCandidates(
   fortressStart,
@@ -672,7 +549,7 @@ function generatorBuildBoundaryCandidates(
     if (
       cursor > fortressStart &&
       cursor < fortressEnd &&
-      generatorIsBoundaryAllowed(
+      generatorIsAllowedStart(
         cursor,
         rangeStart,
         rangeEnd,
@@ -693,22 +570,6 @@ function generatorBuildBoundaryCandidates(
 
   return result;
 }
-
-
-// =========================================================
-// Assignment patterns
-// =========================================================
-//
-// Each fortress receives `attackCount` slots.
-//
-// Example:
-// 3 fortresses × 2 attacks = 6 slots
-//
-// 4 guilds => valid distribution is 2/2/1/1.
-//
-// A guild may never occupy two consecutive slots
-// of the same fortress.
-// =========================================================
 
 function generatorBuildAssignmentPatterns(
   fortresses,
@@ -760,11 +621,6 @@ function generatorBuildAssignmentPatterns(
       return;
     }
 
-    const fortressIndex =
-      Math.floor(
-        index / attackCount
-      );
-
     const slotInFortress =
       index % attackCount;
 
@@ -785,8 +641,6 @@ function generatorBuildAssignmentPatterns(
         continue;
       }
 
-      // Never use the same guild twice
-      // inside the same fortress.
       if (
         guild === previousGuild
       ) {
@@ -810,11 +664,6 @@ function generatorBuildAssignmentPatterns(
 
   return patterns;
 }
-
-
-// =========================================================
-// Assignment helpers
-// =========================================================
 
 function generatorGetGuildTotals(
   slots,
@@ -854,11 +703,6 @@ function generatorGetGuildTotals(
     attacks
   };
 }
-
-
-// =========================================================
-// Fairness evaluation
-// =========================================================
 
 function generatorEvaluateFairness(
   slots,
@@ -925,18 +769,6 @@ function generatorEvaluateFairness(
     });
   }
 
-  /*
-   * Primary:
-   *   prevent one-attack guilds from becoming
-   *   longer than the two-attack group.
-   *
-   * Secondary:
-   *   minimize total occupation difference.
-   *
-   * Tertiary:
-   *   minimize squared deviation.
-   */
-
   const average =
     totals.reduce(
       (sum, value) =>
@@ -956,17 +788,8 @@ function generatorEvaluateFairness(
       0
     );
 
-  /*
-   * This is deliberately strong.
-   *
-   * 1 minute of single-attack excess
-   * should be considerably more expensive
-   * than 1 minute of ordinary imbalance.
-   */
   const SINGLE_ATTACK_WEIGHT = 8;
-
   const RANGE_WEIGHT = 1;
-
   const DEVIATION_WEIGHT =
     0.000001;
 
@@ -990,25 +813,6 @@ function generatorEvaluateFairness(
     score
   };
 }
-
-
-// =========================================================
-// Boundary optimization
-// =========================================================
-//
-// This is the main time optimizer.
-//
-// Each fortress has:
-//
-//   fixed start
-//       ↓
-//   movable boundary
-//       ↓
-//   fixed end
-//
-// Only the boundaries are optimized.
-// First Attack is never moved.
-// =========================================================
 
 function generatorBuildSlotsFromBoundaries(
   fortresses,
@@ -1091,27 +895,6 @@ function generatorBuildSlotsFromBoundaries(
   return slots;
 }
 
-
-function generatorGetInitialBoundary(
-  start,
-  end
-) {
-
-  const duration =
-    generatorMinutesBetween(
-      start,
-      end
-    );
-
-  return generatorRoundToStep(
-    new Date(
-      start.getTime() +
-      duration * 0.5 * 60000
-    )
-  );
-}
-
-
 function generatorBuildInitialBoundaries(
   fortresses,
   attackCount,
@@ -1157,12 +940,6 @@ function generatorBuildInitialBoundaries(
           boundary
         );
 
-      /*
-       * If the mathematically balanced point
-       * is not inside the allowed attack range,
-       * move it to the nearest allowed candidate.
-       */
-
       const candidates =
         generatorBuildBoundaryCandidates(
           actualStart,
@@ -1203,7 +980,6 @@ function generatorBuildInitialBoundaries(
   return result;
 }
 
-
 function generatorBoundaryKey(
   boundaries
 ) {
@@ -1218,7 +994,6 @@ function generatorBoundaryKey(
     )
     .join("|");
 }
-
 
 function generatorOptimizeAssignmentTimes(
   fortresses,
@@ -1264,14 +1039,6 @@ function generatorOptimizeAssignmentTimes(
       ) + 1
     );
 
-  /*
-   * Allowed Lag determines how far each boundary
-   * may be moved from its natural attack-window
-   * position.
-   *
-   * We search every 30-minute candidate.
-   */
-
   const candidateLists = [];
 
   for (
@@ -1302,14 +1069,6 @@ function generatorOptimizeAssignmentTimes(
 
     candidateLists.push(list);
   }
-
-  /*
-   * Coordinate descent.
-   *
-   * We do not brute-force every possible combination.
-   * Instead, each boundary is moved independently,
-   * repeatedly, until no improvement remains.
-   */
 
   const MAX_PASSES = 12;
 
@@ -1358,10 +1117,6 @@ function generatorOptimizeAssignmentTimes(
           const candidateDate
           of candidates
         ) {
-
-          /*
-           * Preserve chronological order.
-           */
 
           const previous =
             boundaryIndex === 0
@@ -1507,11 +1262,6 @@ function generatorOptimizeAssignmentTimes(
   };
 }
 
-
-// =========================================================
-// Candidate comparison
-// =========================================================
-
 function generatorCompareCandidates(
   a,
   b
@@ -1545,11 +1295,6 @@ function generatorCompareCandidates(
   );
 }
 
-
-// =========================================================
-// Candidate signature
-// =========================================================
-
 function generatorCreateCandidateSignature(
   candidate
 ) {
@@ -1566,11 +1311,6 @@ function generatorCreateCandidateSignature(
     .sort()
     .join("|");
 }
-
-
-// =========================================================
-// Assignment evaluation
-// =========================================================
 
 function generatorEvaluate(
   fortresses,
@@ -1600,10 +1340,6 @@ function generatorEvaluate(
     return null;
   }
 
-  /*
-   * Confirm every guild is represented.
-   */
-
   const guilds =
     new Set(
       assignment
@@ -1621,11 +1357,6 @@ function generatorEvaluate(
     attackCount
   };
 }
-
-
-// =========================================================
-// Convert slots to guild groups
-// =========================================================
 
 function generatorGroupSlotsByGuild(
   slots,
@@ -1671,11 +1402,6 @@ function generatorGroupSlotsByGuild(
 
   return groups;
 }
-
-
-// =========================================================
-// Generate schedules
-// =========================================================
 
 function generatorGenerate() {
 
@@ -1756,13 +1482,6 @@ function generatorGenerate() {
       eventStart
     );
 
-  /*
-   * First Attack is fixed.
-   *
-   * If the release occurs after today's
-   * first-attack time, move to the next day.
-   */
-
   let actualStart =
     generatorCloneDate(
       releaseStart
@@ -1796,11 +1515,6 @@ function generatorGenerate() {
     );
   }
 
-  /*
-   * Event cannot be generated if the fixed
-   * first attack is already outside the period.
-   */
-
   if (
     actualStart >= eventEnd
   ) {
@@ -1822,28 +1536,9 @@ function generatorGenerate() {
     );
   }
 
-  /*
-   * Every fortress receives up to the maximum
-   * attack count as occupation slots.
-   *
-   * Example:
-   *
-   *   Lv6 × 3 fortresses
-   *   Maximum Attack Count = 2
-   *
-   *   3 × 2 = 6 slots
-   */
-
   const totalSlots =
     fortresses.length *
     attackCount;
-
-  /*
-   * Every guild needs at least one slot.
-   *
-   * The total number of slots must also be
-   * possible with the maximum attack count.
-   */
 
   if (
     guildCount > totalSlots
@@ -1864,12 +1559,6 @@ function generatorGenerate() {
     );
   }
 
-  /*
-   * Build actual assignment patterns.
-   *
-   * These are the meaningful patterns now.
-   */
-
   const assignments =
     generatorBuildAssignmentPatterns(
       fortresses,
@@ -1885,15 +1574,6 @@ function generatorGenerate() {
   }
 
   const candidates = [];
-
-  /*
-   * Evaluate every assignment.
-   *
-   * The target problem is small:
-   * 3 fortresses × 2 slots = 6 positions.
-   *
-   * This makes direct pattern evaluation practical.
-   */
 
   for (
     const assignment
@@ -1934,10 +1614,6 @@ function generatorGenerate() {
     );
   }
 
-  /*
-   * Remove exact duplicate schedules.
-   */
-
   const unique =
     new Map();
 
@@ -1961,19 +1637,9 @@ function generatorGenerate() {
       unique.values()
     );
 
-  /*
-   * Sort by actual fairness.
-   */
-
   uniqueCandidates.sort(
     generatorCompareCandidates
   );
-
-  /*
-   * Keep only the strongest candidates.
-   *
-   * Generate click still displays ONE result.
-   */
 
   const pool =
     uniqueCandidates.slice(
@@ -1983,11 +1649,6 @@ function generatorGenerate() {
         uniqueCandidates.length
       )
     );
-
-  /*
-   * Prefer a different result from the previous
-   * Generate click.
-   */
 
   let selectable =
     pool.filter(
@@ -1999,12 +1660,6 @@ function generatorGenerate() {
   if (!selectable.length) {
     selectable = pool;
   }
-
-  /*
-   * Select randomly from the strong candidates.
-   * This preserves the existing "Generate again"
-   * behavior while keeping all results near-optimal.
-   */
 
   const selected =
     selectable[
@@ -2040,11 +1695,6 @@ function generatorGenerate() {
 
   return selected;
 }
-
-
-// =========================================================
-// Render result
-// =========================================================
 
 function generatorRenderCandidate(
   candidate
@@ -2169,11 +1819,6 @@ function generatorRenderCandidate(
   }
 }
 
-
-// =========================================================
-// Display helpers
-// =========================================================
-
 function generatorFormatClock(
   minutes
 ) {
@@ -2192,7 +1837,6 @@ function generatorFormatClock(
   );
 }
 
-
 function generatorGuildLabel(
   index
 ) {
@@ -2201,11 +1845,6 @@ function generatorGuildLabel(
     65 + index
   );
 }
-
-
-// =========================================================
-// Generate button
-// =========================================================
 
 if (generatorGenerateBtn) {
 
@@ -2250,11 +1889,6 @@ if (generatorGenerateBtn) {
   );
 }
 
-
-// =========================================================
-// Restart
-// =========================================================
-
 if (
   typeof generatorRestartBtn !==
   "undefined" &&
@@ -2274,11 +1908,6 @@ if (
     }
   );
 }
-
-
-// =========================================================
-// GO
-// =========================================================
 
 if (generatorGoBtn) {
 
@@ -2374,10 +2003,5 @@ if (generatorGoBtn) {
     }
   );
 }
-
-
-// =========================================================
-// Initial
-// =========================================================
 
 generatorReset();
