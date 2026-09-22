@@ -665,7 +665,8 @@ function generatorSplitFortress(
   slotCount,
   rangeStart,
   rangeEnd,
-  lag
+  lag,
+  timePattern
 ) {
   const totalMinutes =
     generatorMinutesBetween(
@@ -1479,15 +1480,16 @@ for (
       i++
     ) {
       const fortressSlots =
-        generatorSplitFortress(
-          fortresses[i],
-          actualStart,
-          period.end,
-          composition[i],
-          rangeStart,
-          rangeEnd,
-          lag
-        );
+generatorSplitFortress(
+  fortresses[i],
+  actualStart,
+  period.end,
+  composition[i],
+  rangeStart,
+  rangeEnd,
+  lag,
+  timePattern
+);
 
       if (!fortressSlots) {
         valid = false;
