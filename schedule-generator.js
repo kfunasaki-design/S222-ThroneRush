@@ -2367,6 +2367,16 @@ function generatorEvaluateCandidate(
   if (!optimized) {
     return null;
   }
+  /*
+   * 同一Guildの複数拠点同時保有を禁止。
+   */
+  if (
+    generatorHasGuildOccupationOverlap(
+      optimized.guilds
+    )
+  ) {
+    return null;
+  }
 
 
   return {
