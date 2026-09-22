@@ -2102,22 +2102,20 @@ Schedule Generator Result
 }
 /* =========================================================
    Guild Summary Vertical Compression TEST
-   ※ 5 guilds以上で実際の表の高さを圧縮
-   ※ 不採用ならこのブロックごと削除
+   ※ 5 guilds以上で縦80%に圧縮
 ========================================================= */
 
 #summaryTable.summary-vertical-compression-test {
+  --summary-scale-y: 0.8;
 
-  font-size: 70%;
-transform: scaleY(0.8);
-}
+  transform:
+    scaleY(var(--summary-scale-y));
 
-#summaryTable.summary-vertical-compression-test th,
-#summaryTable.summary-vertical-compression-test td {
+  transform-origin:
+    top center;
 
-  padding-top: 2px;
-  padding-bottom: 2px;
-
-  line-height: 1;
-
+  margin-bottom:
+    calc(
+      -1em * (1 - var(--summary-scale-y))
+    );
 }
