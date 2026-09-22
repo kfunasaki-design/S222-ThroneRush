@@ -2116,6 +2116,6 @@ Schedule Generator Result
 
   margin-bottom:
     calc(
-      -1em * (1 - var(--summary-scale-y))
+      -5em * (1 - var(--summary-scale-y))
     );
 }
