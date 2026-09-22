@@ -64,35 +64,21 @@ let generatedCandidate = null;
 
 let lastGeneratedSignature = null;
 
-const GENERATOR_TIME_STEP = 30;
-
-const GENERATOR_CANDIDATE_POOL_SIZE = 20;
-
 
 /* =========================================================
-Generator Time Patterns
+Generator Settings
 ========================================================= */
 
+const GENERATOR_TIME_STEP = 30;
+
+const GENERATOR_CANDIDATE_POOL_SIZE = 30;
+
+
 /*
- * Generateを1回押すごとに表示される結果は1つ。
- *
- * 内部では複数の時間配分パターンを候補として生成し、
- * その中から候補を1つ選択する。
- *
- * balanced
- *   現在の均等配分。
- *
- * front
- *   前半のslotを長めにする。
- *
- * back
- *   後半のslotを長めにする。
+ * 同じ結果を連続して返さないため、
+ * Generateごとに候補を少しずつ切り替える。
  */
-const GENERATOR_TIME_PATTERNS = [
-  "balanced",
-  "front",
-  "back"
-];
+let generatorSelectionOffset = 0;
 
 
 /* =========================================================
@@ -126,9 +112,7 @@ function initAdminPanelViewSwitch() {
   }
 
 
-  function showAdminPanelView(
-    view
-  ) {
+  function showAdminPanelView(view) {
 
     const isGenerator =
       view === "generator";
@@ -195,10 +179,6 @@ function initAdminPanelViewSwitch() {
 }
 
 
-/*
- * calendar.htmlはscriptをbody末尾で読み込むため、
- * DOMは既に存在している。
- */
 initAdminPanelViewSwitch();
 
 
@@ -249,6 +229,10 @@ function generatorReset() {
 
   generatedCandidate = null;
 
+  lastGeneratedSignature = null;
+
+  generatorSelectionOffset = 0;
+
   if (generatorGoBtn) {
     generatorGoBtn.disabled = true;
   }
@@ -260,54 +244,74 @@ Basic Utilities
 ========================================================= */
 
 function generatorParseTime(value) {
-  const [hour, minute] =
+
+  const parts =
     value.split(":").map(Number);
 
-  return hour * 60 + minute;
+  return (
+    parts[0] * 60 +
+    parts[1]
+  );
 }
 
 
 function generatorFormatDateTime(date) {
-  const y = date.getUTCFullYear();
 
-  const m = String(
-    date.getUTCMonth() + 1
-  ).padStart(2, "0");
+  const y =
+    date.getUTCFullYear();
 
-  const d = String(
-    date.getUTCDate()
-  ).padStart(2, "0");
+  const m =
+    String(
+      date.getUTCMonth() + 1
+    ).padStart(2, "0");
 
-  const h = String(
-    date.getUTCHours()
-  ).padStart(2, "0");
+  const d =
+    String(
+      date.getUTCDate()
+    ).padStart(2, "0");
 
-  const min = String(
-    date.getUTCMinutes()
-  ).padStart(2, "0");
+  const h =
+    String(
+      date.getUTCHours()
+    ).padStart(2, "0");
 
-  return `${y}-${m}-${d}T${h}:${min}:00+00:00`;
+  const min =
+    String(
+      date.getUTCMinutes()
+    ).padStart(2, "0");
+
+  return (
+    `${y}-${m}-${d}T` +
+    `${h}:${min}:00+00:00`
+  );
 }
 
 
 function generatorFormatDisplay(date) {
-  const m = String(
-    date.getUTCMonth() + 1
-  ).padStart(2, "0");
 
-  const d = String(
-    date.getUTCDate()
-  ).padStart(2, "0");
+  const m =
+    String(
+      date.getUTCMonth() + 1
+    ).padStart(2, "0");
 
-  const h = String(
-    date.getUTCHours()
-  ).padStart(2, "0");
+  const d =
+    String(
+      date.getUTCDate()
+    ).padStart(2, "0");
 
-  const min = String(
-    date.getUTCMinutes()
-  ).padStart(2, "0");
+  const h =
+    String(
+      date.getUTCHours()
+    ).padStart(2, "0");
 
-  return `${m}/${d} ${h}:${min}`;
+  const min =
+    String(
+      date.getUTCMinutes()
+    ).padStart(2, "0");
+
+  return (
+    `${m}/${d} ${h}:${min}`
+  );
 }
 
 
@@ -315,21 +319,32 @@ function generatorMinutesBetween(
   start,
   end
 ) {
+
   return Math.round(
-    (end.getTime() - start.getTime()) /
-    60000
+    (
+      end.getTime() -
+      start.getTime()
+    ) / 60000
   );
 }
 
 
 function generatorCloneDate(date) {
-  return new Date(date.getTime());
+
+  return new Date(
+    date.getTime()
+  );
 }
 
 
-function generatorMinutesToText(minutes) {
+function generatorMinutesToText(
+  minutes
+) {
+
   const days =
-    Math.floor(minutes / 1440);
+    Math.floor(
+      minutes / 1440
+    );
 
   const hours =
     Math.floor(
@@ -342,15 +357,21 @@ function generatorMinutesToText(minutes) {
   const parts = [];
 
   if (days) {
-    parts.push(`${days}d`);
+    parts.push(
+      `${days}d`
+    );
   }
 
   if (hours) {
-    parts.push(`${hours}h`);
+    parts.push(
+      `${hours}h`
+    );
   }
 
   if (mins) {
-    parts.push(`${mins}m`);
+    parts.push(
+      `${mins}m`
+    );
   }
 
   return parts.length
@@ -364,15 +385,20 @@ Event / Release
 ========================================================= */
 
 function generatorGetEventPeriod() {
+
   if (
     typeof event !== "undefined" &&
     event &&
     event.start &&
     event.end
   ) {
+
     return {
-      start: new Date(event.start),
-      end: new Date(event.end)
+      start:
+        new Date(event.start),
+
+      end:
+        new Date(event.end)
     };
   }
 
@@ -380,12 +406,16 @@ function generatorGetEventPeriod() {
 }
 
 
-function generatorGetReleaseDate(level) {
+function generatorGetReleaseDate(
+  level
+) {
+
   if (
     typeof window.s222ReleaseDates !==
-    "undefined" &&
+      "undefined" &&
     window.s222ReleaseDates
   ) {
+
     const value =
       window.s222ReleaseDates[level];
 
@@ -402,8 +432,11 @@ function generatorGetStartDate(
   level,
   eventStart
 ) {
+
   const release =
-    generatorGetReleaseDate(level);
+    generatorGetReleaseDate(
+      level
+    );
 
   if (
     release &&
@@ -412,6 +445,7 @@ function generatorGetStartDate(
     ) &&
     release > eventStart
   ) {
+
     return release;
   }
 
@@ -425,7 +459,10 @@ function generatorGetStartDate(
 Fortress
 ========================================================= */
 
-function generatorGetFortresses(level) {
+function generatorGetFortresses(
+  level
+) {
+
   if (
     typeof FORTRESS_COORDINATES ===
       "undefined" ||
@@ -438,9 +475,12 @@ function generatorGetFortresses(level) {
     level
   ].map(fortress => ({
     level,
-    label: fortress.label,
-    x: fortress.x,
-    y: fortress.y
+    label:
+      fortress.label,
+    x:
+      fortress.x,
+    y:
+      fortress.y
   }));
 }
 
@@ -455,11 +495,16 @@ function generatorIsTimeInRange(
   rangeEnd,
   lag
 ) {
+
   const start =
-    generatorParseTime(rangeStart);
+    generatorParseTime(
+      rangeStart
+    );
 
   const end =
-    generatorParseTime(rangeEnd);
+    generatorParseTime(
+      rangeEnd
+    );
 
   const expandedStart =
     start - lag;
@@ -467,15 +512,18 @@ function generatorIsTimeInRange(
   const expandedEnd =
     end + lag;
 
+
   /*
    * 通常範囲
    */
   if (start < end) {
+
     return (
       minutes >= expandedStart &&
       minutes <= expandedEnd
     );
   }
+
 
   /*
    * 日跨ぎ
@@ -493,6 +541,7 @@ function generatorIsAllowedStart(
   rangeEnd,
   lag
 ) {
+
   const minutes =
     date.getUTCHours() * 60 +
     date.getUTCMinutes();
@@ -509,8 +558,11 @@ function generatorIsAllowedStart(
 function generatorRoundToStep(
   date
 ) {
+
   const result =
-    generatorCloneDate(date);
+    generatorCloneDate(
+      date
+    );
 
   const minutes =
     result.getUTCMinutes();
@@ -519,7 +571,8 @@ function generatorRoundToStep(
     Math.round(
       minutes /
       GENERATOR_TIME_STEP
-    ) * GENERATOR_TIME_STEP;
+    ) *
+    GENERATOR_TIME_STEP;
 
   result.setUTCMinutes(
     rounded,
@@ -531,82 +584,682 @@ function generatorRoundToStep(
 }
 
 
-function generatorSnapBoundary(
-  ideal,
+/* =========================================================
+Boundary Candidates
+========================================================= */
+
+function generatorBuildBoundaryCandidates(
+  start,
+  end,
   rangeStart,
   rangeEnd,
   lag
 ) {
+
   const candidates = [];
 
-  const startMinutes =
-    generatorParseTime(
-      rangeStart
+  const step =
+    GENERATOR_TIME_STEP *
+    60000;
+
+
+  /*
+   * First Attack以降、Event End直前まで
+   * 30分刻みで候補を作る。
+   */
+  let cursor =
+    generatorRoundToStep(
+      start
     );
 
-  const endMinutes =
-    generatorParseTime(rangeEnd);
+
+  /*
+   * startと同時刻なら
+   * 次の30分へ。
+   */
+  if (
+    cursor <= start
+  ) {
+    cursor =
+      new Date(
+        cursor.getTime() +
+        step
+      );
+  }
+
+
+  while (
+    cursor < end
+  ) {
+
+    if (
+      generatorIsAllowedStart(
+        cursor,
+        rangeStart,
+        rangeEnd,
+        lag
+      )
+    ) {
+
+      candidates.push(
+        generatorCloneDate(
+          cursor
+        )
+      );
+    }
+
+
+    cursor =
+      new Date(
+        cursor.getTime() +
+        step
+      );
+  }
+
+
+  return candidates;
+}
+
+
+/* =========================================================
+Fortress Slot Construction
+========================================================= */
+
+function generatorBuildFortressSlots(
+  fortress,
+  start,
+  end,
+  boundaries
+) {
+
+  const slots = [];
+
+  let cursor =
+    generatorCloneDate(
+      start
+    );
+
 
   for (
-    let dayOffset = -1;
-    dayOffset <= 2;
-    dayOffset++
+    const boundary of boundaries
   ) {
-    for (
-      const minutes of [
-        startMinutes,
-        endMinutes
-      ]
+
+    if (
+      boundary <= cursor ||
+      boundary >= end
     ) {
-      const candidate =
+      return null;
+    }
+
+
+    slots.push({
+
+      fortress,
+
+      start:
         generatorCloneDate(
-          ideal
-        );
-
-      candidate.setUTCDate(
-        candidate.getUTCDate() +
-        dayOffset
-      );
-
-      candidate.setUTCHours(
-        Math.floor(
-          minutes / 60
+          cursor
         ),
-        minutes % 60,
-        0,
-        0
+
+      end:
+        generatorCloneDate(
+          boundary
+        )
+    });
+
+
+    cursor =
+      generatorCloneDate(
+        boundary
       );
+  }
+
+
+  if (
+    cursor >= end
+  ) {
+    return null;
+  }
+
+
+  slots.push({
+
+    fortress,
+
+    start:
+      generatorCloneDate(
+        cursor
+      ),
+
+    end:
+      generatorCloneDate(
+        end
+      )
+  });
+
+
+  return slots;
+}
+
+
+/* =========================================================
+Assignment Pattern Generation
+========================================================= */
+
+/*
+ * 各拠点にAttack Count個の枠を作り、
+ * その枠へGuildを割り当てる。
+ *
+ * Attack Count = 2 の場合、
+ *
+ * 3拠点 × 2枠 = 6枠
+ *
+ * 4 Guildなら、
+ *
+ * 1回 / 2回 / 2回 / 1回
+ *
+ * のような割り振りも可能。
+ *
+ * 同じ拠点を同じGuildが連続して
+ * 取ることは避ける。
+ */
+
+function generatorBuildAssignmentPatterns(
+  fortressCount,
+  guildCount,
+  attackCount
+) {
+
+  const totalSlots =
+    fortressCount *
+    attackCount;
+
+  const patterns = [];
+
+
+  /*
+   * 各Guildは最低1回必要。
+   *
+   * 最大回数はattackCount。
+   */
+  if (
+    guildCount >
+    totalSlots
+  ) {
+    return [];
+  }
+
+
+  if (
+    totalSlots <
+    guildCount
+  ) {
+    return [];
+  }
+
+
+  const assignment =
+    Array.from(
+      {
+        length:
+          totalSlots
+      },
+      () => -1
+    );
+
+
+  const guildUseCount =
+    Array.from(
+      {
+        length:
+          guildCount
+      },
+      () => 0
+    );
+
+
+  function search(
+    index
+  ) {
+
+    if (
+      index >=
+      totalSlots
+    ) {
+
+      /*
+       * 全Guildが最低1回。
+       */
+      if (
+        guildUseCount.some(
+          count =>
+            count < 1
+        )
+      ) {
+        return;
+      }
+
+
+      patterns.push(
+        [...assignment]
+      );
+
+      return;
+    }
+
+
+    const fortressIndex =
+      Math.floor(
+        index /
+        attackCount
+      );
+
+    const usedInFortress =
+      new Set();
+
+
+    for (
+      let previous =
+        fortressIndex *
+        attackCount;
+
+      previous < index;
+
+      previous++
+    ) {
+
+      const value =
+        assignment[
+          previous
+        ];
+
+      if (value >= 0) {
+        usedInFortress.add(
+          value
+        );
+      }
+    }
+
+
+    for (
+      let guild = 0;
+      guild < guildCount;
+      guild++
+    ) {
+
+      /*
+       * 同じ拠点を同じGuildが
+       * 2回担当しない。
+       */
+      if (
+        usedInFortress.has(
+          guild
+        )
+      ) {
+        continue;
+      }
+
+
+      /*
+       * 最大攻撃回数。
+       */
+      if (
+        guildUseCount[
+          guild
+        ] >= attackCount
+      ) {
+        continue;
+      }
+
+
+      assignment[index] =
+        guild;
+
+      guildUseCount[guild]++;
+
+
+      search(
+        index + 1
+      );
+
+
+      guildUseCount[guild]--;
+
+      assignment[index] =
+        -1;
+    }
+  }
+
+
+  search(0);
+
+
+  /*
+   * 同型パターンを整理。
+   *
+   * Guild番号の絶対値ではなく、
+   * 構造が同じものをまとめる。
+   */
+  const unique =
+    new Map();
+
+
+  for (
+    const pattern of patterns
+  ) {
+
+    const normalized =
+      generatorNormalizeAssignmentPattern(
+        pattern,
+        fortressCount,
+        attackCount
+      );
+
+    const key =
+      normalized.join(",");
+
+
+    if (
+      !unique.has(key)
+    ) {
+
+      unique.set(
+        key,
+        pattern
+      );
+    }
+  }
+
+
+  return [
+    ...unique.values()
+  ];
+}
+
+
+/* =========================================================
+Assignment Normalization
+========================================================= */
+
+function generatorNormalizeAssignmentPattern(
+  pattern,
+  fortressCount,
+  attackCount
+) {
+
+  const map =
+    new Map();
+
+  let next =
+    0;
+
+  return pattern.map(
+    value => {
 
       if (
-        candidate > ideal &&
-        generatorIsAllowedStart(
+        !map.has(value)
+      ) {
+
+        map.set(
+          value,
+          next++
+        );
+      }
+
+      return map.get(value);
+    }
+  );
+}
+
+
+/* =========================================================
+Initial Boundary Patterns
+========================================================= */
+
+function generatorBuildInitialBoundaries(
+  start,
+  end,
+  fortressCount,
+  attackCount,
+  timePattern
+) {
+
+  const boundaries =
+    Array.from(
+      {
+        length:
+          fortressCount
+      },
+      () => []
+    );
+
+
+  /*
+   * Attack Count = 1なら
+   * 境界なし。
+   */
+  if (
+    attackCount <= 1
+  ) {
+    return boundaries;
+  }
+
+
+  /*
+   * まず全体時間。
+   */
+  const totalMinutes =
+    generatorMinutesBetween(
+      start,
+      end
+    );
+
+
+  /*
+   * 基本境界位置。
+   *
+   * balanced:
+   *   均等
+   *
+   * front:
+   *   前半を長め
+   *
+   * back:
+   *   後半を長め
+   */
+  for (
+    let fortressIndex = 0;
+    fortressIndex < fortressCount;
+    fortressIndex++
+  ) {
+
+    for (
+      let boundaryIndex = 1;
+      boundaryIndex < attackCount;
+      boundaryIndex++
+    ) {
+
+      const baseRatio =
+        boundaryIndex /
+        attackCount;
+
+      let ratio =
+        baseRatio;
+
+
+      if (
+        timePattern ===
+        "front"
+      ) {
+
+        ratio =
+          Math.sqrt(
+            baseRatio
+          );
+      }
+
+
+      if (
+        timePattern ===
+        "back"
+      ) {
+
+        ratio =
+          1 -
+          Math.sqrt(
+            1 -
+            baseRatio
+          );
+      }
+
+
+      /*
+       * Fortressごとに少しずつ
+       * 初期位置をずらす。
+       *
+       * 最終調整前の候補生成用。
+       */
+      const spread =
+        fortressCount > 1
+          ? (
+              fortressIndex -
+              (
+                fortressCount - 1
+              ) / 2
+            ) *
+            0.015
+          : 0;
+
+
+      ratio =
+        Math.max(
+          0.05,
+          Math.min(
+            0.95,
+            ratio + spread
+          )
+        );
+
+
+      const boundary =
+        new Date(
+          start.getTime() +
+          totalMinutes *
+          ratio *
+          60000
+        );
+
+
+      boundaries[
+        fortressIndex
+      ].push(
+        generatorRoundToStep(
+          boundary
+        )
+      );
+    }
+  }
+
+
+  return boundaries;
+}
+
+
+/* =========================================================
+Boundary Repair
+========================================================= */
+
+function generatorRepairBoundary(
+  ideal,
+  previous,
+  next,
+  rangeStart,
+  rangeEnd,
+  lag
+) {
+
+  const candidates = [];
+
+  const step =
+    GENERATOR_TIME_STEP *
+    60000;
+
+
+  /*
+   * idealの周辺を探索。
+   *
+   * Lagを利用して動かすため、
+   * 最初から範囲全体を総当たりしない。
+   */
+  for (
+    let offset = 0;
+    offset <= 24 * 60;
+    offset +=
+      GENERATOR_TIME_STEP
+  ) {
+
+    const offsets =
+      offset === 0
+        ? [0]
+        : [
+            -offset,
+            offset
+          ];
+
+
+    for (
+      const minuteOffset of
+        offsets
+    ) {
+
+      const candidate =
+        new Date(
+          ideal.getTime() +
+          minuteOffset *
+          60000
+        );
+
+
+      if (
+        candidate <= previous ||
+        candidate >= next
+      ) {
+        continue;
+      }
+
+
+      if (
+        !generatorIsAllowedStart(
           candidate,
           rangeStart,
           rangeEnd,
           lag
         )
       ) {
-        candidates.push(candidate);
+        continue;
       }
+
+
+      candidates.push(
+        candidate
+      );
+    }
+
+
+    if (
+      candidates.length
+    ) {
+      break;
     }
   }
 
-  if (
-    generatorIsAllowedStart(
-      ideal,
-      rangeStart,
-      rangeEnd,
-      lag
-    )
-  ) {
-    return generatorRoundToStep(
-      ideal
-    );
-  }
 
-  if (!candidates.length) {
+  if (
+    !candidates.length
+  ) {
     return null;
   }
+
 
   candidates.sort(
     (a, b) =>
@@ -620,460 +1273,22 @@ function generatorSnapBoundary(
       )
   );
 
-  return generatorRoundToStep(
-    candidates[0]
-  );
+
+  return candidates[0];
 }
 
 
 /* =========================================================
-Fortress Slot Patterns
+Assignment / Slot Mapping
 ========================================================= */
 
-function generatorBuildCompositions(
-  total,
-  count
-) {
-  const result = [];
-
-  function build(
-    remaining,
-    depth,
-    current
-  ) {
-    if (
-      depth === count - 1
-    ) {
-      if (remaining >= 1) {
-        result.push([
-          ...current,
-          remaining
-        ]);
-      }
-
-      return;
-    }
-
-    for (
-      let value = 1;
-      value <=
-      remaining -
-        (count - depth - 1);
-      value++
-    ) {
-      build(
-        remaining - value,
-        depth + 1,
-        [
-          ...current,
-          value
-        ]
-      );
-    }
-  }
-
-  build(
-    total,
-    0,
-    []
-  );
-
-  return result;
-}
-
-
-/* =========================================================
-Time Pattern Boundary Ratio
-========================================================= */
-
-function generatorGetTimePatternRatio(
-  index,
-  slotCount,
-  timePattern
-) {
-  if (
-    slotCount <= 1
-  ) {
-    return 1;
-  }
-
-  /*
-   * Balanced
-   *
-   * 現在の均等分割。
-   */
-  if (
-    timePattern ===
-    "balanced"
-  ) {
-    return (
-      index /
-      slotCount
-    );
-  }
-
-  /*
-   * Front
-   *
-   * 前半を長めにする。
-   *
-   * 例：2分割
-   * 60% / 40%
-   *
-   * 例：3分割
-   * 50% / 25% / 25%
-   *
-   * 境界位置としては、
-   * i / slotCount を平方根変換する。
-   */
-  if (
-    timePattern ===
-    "front"
-  ) {
-    return Math.sqrt(
-      index /
-      slotCount
-    );
-  }
-
-  /*
-   * Back
-   *
-   * 後半を長めにする。
-   *
-   * Frontの反転。
-   */
-  if (
-    timePattern ===
-    "back"
-  ) {
-    return (
-      1 -
-      Math.sqrt(
-        1 -
-        (
-          index /
-          slotCount
-        )
-      )
-    );
-  }
-
-  /*
-   * 未知のパターンは
-   * balancedとして扱う。
-   */
-  return (
-    index /
-    slotCount
-  );
-}
-
-
-function generatorSplitFortress(
-  fortress,
-  start,
-  end,
-  slotCount,
-  rangeStart,
-  rangeEnd,
-  lag,
-  timePattern = "balanced"
-) {
-  const totalMinutes =
-    generatorMinutesBetween(
-      start,
-      end
-    );
-
-  if (
-    totalMinutes <=
-    slotCount
-  ) {
-    return null;
-  }
-
-  const boundaries = [];
-
-  for (
-    let i = 1;
-    i < slotCount;
-    i++
-  ) {
-
-    /*
-     * 時間パターンに応じて
-     * 境界位置を変更する。
-     */
-    const ratio =
-      generatorGetTimePatternRatio(
-        i,
-        slotCount,
-        timePattern
-      );
-
-    const ideal =
-      new Date(
-        start.getTime() +
-        (
-          totalMinutes *
-          ratio
-        ) *
-          60000
-      );
-
-    const boundary =
-      generatorSnapBoundary(
-        ideal,
-        rangeStart,
-        rangeEnd,
-        lag
-      );
-
-    if (!boundary) {
-      return null;
-    }
-
-    boundaries.push(
-      boundary
-    );
-  }
-
-  for (
-    let i = 0;
-    i < boundaries.length;
-    i++
-  ) {
-    const previous =
-      i === 0
-        ? start
-        : boundaries[i - 1];
-
-    if (
-      boundaries[i] <=
-      previous ||
-      boundaries[i] >= end
-    ) {
-      return null;
-    }
-  }
-
-  const slots = [];
-
-  let cursor =
-    generatorCloneDate(
-      start
-    );
-
-  for (
-    const boundary of boundaries
-  ) {
-    slots.push({
-      fortress,
-      start:
-        generatorCloneDate(
-          cursor
-        ),
-      end:
-        generatorCloneDate(
-          boundary
-        )
-    });
-
-    cursor =
-      generatorCloneDate(
-        boundary
-      );
-  }
-
-  slots.push({
-    fortress,
-    start:
-      generatorCloneDate(
-        cursor
-      ),
-    end:
-      generatorCloneDate(
-        end
-      )
-  });
-
-  return slots;
-}
-
-
-/* =========================================================
-Guild Assignment Search
-========================================================= */
-
-function generatorFindBestAssignment(
+function generatorApplyAssignment(
   slots,
-  guildCount,
-  attackCount
+  assignmentPattern
 ) {
-  const guilds =
-    Array.from(
-      {
-        length:
-          guildCount
-      },
-      (_, index) => ({
-        index,
-        slots: [],
-        totalMinutes: 0
-      })
-    );
 
-  let best = null;
-
-  const orderedSlots =
-    [...slots].sort(
-      (a, b) =>
-        generatorMinutesBetween(
-          b.start,
-          b.end
-        ) -
-        generatorMinutesBetween(
-          a.start,
-          a.end
-        )
-    );
-
-  function search(
-    slotIndex
-  ) {
-    if (
-      slotIndex >=
-      orderedSlots.length
-    ) {
-      if (
-        guilds.some(
-          guild =>
-            guild.slots.length !==
-            attackCount
-        )
-      ) {
-        return;
-      }
-
-      const totals =
-        guilds.map(
-          guild =>
-            guild.totalMinutes
-        );
-
-      const max =
-        Math.max(...totals);
-
-      const min =
-        Math.min(...totals);
-
-      const difference =
-        max - min;
-
-      if (
-        !best ||
-        difference <
-          best.difference
-      ) {
-        best = {
-          difference,
-          guilds:
-            guilds.map(
-              guild => ({
-                index:
-                  guild.index,
-                slots:
-                  [...guild.slots],
-                totalMinutes:
-                  guild.totalMinutes
-              })
-            )
-        };
-      }
-
-      return;
-    }
-
-    const slot =
-      orderedSlots[
-        slotIndex
-      ];
-
-    const minutes =
-      generatorMinutesBetween(
-        slot.start,
-        slot.end
-      );
-
-    const usedSignatures =
-      new Set();
-
-    for (
-      const guild of guilds
-    ) {
-      if (
-        guild.slots.length >=
-        attackCount
-      ) {
-        continue;
-      }
-
-      const signature =
-        `${guild.slots.length}:${
-          guild.totalMinutes
-        }`;
-
-      if (
-        usedSignatures.has(
-          signature
-        )
-      ) {
-        continue;
-      }
-
-      usedSignatures.add(
-        signature
-      );
-
-      guild.slots.push(
-        slot
-      );
-
-      guild.totalMinutes +=
-        minutes;
-
-      search(
-        slotIndex + 1
-      );
-
-      guild.totalMinutes -=
-        minutes;
-
-      guild.slots.pop();
-    }
-  }
-
-  search(0);
-
-  return best;
-}
-
-
-/* =========================================================
-Boundary Optimization
-========================================================= */
-
-function generatorOptimizeBoundaries(
-  slots,
-  assignment,
-  rangeStart,
-  rangeEnd,
-  lag,
-  eventEnd
-) {
-  const result =
-    slots.map(slot => ({
+  return slots.map(
+    (slot, index) => ({
       fortress:
         slot.fortress,
 
@@ -1088,127 +1303,350 @@ function generatorOptimizeBoundaries(
         ),
 
       guildIndex:
-        slot.guildIndex
-    }));
+        assignmentPattern[index]
+    })
+  );
+}
 
-  const fortressLabels =
-    [
-      ...new Set(
-        result.map(
-          slot =>
-            slot.fortress.label
-        )
-      )
-    ];
+
+/* =========================================================
+Guild Totals
+========================================================= */
+
+function generatorCalculateGuilds(
+  slots,
+  guildCount
+) {
+
+  const guilds =
+    Array.from(
+      {
+        length:
+          guildCount
+      },
+      (_, index) => ({
+        index,
+
+        slots: [],
+
+        totalMinutes: 0
+      })
+    );
+
 
   for (
-    let pass = 0;
-    pass < 20;
-    pass++
+    const slot of slots
   ) {
-    let changed = false;
+
+    const guild =
+      guilds[
+        slot.guildIndex
+      ];
+
+
+    if (!guild) {
+      continue;
+    }
+
+
+    const minutes =
+      generatorMinutesBetween(
+        slot.start,
+        slot.end
+      );
+
+
+    guild.slots.push(
+      slot
+    );
+
+    guild.totalMinutes +=
+      minutes;
+  }
+
+
+  return guilds;
+}
+
+
+/* =========================================================
+Balance Score
+========================================================= */
+
+/*
+ * ここが今回のGeneratorの中心。
+ *
+ * 単純な
+ *
+ *   max - min
+ *
+ * だけではなく、
+ *
+ * 「1回しか攻撃していないGuildが
+ *  2回攻撃Guildより長く持っている」
+ *
+ * 場合を強く減点する。
+ */
+
+function generatorEvaluateBalance(
+  guilds,
+  attackCount
+) {
+
+  const totals =
+    guilds.map(
+      guild =>
+        guild.totalMinutes
+    );
+
+
+  const max =
+    Math.max(...totals);
+
+  const min =
+    Math.min(...totals);
+
+
+  const rangeDifference =
+    max - min;
+
+
+  const singleAttackGuilds =
+    guilds.filter(
+      guild =>
+        guild.slots.length === 1
+    );
+
+
+  const multiAttackGuilds =
+    guilds.filter(
+      guild =>
+        guild.slots.length >= 2
+    );
+
+
+  let singleAttackPenalty = 0;
+
+
+  /*
+   * 2回攻撃Guildが存在する場合、
+   * 1回攻撃Guildはそれより長くしない。
+   *
+   * 平均値を基準にする。
+   */
+  if (
+    singleAttackGuilds.length &&
+    multiAttackGuilds.length
+  ) {
+
+    const multiAverage =
+      multiAttackGuilds.reduce(
+        (sum, guild) =>
+          sum +
+          guild.totalMinutes,
+        0
+      ) /
+      multiAttackGuilds.length;
+
 
     for (
-      const label of fortressLabels
+      const guild of
+        singleAttackGuilds
     ) {
-      const fortressSlots =
-        result
-          .filter(
-            slot =>
-              slot.fortress.label ===
-              label
-          )
-          .sort(
-            (a, b) =>
-              a.start - b.start
-          );
+
+      if (
+        guild.totalMinutes >
+        multiAverage
+      ) {
+
+        singleAttackPenalty +=
+          guild.totalMinutes -
+          multiAverage;
+      }
+    }
+  }
+
+
+  /*
+   * 1回攻撃Guildが長い状態を
+   * かなり強く避ける。
+   */
+  const score =
+    rangeDifference +
+    singleAttackPenalty *
+    4;
+
+
+  return {
+    score,
+
+    difference:
+      rangeDifference,
+
+    singleAttackPenalty,
+
+    max,
+
+    min
+  };
+}
+
+
+/* =========================================================
+Boundary Optimization
+========================================================= */
+
+function generatorOptimizeBoundaries(
+  fortressData,
+  guildCount,
+  attackCount,
+  rangeStart,
+  rangeEnd,
+  lag,
+  eventEnd
+) {
+
+  let bestSlots =
+    fortressData.map(
+      item => ({
+        fortress:
+          item.fortress,
+
+        start:
+          generatorCloneDate(
+            item.start
+          ),
+
+        end:
+          generatorCloneDate(
+            item.end
+          ),
+
+        guildIndex:
+          item.guildIndex
+      })
+    );
+
+
+  let bestGuilds =
+    generatorCalculateGuilds(
+      bestSlots,
+      guildCount
+    );
+
+
+  let bestBalance =
+    generatorEvaluateBalance(
+      bestGuilds,
+      attackCount
+    );
+
+
+  /*
+   * 最大40パス。
+   *
+   * 各境界を動かし、
+   * ギルド総時間が改善する方向を探す。
+   */
+  for (
+    let pass = 0;
+    pass < 40;
+    pass++
+  ) {
+
+    let changed =
+      false;
+
+
+    for (
+      let i = 0;
+      i < bestSlots.length;
+      i++
+    ) {
+
+      const left =
+        bestSlots[i];
+
+
+      /*
+       * 同じFortress内で
+       * 次のslotを探す。
+       */
+      const right =
+        bestSlots.find(
+          slot =>
+            slot.fortress.label ===
+              left.fortress.label &&
+            slot.start.getTime() ===
+              left.end.getTime()
+        );
+
+
+      if (!right) {
+        continue;
+      }
+
+
+      if (
+        left.guildIndex ===
+        right.guildIndex
+      ) {
+        continue;
+      }
+
+
+      const current =
+        left.end;
+
+
+      const leftGuild =
+        left.guildIndex;
+
+      const rightGuild =
+        right.guildIndex;
+
+
+      const currentBalance =
+        bestBalance;
+
+
+      /*
+       * まず、
+       * 左→右へ30分動かす。
+       */
+      const directions =
+        [
+          -GENERATOR_TIME_STEP,
+          GENERATOR_TIME_STEP
+        ];
+
+
+      let localBest =
+        null;
+
 
       for (
-        let i = 0;
-        i <
-        fortressSlots.length - 1;
-        i++
+        const delta of
+          directions
       ) {
-        const left =
-          fortressSlots[i];
 
-        const right =
-          fortressSlots[i + 1];
+        const candidate =
+          new Date(
+            current.getTime() +
+            delta *
+            60000
+          );
+
 
         if (
-          left.guildIndex ===
-          right.guildIndex
+          candidate <=
+            left.start ||
+          candidate >=
+            right.end
         ) {
           continue;
         }
 
-        const totals =
-          assignment.map(
-            guild =>
-              guild.totalMinutes
-          );
-
-        const leftTotal =
-          totals[
-            left.guildIndex
-          ];
-
-        const rightTotal =
-          totals[
-            right.guildIndex
-          ];
-
-        let delta =
-          (
-            rightTotal -
-            leftTotal
-          ) / 2;
-
-        delta =
-          Math.round(
-            delta /
-            GENERATOR_TIME_STEP
-          ) *
-          GENERATOR_TIME_STEP;
-
-        if (delta === 0) {
-          continue;
-        }
-
-        const current =
-          left.end.getTime();
-
-        const previousBoundary =
-          left.start.getTime();
-
-        const nextBoundary =
-          right.end.getTime();
-
-        let target =
-          current +
-          delta * 60000;
-
-        const minTime =
-          previousBoundary +
-          GENERATOR_TIME_STEP *
-            60000;
-
-        const maxTime =
-          nextBoundary -
-          GENERATOR_TIME_STEP *
-            60000;
-
-        target =
-          Math.max(
-            minTime,
-            Math.min(
-              maxTime,
-              target
-            )
-          );
-
-        const candidate =
-          new Date(target);
 
         if (
           candidate >=
@@ -1216,6 +1654,7 @@ function generatorOptimizeBoundaries(
         ) {
           continue;
         }
+
 
         if (
           !generatorIsAllowedStart(
@@ -1228,123 +1667,133 @@ function generatorOptimizeBoundaries(
           continue;
         }
 
-        if (
-          candidate <=
-          left.start ||
-          candidate >=
-          right.end
-        ) {
-          continue;
-        }
 
-        const actualDelta =
-          generatorMinutesBetween(
-            left.end,
-            candidate
+        const testSlots =
+          bestSlots.map(
+            slot => ({
+              fortress:
+                slot.fortress,
+
+              start:
+                generatorCloneDate(
+                  slot.start
+                ),
+
+              end:
+                generatorCloneDate(
+                  slot.end
+                ),
+
+              guildIndex:
+                slot.guildIndex
+            })
           );
 
-        if (
-          actualDelta === 0
-        ) {
+
+        const testLeft =
+          testSlots[i];
+
+
+        const testRight =
+          testSlots.find(
+            slot =>
+              slot.fortress.label ===
+                testLeft.fortress.label &&
+              slot.start.getTime() ===
+                testLeft.end.getTime()
+          );
+
+
+        if (!testRight) {
           continue;
         }
 
-        left.end =
+
+        testLeft.end =
           generatorCloneDate(
             candidate
           );
 
-        right.start =
+        testRight.start =
           generatorCloneDate(
             candidate
           );
 
-        assignment[
-          left.guildIndex
-        ].totalMinutes +=
-          actualDelta;
 
-        assignment[
-          right.guildIndex
-        ].totalMinutes -=
-          actualDelta;
+        const testGuilds =
+          generatorCalculateGuilds(
+            testSlots,
+            guildCount
+          );
+
+
+        const testBalance =
+          generatorEvaluateBalance(
+            testGuilds,
+            attackCount
+          );
+
+
+        /*
+         * 改善した場合のみ採用。
+         */
+        if (
+          testBalance.score <
+          currentBalance.score
+        ) {
+
+          if (
+            !localBest ||
+            testBalance.score <
+              localBest.balance.score
+          ) {
+
+            localBest = {
+              slots:
+                testSlots,
+
+              balance:
+                testBalance
+            };
+          }
+        }
+      }
+
+
+      if (localBest) {
+
+        bestSlots =
+          localBest.slots;
+
+        bestBalance =
+          localBest.balance;
+
+        bestGuilds =
+          generatorCalculateGuilds(
+            bestSlots,
+            guildCount
+          );
 
         changed = true;
       }
     }
+
 
     if (!changed) {
       break;
     }
   }
 
-  return result;
-}
-
-
-/* =========================================================
-Evaluate Candidate
-========================================================= */
-
-function generatorEvaluate(
-  slots,
-  guildCount,
-  attackCount,
-  rangeStart,
-  rangeEnd,
-  lag,
-  eventEnd
-) {
-  const assignment =
-    generatorFindBestAssignment(
-      slots,
-      guildCount,
-      attackCount
-    );
-
-  if (!assignment) {
-    return null;
-  }
-
-  /*
-   * TEST:
-   * 時間パターン生成後の状態を
-   * そのまま確認する。
-   */
-  const optimizedSlots =
-    slots;
-
-  const finalAssignment =
-    generatorFindBestAssignment(
-      optimizedSlots,
-      guildCount,
-      attackCount
-    );
-
-  if (!finalAssignment) {
-    return null;
-  }
-
-  const totals =
-    finalAssignment.guilds.map(
-      guild =>
-        guild.totalMinutes
-    );
-
-  const max =
-    Math.max(...totals);
-
-  const min =
-    Math.min(...totals);
 
   return {
-    slots: optimizedSlots,
+    slots:
+      bestSlots,
 
     guilds:
-      finalAssignment.guilds,
+      bestGuilds,
 
-    difference:
-      max - min
+    balance:
+      bestBalance
   };
 }
 
@@ -1356,16 +1805,286 @@ Candidate Signature
 function generatorCreateCandidateSignature(
   candidate
 ) {
+
   return candidate.slots
-    .map(slot =>
-      [
-        slot.fortress.label,
-        slot.start.getTime(),
-        slot.end.getTime()
-      ].join(":")
+    .map(
+      slot =>
+        [
+          slot.fortress.label,
+          slot.start.getTime(),
+          slot.end.getTime(),
+          slot.guildIndex
+        ].join(":")
     )
     .sort()
     .join("|");
+}
+
+
+/* =========================================================
+Candidate Pattern Name
+========================================================= */
+
+function generatorGetPatternName(
+  assignment,
+  fortressCount,
+  attackCount
+) {
+
+  const guildFirst =
+    assignment
+      .filter(
+        (_, index) =>
+          index %
+          attackCount ===
+          0
+      );
+
+
+  const guildSecond =
+    attackCount >= 2
+      ? assignment
+          .filter(
+            (_, index) =>
+              index %
+              attackCount ===
+              1
+          )
+      : [];
+
+
+  const first =
+    guildFirst
+      .map(
+        guild =>
+          String.fromCharCode(
+            65 + guild
+          )
+      )
+      .join("→");
+
+
+  const second =
+    guildSecond
+      .map(
+        guild =>
+          String.fromCharCode(
+            65 + guild
+          )
+      )
+      .join("→");
+
+
+  if (
+    second
+  ) {
+
+    return (
+      `${first} / ${second}`
+    );
+  }
+
+
+  return first;
+}
+
+
+/* =========================================================
+Candidate Evaluation
+========================================================= */
+
+function generatorEvaluateCandidate(
+  start,
+  end,
+  fortresses,
+  assignmentPattern,
+  guildCount,
+  attackCount,
+  rangeStart,
+  rangeEnd,
+  lag,
+  timePattern
+) {
+
+  const initialBoundaries =
+    generatorBuildInitialBoundaries(
+      start,
+      end,
+      fortresses.length,
+      attackCount,
+      timePattern
+    );
+
+
+  const baseSlots = [];
+
+
+  /*
+   * 各Fortressの初期slot。
+   */
+  for (
+    let fortressIndex = 0;
+    fortressIndex <
+      fortresses.length;
+    fortressIndex++
+  ) {
+
+    const boundaries =
+      initialBoundaries[
+        fortressIndex
+      ];
+
+
+    const repaired =
+      [];
+
+
+    let previous =
+      generatorCloneDate(
+        start
+      );
+
+
+    for (
+      let boundaryIndex = 0;
+      boundaryIndex <
+        boundaries.length;
+      boundaryIndex++
+    ) {
+
+      const ideal =
+        boundaries[
+          boundaryIndex
+        ];
+
+
+      const next =
+        boundaryIndex <
+          boundaries.length - 1
+
+          ? boundaries[
+              boundaryIndex + 1
+            ]
+
+          : end;
+
+
+      const boundary =
+        generatorRepairBoundary(
+          ideal,
+          previous,
+          next,
+          rangeStart,
+          rangeEnd,
+          lag
+        );
+
+
+      if (!boundary) {
+        return null;
+      }
+
+
+      repaired.push(
+        boundary
+      );
+
+
+      previous =
+        boundary;
+    }
+
+
+    const fortressSlots =
+      generatorBuildFortressSlots(
+        fortresses[
+          fortressIndex
+        ],
+        start,
+        end,
+        repaired
+      );
+
+
+    if (!fortressSlots) {
+      return null;
+    }
+
+
+    baseSlots.push(
+      ...fortressSlots
+    );
+  }
+
+
+  if (
+    baseSlots.length !==
+    assignmentPattern.length
+  ) {
+    return null;
+  }
+
+
+  /*
+   * Guildを割り当てる。
+   */
+  const assignedSlots =
+    generatorApplyAssignment(
+      baseSlots,
+      assignmentPattern
+    );
+
+
+  /*
+   * 境界を最適化。
+   */
+  const optimized =
+    generatorOptimizeBoundaries(
+      assignedSlots,
+      guildCount,
+      attackCount,
+      rangeStart,
+      rangeEnd,
+      lag,
+      end
+    );
+
+
+  if (!optimized) {
+    return null;
+  }
+
+
+  return {
+
+    slots:
+      optimized.slots,
+
+    guilds:
+      optimized.guilds,
+
+    difference:
+      optimized.balance.difference,
+
+    score:
+      optimized.balance.score,
+
+    singleAttackPenalty:
+      optimized.balance
+        .singleAttackPenalty,
+
+    timePattern,
+
+    assignmentPattern:
+      [...assignmentPattern],
+
+    patternName:
+      generatorGetPatternName(
+        assignmentPattern,
+        fortresses.length,
+        attackCount
+      )
+  };
 }
 
 
@@ -1374,6 +2093,7 @@ Generate Candidate
 ========================================================= */
 
 function generatorGenerateCandidate() {
+
   const fortressLevel =
     generatorFortress.value;
 
@@ -1402,14 +2122,17 @@ function generatorGenerateCandidate() {
     );
 
 
-  /*
-   * Basic validation
-   */
+  /* =======================================================
+  Validation
+  ======================================================= */
+
   if (!fortressLevel) {
+
     throw new Error(
       "Please select a Fortress Level."
     );
   }
+
 
   if (
     !Number.isInteger(
@@ -1417,10 +2140,12 @@ function generatorGenerateCandidate() {
     ) ||
     guildCount < 1
   ) {
+
     throw new Error(
       "Please enter a valid Guild Count."
     );
   }
+
 
   if (
     !Number.isInteger(
@@ -1428,47 +2153,58 @@ function generatorGenerateCandidate() {
     ) ||
     attackCount < 1
   ) {
+
     throw new Error(
       "Please enter a valid Attack Count."
     );
   }
 
+
   if (!firstAttack) {
+
     throw new Error(
       "Please enter the First Attack time."
     );
   }
 
+
   if (
     !rangeStart ||
     !rangeEnd
   ) {
+
     throw new Error(
       "Please enter the Attack Time Range."
     );
   }
 
+
   if (
     !Number.isInteger(lag) ||
     lag < 0
   ) {
+
     throw new Error(
       "Allowed Lag cannot be negative."
     );
   }
 
 
-  /*
-   * Event Period
-   */
+  /* =======================================================
+  Event
+  ======================================================= */
+
   const period =
     generatorGetEventPeriod();
 
+
   if (!period) {
+
     throw new Error(
       "Event Period is not available."
     );
   }
+
 
   if (
     Number.isNaN(
@@ -1477,45 +2213,53 @@ function generatorGenerateCandidate() {
     Number.isNaN(
       period.end.getTime()
     ) ||
-    period.start >= period.end
+    period.start >=
+      period.end
   ) {
+
     throw new Error(
       "Event Period is invalid."
     );
   }
 
 
-  /*
-   * Fortress release
-   */
+  /* =======================================================
+  Fortress Release
+  ======================================================= */
+
   const releaseStart =
     generatorGetStartDate(
       fortressLevel,
       period.start
     );
 
+
   if (
     releaseStart >=
     period.end
   ) {
+
     throw new Error(
       "Fortress Release is after the Event Period."
     );
   }
 
 
-  /*
-   * First Attack
-   */
+  /* =======================================================
+  First Attack
+  ======================================================= */
+
   const firstMinutes =
     generatorParseTime(
       firstAttack
     );
 
+
   const actualStart =
     generatorCloneDate(
       releaseStart
     );
+
 
   actualStart.setUTCHours(
     Math.floor(
@@ -1534,285 +2278,345 @@ function generatorGenerateCandidate() {
     actualStart <
     releaseStart
   ) {
+
     actualStart.setUTCDate(
       actualStart.getUTCDate() + 1
     );
   }
 
+
   if (
     actualStart <
     period.start
   ) {
+
     actualStart.setTime(
       period.start.getTime()
     );
   }
 
+
   if (
     actualStart >=
     period.end
   ) {
+
     throw new Error(
       "First Attack is outside the Event Period."
     );
   }
 
 
-  /*
-   * Fortress
-   */
+  /* =======================================================
+  Fortress
+  ======================================================= */
+
   const fortresses =
     generatorGetFortresses(
       fortressLevel
     );
 
+
   if (!fortresses.length) {
+
     throw new Error(
       `No fortress data found for ${fortressLevel}.`
     );
   }
 
 
+  /* =======================================================
+  Slot Structure
+  ======================================================= */
+
   /*
-   * 必要slot数
+   * ここが以前と大きく違う。
+   *
+   * Attack Count = 最大攻撃回数。
+   *
+   * 3拠点 × 最大2回なら、
+   * 最大6slot。
+   *
+   * 4Guildなら、
+   * 6slotを
+   *
+   * 1 / 2 / 2 / 1
+   *
+   * のように割り振れる。
    */
+
   const totalSlots =
-    guildCount *
+    fortresses.length *
     attackCount;
 
 
+  if (
+    totalSlots <
+    guildCount
+  ) {
+
+    throw new Error(
+      "The number of fortresses is not enough to give every guild at least one attack."
+    );
+  }
+
+
   /*
-   * 砦へのslot配分パターンを全部試す。
+   * 各Guildが最大attackCount回なので、
+   * slot総数が多すぎるケースを防ぐ。
    */
-  const compositions =
-    generatorBuildCompositions(
-      totalSlots,
-      fortresses.length
+  if (
+    totalSlots >
+    guildCount *
+    attackCount
+  ) {
+
+    throw new Error(
+      "The current Guild Count cannot cover all fortress attacks within the selected maximum Attack Count."
+    );
+  }
+
+
+  /* =======================================================
+  Assignment Patterns
+  ======================================================= */
+
+  const assignmentPatterns =
+    generatorBuildAssignmentPatterns(
+      fortresses.length,
+      guildCount,
+      attackCount
     );
 
 
-  let bestCandidate = null;
+  if (
+    !assignmentPatterns.length
+  ) {
+
+    throw new Error(
+      "No valid guild assignment pattern exists with the current Guild Count and maximum Attack Count."
+    );
+  }
+
+
+  /* =======================================================
+  Boundary Candidate Check
+  ======================================================= */
+
+  const boundaryCandidates =
+    generatorBuildBoundaryCandidates(
+      actualStart,
+      period.end,
+      rangeStart,
+      rangeEnd,
+      lag
+    );
+
+
+  /*
+   * Attack Count = 1なら境界不要。
+   */
+  if (
+    attackCount > 1 &&
+    !boundaryCandidates.length
+  ) {
+
+    throw new Error(
+      "No valid attack-time boundaries are available within the current Attack Time Range and Allowed Lag."
+    );
+  }
+
+
+  /* =======================================================
+  Candidate Pool
+  ======================================================= */
 
   const candidatePool = [];
 
 
+  const timePatterns = [
+    "balanced",
+    "front",
+    "back"
+  ];
+
+
   /*
-   * 各時間生成パターンを探索。
+   * すべての
    *
-   * ここで、
+   * 時間パターン
+   * ×
+   * Guild割り当てパターン
    *
-   *   balanced
-   *   front
-   *   back
-   *
-   * をそれぞれ全compositionに適用する。
-   *
-   * Generate 1回で表示するのは
-   * この中から選ばれた1候補だけ。
+   * を候補にする。
    */
   for (
     const timePattern of
-      GENERATOR_TIME_PATTERNS
+      timePatterns
   ) {
 
-    /*
-     * 各砦へのslot分割パターン。
-     */
     for (
-      const composition of
-        compositions
+      const assignmentPattern of
+        assignmentPatterns
     ) {
 
-      const slots = [];
-
-      let valid = true;
-
-
-      /*
-       * 各Fortressを時間分割。
-       */
-      for (
-        let i = 0;
-        i < fortresses.length;
-        i++
-      ) {
-
-        const fortressSlots =
-          generatorSplitFortress(
-            fortresses[i],
-            actualStart,
-            period.end,
-            composition[i],
-            rangeStart,
-            rangeEnd,
-            lag,
-            timePattern
-          );
-
-
-        if (!fortressSlots) {
-          valid = false;
-          break;
-        }
-
-
-        slots.push(
-          ...fortressSlots
-        );
-      }
-
-
-      if (!valid) {
-        continue;
-      }
-
-
-      if (
-        slots.length !==
-        totalSlots
-      ) {
-        continue;
-      }
-
-
-      /*
-       * Candidateとして評価。
-       */
-      const evaluated =
-        generatorEvaluate(
-          slots,
+      const candidate =
+        generatorEvaluateCandidate(
+          actualStart,
+          period.end,
+          fortresses,
+          assignmentPattern,
           guildCount,
           attackCount,
           rangeStart,
           rangeEnd,
           lag,
-          period.end
+          timePattern
         );
 
 
-      if (!evaluated) {
+      if (!candidate) {
         continue;
       }
 
 
-      /*
-       * 使用した時間パターンを
-       * Candidate内部に保持。
-       *
-       * 表示確認用。
-       */
-      evaluated.timePattern =
-        timePattern;
-
-
-      /*
-       * 候補プールへ追加。
-       *
-       * 完全な最適解だけでなく、
-       * 実用上十分に良い候補を複数保持する。
-       */
       candidatePool.push(
-        evaluated
+        candidate
       );
-
-
-      /*
-       * 差の小さい順に並べる。
-       */
-      candidatePool.sort(
-        (a, b) =>
-          a.difference -
-          b.difference
-      );
-
-
-      /*
-       * 上位候補だけ保持。
-       */
-      if (
-        candidatePool.length >
-        GENERATOR_CANDIDATE_POOL_SIZE
-      ) {
-        candidatePool.length =
-          GENERATOR_CANDIDATE_POOL_SIZE;
-      }
     }
   }
 
 
-  /*
-   * 候補プールから1つだけ選ぶ。
-   *
-   * Generateを複数回押した場合は、
-   * lastGeneratedSignatureを使って
-   * 直前と同じ候補を避ける。
-   */
-  if (candidatePool.length) {
+  if (
+    !candidatePool.length
+  ) {
 
-    /*
-     * 最良候補を基準に、
-     * 上位候補から選択。
-     */
-    const selectableCandidates =
-      candidatePool.filter(
-        candidate =>
-          candidate.difference <=
-          candidatePool[0].difference +
-          Math.max(
-            GENERATOR_TIME_STEP * 2,
-            60
-          )
-      );
-
-
-    /*
-     * 直前と同じ候補を避ける。
-     */
-    const differentCandidates =
-      selectableCandidates.filter(
-        candidate =>
-          generatorCreateCandidateSignature(
-            candidate
-          ) !==
-          lastGeneratedSignature
-      );
-
-
-    const pool =
-      differentCandidates.length
-        ? differentCandidates
-        : selectableCandidates;
-
-
-    /*
-     * 今回のGenerateで返すのは1候補だけ。
-     */
-    bestCandidate =
-      pool[
-        Math.floor(
-          Math.random() *
-          pool.length
-        )
-      ];
-
-
-    lastGeneratedSignature =
-      generatorCreateCandidateSignature(
-        bestCandidate
-      );
-  }
-
-
-  if (!bestCandidate) {
     throw new Error(
       "No valid schedule could be generated with the current conditions."
     );
   }
 
 
+  /* =======================================================
+  Candidate Sorting
+  ======================================================= */
+
+  candidatePool.sort(
+    (a, b) => {
+
+      /*
+       * まずScore。
+       */
+      if (
+        a.score !==
+        b.score
+      ) {
+
+        return (
+          a.score -
+          b.score
+        );
+      }
+
+
+      /*
+       * 次に総時間差。
+       */
+      if (
+        a.difference !==
+        b.difference
+      ) {
+
+        return (
+          a.difference -
+          b.difference
+        );
+      }
+
+
+      /*
+       * 最後にパターン名。
+       */
+      return (
+        a.patternName <
+        b.patternName
+      )
+        ? -1
+        : 1;
+    }
+  );
+
+
   /*
-   * 最終安全チェック
+   * 上位候補だけ残す。
    */
+  const limitedCandidates =
+    candidatePool.slice(
+      0,
+      GENERATOR_CANDIDATE_POOL_SIZE
+    );
+
+
+  /* =======================================================
+  Candidate Selection
+  ======================================================= */
+
+  let selectable =
+    limitedCandidates;
+
+
+  /*
+   * 直前と同じ候補を避ける。
+   */
+  const different =
+    limitedCandidates.filter(
+      candidate =>
+        generatorCreateCandidateSignature(
+          candidate
+        ) !==
+        lastGeneratedSignature
+    );
+
+
+  if (
+    different.length
+  ) {
+
+    selectable =
+      different;
+  }
+
+
+  /*
+   * Generateを押すたびに、
+   * 上位候補を順番に切り替える。
+   *
+   * 完全ランダムではなく、
+   * 「良い候補群の中を巡回」
+   * する。
+   */
+  const index =
+    generatorSelectionOffset %
+    selectable.length;
+
+
+  const bestCandidate =
+    selectable[index];
+
+
+  generatorSelectionOffset++;
+
+
+  lastGeneratedSignature =
+    generatorCreateCandidateSignature(
+      bestCandidate
+    );
+
+
+  /* =======================================================
+  Final Safety Check
+  ======================================================= */
+
   for (
     const slot of
       bestCandidate.slots
@@ -1826,6 +2630,7 @@ function generatorGenerateCandidate() {
       slot.start >=
         slot.end
     ) {
+
       throw new Error(
         "Generated schedule exceeds the Event Period."
       );
@@ -1834,10 +2639,11 @@ function generatorGenerateCandidate() {
 
 
   /*
-   * 同一砦の重複チェック
+   * 同一Fortressの重複確認。
    */
   for (
-    const fortress of fortresses
+    const fortress of
+      fortresses
   ) {
 
     const fortressSlots =
@@ -1864,6 +2670,7 @@ function generatorGenerateCandidate() {
         fortressSlots[i].start <
         fortressSlots[i - 1].end
       ) {
+
         throw new Error(
           `Fortress ${fortress.label} has overlapping schedules.`
         );
@@ -1872,12 +2679,14 @@ function generatorGenerateCandidate() {
   }
 
 
-  /*
-   * Guildごとのslotを作る。
-   */
+  /* =======================================================
+  Guild Groups
+  ======================================================= */
+
   const guildGroups =
     bestCandidate.guilds.map(
       (guild, index) => ({
+
         name:
           `Guild ${String.fromCharCode(
             65 + index
@@ -1885,22 +2694,28 @@ function generatorGenerateCandidate() {
 
         index,
 
+        attackCount:
+          guild.slots.length,
+
         slots:
           guild.slots
-            .map(slot => ({
-              fortress:
-                slot.fortress,
+            .map(
+              slot => ({
 
-              start:
-                generatorCloneDate(
-                  slot.start
-                ),
+                fortress:
+                  slot.fortress,
 
-              end:
-                generatorCloneDate(
-                  slot.end
-                )
-            }))
+                start:
+                  generatorCloneDate(
+                    slot.start
+                  ),
+
+                end:
+                  generatorCloneDate(
+                    slot.end
+                  )
+              })
+            )
             .sort(
               (a, b) =>
                 a.start - b.start
@@ -1912,9 +2727,10 @@ function generatorGenerateCandidate() {
     );
 
 
-  /*
-   * Calendar用schedule。
-   */
+  /* =======================================================
+  Calendar Schedules
+  ======================================================= */
+
   const schedules = [];
 
 
@@ -1925,6 +2741,7 @@ function generatorGenerateCandidate() {
         slot => {
 
           schedules.push({
+
             league:
               fortressLevel === "Lv7"
                 ? "Gold"
@@ -1968,10 +2785,8 @@ function generatorGenerateCandidate() {
             _generatorGroup:
               group.name
           });
-
         }
       );
-
     }
   );
 
@@ -1984,6 +2799,7 @@ function generatorGenerateCandidate() {
 
 
   return {
+
     fortressLevel,
 
     guildCount,
@@ -1998,18 +2814,24 @@ function generatorGenerateCandidate() {
 
     lag,
 
-    /*
-     * 今回選ばれた時間パターン。
-     */
     timePattern:
       bestCandidate.timePattern,
+
+    patternName:
+      bestCandidate.patternName,
 
     guildGroups,
 
     schedules,
 
     difference:
-      bestCandidate.difference
+      bestCandidate.difference,
+
+    score:
+      bestCandidate.score,
+
+    singleAttackPenalty:
+      bestCandidate.singleAttackPenalty
   };
 }
 
@@ -2021,6 +2843,7 @@ Display
 function generatorDisplayCandidate(
   candidate
 ) {
+
   const lines = [];
 
 
@@ -2035,11 +2858,16 @@ function generatorDisplayCandidate(
 
 
   lines.push(
-    `Attack Count: ${candidate.attackCount}`
+    `Maximum Attack Count: ${candidate.attackCount}`
   );
 
 
   lines.push("");
+
+
+  lines.push(
+    `Pattern: ${candidate.patternName}`
+  );
 
 
   lines.push(
@@ -2069,10 +2897,37 @@ function generatorDisplayCandidate(
 
 
   lines.push(
-    `Total Balance Difference: ${generatorMinutesToText(
-      candidate.difference
-    )}`
+    `Total Balance Difference: ${
+      generatorMinutesToText(
+        candidate.difference
+      )
+    }`
   );
+
+
+  /*
+   * 1回攻撃Guildが
+   * 2回攻撃Guild平均を超えた場合の
+   * ペナルティ。
+   */
+  if (
+    candidate.singleAttackPenalty >
+    0
+  ) {
+
+    lines.push(
+      `Single-Attack Penalty: ${
+        generatorMinutesToText(
+          candidate.singleAttackPenalty
+        )
+      }`
+    );
+  } else {
+
+    lines.push(
+      "Single-Attack Penalty: 0m"
+    );
+  }
 
 
   lines.push("");
@@ -2088,9 +2943,6 @@ function generatorDisplayCandidate(
   );
 
 
-  /*
-   * Guild A / B / C / D ごとに表示。
-   */
   candidate.guildGroups.forEach(
     group => {
 
@@ -2098,7 +2950,12 @@ function generatorDisplayCandidate(
 
 
       lines.push(
-        `${group.name}`
+        `${group.name}  ` +
+        `(${group.attackCount} attack${
+          group.attackCount === 1
+            ? ""
+            : "s"
+        })`
       );
 
 
@@ -2121,7 +2978,9 @@ function generatorDisplayCandidate(
 
 
           lines.push(
-            `  ${index + 1}. ${candidate.fortressLevel} ${label}  ` +
+            `  ${index + 1}. ` +
+            `${candidate.fortressLevel} ` +
+            `${label}  ` +
             `${generatorFormatDisplay(
               slot.start
             )} - ` +
@@ -2132,17 +2991,17 @@ function generatorDisplayCandidate(
               duration
             )})`
           );
-
         }
       );
 
 
       lines.push(
-        `  Total: ${generatorMinutesToText(
-          group.totalMinutes
-        )}`
+        `  Total: ${
+          generatorMinutesToText(
+            group.totalMinutes
+          )
+        }`
       );
-
     }
   );
 
@@ -2156,15 +3015,14 @@ function generatorDisplayCandidate(
 
 
   lines.push(
-    `Balance Difference: ${generatorMinutesToText(
-      candidate.difference
-    )}`
+    `Balance Difference: ${
+      generatorMinutesToText(
+        candidate.difference
+      )
+    }`
   );
 
 
-  /*
-   * textareaなのでvalueを使用。
-   */
   generatorResult.value =
     lines.join("\n");
 }
@@ -2180,9 +3038,11 @@ generatorGenerateBtn.addEventListener(
 
     generatorResult.value = "";
 
-    generatorGoBtn.disabled = true;
+    generatorGoBtn.disabled =
+      true;
 
-    generatedCandidate = null;
+    generatedCandidate =
+      null;
 
 
     try {
@@ -2196,8 +3056,8 @@ generatorGenerateBtn.addEventListener(
       );
 
 
-      generatorGoBtn.disabled = false;
-
+      generatorGoBtn.disabled =
+        false;
 
     } catch (error) {
 
@@ -2253,7 +3113,7 @@ generatorGoBtn.addEventListener(
 
         /*
          * Generator内部用の
-         * _generatorGroup は除外。
+         * _generatorGroupは除外。
          */
         const schedule = {
 
@@ -2316,7 +3176,6 @@ generatorGoBtn.addEventListener(
           error.message ||
           "Unknown error."
         }`;
-
 
     } finally {
 
