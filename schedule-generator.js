@@ -67,6 +67,14 @@ let lastGeneratedSignature = null;
 const GENERATOR_TIME_STEP = 30;
 
 const GENERATOR_CANDIDATE_POOL_SIZE = 20;
+
+const GENERATOR_TIME_PATTERNS = [
+  "balanced",
+  "front",
+  "back"
+];
+
+
 /* =========================================================
 Generator Defaults
 ========================================================= */
@@ -1453,7 +1461,10 @@ const candidatePool = [];
   /*
    * 各分割パターンを探索。
    */
-  for (const timePattern of timePatterns)
+for (
+  const timePattern of
+    GENERATOR_TIME_PATTERNS
+)
   for (
     const composition of
       compositions
