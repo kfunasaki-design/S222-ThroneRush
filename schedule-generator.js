@@ -1453,6 +1453,7 @@ const candidatePool = [];
   /*
    * 各分割パターンを探索。
    */
+  for (const timePattern of timePatterns)
   for (
     const composition of
       compositions
