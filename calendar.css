@@ -2109,7 +2109,8 @@ Schedule Generator Buttons
   display: flex;
   justify-content: flex-end;
   gap: 6px;
-  padding: 10px -10px;
+    top: 10px;
+  padding: 10px 0px;
 }
 
 .generator-go {
