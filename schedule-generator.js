@@ -35,6 +35,9 @@ const generatorGenerateBtn =
 const generatorResult =
   document.getElementById("generatorResult");
 
+const generatorCopyBtn =
+  document.getElementById("generatorCopyBtn");
+
 const generatorGoBtn =
   document.getElementById("generatorGoBtn");
 
@@ -225,6 +228,7 @@ function generatorReset() {
 
   if (generatorResult) {
     generatorResult.value = "";
+    generatorResult.style.fontSize = "";
   }
 
   generatedCandidate = null;
@@ -235,6 +239,11 @@ function generatorReset() {
 
   if (generatorGoBtn) {
     generatorGoBtn.disabled = true;
+  }
+
+  if (generatorCopyBtn) {
+    generatorCopyBtn.disabled = true;
+    generatorCopyBtn.textContent = "Copy";
   }
 }
 
@@ -1342,20 +1351,29 @@ function generatorCalculateGuilds(
   return guilds;
 }
 
+
 /* =========================================================
-   Guild Occupation Overlap Check
-   ---------------------------------------------------------
-   Same guild must not occupy multiple fortresses
-   at the same time.
+Guild Occupation Overlap Check
+---------------------------------------------------------
+Same guild must not occupy multiple fortresses
+at the same time.
 ========================================================= */
 
 function generatorHasGuildOccupationOverlap(
   guilds
 ) {
-  for (const guild of guilds) {
-    if (!guild.slots || guild.slots.length <= 1) {
+
+  for (
+    const guild of guilds
+  ) {
+
+    if (
+      !guild.slots ||
+      guild.slots.length <= 1
+    ) {
       continue;
     }
+
 
     const sortedSlots =
       [...guild.slots].sort(
@@ -1364,24 +1382,26 @@ function generatorHasGuildOccupationOverlap(
           b.start.getTime()
       );
 
+
     for (
       let i = 1;
       i < sortedSlots.length;
       i++
     ) {
+
       const previous =
         sortedSlots[i - 1];
 
       const current =
         sortedSlots[i];
 
-      /*
-        Equal time is allowed because the previous
-        occupation ends exactly when the next begins.
 
-        Actual overlap:
-        current.start < previous.end
-      */
+      /*
+       * 同時刻での引き継ぎはOK。
+       *
+       * current.start < previous.end
+       * の場合だけ実際の重複。
+       */
       if (
         current.start.getTime() <
         previous.end.getTime()
@@ -1391,8 +1411,11 @@ function generatorHasGuildOccupationOverlap(
     }
   }
 
+
   return false;
 }
+
+
 /* =========================================================
 Balance Score
 ========================================================= */
@@ -2367,6 +2390,8 @@ function generatorEvaluateCandidate(
   if (!optimized) {
     return null;
   }
+
+
   /*
    * 同一Guildの複数拠点同時保有を禁止。
    */
@@ -3347,6 +3372,142 @@ function generatorDisplayCandidate(
 
   generatorResult.value =
     lines.join("\n");
+
+  generatorFitResultText();
+}
+
+
+/* =========================================================
+Generator Result Text Fit
+---------------------------------------------------------
+Generated text is reduced horizontally for mobile.
+Textarea height is never changed.
+========================================================= */
+
+function generatorFitResultText() {
+
+  if (!generatorResult) {
+    return;
+  }
+
+
+  const text =
+    generatorResult.value;
+
+
+  if (!text) {
+    generatorResult.style.fontSize = "";
+    return;
+  }
+
+
+  /*
+   * textarea内部の横幅。
+   *
+   * padding分を除いて、
+   * 文字が収まる幅を計算する。
+   */
+  const computed =
+    getComputedStyle(
+      generatorResult
+    );
+
+
+  const paddingLeft =
+    parseFloat(
+      computed.paddingLeft
+    ) || 0;
+
+  const paddingRight =
+    parseFloat(
+      computed.paddingRight
+    ) || 0;
+
+
+  const availableWidth =
+    generatorResult.clientWidth -
+    paddingLeft -
+    paddingRight;
+
+
+  if (
+    availableWidth <= 0
+  ) {
+    return;
+  }
+
+
+  /*
+   * Canvasで各行の文字幅を測定。
+   *
+   * textarea自体の縦幅は変更しない。
+   */
+  const canvas =
+    document.createElement(
+      "canvas"
+    );
+
+  const context =
+    canvas.getContext(
+      "2d"
+    );
+
+
+  if (!context) {
+    return;
+  }
+
+
+  const fontWeight =
+    computed.fontWeight;
+
+  const fontFamily =
+    computed.fontFamily;
+
+
+  const maxFontSize = 14;
+  const minFontSize = 8;
+
+
+  let fontSize =
+    maxFontSize;
+
+
+  while (
+    fontSize > minFontSize
+  ) {
+
+    context.font =
+      `${fontWeight} ${fontSize}px ${fontFamily}`;
+
+
+    const maxLineWidth =
+      Math.max(
+        ...text
+          .split("\n")
+          .map(
+            line =>
+              context.measureText(
+                line
+              ).width
+          )
+      );
+
+
+    if (
+      maxLineWidth <=
+      availableWidth
+    ) {
+      break;
+    }
+
+
+    fontSize -= 0.5;
+  }
+
+
+  generatorResult.style.fontSize =
+    `${fontSize}px`;
 }
 
 
@@ -3362,6 +3523,14 @@ generatorGenerateBtn.addEventListener(
 
     generatorGoBtn.disabled =
       true;
+
+    if (generatorCopyBtn) {
+      generatorCopyBtn.disabled =
+        true;
+
+      generatorCopyBtn.textContent =
+        "Copy";
+    }
 
     generatedCandidate =
       null;
@@ -3381,6 +3550,11 @@ generatorGenerateBtn.addEventListener(
       generatorGoBtn.disabled =
         false;
 
+      if (generatorCopyBtn) {
+        generatorCopyBtn.disabled =
+          false;
+      }
+
     } catch (error) {
 
       console.error(
@@ -3392,7 +3566,78 @@ generatorGenerateBtn.addEventListener(
       generatorResult.value =
         error.message ||
         "Could not generate schedule.";
+
+      generatorFitResultText();
     }
+  }
+);
+
+
+/* =========================================================
+Copy
+========================================================= */
+
+if (generatorCopyBtn) {
+
+  generatorCopyBtn.addEventListener(
+    "click",
+    async () => {
+
+      const text =
+        generatorResult.value;
+
+
+      if (!text) {
+        return;
+      }
+
+
+      try {
+
+        await navigator.clipboard.writeText(
+          text
+        );
+
+      } catch (error) {
+
+        /*
+         * Clipboard APIが使えない環境用。
+         */
+        generatorResult.focus();
+        generatorResult.select();
+
+        document.execCommand(
+          "copy"
+        );
+      }
+
+
+      generatorCopyBtn.textContent =
+        "Copied";
+
+
+      setTimeout(
+        () => {
+
+          generatorCopyBtn.textContent =
+            "Copy";
+
+        },
+        1200
+      );
+    }
+  );
+}
+
+
+/* =========================================================
+Generator Result Resize
+========================================================= */
+
+window.addEventListener(
+  "resize",
+  () => {
+    generatorFitResultText();
   }
 );
 
@@ -3480,6 +3725,8 @@ generatorGoBtn.addEventListener(
       generatorResult.value +=
         "\n\n✓ Schedule imported.";
 
+      generatorFitResultText();
+
 
       generatedCandidate =
         null;
@@ -3498,6 +3745,8 @@ generatorGoBtn.addEventListener(
           error.message ||
           "Unknown error."
         }`;
+
+      generatorFitResultText();
 
     } finally {
 
