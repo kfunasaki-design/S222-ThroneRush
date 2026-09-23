@@ -1055,34 +1055,56 @@ Admin Panel
 
     <!-- Allowed Lag -->
 
-    <label>
+<label>
 
-      Allowed Lag (min)
+  Allowed Lag (min)
 
-      <input
-        id="generatorLag"
-        type="number"
-        min="0"
-        step="1"
-        value="60"
-        required
-      >
+  <select
+    id="generatorLag"
+    required
+  >
+    <option value="0">0</option>
+    <option value="30">30</option>
+    <option value="60" selected>60</option>
+    <option value="90">90</option>
+    <option value="120">120</option>
+    <option value="150">150</option>
+    <option value="180">180</option>
+    <option value="210">210</option>
+    <option value="240">240</option>
+    <option value="270">270</option>
+    <option value="300">300</option>
+  </select>
 
-    </label>
+</label>
 
 
     <!-- Generate -->
 
     <div class="generator-buttons">
 
-<div class="generator-action-buttons">
-  <button
-    type="button"
-    id="generatorGenerateBtn"
-    class="main-button"
-  >
-    Generate
-  </button>
+<div class="generator-buttons">
+
+  <div class="generator-action-buttons">
+
+    <button
+      type="button"
+      id="generatorGenerateBtn"
+      class="generator-simple-button"
+    >
+      Generate
+    </button>
+
+    <button
+      type="button"
+      id="generatorCopyBtn"
+      class="generator-simple-button"
+      disabled
+    >
+      Copy
+    </button>
+
+  </div>
 
 </div>
 
@@ -1101,19 +1123,18 @@ Admin Panel
 
     <!-- GO -->
 
-    <div class="generator-go">
+<div class="generator-go">
 
-      <button
-        type="button"
-        id="generatorGoBtn"
-        class="main-button"
-        disabled
-      >
-        GO
-      </button>
+  <button
+    type="button"
+    id="generatorGoBtn"
+    class="generator-simple-button"
+    disabled
+  >
+    GO
+  </button>
 
-    </div>
-
+</div>
   </fieldset>
 
 </div>
