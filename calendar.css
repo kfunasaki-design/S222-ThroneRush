@@ -2114,7 +2114,7 @@ Schedule Generator Buttons
 .generator-go {
   display: flex;
   justify-content: flex-end;
-  padding: 10px 0px;
+  padding: 5px 0px;
 }
 
 .generator-simple-button {
