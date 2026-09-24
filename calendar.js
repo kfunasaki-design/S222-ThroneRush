@@ -2,6 +2,7 @@
 S222 Throne Rush Calendar
 ========================================================= */
 
+
 /* =========================================================
 Supabase
 ========================================================= */
@@ -14,9 +15,11 @@ const SUPABASE_ANON_KEY =
 
 const supabaseClient =
 window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_ANON_KEY
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
 );
+
+
 
 /* =========================================================
 State
@@ -26,12 +29,14 @@ let schedules = [];
 
 let currentMonth =
 new Date(
-new Date().getFullYear(),
-new Date().getMonth(),
-1
+  new Date().getFullYear(),
+  new Date().getMonth(),
+  1
 );
 
 let selectedSchedule = null;
+
+
 
 /* =========================================================
 Guild Settings
@@ -39,46 +44,50 @@ Guild Settings
 
 const GUILD_COLORS = {
 
-"Natureborne Echelon": "#00BCD4",
+  "Natureborne Echelon": "#00BCD4",
 
-"Garuda Muda": "#E91E63",
+  "Garuda Muda": "#E91E63",
 
-"Berandals Galeatus": "#7C4DFF",
+  "Berandals Galeatus": "#7C4DFF",
 
-"Apex predators": "#4CAF50",
+  "Apex predators": "#4CAF50",
 
-"SAMURAI": "#FF9800",
+  "SAMURAI": "#FF9800",
 
-"Gods of War": "#03A9F4",
+  "Gods of War": "#03A9F4",
 
-"Clover phoenix": "#9C27B0",
+  "Clover phoenix": "#9C27B0",
 
-"World Order Japan": "#8BC34A",
+  "World Order Japan": "#8BC34A",
 
-"Kaukasians": "#795548",
+  "Kaukasians": "#795548",
 
-"Renegade": "#F44336",
+  "Renegade": "#F44336",
 
-"Westwind": "#009688",
+  "Westwind": "#009688",
 
-"Active Misfits": "#607D8B"
+  "Active Misfits": "#607D8B"
 
 };
 
+
+
 const GUILD_LIST = [
-"Natureborne Echelon",
-"Garuda Muda",
-"Berandals Galeatus",
-"Apex predators",
-"SAMURAI",
-"Gods of War",
-"Clover phoenix",
-"World Order Japan",
-"Kaukasians",
-"Renegade",
-"Westwind",
-"Active Misfits"
+  "Natureborne Echelon",
+  "Garuda Muda",
+  "Berandals Galeatus",
+  "Apex predators",
+  "SAMURAI",
+  "Gods of War",
+  "Clover phoenix",
+  "World Order Japan",
+  "Kaukasians",
+  "Renegade",
+  "Westwind",
+  "Active Misfits"
 ];
+
+
 
 /* =========================================================
 Guild Color
@@ -86,45 +95,45 @@ Guild Color
 
 function guildColor(guild) {
 
-return (
-GUILD_COLORS[guild]
-||
-"#888888"
-);
+  return (
+    GUILD_COLORS[guild]
+    ||
+    "#888888"
+  );
 
 }
+
+
 
 function setGuildColor(
-guild,
-color
+  guild,
+  color
 ) {
 
-if (
-!GUILD_COLORS[guild]
-) {
+  if (
+    !GUILD_COLORS[guild]
+  ) {
 
-```
-return false;
-```
+    return false;
 
-}
+  }
 
-if (
-!/^#[0-9A-Fa-f]{6}$/.test(
-color
-)
-) {
 
-```
-return false;
-```
+  if (
+    !/^#[0-9A-Fa-f]{6}$/.test(
+      color
+    )
+  ) {
 
-}
+    return false;
 
-GUILD_COLORS[guild] =
-color;
+  }
 
-return true;
+
+  GUILD_COLORS[guild] =
+    color;
+
+  return true;
 
 }
 
@@ -134,49 +143,51 @@ Schedule Text Color
 
 function getScheduleTextColor(color) {
 
-if (!color)
-return "#FFFFFF";
+  if (!color)
+    return "#FFFFFF";
 
-const hex =
-color
-.replace("#", "")
-.trim();
+  const hex =
+    color
+      .replace("#", "")
+      .trim();
 
-if (hex.length !== 6)
-return "#FFFFFF";
+  if (hex.length !== 6)
+    return "#FFFFFF";
 
-const r =
-parseInt(
-hex.substring(0, 2),
-16
-);
+  const r =
+    parseInt(
+      hex.substring(0, 2),
+      16
+    );
 
-const g =
-parseInt(
-hex.substring(2, 4),
-16
-);
+  const g =
+    parseInt(
+      hex.substring(2, 4),
+      16
+    );
 
-const b =
-parseInt(
-hex.substring(4, 6),
-16
-);
+  const b =
+    parseInt(
+      hex.substring(4, 6),
+      16
+    );
 
-const luminance =
-(
-0.299 * r
-+
-0.587 * g
-+
-0.114 * b
-);
+  const luminance =
+    (
+      0.299 * r
+      +
+      0.587 * g
+      +
+      0.114 * b
+    );
 
-return luminance > 150
-? "#111111"
-: "#FFFFFF";
+  return luminance > 150
+    ? "#111111"
+    : "#FFFFFF";
 
 }
+
+
 
 /* =========================================================
 Guild Select
@@ -184,68 +195,69 @@ Guild Select
 
 function setupGuildSelect() {
 
-const guildSelect =
-document.getElementById(
-"guild"
-);
+  const guildSelect =
+    document.getElementById(
+      "guild"
+    );
 
-if (!guildSelect)
-return;
+  if (!guildSelect)
+    return;
 
-guildSelect.innerHTML = "";
+  guildSelect.innerHTML = "";
 
-const placeholder =
-document.createElement(
-"option"
-);
-
-placeholder.value = "";
-
-placeholder.textContent =
-"Select Guild";
-
-placeholder.selected = true;
-
-placeholder.disabled = true;
-
-guildSelect.appendChild(
-placeholder
-);
-
-GUILD_LIST.forEach(
-guild => {
-
-```
-  const option =
+  const placeholder =
     document.createElement(
       "option"
     );
 
-  option.value =
-    guild;
+  placeholder.value = "";
 
-  option.textContent =
-    guild;
+  placeholder.textContent =
+    "Select Guild";
+
+  placeholder.selected = true;
+
+  placeholder.disabled = true;
 
   guildSelect.appendChild(
-    option
+    placeholder
+  );
+
+  GUILD_LIST.forEach(
+    guild => {
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+      option.value =
+        guild;
+
+      option.textContent =
+        guild;
+
+      guildSelect.appendChild(
+        option
+      );
+
+    }
   );
 
 }
-```
 
-);
 
-}
 
 /* =========================================================
 Event Period
 ========================================================= */
 
 const event = {
-start: "",
-end: ""
+  start: "",
+  end: ""
 };
+
+
 
 /* =========================================================
 League Restrictions
@@ -256,25 +268,27 @@ all lower league fortress levels.
 
 const LEAGUE_LIMITS = {
 
-Bronze: [
-"Lv4",
-"Lv5"
-],
+  Bronze: [
+    "Lv4",
+    "Lv5"
+  ],
 
-Silver: [
-"Lv4",
-"Lv5",
-"Lv6"
-],
+  Silver: [
+    "Lv4",
+    "Lv5",
+    "Lv6"
+  ],
 
-Gold: [
-"Lv4",
-"Lv5",
-"Lv6",
-"Lv7"
-]
+  Gold: [
+    "Lv4",
+    "Lv5",
+    "Lv6",
+    "Lv7"
+  ]
 
 };
+
+
 
 /* =========================================================
 Fortress Settings
@@ -282,22 +296,24 @@ Fortress Settings
 
 const FORTRESS_SETTINGS = {
 
-Lv5: {
-total: 7,
-recommended: 1
-},
+  Lv5: {
+    total: 7,
+    recommended: 1
+  },
 
-Lv6: {
-total: 4,
-recommended: 1
-},
+  Lv6: {
+    total: 4,
+    recommended: 1
+  },
 
-Lv7: {
-total: 1,
-recommended: 1
-}
+  Lv7: {
+    total: 1,
+    recommended: 1
+  }
 
 };
+
+
 
 /* =========================================================
 Fortress Coordinates
@@ -305,34 +321,36 @@ Fortress Coordinates
 
 const FORTRESS_COORDINATES = {
 
-Lv4: [
-{ x: 620, y: 475, label: "10" },
-{ x: 625, y: 380, label: "15" },
-{ x: 570, y: 370, label: "20" },
-{ x: 465, y: 360, label: "25" },
-{ x: 380, y: 375, label: "30" },
-{ x: 385, y: 570, label: "45" },
-{ x: 565, y: 645, label: "55" }
-],
+  Lv4: [
+    { x: 620, y: 475, label: "10" },
+    { x: 625, y: 380, label: "15" },
+    { x: 570, y: 370, label: "20" },
+    { x: 465, y: 360, label: "25" },
+    { x: 380, y: 375, label: "30" },
+    { x: 385, y: 570, label: "45" },
+    { x: 565, y: 645, label: "55" }
+  ],
 
-Lv5: [
-{ x: 480, y: 615, label: "5W" },
-{ x: 365, y: 455, label: "5N" },
-{ x: 545, y: 455, label: "5E" },
-{ x: 635, y: 565, label: "5S" }
-],
+  Lv5: [
+    { x: 480, y: 615, label: "5W" },
+    { x: 365, y: 455, label: "5N" },
+    { x: 545, y: 455, label: "5E" },
+    { x: 635, y: 565, label: "5S" }
+  ],
 
-Lv6: [
-{ x: 460, y: 545, label: "6W" },
-{ x: 460, y: 460, label: "6N" },
-{ x: 545, y: 545, label: "6S" }
-],
+  Lv6: [
+    { x: 460, y: 545, label: "6W" },
+    { x: 460, y: 460, label: "6N" },
+    { x: 545, y: 545, label: "6S" }
+  ],
 
-Lv7: [
-{ x: 500, y: 500, label: "Central" }
-]
+  Lv7: [
+    { x: 500, y: 500, label: "Central" }
+  ]
 
 };
+
+
 
 /* =========================================================
 Balance Settings
@@ -340,80 +358,86 @@ Balance Settings
 
 const BALANCE_SETTINGS = {
 
-maxTotalHoldings: 6,
+  maxTotalHoldings: 6,
 
-warningHoldings: 2,
+  warningHoldings: 2,
 
-restrictionHoldings: 3,
+  restrictionHoldings: 3,
 
-dayAverageTolerance: 0.25
+  dayAverageTolerance: 0.25
 
 };
+
+
 
 /* =========================================================
 User Identity
 ========================================================= */
 
 let creatorId =
-localStorage.getItem(
-"s222_creator_id"
-);
+  localStorage.getItem(
+    "s222_creator_id"
+  );
 
 if (!creatorId) {
 
-creatorId =
-crypto.randomUUID();
+  creatorId =
+    crypto.randomUUID();
 
-localStorage.setItem(
-"s222_creator_id",
-creatorId
-);
+  localStorage.setItem(
+    "s222_creator_id",
+    creatorId
+  );
 
 }
+
+
 
 /* =========================================================
 DOM
 ========================================================= */
 
 const calendar =
-document.getElementById(
-"calendar"
-);
+  document.getElementById(
+    "calendar"
+  );
 
 const calendarWrapper =
-document.getElementById(
-"calendarWrapper"
-);
+  document.getElementById(
+    "calendarWrapper"
+  );
 
 const monthTitle =
-document.getElementById(
-"monthTitle"
-);
+  document.getElementById(
+    "monthTitle"
+  );
 
 const eventPeriod =
-document.getElementById(
-"event-period"
-);
+  document.getElementById(
+    "event-period"
+  );
 
 const weekdayHeader =
-document.getElementById(
-"weekdayHeader"
-);
+  document.getElementById(
+    "weekdayHeader"
+  );
 
 const dialog =
-document.getElementById(
-"scheduleDialog"
-);
+  document.getElementById(
+    "scheduleDialog"
+  );
 
 const form =
-document.getElementById(
-"scheduleForm"
-);
+  document.getElementById(
+    "scheduleForm"
+  );
 
 const detailDialog =
-document.getElementById(
-"detailDialog"
-);
+  document.getElementById(
+    "detailDialog"
+  );
+
+
 
 /* =========================================================
 Helpers
@@ -421,28 +445,30 @@ Helpers
 
 function formatDate(date) {
 
-const y =
-date.getFullYear();
+  const y =
+    date.getFullYear();
 
-const m =
-String(
-date.getMonth() + 1
-).padStart(
-2,
-"0"
-);
+  const m =
+    String(
+      date.getMonth() + 1
+    ).padStart(
+      2,
+      "0"
+    );
 
-const d =
-String(
-date.getDate()
-).padStart(
-2,
-"0"
-);
+  const d =
+    String(
+      date.getDate()
+    ).padStart(
+      2,
+      "0"
+    );
 
-return `${y}-${m}-${d}`;
+  return `${y}-${m}-${d}`;
 
 }
+
+
 
 /* =========================================================
 Fortress Icon
@@ -450,25 +476,25 @@ Fortress Icon
 
 function fortressIcon(level) {
 
-switch (level) {
+  switch (level) {
 
-```
-case "Lv7":
-  return "🔵";
+    case "Lv7":
+      return "🔵";
 
-case "Lv6":
-  return "🔴";
+    case "Lv6":
+      return "🔴";
 
-case "Lv5":
-  return "🟡";
+    case "Lv5":
+      return "🟡";
 
-default:
-  return "🟢";
-```
+    default:
+      return "🟢";
 
-}
+  }
 
 }
+
+
 
 /* =========================================================
 GMT / JST Input Conversion
@@ -476,63 +502,67 @@ GMT / JST Input Conversion
 
 function updateGMT(jstInput, gmtInput) {
 
-if (!jstInput.value)
-return;
+  if (!jstInput.value)
+    return;
 
-const [hour, minute] =
-jstInput.value
-.split(":")
-.map(Number);
+  const [hour, minute] =
+    jstInput.value
+      .split(":")
+      .map(Number);
 
-const totalMinutes =
-hour * 60 +
-minute -
-9 * 60;
+  const totalMinutes =
+    hour * 60 +
+    minute -
+    9 * 60;
 
-const gmtHour =
-Math.floor(
-((totalMinutes + 1440) % 1440) / 60
-);
+  const gmtHour =
+    Math.floor(
+      ((totalMinutes + 1440) % 1440) / 60
+    );
 
-const gmtMinute =
-(totalMinutes + 1440) % 60;
+  const gmtMinute =
+    (totalMinutes + 1440) % 60;
 
-gmtInput.value =
-String(gmtHour).padStart(2, "0") +
-":" +
-String(gmtMinute).padStart(2, "0");
+  gmtInput.value =
+    String(gmtHour).padStart(2, "0") +
+    ":" +
+    String(gmtMinute).padStart(2, "0");
 
 }
+
+
 
 function updateJST(gmtInput, jstInput) {
 
-if (!gmtInput.value)
-return;
+  if (!gmtInput.value)
+    return;
 
-const [hour, minute] =
-gmtInput.value
-.split(":")
-.map(Number);
+  const [hour, minute] =
+    gmtInput.value
+      .split(":")
+      .map(Number);
 
-const totalMinutes =
-hour * 60 +
-minute +
-9 * 60;
+  const totalMinutes =
+    hour * 60 +
+    minute +
+    9 * 60;
 
-const jstHour =
-Math.floor(
-((totalMinutes + 1440) % 1440) / 60
-);
+  const jstHour =
+    Math.floor(
+      ((totalMinutes + 1440) % 1440) / 60
+    );
 
-const jstMinute =
-(totalMinutes + 1440) % 60;
+  const jstMinute =
+    (totalMinutes + 1440) % 60;
 
-jstInput.value =
-String(jstHour).padStart(2, "0") +
-":" +
-String(jstMinute).padStart(2, "0");
+  jstInput.value =
+    String(jstHour).padStart(2, "0") +
+    ":" +
+    String(jstMinute).padStart(2, "0");
 
 }
+
+
 
 /* =========================================================
 Current Time
@@ -540,30 +570,34 @@ Current Time
 
 function formatEventDate(value) {
 
-if (!value) {
-return "";
+  if (!value) {
+    return "";
+  }
+
+  return new Date(value).toLocaleDateString(
+    "en-US",
+    {
+      timeZone: "Asia/Tokyo",
+      month: "2-digit",
+      day: "2-digit"
+    }
+  );
+
 }
 
-return new Date(value).toLocaleDateString(
-"en-US",
-{
-timeZone: "Asia/Tokyo",
-month: "2-digit",
-day: "2-digit"
-}
-);
 
-}
 
 function updateCurrentTime() {
 
-if (!eventPeriod)
-return;
+  if (!eventPeriod)
+    return;
 
-eventPeriod.textContent =
-`Event: ${formatEventDate(event.start)} → ${formatEventDate(event.end)}`;
+  eventPeriod.textContent =
+    `Event: ${formatEventDate(event.start)} → ${formatEventDate(event.end)}`;
 
 }
+
+
 
 /* =========================================================
 Language
@@ -571,162 +605,150 @@ Language
 
 function updateLanguage() {
 
-const addButton =
-document.getElementById(
-"addScheduleBtn"
-);
 
-const refreshButton =
-document.getElementById("refreshBtn");
 
-if (refreshButton) {
-refreshButton.textContent = "R";
-}
+  const addButton =
+    document.getElementById(
+      "addScheduleBtn"
+    );
+  
+  const refreshButton =
+    document.getElementById("refreshBtn");
 
-if (addButton) {
+  if (refreshButton) {
+    refreshButton.textContent = "R";
+  }
+  
+  if (addButton) {
 
-```
-addButton.textContent =
-  "Add Schedule";
+    addButton.textContent =
+      "Add Schedule";
 
-addButton.setAttribute(
-  "translate",
-  "no"
-);
-```
+    addButton.setAttribute(
+      "translate",
+      "no"
+    );
 
-}
+  }
 
-const weekdayCells =
-document.querySelectorAll(
-".weekday-cell"
-);
 
-const weekdaysEN = [
-"Sun",
-"Mon",
-"Tue",
-"Wed",
-"Thu",
-"Fri",
-"Sat"
-];
+  const weekdayCells =
+    document.querySelectorAll(
+      ".weekday-cell"
+    );
 
-weekdayCells.forEach(
-(
-cell,
-index
-) => {
+  const weekdaysEN = [
+    "Sun",
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat"
+  ];
 
-```
-  cell.textContent =
-    weekdaysEN[index];
+  weekdayCells.forEach(
+    (
+      cell,
+      index
+    ) => {
 
-}
-```
+      cell.textContent =
+        weekdaysEN[index];
 
-);
+    }
+  );
 
-const dialogTitle =
-document.getElementById(
-"dialogTitle"
-);
+  const dialogTitle =
+    document.getElementById(
+      "dialogTitle"
+    );
 
-if (dialogTitle) {
+  if (dialogTitle) {
 
-```
-if (
-  dialogTitle.dataset.mode === "edit"
-) {
+    if (
+      dialogTitle.dataset.mode === "edit"
+    ) {
 
-  dialogTitle.textContent =
-    "Edit Schedule";
+      dialogTitle.textContent =
+        "Edit Schedule";
 
-}
+    }
 
-else {
+    else {
 
-  dialogTitle.textContent =
-    "Add Schedule";
+      dialogTitle.textContent =
+        "Add Schedule";
 
-}
-```
+    }
 
-}
+  }
 
-const detailClose =
-document.getElementById(
-"detailClose"
-);
+  const detailClose =
+    document.getElementById(
+      "detailClose"
+    );
 
-if (detailClose) {
+  if (detailClose) {
 
-```
-detailClose.textContent =
-  "Close";
-```
+    detailClose.textContent =
+      "Close";
 
-}
+  }
 
-const editButton =
-document.getElementById(
-"editSchedule"
-);
+  const editButton =
+    document.getElementById(
+      "editSchedule"
+    );
 
-if (editButton) {
+  if (editButton) {
 
-```
-editButton.textContent =
-  "Edit";
-```
+    editButton.textContent =
+      "Edit";
 
-}
+  }
 
-const cancelButton =
-document.getElementById(
-"cancelBtn"
-);
+  const cancelButton =
+    document.getElementById(
+      "cancelBtn"
+    );
 
-if (cancelButton) {
+  if (cancelButton) {
 
-```
-cancelButton.textContent =
-  "Cancel";
-```
+    cancelButton.textContent =
+      "Cancel";
 
-}
+  }
 
-const saveButton =
-form?.querySelector(
-'button[type="submit"]'
-);
+  const saveButton =
+    form?.querySelector(
+      'button[type="submit"]'
+    );
 
-if (saveButton) {
+  if (saveButton) {
 
-```
-saveButton.textContent =
-  "Save";
-```
+    saveButton.textContent =
+      "Save";
 
-}
+  }
 
-const deleteButton =
-document.getElementById(
-"deleteBtn"
-);
+  const deleteButton =
+    document.getElementById(
+      "deleteBtn"
+    );
 
-if (deleteButton) {
+  if (deleteButton) {
 
-```
-deleteButton.textContent =
-  "Delete";
-```
+    deleteButton.textContent =
+      "Delete";
+
+  }
+
+  updateCurrentTime();
 
 }
 
-updateCurrentTime();
 
-}
 
 /* =========================================================
 Supabase Load
@@ -734,377 +756,360 @@ Supabase Load
 
 async function loadSchedules() {
 
-const {
-data,
-error
-} =
-await supabaseClient
-.from("schedules")
-.select("*")
-.order(
-"start_at",
-{
-ascending: true
-}
-);
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("schedules")
+      .select("*")
+      .order(
+        "start_at",
+        {
+          ascending: true
+        }
+      );
 
-if (error) {
+  if (error) {
 
-```
-console.error(
-  "Supabase load error:",
-  error
-);
+    console.error(
+      "Supabase load error:",
+      error
+    );
 
-alert(
-  "Failed to load schedules."
-);
+    alert(
+      "Failed to load schedules."
+    );
 
-schedules = [];
+    schedules = [];
 
-renderCalendar();
+    renderCalendar();
 
-renderGuildSummary();
+    renderGuildSummary();
 
-return;
-```
-
-}
-
-schedules =
-(data || []).map(
-schedule => ({
-
-```
-    id:
-      schedule.id,
-
-    league:
-      schedule.league,
-
-    fortress:
-      schedule.fortress,
-
-    x:
-      schedule.coordinate_x,
-
-    y:
-      schedule.coordinate_y,
-
-    guild:
-      schedule.guild,
-
-    start:
-      schedule.start_at,
-
-    end:
-      schedule.end_at,
-
-    description:
-      schedule.description || "",
-
-    /*
-      Always use the current Guild color.
-      This also updates old schedules that
-      were saved with the previous color system.
-    */
-
-    color:
-      guildColor(
-        schedule.guild
-      ),
-
-    creatorId:
-      schedule.creator_id
-
-  })
-);
-```
-
-schedules.sort(
-(a, b) => {
-
-```
-  const guildA =
-    GUILD_LIST.indexOf(a.guild);
-
-  const guildB =
-    GUILD_LIST.indexOf(b.guild);
-
-  if (guildA !== guildB) {
-
-    return guildA - guildB;
+    return;
 
   }
 
-  return (
-    new Date(a.start)
-    -
-    new Date(b.start)
-  );
+  schedules =
+    (data || []).map(
+      schedule => ({
 
-}
-```
+        id:
+          schedule.id,
 
+        league:
+          schedule.league,
+
+        fortress:
+          schedule.fortress,
+
+        x:
+          schedule.coordinate_x,
+
+        y:
+          schedule.coordinate_y,
+
+        guild:
+          schedule.guild,
+
+        start:
+          schedule.start_at,
+
+        end:
+          schedule.end_at,
+
+        description:
+          schedule.description || "",
+
+        /*
+          Always use the current Guild color.
+          This also updates old schedules that
+          were saved with the previous color system.
+        */
+
+        color:
+          guildColor(
+            schedule.guild
+          ),
+
+        creatorId:
+          schedule.creator_id
+
+      })
+    );
+schedules.sort(
+  (a, b) => {
+
+    const guildA =
+      GUILD_LIST.indexOf(a.guild);
+
+    const guildB =
+      GUILD_LIST.indexOf(b.guild);
+
+    if (guildA !== guildB) {
+
+      return guildA - guildB;
+
+    }
+
+    return (
+      new Date(a.start)
+      -
+      new Date(b.start)
+    );
+
+  }
 );
+  renderCalendar();
 
-renderCalendar();
-
-renderGuildSummary();
+  renderGuildSummary();
 
 }
+
+
 
 /* =========================================================
 Supabase Insert
 ========================================================= */
 
 async function insertSchedule(
-schedule
+  schedule
 ) {
 
-/* =====================================================
-Check overlapping schedule at same coordinate
-===================================================== */
+  /* =====================================================
+  Check overlapping schedule at same coordinate
+  ===================================================== */
 
-const {
-data: existingSchedules,
-error: checkError
-} =
-await supabaseClient
-.from("schedules")
-.select(
-"id, coordinate_x, coordinate_y, start_at, end_at"
-)
-.eq(
-"coordinate_x",
-schedule.x
-)
-.eq(
-"coordinate_y",
-schedule.y
-);
-
-if (checkError) {
-
-```
-console.error(
-  "Supabase duplicate check error:",
-  checkError
-);
-
-throw checkError;
-```
-
-}
-
-const newStart =
-new Date(
-schedule.start
-);
-
-const newEnd =
-new Date(
-schedule.end
-);
-
-const overlapping =
-existingSchedules.some(
-item => {
-
-```
-    const existingStart =
-      new Date(
-        item.start_at
+  const {
+    data: existingSchedules,
+    error: checkError
+  } =
+    await supabaseClient
+      .from("schedules")
+      .select(
+        "id, coordinate_x, coordinate_y, start_at, end_at"
+      )
+      .eq(
+        "coordinate_x",
+        schedule.x
+      )
+      .eq(
+        "coordinate_y",
+        schedule.y
       );
 
-    const existingEnd =
-      new Date(
-        item.end_at
-      );
+  if (checkError) {
 
-    return (
-      newStart < existingEnd &&
-      newEnd > existingStart
+    console.error(
+      "Supabase duplicate check error:",
+      checkError
+    );
+
+    throw checkError;
+
+  }
+
+  const newStart =
+    new Date(
+      schedule.start
+    );
+
+  const newEnd =
+    new Date(
+      schedule.end
+    );
+
+  const overlapping =
+    existingSchedules.some(
+      item => {
+
+        const existingStart =
+          new Date(
+            item.start_at
+          );
+
+        const existingEnd =
+          new Date(
+            item.end_at
+          );
+
+        return (
+          newStart < existingEnd &&
+          newEnd > existingStart
+        );
+
+      }
+    );
+
+  if (overlapping) {
+
+    throw new Error(
+      "This coordinate is already reserved during this period."
     );
 
   }
-);
-```
 
-if (overlapping) {
 
-```
-throw new Error(
-  "This coordinate is already reserved during this period."
-);
-```
+  /* =====================================================
+  Insert
+  ===================================================== */
 
-}
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("schedules")
+      .insert({
 
-/* =====================================================
-Insert
-===================================================== */
+        id:
+          schedule.id,
 
-const {
-error
-} =
-await supabaseClient
-.from("schedules")
-.insert({
+        league:
+          schedule.league,
 
-```
-    id:
-      schedule.id,
+        fortress:
+          schedule.fortress,
 
-    league:
-      schedule.league,
+        coordinate_x:
+          schedule.x,
 
-    fortress:
-      schedule.fortress,
+        coordinate_y:
+          schedule.y,
 
-    coordinate_x:
-      schedule.x,
+        guild:
+          schedule.guild,
 
-    coordinate_y:
-      schedule.y,
+        start_at:
+          schedule.start,
 
-    guild:
-      schedule.guild,
+        end_at:
+          schedule.end,
 
-    start_at:
-      schedule.start,
+        description:
+          schedule.description,
 
-    end_at:
-      schedule.end,
+        color:
+          schedule.color,
 
-    description:
-      schedule.description,
+        creator_id:
+          schedule.creatorId
 
-    color:
-      schedule.color,
+      });
 
-    creator_id:
-      schedule.creatorId
+  if (error) {
 
-  });
-```
+    console.error(
+      "Supabase insert error:",
+      error
+    );
 
-if (error) {
+    throw error;
 
-```
-console.error(
-  "Supabase insert error:",
-  error
-);
-
-throw error;
-```
+  }
 
 }
 
-}
 
 /* =========================================================
 Supabase Update
 ========================================================= */
 
 async function updateSchedule(
-schedule
+  schedule
 ) {
 
-const {
-error
-} =
-await supabaseClient
-.from("schedules")
-.update({
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("schedules")
+      .update({
 
-```
-    league:
-      schedule.league,
+        league:
+          schedule.league,
 
-    fortress:
-      schedule.fortress,
+        fortress:
+          schedule.fortress,
 
-    coordinate_x:
-      schedule.x,
+        coordinate_x:
+          schedule.x,
 
-    coordinate_y:
-      schedule.y,
+        coordinate_y:
+          schedule.y,
 
-    guild:
-      schedule.guild,
+        guild:
+          schedule.guild,
 
-    start_at:
-      schedule.start,
+        start_at:
+          schedule.start,
 
-    end_at:
-      schedule.end,
+        end_at:
+          schedule.end,
 
-    description:
-      schedule.description,
+        description:
+          schedule.description,
 
-    color:
-      schedule.color,
+        color:
+          schedule.color,
 
-    creator_id:
-      schedule.creatorId
+        creator_id:
+          schedule.creatorId
 
-  })
-  .eq(
-    "id",
-    schedule.id
-  );
-```
+      })
+      .eq(
+        "id",
+        schedule.id
+      );
 
-if (error) {
+  if (error) {
 
-```
-console.error(
-  "Supabase update error:",
-  error
-);
+    console.error(
+      "Supabase update error:",
+      error
+    );
 
-throw error;
-```
+    throw error;
+
+  }
 
 }
 
-}
+
 
 /* =========================================================
 Supabase Delete
 ========================================================= */
 
 async function deleteSchedule(
-scheduleId
+  scheduleId
 ) {
 
-const {
-error
-} =
-await supabaseClient
-.from("schedules")
-.delete()
-.eq(
-"id",
-scheduleId
-);
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("schedules")
+      .delete()
+      .eq(
+        "id",
+        scheduleId
+      );
 
-if (error) {
+  if (error) {
 
-```
-console.error(
-  "Supabase delete error:",
-  error
-);
+    console.error(
+      "Supabase delete error:",
+      error
+    );
 
-throw error;
-```
+    throw error;
 
-}
+  }
 
 }
+
+
 
 /* =========================================================
 Calendar
@@ -1112,249 +1117,246 @@ Calendar
 
 function renderCalendar() {
 
-if (!calendar)
-return;
+  if (!calendar)
+    return;
 
-calendar.innerHTML = "";
+  calendar.innerHTML = "";
 
-monthTitle.textContent =
-`${currentMonth.getFullYear()}/${String(
+  monthTitle.textContent =
+    `${currentMonth.getFullYear()}/${String(
       currentMonth.getMonth() + 1
     ).padStart(
       2,
       "0"
     )}`;
 
-if (weekdayHeader) {
+  if (weekdayHeader) {
 
-```
-weekdayHeader.innerHTML = "";
+    weekdayHeader.innerHTML = "";
 
-const weekdayRow =
-  document.createElement(
-    "div"
-  );
-
-weekdayRow.className =
-  "weekday-row";
-
-const weekdays = [
-  "Sun",
-  "Mon",
-  "Tue",
-  "Wed",
-  "Thu",
-  "Fri",
-  "Sat"
-];
-
-weekdays.forEach(
-  weekday => {
-
-    const cell =
+    const weekdayRow =
       document.createElement(
         "div"
       );
 
-    cell.className =
-      "weekday-cell";
+    weekdayRow.className =
+      "weekday-row";
 
-    cell.textContent =
-      weekday;
+    const weekdays = [
+      "Sun",
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat"
+    ];
 
-    weekdayRow.appendChild(
-      cell
+    weekdays.forEach(
+      weekday => {
+
+        const cell =
+          document.createElement(
+            "div"
+          );
+
+        cell.className =
+          "weekday-cell";
+
+        cell.textContent =
+          weekday;
+
+        weekdayRow.appendChild(
+          cell
+        );
+
+      }
+    );
+
+    weekdayHeader.appendChild(
+      weekdayRow
     );
 
   }
-);
 
-weekdayHeader.appendChild(
-  weekdayRow
-);
-```
+  const firstDay =
+    new Date(
+      currentMonth.getFullYear(),
+      currentMonth.getMonth(),
+      1
+    );
 
-}
+  const lastDay =
+    new Date(
+      currentMonth.getFullYear(),
+      currentMonth.getMonth() + 1,
+      0
+    );
 
-const firstDay =
-new Date(
-currentMonth.getFullYear(),
-currentMonth.getMonth(),
-1
-);
+  const calendarStart =
+    new Date(firstDay);
 
-const lastDay =
-new Date(
-currentMonth.getFullYear(),
-currentMonth.getMonth() + 1,
-0
-);
-
-const calendarStart =
-new Date(firstDay);
-
-calendarStart.setDate(
-firstDay.getDate()
--
-firstDay.getDay()
-);
-
-const calendarEnd =
-new Date(lastDay);
-
-calendarEnd.setDate(
-lastDay.getDate()
-+
-(
-6 -
-lastDay.getDay()
-)
-);
-
-let cursor =
-new Date(calendarStart);
-
-while (
-cursor <= calendarEnd
-) {
-
-```
-const weekStart =
-  new Date(cursor);
-
-const weekEnd =
-  new Date(cursor);
-
-weekEnd.setDate(
-  weekEnd.getDate() + 6
-);
-
-const week =
-  document.createElement(
-    "div"
+  calendarStart.setDate(
+    firstDay.getDate()
+    -
+    firstDay.getDay()
   );
 
-week.className =
-  "week";
+  const calendarEnd =
+    new Date(lastDay);
 
-week.style.position =
-  "relative";
-
-const dayGrid =
-  document.createElement(
-    "div"
+  calendarEnd.setDate(
+    lastDay.getDate()
+    +
+    (
+      6 -
+      lastDay.getDay()
+    )
   );
 
-dayGrid.className =
-  "day-grid";
+  let cursor =
+    new Date(calendarStart);
 
-const scheduleLayer =
-  document.createElement(
-    "div"
-  );
+  while (
+    cursor <= calendarEnd
+  ) {
 
-scheduleLayer.className =
-  "schedule-layer";
+    const weekStart =
+      new Date(cursor);
 
-for (
-  let i = 0;
-  i < 7;
-  i++
-) {
+    const weekEnd =
+      new Date(cursor);
 
-  const date =
-    new Date(weekStart);
+    weekEnd.setDate(
+      weekEnd.getDate() + 6
+    );
 
-  date.setDate(
-    weekStart.getDate() + i
-  );
-
-  const day =
-    createDay(date);
-
-  dayGrid.appendChild(
-    day
-  );
-
-}
-
-week.appendChild(
-  dayGrid
-);
-
-const lanes = [];
-
-const weekSchedules =
-  schedules.filter(
-    schedule =>
-      scheduleOverlapsWeek(
-        schedule,
-        weekStart,
-        weekEnd
-      )
-  );
-
-weekSchedules.forEach(
-  schedule => {
-
-    const segment =
-      getWeekScheduleSegment(
-        schedule,
-        weekStart,
-        weekEnd
+    const week =
+      document.createElement(
+        "div"
       );
 
-    if (!segment)
-      return;
+    week.className =
+      "week";
 
-    let laneIndex = 0;
+    week.style.position =
+      "relative";
 
-    while (true) {
+    const dayGrid =
+      document.createElement(
+        "div"
+      );
 
-      if (
-        !lanes[laneIndex]
-      ) {
+    dayGrid.className =
+      "day-grid";
 
-        lanes[laneIndex] = [];
+    const scheduleLayer =
+      document.createElement(
+        "div"
+      );
 
-      }
+    scheduleLayer.className =
+      "schedule-layer";
 
-      const overlaps =
-        lanes[laneIndex].some(
-          existingSegment =>
-            existingSegment.startColumn
-            <=
-            segment.endColumn
-            &&
-            existingSegment.endColumn
-            >=
-            segment.startColumn
-        );
+    for (
+      let i = 0;
+      i < 7;
+      i++
+    ) {
 
-      if (!overlaps)
-        break;
+      const date =
+        new Date(weekStart);
 
-      laneIndex++;
+      date.setDate(
+        weekStart.getDate() + i
+      );
+
+      const day =
+        createDay(date);
+
+      dayGrid.appendChild(
+        day
+      );
 
     }
 
-    lanes[laneIndex].push(
-      segment
+    week.appendChild(
+      dayGrid
     );
 
-    const item =
-      createSchedule(
-        schedule,
-        segment,
-        laneIndex
+    const lanes = [];
+
+    const weekSchedules =
+      schedules.filter(
+        schedule =>
+          scheduleOverlapsWeek(
+            schedule,
+            weekStart,
+            weekEnd
+          )
       );
 
-    scheduleLayer.appendChild(
-      item
-    );
+    weekSchedules.forEach(
+      schedule => {
 
-  }
-);
+        const segment =
+          getWeekScheduleSegment(
+            schedule,
+            weekStart,
+            weekEnd
+          );
+
+        if (!segment)
+          return;
+
+        let laneIndex = 0;
+
+        while (true) {
+
+          if (
+            !lanes[laneIndex]
+          ) {
+
+            lanes[laneIndex] = [];
+
+          }
+
+          const overlaps =
+            lanes[laneIndex].some(
+              existingSegment =>
+                existingSegment.startColumn
+                <=
+                segment.endColumn
+                &&
+                existingSegment.endColumn
+                >=
+                segment.startColumn
+            );
+
+          if (!overlaps)
+            break;
+
+          laneIndex++;
+
+        }
+
+        lanes[laneIndex].push(
+          segment
+        );
+
+        const item =
+          createSchedule(
+            schedule,
+            segment,
+            laneIndex
+          );
+
+        scheduleLayer.appendChild(
+          item
+        );
+
+      }
+    );
 
 const scheduleHeight =
   Math.max(
@@ -1380,20 +1382,21 @@ week.appendChild(
   scheduleLayer
 );
 
-calendar.appendChild(
-  week
-);
+    calendar.appendChild(
+      week
+    );
 
-cursor.setDate(
-  cursor.getDate() + 7
-);
-```
+    cursor.setDate(
+      cursor.getDate() + 7
+    );
+
+  }
+
+  updateLanguage();
 
 }
 
-updateLanguage();
 
-}
 
 /* =========================================================
 Day
@@ -1401,1137 +1404,689 @@ Day
 
 function hexToRgba(hex, alpha) {
 
-const r =
-parseInt(
-hex.slice(1, 3),
-16
-);
+  const r =
+    parseInt(
+      hex.slice(1, 3),
+      16
+    );
 
-const g =
-parseInt(
-hex.slice(3, 5),
-16
-);
+  const g =
+    parseInt(
+      hex.slice(3, 5),
+      16
+    );
 
-const b =
-parseInt(
-hex.slice(5, 7),
-16
-);
+  const b =
+    parseInt(
+      hex.slice(5, 7),
+      16
+    );
 
-return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 
 }
 
 function createDay(date) {
 
-const day =
-document.createElement(
-"div"
-);
+  const day =
+    document.createElement(
+      "div"
+    );
 
-day.className =
-"day";
+  day.className =
+    "day";
 
-if (
-date.getMonth()
-!==
-currentMonth.getMonth()
-) {
+  if (
+    date.getMonth()
+    !==
+    currentMonth.getMonth()
+  ) {
 
-```
-day.classList.add(
-  "other-month"
-);
-```
+    day.classList.add(
+      "other-month"
+    );
 
-}
+  }
 
-const today =
-new Date();
+  const today =
+    new Date();
 
-if (
-formatDate(date)
-===
-formatDate(today)
-) {
+  if (
+    formatDate(date)
+    ===
+    formatDate(today)
+  ) {
 
-```
-day.classList.add(
-  "today"
-);
-```
+    day.classList.add(
+      "today"
+    );
 
-}
+  }
 
-const header =
-document.createElement(
-"div"
-);
+  const header =
+    document.createElement(
+      "div"
+    );
 
-header.className =
-"day-header";
+  header.className =
+    "day-header";
 
-header.textContent =
-date.getDate();
+  header.textContent =
+    date.getDate();
 
 /* =======================================================
 Level Release
 ======================================================= */
 
 const releaseDates =
-window.s222ReleaseDates || {};
+  window.s222ReleaseDates || {};
 
 const levels = [
-"Lv4",
-"Lv5",
-"Lv6",
-"Lv7"
+  "Lv4",
+  "Lv5",
+  "Lv6",
+  "Lv7"
 ];
 
 let activeLevel = null;
 
 levels.forEach(
-level => {
+  level => {
 
-```
-const release =
-  releaseDates[level];
+    const release =
+      releaseDates[level];
 
-if (!release)
-  return;
+    if (!release)
+      return;
 
-const releaseDate =
-  new Date(release);
+    const releaseDate =
+      new Date(release);
 
-const releaseOnly =
-  new Date(
-    releaseDate.getFullYear(),
-    releaseDate.getMonth(),
-    releaseDate.getDate()
-  );
+    const releaseOnly =
+      new Date(
+        releaseDate.getFullYear(),
+        releaseDate.getMonth(),
+        releaseDate.getDate()
+      );
 
-const currentDate =
-  new Date(
-    date.getFullYear(),
-    date.getMonth(),
-    date.getDate()
-  );
+    const currentDate =
+      new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate()
+      );
 
-/*
-  Only the release date
-  and the following 2 days
-  are treated as the display period.
-*/
+    /*
+      Only the release date
+      and the following 2 days
+      are treated as the display period.
+    */
 
-const daysFromRelease =
-  Math.round(
-    (
-      currentDate
-      -
-      releaseOnly
-    )
-    /
-    86400000
-  );
+    const daysFromRelease =
+      Math.round(
+        (
+          currentDate
+          -
+          releaseOnly
+        )
+        /
+        86400000
+      );
 
-if (
-  daysFromRelease >= 0
-  &&
-  daysFromRelease <= 2
-) {
+    if (
+      daysFromRelease >= 0
+      &&
+      daysFromRelease <= 2
+    ) {
 
-  activeLevel = level;
+      activeLevel = level;
 
-}
-```
+    }
 
-}
+  }
 );
 
 const levelColors = {
-Lv4: "#002D1B",
-Lv5: "#002756",
-Lv6: "#4b1a47",
-Lv7: "#1A1110"
+  Lv4: "#002D1B",
+  Lv5: "#002756",
+  Lv6: "#4b1a47",
+  Lv7: "#1A1110"
 };
 
 if (
-activeLevel
-&&
-levelColors[activeLevel]
+  activeLevel
+  &&
+  levelColors[activeLevel]
 ) {
 
-header.dataset.level =
-activeLevel;
+  header.dataset.level =
+    activeLevel;
 
-let opacity = 1;
+  let opacity = 1;
 
-const releaseDate =
-new Date(
-releaseDates[activeLevel]
-);
+  const releaseDate =
+    new Date(
+      releaseDates[activeLevel]
+    );
 
-const releaseOnly =
-new Date(
-releaseDate.getFullYear(),
-releaseDate.getMonth(),
-releaseDate.getDate()
-);
+  const releaseOnly =
+    new Date(
+      releaseDate.getFullYear(),
+      releaseDate.getMonth(),
+      releaseDate.getDate()
+    );
 
-const currentDate =
-new Date(
-date.getFullYear(),
-date.getMonth(),
-date.getDate()
-);
+  const currentDate =
+    new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate()
+    );
 
-const daysFromRelease =
-Math.round(
-(
-currentDate
--
-releaseOnly
-)
-/
-86400000
-);
+  const daysFromRelease =
+    Math.round(
+      (
+        currentDate
+        -
+        releaseOnly
+      )
+      /
+      86400000
+    );
 
-if (daysFromRelease === 1) {
-opacity = 0.75;
-}
+  if (daysFromRelease === 1) {
+    opacity = 0.75;
+  }
 
-else if (daysFromRelease === 2) {
-opacity = 0.5;
-}
+  else if (daysFromRelease === 2) {
+    opacity = 0.5;
+  }
 
-header.style.backgroundColor =
-hexToRgba(
-levelColors[activeLevel],
-opacity
-);
+  header.style.backgroundColor =
+    hexToRgba(
+      levelColors[activeLevel],
+      opacity
+    );
 
 }
 
 day.appendChild(
-header
+  header
 );
 
 return day;
 }
-
 /* =========================================================
 Schedule / Week
 ========================================================= */
 
 function scheduleOverlapsWeek(
-schedule,
-weekStart,
-weekEnd
+  schedule,
+  weekStart,
+  weekEnd
 ) {
 
-const scheduleStart =
-new Date(
-schedule.start
-);
+  const scheduleStart =
+    new Date(
+      schedule.start
+    );
 
-const scheduleEnd =
-new Date(
-schedule.end
-);
+  const scheduleEnd =
+    new Date(
+      schedule.end
+    );
 
-if (
-Number.isNaN(
-scheduleStart.getTime()
-)
-||
-Number.isNaN(
-scheduleEnd.getTime()
-)
-) {
+  if (
+    Number.isNaN(
+      scheduleStart.getTime()
+    )
+    ||
+    Number.isNaN(
+      scheduleEnd.getTime()
+    )
+  ) {
 
-```
-return false;
-```
+    return false;
+
+  }
+
+  const rangeStart =
+    new Date(weekStart);
+
+  rangeStart.setHours(
+    0,
+    0,
+    0,
+    0
+  );
+
+  const rangeEnd =
+    new Date(weekEnd);
+
+  rangeEnd.setDate(
+    rangeEnd.getDate() + 1
+  );
+
+  rangeEnd.setHours(
+    0,
+    0,
+    0,
+    0
+  );
+
+  return (
+    scheduleStart < rangeEnd
+    &&
+    scheduleEnd > rangeStart
+  );
 
 }
 
-const rangeStart =
-new Date(weekStart);
 
-rangeStart.setHours(
-0,
-0,
-0,
-0
-);
-
-const rangeEnd =
-new Date(weekEnd);
-
-rangeEnd.setDate(
-rangeEnd.getDate() + 1
-);
-
-rangeEnd.setHours(
-0,
-0,
-0,
-0
-);
-
-return (
-scheduleStart < rangeEnd
-&&
-scheduleEnd > rangeStart
-);
-
-}
 
 /* =========================================================
 Week Schedule Segment
 ========================================================= */
 
 function getWeekScheduleSegment(
-schedule,
-weekStart,
-weekEnd
+  schedule,
+  weekStart,
+  weekEnd
 ) {
 
-const scheduleStart =
-new Date(
-schedule.start
-);
-
-const scheduleEnd =
-new Date(
-schedule.end
-);
-
-if (
-Number.isNaN(
-scheduleStart.getTime()
-)
-||
-Number.isNaN(
-scheduleEnd.getTime()
-)
-) {
-
-```
-return null;
-```
-
-}
-
-function getJSTDate(date) {
-
-```
-const parts =
-  new Intl.DateTimeFormat(
-    "en-CA",
-    {
-      timeZone:
-        "Asia/Tokyo",
-
-      year:
-        "numeric",
-
-      month:
-        "2-digit",
-
-      day:
-        "2-digit"
-    }
-  )
-    .formatToParts(
-      date
+  const scheduleStart =
+    new Date(
+      schedule.start
     );
 
-const year =
-  parts.find(
-    part =>
-      part.type === "year"
-  ).value;
+  const scheduleEnd =
+    new Date(
+      schedule.end
+    );
 
-const month =
-  parts.find(
-    part =>
-      part.type === "month"
-  ).value;
+  if (
+    Number.isNaN(
+      scheduleStart.getTime()
+    )
+    ||
+    Number.isNaN(
+      scheduleEnd.getTime()
+    )
+  ) {
 
-const day =
-  parts.find(
-    part =>
-      part.type === "day"
-  ).value;
+    return null;
 
-return new Date(
-  Number(year),
-  Number(month) - 1,
-  Number(day)
-);
-```
+  }
 
-}
+  function getJSTDate(date) {
 
-const startDate =
-getJSTDate(
-scheduleStart
-);
+    const parts =
+      new Intl.DateTimeFormat(
+        "en-CA",
+        {
+          timeZone:
+            "Asia/Tokyo",
 
-const endDate =
-getJSTDate(
-scheduleEnd
-);
+          year:
+            "numeric",
 
-const weekStartDate =
-new Date(
-weekStart.getFullYear(),
-weekStart.getMonth(),
-weekStart.getDate()
-);
+          month:
+            "2-digit",
 
-let startColumn =
-Math.round(
-(
-startDate
--
-weekStartDate
-)
-/
-(
-24
-*
-60
-*
-60
-*
-1000
-)
-);
+          day:
+            "2-digit"
+        }
+      )
+        .formatToParts(
+          date
+        );
 
-let endColumn =
-Math.round(
-(
-endDate
--
-weekStartDate
-)
-/
-(
-24
-*
-60
-*
-60
-*
-1000
-)
-);
+    const year =
+      parts.find(
+        part =>
+          part.type === "year"
+      ).value;
 
-startColumn =
-Math.max(
-0,
-Math.min(
-6,
-startColumn
-)
-);
+    const month =
+      parts.find(
+        part =>
+          part.type === "month"
+      ).value;
 
-endColumn =
-Math.max(
-startColumn,
-Math.min(
-6,
-endColumn
-)
-);
+    const day =
+      parts.find(
+        part =>
+          part.type === "day"
+      ).value;
 
-return {
-startColumn,
-endColumn
-};
+    return new Date(
+      Number(year),
+      Number(month) - 1,
+      Number(day)
+    );
 
-}
+  }
 
-/* =========================================================
-Schedule Connection
-========================================================= */
+  const startDate =
+    getJSTDate(
+      scheduleStart
+    );
 
-/*
-A connection is based only on:
+  const endDate =
+    getJSTDate(
+      scheduleEnd
+    );
 
-* same Guild
-* same Fortress Level
-* earlier / later schedule time
+  const weekStartDate =
+    new Date(
+      weekStart.getFullYear(),
+      weekStart.getMonth(),
+      weekStart.getDate()
+    );
 
-No separate series ID is used.
-*/
+  let startColumn =
+    Math.round(
+      (
+        startDate
+        -
+        weekStartDate
+      )
+      /
+      (
+        24
+        *
+        60
+        *
+        60
+        *
+        1000
+      )
+    );
 
-function getScheduleConnection(
-schedule
-) {
+  let endColumn =
+    Math.round(
+      (
+        endDate
+        -
+        weekStartDate
+      )
+      /
+      (
+        24
+        *
+        60
+        *
+        60
+        *
+        1000
+      )
+    );
 
-const sameGuildLevel =
-schedules
-.filter(
-other =>
-other.id !== schedule.id
-&&
-other.guild === schedule.guild
-&&
-other.fortress === schedule.fortress
-)
-.sort(
-(a, b) =>
-new Date(a.start)
--
-new Date(b.start)
-);
+  startColumn =
+    Math.max(
+      0,
+      Math.min(
+        6,
+        startColumn
+      )
+    );
 
-const currentStart =
-new Date(
-schedule.start
-);
+  endColumn =
+    Math.max(
+      startColumn,
+      Math.min(
+        6,
+        endColumn
+      )
+    );
 
-const previous =
-sameGuildLevel
-.filter(
-other =>
-new Date(other.start)
-<
-currentStart
-)
-.pop()
-||
-null;
-
-const next =
-sameGuildLevel.find(
-other =>
-new Date(other.start)
->
-currentStart
-)
-||
-null;
-
-return {
-hasPrevious:
-!!previous,
-
-```
-hasNext:
-  !!next
-```
-
-};
+  return {
+    startColumn,
+    endColumn
+  };
 
 }
+
+
 
 /* =========================================================
 Schedule
 ========================================================= */
 
+
+
+
 function getCoordinateLabel(
-level,
-x,
-y
+  level,
+  x,
+  y
 ) {
 
-const coordinates =
-FORTRESS_COORDINATES[level] || [];
+  const coordinates =
+    FORTRESS_COORDINATES[level] || [];
 
-const match =
-coordinates.find(
-coordinate =>
-String(coordinate.x) === String(x) &&
-String(coordinate.y) === String(y)
-);
+  const match =
+    coordinates.find(
+      coordinate =>
+        String(coordinate.x) === String(x) &&
+        String(coordinate.y) === String(y)
+    );
 
-return match?.label || `${x}:${y}`;
-
-}
-
-function getScheduleRoundedCorners(
-schedule,
-segment
-) {
-
-const scheduleStart =
-new Date(
-schedule.start
-);
-
-const scheduleEnd =
-new Date(
-schedule.end
-);
-
-/*
-The rounded corners belong to the
-schedule itself, not to the week segment.
-
-```
-Therefore a week boundary does not
-create a rounded corner.
-```
-
-*/
-
-const startDate =
-new Date(
-scheduleStart
-);
-
-const endDate =
-new Date(
-scheduleEnd
-);
-
-const segmentStartsAtScheduleStart =
-segment.startColumn >= 0
-&&
-segment.startColumn <= 6
-&&
-formatDate(
-new Date(
-startDate.toLocaleString(
-"en-US",
-{
-timeZone: "Asia/Tokyo"
-}
-)
-)
-) ===
-formatDate(
-new Date(
-startDate.toLocaleString(
-"en-US",
-{
-timeZone: "Asia/Tokyo"
-}
-)
-)
-);
-
-/*
-Determine the actual visible week segment
-by comparing the schedule's JST date
-against the segment columns.
-*/
-
-const scheduleStartJST =
-new Intl.DateTimeFormat(
-"en-CA",
-{
-timeZone: "Asia/Tokyo",
-year: "numeric",
-month: "2-digit",
-day: "2-digit"
-}
-).format(
-scheduleStart
-);
-
-const scheduleEndJST =
-new Intl.DateTimeFormat(
-"en-CA",
-{
-timeZone: "Asia/Tokyo",
-year: "numeric",
-month: "2-digit",
-day: "2-digit"
-}
-).format(
-scheduleEnd
-);
-
-/*
-segment.startColumn / endColumn identify
-the visible days.  The calendar week is
-always a Sunday-Saturday range.
-*/
-
-const segmentStartDate =
-new Date(
-new Date(
-scheduleStart
-)
-);
-
-const segmentEndDate =
-new Date(
-new Date(
-scheduleEnd
-)
-);
-
-/*
-Rebuild the actual visible dates from
-the current segment columns.
-*/
-
-const currentWeek =
-segment._weekStart
-? new Date(segment._weekStart)
-: null;
-
-let firstVisibleDate = null;
-let lastVisibleDate = null;
-
-if (currentWeek) {
-
-```
-firstVisibleDate =
-  new Date(currentWeek);
-
-firstVisibleDate.setDate(
-  firstVisibleDate.getDate()
-  +
-  segment.startColumn
-);
-
-lastVisibleDate =
-  new Date(currentWeek);
-
-lastVisibleDate.setDate(
-  lastVisibleDate.getDate()
-  +
-  segment.endColumn
-);
-```
+  return match?.label || `${x}:${y}`;
 
 }
 
-const firstVisibleJST =
-firstVisibleDate
-? new Intl.DateTimeFormat(
-"en-CA",
-{
-timeZone: "Asia/Tokyo",
-year: "numeric",
-month: "2-digit",
-day: "2-digit"
-}
-).format(firstVisibleDate)
-: "";
-
-const lastVisibleJST =
-lastVisibleDate
-? new Intl.DateTimeFormat(
-"en-CA",
-{
-timeZone: "Asia/Tokyo",
-year: "numeric",
-month: "2-digit",
-day: "2-digit"
-}
-).format(lastVisibleDate)
-: "";
-
-return {
-
-```
-leftRounded:
-  scheduleStartJST ===
-  firstVisibleJST,
-
-rightRounded:
-  scheduleEndJST ===
-  lastVisibleJST
-```
-
-};
-
-}
 
 function createSchedule(
-schedule,
-segment,
-laneIndex
+  schedule,
+  segment,
+  laneIndex
 ) {
 
-const button =
-document.createElement(
-"button"
-);
+  const button =
+    document.createElement(
+      "button"
+    );
 
-button.className =
-"schedule";
+  button.className =
+    "schedule";
 
-button.setAttribute(
-"translate",
-"no"
-);
+  button.setAttribute(
+    "translate",
+    "no"
+  );
 
-button.style.position =
-"absolute";
+  button.style.position =
+    "absolute";
 
-/*
-Guild determines the schedule color.
-The stored database color is intentionally
-ignored here so old schedules are also
-automatically converted.
-*/
+  /*
+  Guild determines the schedule color.
+  The stored database color is intentionally
+  ignored here so old schedules are also
+  automatically converted.
+  */
 
-const scheduleColor =
-guildColor(
-schedule.guild
-);
+  const scheduleColor =
+    guildColor(
+      schedule.guild
+    );
 
-button.style.background =
-scheduleColor;
+  button.style.background =
+    scheduleColor;
 
 const textColor =
-getScheduleTextColor(
-scheduleColor
-);
+  getScheduleTextColor(
+    scheduleColor
+  );
 
 button.style.color =
-textColor;
+  textColor;
 
-button.style.pointerEvents =
-"auto";
 
-/* =====================================================
-Rounded / Square Ends
+  button.style.pointerEvents =
+    "auto";
 
-```
- Rounded corners belong only to the actual
- beginning and ending of the schedule.
-
- A week boundary never creates a rounded end.
-```
-
-===================================================== */
-
-segment._weekStart =
-segment._weekStart ||
-null;
-
-const roundedCorners =
-getScheduleRoundedCorners(
-schedule,
-segment
-);
-
-if (
-roundedCorners.leftRounded
-&&
-roundedCorners.rightRounded
-) {
-
-```
-button.style.borderRadius =
-  "10px";
-```
-
-}
-
-else if (
-roundedCorners.leftRounded
-) {
-
-```
-button.style.borderRadius =
-  "10px 0 0 10px";
-```
-
-}
-
-else if (
-roundedCorners.rightRounded
-) {
-
-```
-button.style.borderRadius =
-  "0 10px 10px 0";
-```
-
-}
-
-else {
-
-```
-button.style.borderRadius =
-  "0";
-```
-
-}
-
-/* =====================================================
-Same Guild / Same Level Connection
-===================================================== */
-
-const connection =
-getScheduleConnection(
-schedule
-);
-
-/* =====================================================
-Coordinate
-===================================================== */
 
 const coordinateLabel =
-getCoordinateLabel(
-schedule.fortress,
-schedule.x,
-schedule.y
-);
+  getCoordinateLabel(
+    schedule.fortress,
+    schedule.x,
+    schedule.y
+  );
 
 const coordinateBadge =
-document.createElement(
-"span"
-);
+  document.createElement("span");
 
 coordinateBadge.className =
-`coordinate-badge ${schedule.fortress.toLowerCase()}`;
+  `coordinate-badge ${schedule.fortress.toLowerCase()}`;
 
 coordinateBadge.textContent =
-coordinateLabel;
+  coordinateLabel;
 
-button.appendChild(
-coordinateBadge
-);
-
-/* =====================================================
-Guild
-===================================================== */
+button.appendChild(coordinateBadge);
 
 const guildLabel =
-document.createElement(
-"span"
-);
+  document.createElement("span");
 
 guildLabel.textContent =
-` ${schedule.guild}`;
+  ` ${schedule.guild}`;
 
-button.appendChild(
-guildLabel
-);
+button.appendChild(guildLabel);
 
-/* =====================================================
-Connection Indicators
+  
 
-```
- ◀ = previous same-Guild same-Level schedule
- ▶ = next same-Guild same-Level schedule
+  button.style.left =
+    `calc(${segment.startColumn} * (100% / 7) + 4px)`;
 
- Indicators use the existing schedule text
- color, so white/black switching remains
- automatic with the schedule background.
-```
+  button.style.width =
+    `calc(${segment.endColumn - segment.startColumn + 1} * (100% / 7) - 8px)`;
 
-===================================================== */
+  button.style.top =
+    `${38 + laneIndex * 22}px`;
 
-if (
-connection.hasPrevious
-) {
-
-```
-const previousIndicator =
-  document.createElement(
-    "span"
+  button.addEventListener(
+    "click",
+    () =>
+      showDetails(
+        schedule
+      )
   );
 
-previousIndicator.className =
-  "schedule-indicator schedule-indicator-prev";
-
-previousIndicator.textContent =
-  "◀";
-
-previousIndicator.style.fontSize =
-  "8px";
-
-previousIndicator.style.lineHeight =
-  "1";
-
-previousIndicator.style.display =
-  "inline-block";
-
-previousIndicator.style.marginRight =
-  "2px";
-
-previousIndicator.style.color =
-  "inherit";
-
-button.insertBefore(
-  previousIndicator,
-  coordinateBadge
-);
-```
+  return button;
 
 }
 
-if (
-connection.hasNext
-) {
 
-```
-const nextIndicator =
-  document.createElement(
-    "span"
-  );
-
-nextIndicator.className =
-  "schedule-indicator schedule-indicator-next";
-
-nextIndicator.textContent =
-  "▶";
-
-nextIndicator.style.fontSize =
-  "8px";
-
-nextIndicator.style.lineHeight =
-  "1";
-
-nextIndicator.style.display =
-  "inline-block";
-
-nextIndicator.style.marginLeft =
-  "2px";
-
-nextIndicator.style.color =
-  "inherit";
-
-button.appendChild(
-  nextIndicator
-);
-```
-
-}
-
-/* =====================================================
-Position
-===================================================== */
-
-button.style.left =
-`calc(${segment.startColumn} * (100% / 7) + 4px)`;
-
-button.style.width =
-`calc(${segment.endColumn - segment.startColumn + 1} * (100% / 7) - 8px)`;
-
-button.style.top =
-`${38 + laneIndex * 22}px`;
-
-button.addEventListener(
-"click",
-() =>
-showDetails(
-schedule
-)
-);
-
-return button;
-
-}
 
 /* =========================================================
 Add Schedule
 ========================================================= */
 
 document
-.getElementById(
-"addScheduleBtn"
-)
-.addEventListener(
-"click",
-() => {
+  .getElementById(
+    "addScheduleBtn"
+  )
+  .addEventListener(
+    "click",
+    () => {
 
-```
-  resetForm();
+      resetForm();
 
-  const startDate =
-    new Date();
+      const startDate =
+        new Date();
 
-  const endDate =
-    new Date();
+      const endDate =
+        new Date();
 
-  endDate.setDate(
-    endDate.getDate() + 3
+      endDate.setDate(
+        endDate.getDate() + 3
+      );
+
+      const formatInputDate =
+        date =>
+          date.getFullYear() +
+          "-" +
+          String(
+            date.getMonth() + 1
+          ).padStart(2, "0") +
+          "-" +
+          String(
+            date.getDate()
+          ).padStart(2, "0");
+
+      document.getElementById(
+        "startDate"
+      ).value =
+        formatInputDate(startDate);
+
+      document.getElementById(
+        "endDate"
+      ).value =
+        formatInputDate(endDate);
+
+      dialog.showModal();
+
+    }
   );
 
-  const formatInputDate =
-    date =>
-      date.getFullYear() +
-      "-" +
-      String(
-        date.getMonth() + 1
-      ).padStart(2, "0") +
-      "-" +
-      String(
-        date.getDate()
-      ).padStart(2, "0");
 
-  document.getElementById(
-    "startDate"
-  ).value =
-    formatInputDate(startDate);
-
-  document.getElementById(
-    "endDate"
-  ).value =
-    formatInputDate(endDate);
-
-  dialog.showModal();
-
-}
-```
-
-);
 
 function resetForm() {
 
-form.reset();
+  form.reset();
 
-updateFortressOptions();
+  updateFortressOptions();
 
-document.getElementById(
-"deleteBtn"
-).style.display =
-"none";
+  document.getElementById(
+    "deleteBtn"
+  ).style.display =
+    "none";
 
-const title =
-document.getElementById(
-"dialogTitle"
-);
+  const title =
+    document.getElementById(
+      "dialogTitle"
+    );
 
-title.dataset.mode =
-"add";
+  title.dataset.mode =
+    "add";
 
-title.textContent =
-"Add Schedule";
+  title.textContent =
+    "Add Schedule";
 
-selectedSchedule =
-null;
+  selectedSchedule =
+    null;
 
 }
+
+
 
 /* =========================================================
 Dialog Close
 ========================================================= */
 
 document
-.getElementById(
-"closeDialog"
-)
-.addEventListener(
-"click",
-() =>
-dialog.close()
-);
+  .getElementById(
+    "closeDialog"
+  )
+  .addEventListener(
+    "click",
+    () =>
+      dialog.close()
+  );
+
+
 
 document
-.getElementById(
-"cancelBtn"
-)
-.addEventListener(
-"click",
-() =>
-dialog.close()
-);
+  .getElementById(
+    "cancelBtn"
+  )
+  .addEventListener(
+    "click",
+    () =>
+      dialog.close()
+  );
+
+
 
 /* =========================================================
 Fortress Options by League
@@ -2539,59 +2094,56 @@ Fortress Options by League
 
 function updateFortressOptions() {
 
-const league =
-document.getElementById(
-"league"
-).value;
+  const league =
+    document.getElementById(
+      "league"
+    ).value;
 
-const fortressSelect =
-document.getElementById(
-"fortress"
-);
-
-if (!fortressSelect)
-return;
-
-const maxLevel = {
-
-```
-Bronze: 5,
-
-Silver: 6,
-
-Gold: 7
-```
-
-}[league] || 4;
-
-Array.from(
-fortressSelect.options
-).forEach(
-option => {
-
-```
-  const level =
-    parseInt(
-      option.value.replace(
-        "Lv",
-        ""
-      ),
-      10
+  const fortressSelect =
+    document.getElementById(
+      "fortress"
     );
 
-  option.hidden =
-    maxLevel
-      ? level > maxLevel
-      : false;
+  if (!fortressSelect)
+    return;
+
+  const maxLevel = {
+
+    Bronze: 5,
+
+    Silver: 6,
+
+    Gold: 7
+
+  }[league] || 4;
+
+  Array.from(
+    fortressSelect.options
+  ).forEach(
+    option => {
+
+      const level =
+        parseInt(
+          option.value.replace(
+            "Lv",
+            ""
+          ),
+          10
+        );
+
+      option.hidden =
+        maxLevel
+          ? level > maxLevel
+          : false;
+
+    }
+  );
+
+  updateCoordinateOptions();
 
 }
-```
 
-);
 
-updateCoordinateOptions();
-
-}
 
 /* =========================================================
 Coordinate Options by Fortress
@@ -2599,396 +2151,395 @@ Coordinate Options by Fortress
 
 function updateCoordinateOptions() {
 
-const fortress =
-document.getElementById(
-"fortress"
-).value;
+  const fortress =
+    document.getElementById(
+      "fortress"
+    ).value;
 
-const coordinateSelect =
-document.getElementById(
-"coordinate"
-);
+  const coordinateSelect =
+    document.getElementById(
+      "coordinate"
+    );
 
-if (!coordinateSelect)
-return;
+  if (!coordinateSelect)
+    return;
 
-coordinateSelect.innerHTML = "";
+  coordinateSelect.innerHTML = "";
 
-const placeholder =
-document.createElement(
-"option"
-);
-
-placeholder.value = "";
-
-placeholder.textContent =
-"Select Coordinate";
-
-placeholder.selected = true;
-
-placeholder.disabled = true;
-
-coordinateSelect.appendChild(
-placeholder
-);
-
-const coordinates =
-FORTRESS_COORDINATES[
-fortress
-] || [];
-
-coordinates.forEach(
-coordinate => {
-
-```
-  const option =
+  const placeholder =
     document.createElement(
       "option"
     );
 
-  option.value =
-    `${coordinate.x}:${coordinate.y}`;
+  placeholder.value = "";
 
-  option.textContent =
-    coordinate.label
-      ? `${coordinate.x}:${coordinate.y} (${coordinate.label})`
-      : `${coordinate.x}:${coordinate.y}`;
+  placeholder.textContent =
+    "Select Coordinate";
+
+  placeholder.selected = true;
+
+  placeholder.disabled = true;
 
   coordinateSelect.appendChild(
-    option
+    placeholder
+  );
+
+  const coordinates =
+    FORTRESS_COORDINATES[
+      fortress
+    ] || [];
+
+  coordinates.forEach(
+    coordinate => {
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+      option.value =
+        `${coordinate.x}:${coordinate.y}`;
+
+      option.textContent =
+        coordinate.label
+          ? `${coordinate.x}:${coordinate.y} (${coordinate.label})`
+          : `${coordinate.x}:${coordinate.y}`;
+
+      coordinateSelect.appendChild(
+        option
+      );
+
+    }
   );
 
 }
-```
 
-);
 
-}
 
 /* =========================================================
 League Validation
 ========================================================= */
 
 function validateLeagueFortress(
-league,
-fortress
+  league,
+  fortress
 ) {
 
-/*
-Lv4 has no league restriction.
-*/
+  /*
+  Lv4 has no league restriction.
+  */
 
-if (
-fortress === "Lv4"
-) {
+  if (
+    fortress === "Lv4"
+  ) {
 
-```
-return true;
-```
+    return true;
+
+  }
+
+  const allowed =
+    LEAGUE_LIMITS[
+      league
+    ];
+
+  if (!allowed)
+    return false;
+
+  return allowed.includes(
+    fortress
+  );
 
 }
 
-const allowed =
-LEAGUE_LIMITS[
-league
-];
 
-if (!allowed)
-return false;
-
-return allowed.includes(
-fortress
-);
-
-}
 
 /* =========================================================
 Save
 ========================================================= */
 
 form.addEventListener(
-"submit",
-async eventSubmit => {
+  "submit",
+  async eventSubmit => {
 
-```
-eventSubmit.preventDefault();
+    eventSubmit.preventDefault();
 
-const league =
-  document.getElementById(
-    "league"
-  ).value;
+    const league =
+      document.getElementById(
+        "league"
+      ).value;
 
-const fortress =
-  document.getElementById(
-    "fortress"
-  ).value;
+    const fortress =
+      document.getElementById(
+        "fortress"
+      ).value;
 
-const coordinate =
-  document.getElementById(
-    "coordinate"
-  ).value;
+    const coordinate =
+      document.getElementById(
+        "coordinate"
+      ).value;
 
-const [x, y] =
-  coordinate.split(":");
+    const [x, y] =
+      coordinate.split(":");
 
-const guild =
-  document.getElementById(
-    "guild"
-  ).value;
+    const guild =
+      document.getElementById(
+        "guild"
+      ).value;
 
-const startDate =
-  document.getElementById(
-    "startDate"
-  ).value;
+    const startDate =
+      document.getElementById(
+        "startDate"
+      ).value;
 
-const startGMT =
-  document.getElementById(
-    "startGMT"
-  ).value;
+    const startGMT =
+      document.getElementById(
+        "startGMT"
+      ).value;
 
-const endDate =
-  document.getElementById(
-    "endDate"
-  ).value;
+    const endDate =
+      document.getElementById(
+        "endDate"
+      ).value;
 
-const endGMT =
-  document.getElementById(
-    "endGMT"
-  ).value;
+    const endGMT =
+      document.getElementById(
+        "endGMT"
+      ).value;
 
-const description =
-  document.getElementById(
-    "description"
-  ).value.trim();
+    const description =
+      document.getElementById(
+        "description"
+      ).value.trim();
 
-const error =
-  document.getElementById(
-    "formError"
-  );
+    const error =
+      document.getElementById(
+        "formError"
+      );
 
-error.textContent =
-  "";
+    error.textContent =
+      "";
 
-if (
-  !validateLeagueFortress(
-    league,
-    fortress
-  )
-) {
+    if (
+      !validateLeagueFortress(
+        league,
+        fortress
+      )
+    ) {
 
-  error.textContent =
-    "This league cannot challenge the selected fortress.";
+      error.textContent =
+        "This league cannot challenge the selected fortress.";
 
-  return;
+      return;
 
-}
+    }
 
-if (
-  !coordinate
-) {
+    if (
+      !coordinate
+    ) {
 
-  error.textContent =
-    "Please select a coordinate.";
+      error.textContent =
+        "Please select a coordinate.";
 
-  return;
+      return;
 
-}
+    }
 
-const start =
-  new Date(
-    `${startDate}T${startGMT}:00Z`
-  );
+    const start =
+      new Date(
+        `${startDate}T${startGMT}:00Z`
+      );
 
-const end =
-  new Date(
-    `${endDate}T${endGMT}:00Z`
-  );
+    const end =
+      new Date(
+        `${endDate}T${endGMT}:00Z`
+      );
 
-if (
-  Number.isNaN(
-    start.getTime()
-  )
-  ||
-  Number.isNaN(
-    end.getTime()
-  )
-) {
+    if (
+      Number.isNaN(
+        start.getTime()
+      )
+      ||
+      Number.isNaN(
+        end.getTime()
+      )
+    ) {
 
-  error.textContent =
-    "Please enter valid dates and times.";
+      error.textContent =
+        "Please enter valid dates and times.";
 
-  return;
+      return;
 
-}
+    }
 
-if (
-  end - start
-  <
-  72 * 60 * 60 * 1000
-) {
+    if (
+      end - start
+      <
+      72 * 60 * 60 * 1000
+    ) {
 
-  error.textContent =
-    "End must be at least 3 days after Start.";
+      error.textContent =
+        "End must be at least 3 days after Start.";
 
-  return;
+      return;
 
-}
+    }
 
-const eventStart =
-  new Date(
-    event.start
-  );
+    const eventStart =
+      new Date(
+        event.start
+      );
 
-const eventEnd =
-  new Date(
-    event.end
-  );
+    const eventEnd =
+      new Date(
+        event.end
+      );
 
-if (
-  start < eventStart
-  ||
-  end > eventEnd
-) {
+    if (
+      start < eventStart
+      ||
+      end > eventEnd
+    ) {
 
-  error.textContent =
-    "The schedule must be inside the event period.";
+      error.textContent =
+        "The schedule must be inside the event period.";
 
-  return;
+      return;
 
-}
+    }
 
-const schedule = {
+    const schedule = {
 
-  id:
-    selectedSchedule
-      ? selectedSchedule.id
-      : crypto.randomUUID(),
+      id:
+        selectedSchedule
+          ? selectedSchedule.id
+          : crypto.randomUUID(),
 
-  league,
+      league,
 
-  fortress,
+      fortress,
 
-  x,
+      x,
 
-  y,
+      y,
 
-  guild,
+      guild,
 
-  start:
-    start.toISOString(),
+      start:
+        start.toISOString(),
 
-  end:
-    end.toISOString(),
+      end:
+        end.toISOString(),
 
-  description,
+      description,
 
-  /*
-  Guild color is always determined
-  automatically.
-  */
+      /*
+      Guild color is always determined
+      automatically.
+      */
 
-  color:
-    guildColor(
-      guild
-    ),
+      color:
+        guildColor(
+          guild
+        ),
 
   creatorId:
     selectedSchedule
       ? selectedSchedule.creatorId
       : creatorId
 
-};
+    };
 
-try {
+    try {
 
-  if (
-    !selectedSchedule
-  ) {
+      if (
+        !selectedSchedule
+      ) {
 
-    await insertSchedule(
-      schedule
-    );
+        await insertSchedule(
+          schedule
+        );
 
-  }
+      }
 
-  else {
+      else {
 
-    if (
-      selectedSchedule.creatorId !== creatorId
-      &&
-      !window.s222AdminState?.isAdmin
-    ) {
+        if (
+          selectedSchedule.creatorId !== creatorId
+          &&
+          !window.s222AdminState?.isAdmin
+        ) {
 
-      error.textContent =
-        "Only the creator can edit this schedule.";
+          error.textContent =
+            "Only the creator can edit this schedule.";
 
-      return;
+          return;
+
+        }
+
+        await updateSchedule(
+          schedule
+        );
+
+      }
+
+      await loadSchedules();
+
+      dialog.close();
 
     }
 
-    await updateSchedule(
-      schedule
-    );
+    catch (
+      saveError
+    ) {
+
+      console.error(
+        saveError
+      );
+
+      error.textContent =
+        "Failed to save schedule.";
+
+    }
 
   }
-
-  await loadSchedules();
-
-  dialog.close();
-
-}
-
-catch (
-  saveError
-) {
-
-  console.error(
-    saveError
-  );
-
-  error.textContent =
-    "Failed to save schedule.";
-
-}
-```
-
-}
 );
+
+
 
 /* =========================================================
 Details
 ========================================================= */
 
 function showDetails(
-schedule
+  schedule
 ) {
 
-selectedSchedule =
-schedule;
+  selectedSchedule =
+    schedule;
 
-document.getElementById(
-"detailTitle"
-).textContent =
-`${fortressIcon(
+  document.getElementById(
+    "detailTitle"
+  ).textContent =
+    `${fortressIcon(
       schedule.fortress
     )} ${schedule.x}:${schedule.y} ${schedule.guild}`;
 
-const start =
-new Date(
-schedule.start
-);
+  const start =
+    new Date(
+      schedule.start
+    );
 
-const end =
-new Date(
-schedule.end
-);
+  const end =
+    new Date(
+      schedule.end
+    );
 
-const content =
-document.getElementById(
-"detailContent"
-);
+  const content =
+    document.getElementById(
+      "detailContent"
+    );
 
-content.innerHTML = `
+  content.innerHTML = `
 
 <div class="detail-item">
 
@@ -3004,6 +2555,8 @@ content.innerHTML = `
 
 </div>
 
+
+
 <div class="detail-item">
 
   <div class="detail-label">
@@ -3017,6 +2570,8 @@ content.innerHTML = `
   </div>
 
 </div>
+
+
 
 <div class="detail-item">
 
@@ -3034,6 +2589,8 @@ content.innerHTML = `
 
 </div>
 
+
+
 <div class="detail-item">
 
   <div class="detail-label">
@@ -3048,6 +2605,8 @@ content.innerHTML = `
 
 </div>
 
+
+
 <div class="detail-item">
 
   <div class="detail-label">
@@ -3056,19 +2615,19 @@ content.innerHTML = `
 
   <div class="detail-value">
 
-```
-${formatGMT(start)}
-GMT
+    ${formatGMT(start)}
+    GMT
 
-<br>
+    <br>
 
-${formatJST(start)}
-JST
-```
+    ${formatJST(start)}
+    JST
 
   </div>
 
 </div>
+
+
 
 <div class="detail-item">
 
@@ -3078,19 +2637,19 @@ JST
 
   <div class="detail-value">
 
-```
-${formatGMT(end)}
-GMT
+    ${formatGMT(end)}
+    GMT
 
-<br>
+    <br>
 
-${formatJST(end)}
-JST
-```
+    ${formatJST(end)}
+    JST
 
   </div>
 
 </div>
+
+
 
 <div class="detail-item">
 
@@ -3100,11 +2659,9 @@ JST
 
   <div class="detail-value">
 
-```
-${escapeHTML(
-  schedule.description || "—"
-)}
-```
+    ${escapeHTML(
+      schedule.description || "—"
+    )}
 
   </div>
 
@@ -3112,18 +2669,20 @@ ${escapeHTML(
 
 `;
 
-document.getElementById(
-"editSchedule"
-).style.display =
-schedule.creatorId === creatorId
-||
-window.s222AdminState?.isAdmin
-? "inline-block"
-: "none";
+  document.getElementById(
+    "editSchedule"
+  ).style.display =
+    schedule.creatorId === creatorId
+    ||
+    window.s222AdminState?.isAdmin
+      ? "inline-block"
+      : "none";
 
-detailDialog.showModal();
+  detailDialog.showModal();
 
 }
+
+
 
 /* =========================================================
 Date Formatting
@@ -3131,475 +2690,494 @@ Date Formatting
 
 function formatGMT(date) {
 
-return date.toLocaleString(
-"en-GB",
-{
-timeZone: "UTC",
-year: "numeric",
-month: "2-digit",
-day: "2-digit",
-hour: "2-digit",
-minute: "2-digit",
-hour12: false
-}
-);
+  return date.toLocaleString(
+    "en-GB",
+    {
+      timeZone: "UTC",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false
+    }
+  );
 
 }
+
+
 
 function formatJST(date) {
 
-return date.toLocaleString(
-"en-GB",
-{
-timeZone: "Asia/Tokyo",
-year: "numeric",
-month: "2-digit",
-day: "2-digit",
-hour: "2-digit",
-minute: "2-digit",
-hour12: false
-}
-);
+  return date.toLocaleString(
+    "en-GB",
+    {
+      timeZone: "Asia/Tokyo",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false
+    }
+  );
 
 }
+
+
 
 function escapeHTML(text) {
 
-return String(text)
-.replace(
-/[&<>"']/g,
-character => {
+  return String(text)
+    .replace(
+      /[&<>"']/g,
+      character => {
 
-```
-    const map = {
+        const map = {
 
-      "&": "&amp;",
+          "&": "&amp;",
 
-      "<": "&lt;",
+          "<": "&lt;",
 
-      ">": "&gt;",
+          ">": "&gt;",
 
-      '"': "&quot;",
+          '"': "&quot;",
 
-      "'": "&#039;"
+          "'": "&#039;"
 
-    };
+        };
 
-    return map[
-      character
-    ];
+        return map[
+          character
+        ];
 
-  }
-);
-```
+      }
+    );
 
 }
+
+
 
 /* =========================================================
 Detail Buttons
 ========================================================= */
 
 document
-.getElementById(
-"closeDetail"
-)
-.addEventListener(
-"click",
-() =>
-detailDialog.close()
-);
-
-document
-.getElementById(
-"detailClose"
-)
-.addEventListener(
-"click",
-() =>
-detailDialog.close()
-);
-
-document
-.getElementById(
-"editSchedule"
-)
-.addEventListener(
-"click",
-() => {
-
-```
-  if (!selectedSchedule)
-    return;
-
-  detailDialog.close();
-
-  openEditForm(
-    selectedSchedule
+  .getElementById(
+    "closeDetail"
+  )
+  .addEventListener(
+    "click",
+    () =>
+      detailDialog.close()
   );
 
-}
-```
 
-);
+
+document
+  .getElementById(
+    "detailClose"
+  )
+  .addEventListener(
+    "click",
+    () =>
+      detailDialog.close()
+  );
+
+
+
+document
+  .getElementById(
+    "editSchedule"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      if (!selectedSchedule)
+        return;
+
+      detailDialog.close();
+
+      openEditForm(
+        selectedSchedule
+      );
+
+    }
+  );
+
+
 
 /* =========================================================
 Edit Form
 ========================================================= */
 
 function openEditForm(
-schedule
+  schedule
 ) {
 
-selectedSchedule =
-schedule;
+  selectedSchedule =
+    schedule;
 
-const title =
-document.getElementById(
-"dialogTitle"
-);
+  const title =
+    document.getElementById(
+      "dialogTitle"
+    );
 
-title.dataset.mode =
-"edit";
+  title.dataset.mode =
+    "edit";
 
-title.textContent =
-"Edit Schedule";
+  title.textContent =
+    "Edit Schedule";
 
-document.getElementById(
-"league"
-).value =
-schedule.league || "";
+  document.getElementById(
+    "league"
+  ).value =
+    schedule.league || "";
 
-document.getElementById(
-"fortress"
-).value =
-schedule.fortress;
+  document.getElementById(
+    "fortress"
+  ).value =
+    schedule.fortress;
 
-updateFortressOptions();
+  updateFortressOptions();
 
-document.getElementById(
-"coordinate"
-).value =
-`${schedule.x}:${schedule.y}`;
+  document.getElementById(
+    "coordinate"
+  ).value =
+    `${schedule.x}:${schedule.y}`;
 
-document.getElementById(
-"guild"
-).value =
-schedule.guild;
+  document.getElementById(
+    "guild"
+  ).value =
+    schedule.guild;
 
-const start =
-new Date(
-schedule.start
-);
+  const start =
+    new Date(
+      schedule.start
+    );
 
-const end =
-new Date(
-schedule.end
-);
+  const end =
+    new Date(
+      schedule.end
+    );
 
-document.getElementById(
-"startDate"
-).value =
-start.toISOString()
-.slice(0, 10);
+  document.getElementById(
+    "startDate"
+  ).value =
+    start.toISOString()
+      .slice(0, 10);
 
-document.getElementById(
-"startGMT"
-).value =
-start.toISOString()
-.slice(11, 16);
+  document.getElementById(
+    "startGMT"
+  ).value =
+    start.toISOString()
+      .slice(11, 16);
 
-document.getElementById(
-"startJST"
-).value =
-formatTimeJST(start);
+  document.getElementById(
+    "startJST"
+  ).value =
+    formatTimeJST(start);
 
-document.getElementById(
-"endDate"
-).value =
-end.toISOString()
-.slice(0, 10);
+  document.getElementById(
+    "endDate"
+  ).value =
+    end.toISOString()
+      .slice(0, 10);
 
-document.getElementById(
-"endGMT"
-).value =
-end.toISOString()
-.slice(11, 16);
+  document.getElementById(
+    "endGMT"
+  ).value =
+    end.toISOString()
+      .slice(11, 16);
 
-document.getElementById(
-"endJST"
-).value =
-formatTimeJST(end);
+  document.getElementById(
+    "endJST"
+  ).value =
+    formatTimeJST(end);
 
-document.getElementById(
-"description"
-).value =
-schedule.description || "";
+  document.getElementById(
+    "description"
+  ).value =
+    schedule.description || "";
 
-document.getElementById(
-"deleteBtn"
-).style.display =
-"block";
+  document.getElementById(
+    "deleteBtn"
+  ).style.display =
+    "block";
 
-document.getElementById(
-"formError"
-).textContent =
-"";
+  document.getElementById(
+    "formError"
+  ).textContent =
+    "";
 
-dialog.showModal();
+  dialog.showModal();
 
 }
+
+
 
 function formatTimeJST(
-date
+  date
 ) {
 
-return date.toLocaleTimeString(
-"en-GB",
-{
-timeZone: "Asia/Tokyo",
-hour: "2-digit",
-minute: "2-digit",
-hour12: false
-}
-);
+  return date.toLocaleTimeString(
+    "en-GB",
+    {
+      timeZone: "Asia/Tokyo",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false
+    }
+  );
 
 }
+
+
 
 /* =========================================================
 Delete
 ========================================================= */
 
 document
-.getElementById(
-"deleteBtn"
-)
-.addEventListener(
-"click",
-async () => {
-
-```
-  if (!selectedSchedule)
-    return;
-
-  if (
-    selectedSchedule.creatorId !== creatorId
-    &&
-    !window.s222AdminState?.isAdmin
+  .getElementById(
+    "deleteBtn"
   )
-    return;
+  .addEventListener(
+    "click",
+    async () => {
 
-  if (
-    !confirm(
-      "Delete this schedule?"
-    )
-  )
-    return;
+      if (!selectedSchedule)
+        return;
 
-  try {
+      if (
+        selectedSchedule.creatorId !== creatorId
+        &&
+        !window.s222AdminState?.isAdmin
+      )
+        return;
 
-    await deleteSchedule(
-      selectedSchedule.id
-    );
+      if (
+        !confirm(
+          "Delete this schedule?"
+        )
+      )
+        return;
 
-    await loadSchedules();
+      try {
 
-    dialog.close();
+        await deleteSchedule(
+          selectedSchedule.id
+        );
 
-  }
+        await loadSchedules();
 
-  catch (error) {
+        dialog.close();
 
-    console.error(error);
+      }
 
-    alert(
-      "Failed to delete schedule."
-    );
+      catch (error) {
 
-  }
+        console.error(error);
 
-}
-```
+        alert(
+          "Failed to delete schedule."
+        );
 
-);
+      }
+
+    }
+  );
+
+
 
 /* =========================================================
 Month Navigation
 ========================================================= */
 
 document
-.getElementById(
-"prevMonth"
-)
-.addEventListener(
-"click",
-() => {
+  .getElementById(
+    "prevMonth"
+  )
+  .addEventListener(
+    "click",
+    () => {
 
-```
-  currentMonth =
-    new Date(
-      currentMonth.getFullYear(),
-      currentMonth.getMonth() - 1,
-      1
-    );
+      currentMonth =
+        new Date(
+          currentMonth.getFullYear(),
+          currentMonth.getMonth() - 1,
+          1
+        );
 
-  renderCalendar();
+      renderCalendar();
 
-}
-```
+    }
+  );
 
-);
+
 
 document
-.getElementById(
-"nextMonth"
-)
-.addEventListener(
-"click",
-() => {
+  .getElementById(
+    "nextMonth"
+  )
+  .addEventListener(
+    "click",
+    () => {
 
-```
-  currentMonth =
-    new Date(
-      currentMonth.getFullYear(),
-      currentMonth.getMonth() + 1,
-      1
-    );
+      currentMonth =
+        new Date(
+          currentMonth.getFullYear(),
+          currentMonth.getMonth() + 1,
+          1
+        );
 
-  renderCalendar();
+      renderCalendar();
 
-}
-```
+    }
+  );
 
-);
+
 
 /* =========================================================
 Refresh
 ========================================================= */
 
 document
-.getElementById("refreshBtn")
-.addEventListener(
-"click",
-() =>
-loadSchedules()
-);
+  .getElementById("refreshBtn")
+  .addEventListener(
+    "click",
+    () =>
+      loadSchedules()
+  );
+
 
 /* =========================================================
 Resize
 ========================================================= */
 
 window.addEventListener(
-"resize",
-() => {
+  "resize",
+  () => {
 
-```
-updateLanguage();
-```
+    updateLanguage();
 
-}
+  }
 );
+
+
 
 /* =========================================================
 GMT / JST Inputs
 ========================================================= */
 
 const startGMT =
-document.getElementById(
-"startGMT"
-);
+  document.getElementById(
+    "startGMT"
+  );
 
 const startJST =
-document.getElementById(
-"startJST"
-);
+  document.getElementById(
+    "startJST"
+  );
 
 const endGMT =
-document.getElementById(
-"endGMT"
-);
+  document.getElementById(
+    "endGMT"
+  );
 
 const endJST =
-document.getElementById(
-"endJST"
-);
+  document.getElementById(
+    "endJST"
+  );
+
+
 
 if (
-startGMT
-&&
-startJST
+  startGMT
+  &&
+  startJST
 ) {
 
-startGMT.addEventListener(
-"input",
-() =>
-updateJST(
-startGMT,
-startJST
-)
-);
+  startGMT.addEventListener(
+    "input",
+    () =>
+      updateJST(
+        startGMT,
+        startJST
+      )
+  );
 
-startJST.addEventListener(
-"input",
-() =>
-updateGMT(
-startJST,
-startGMT
-)
-);
+  startJST.addEventListener(
+    "input",
+    () =>
+      updateGMT(
+        startJST,
+        startGMT
+      )
+  );
 
 }
 
+
+
 if (
-endGMT
-&&
-endJST
+  endGMT
+  &&
+  endJST
 ) {
 
-endGMT.addEventListener(
-"input",
-() =>
-updateJST(
-endGMT,
-endJST
-)
-);
+  endGMT.addEventListener(
+    "input",
+    () =>
+      updateJST(
+        endGMT,
+        endJST
+      )
+  );
 
-endJST.addEventListener(
-"input",
-() =>
-updateGMT(
-endGMT,
-endJST
-)
-);
+  endJST.addEventListener(
+    "input",
+    () =>
+      updateGMT(
+        endJST,
+        endGMT
+      )
+  );
 
 }
+
+
 
 /* =========================================================
 League Change
 ========================================================= */
 
 document
-.getElementById(
-"league"
-)
-.addEventListener(
-"change",
-updateFortressOptions
-);
+  .getElementById(
+    "league"
+  )
+  .addEventListener(
+    "change",
+    updateFortressOptions
+  );
+
+
 
 /* =========================================================
 Fortress Change
 ========================================================= */
 
 document
-.getElementById(
-"fortress"
-)
-.addEventListener(
-"change",
-updateCoordinateOptions
-);
+  .getElementById(
+    "fortress"
+  )
+  .addEventListener(
+    "change",
+    updateCoordinateOptions
+  );
+
+
 
 /* =========================================================
 Initial
@@ -3613,21 +3191,22 @@ updateLanguage();
 
 updateCurrentTime();
 
+
 /* =========================================================
 Supabase Realtime
 ========================================================= */
 
 supabaseClient
-.channel("s222-calendar")
-.on(
-"postgres_changes",
-{
-event: "*",
-schema: "public",
-table: "schedules"
-},
-() => {
-loadSchedules();
-}
-)
-.subscribe();
+  .channel("s222-calendar")
+  .on(
+    "postgres_changes",
+    {
+      event: "*",
+      schema: "public",
+      table: "schedules"
+    },
+    () => {
+      loadSchedules();
+    }
+  )
+  .subscribe();
