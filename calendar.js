@@ -1840,9 +1840,33 @@ function getWeekScheduleSegment(
       )
     );
 
+  const segmentStartDate =
+    new Date(weekStartDate);
+
+  segmentStartDate.setDate(
+    segmentStartDate.getDate() + startColumn
+  );
+
+  const segmentEndDate =
+    new Date(weekStartDate);
+
+  segmentEndDate.setDate(
+    segmentEndDate.getDate() + endColumn
+  );
+
+  const isFirst =
+    startDate.getTime() ===
+    segmentStartDate.getTime();
+
+  const isLast =
+    endDate.getTime() ===
+    segmentEndDate.getTime();
+
   return {
     startColumn,
-    endColumn
+    endColumn,
+    isFirst,
+    isLast
   };
 
 }
@@ -1876,7 +1900,59 @@ function getCoordinateLabel(
 
 }
 
+function getScheduleConnection(
+  schedule
+) {
 
+  const sameLevelSchedules =
+    schedules
+      .filter(
+        other =>
+          other.id !== schedule.id
+          &&
+          other.guild === schedule.guild
+          &&
+          other.fortress === schedule.fortress
+      )
+      .sort(
+        (a, b) =>
+          new Date(a.start)
+          -
+          new Date(b.start)
+      );
+
+  const currentStart =
+    new Date(
+      schedule.start
+    );
+
+  const previous =
+    sameLevelSchedules
+      .filter(
+        other =>
+          new Date(other.start)
+          <
+          currentStart
+      )
+      .pop();
+
+  const next =
+    sameLevelSchedules.find(
+      other =>
+        new Date(other.start)
+        >
+        currentStart
+    );
+
+  return {
+    hasPrevious:
+      !!previous,
+
+    hasNext:
+      !!next
+  };
+
+}
 function createSchedule(
   schedule,
   segment,
@@ -1927,6 +2003,88 @@ button.style.color =
     "auto";
 
 
+const connection =
+  getScheduleConnection(
+    schedule
+  );
+
+
+/* =====================================================
+Schedule Corners
+===================================================== */
+
+if (
+  segment.isFirst
+  &&
+  segment.isLast
+) {
+
+  button.style.borderRadius =
+    "10px";
+
+}
+
+else if (
+  segment.isFirst
+) {
+
+  button.style.borderRadius =
+    "10px 0 0 10px";
+
+}
+
+else if (
+  segment.isLast
+) {
+
+  button.style.borderRadius =
+    "0 10px 10px 0";
+
+}
+
+else {
+
+  button.style.borderRadius =
+    "0";
+
+}
+
+
+/* =====================================================
+Connection Indicator / Coordinate
+===================================================== */
+
+if (
+  connection.hasPrevious
+) {
+
+  const indicator =
+    document.createElement(
+      "span"
+    );
+
+  indicator.textContent =
+    "◀";
+
+  indicator.style.fontSize =
+    "8px";
+
+  indicator.style.margin =
+    "0 1px";
+
+  indicator.style.color =
+    "inherit";
+
+  indicator.style.verticalAlign =
+    "middle";
+
+  button.appendChild(
+    indicator
+  );
+
+}
+
+
 const coordinateLabel =
   getCoordinateLabel(
     schedule.fortress,
@@ -1935,7 +2093,9 @@ const coordinateLabel =
   );
 
 const coordinateBadge =
-  document.createElement("span");
+  document.createElement(
+    "span"
+  );
 
 coordinateBadge.className =
   `coordinate-badge ${schedule.fortress.toLowerCase()}`;
@@ -1943,15 +2103,53 @@ coordinateBadge.className =
 coordinateBadge.textContent =
   coordinateLabel;
 
-button.appendChild(coordinateBadge);
+button.appendChild(
+  coordinateBadge
+);
+
 
 const guildLabel =
-  document.createElement("span");
+  document.createElement(
+    "span"
+  );
 
 guildLabel.textContent =
   ` ${schedule.guild}`;
 
-button.appendChild(guildLabel);
+button.appendChild(
+  guildLabel
+);
+
+
+if (
+  connection.hasNext
+) {
+
+  const indicator =
+    document.createElement(
+      "span"
+    );
+
+  indicator.textContent =
+    "▶";
+
+  indicator.style.fontSize =
+    "8px";
+
+  indicator.style.margin =
+    "0 1px";
+
+  indicator.style.color =
+    "inherit";
+
+  indicator.style.verticalAlign =
+    "middle";
+
+  button.appendChild(
+    indicator
+  );
+
+}
 
   
 
