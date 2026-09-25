@@ -2008,6 +2008,16 @@ const connection =
     schedule
   );
 
+button.classList.toggle(
+  "schedule-first",
+  segment.isFirst
+);
+
+button.classList.toggle(
+  "schedule-last",
+  segment.isLast
+);
+
 
 
 
