@@ -2146,8 +2146,8 @@ Schedule Generator Buttons
   line-height: 1;
 
   text-shadow:
-    0 0 3px #000,
-    0 0 4px #000;
+    0 0 4px #000,
+    0 0 5px #000;
 }
 
 .schedule-indicator.prev {
