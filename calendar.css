@@ -2153,3 +2153,14 @@ Schedule Generator Buttons
 .schedule-indicator.next {
   margin-left: auto;
 }
+.schedule-first.schedule-last {
+  border-radius: 3px;
+}
+
+.schedule-first {
+  border-radius: 3px 0 0 3px;
+}
+
+.schedule-last {
+  border-radius: 0 3px 3px 0;
+}
