@@ -2135,3 +2135,21 @@ Schedule Generator Buttons
   opacity: 0.45;
   cursor: default;
 }
+/* =========================================================
+   Schedule Connection Indicator
+========================================================= */
+
+.schedule-indicator {
+  font-size: 8px;
+  color: inherit;
+  vertical-align: middle;
+  line-height: 1;
+}
+
+.schedule-indicator.prev {
+  margin-right: 4px;
+}
+
+.schedule-indicator.next {
+  margin-left: auto;
+}
