@@ -2152,13 +2152,13 @@ Schedule Generator Buttons
 
 .schedule-indicator.prev {
   position: relative;
-  margin-right: 4px;
+  margin-right: 3px;
   top: -1px;
 }
 
 .schedule-indicator.next {
   position: absolute;
-  right: 6px;
+  right: 5px;
   top: 6px;
 }
 
