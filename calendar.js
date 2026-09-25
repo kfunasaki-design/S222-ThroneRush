@@ -2009,79 +2009,20 @@ const connection =
   );
 
 
-/* =====================================================
-Schedule Corners
-===================================================== */
 
-if (
-  segment.isFirst
-  &&
-  segment.isLast
-) {
-
-  button.style.borderRadius =
-    "10px";
-
-}
-
-else if (
-  segment.isFirst
-) {
-
-  button.style.borderRadius =
-    "10px 0 0 10px";
-
-}
-
-else if (
-  segment.isLast
-) {
-
-  button.style.borderRadius =
-    "0 10px 10px 0";
-
-}
-
-else {
-
-  button.style.borderRadius =
-    "0";
-
-}
 
 
 /* =====================================================
 Connection Indicator / Coordinate
 ===================================================== */
 
-if (
-  connection.hasPrevious
-) {
+if (connection.hasPrevious) {
+  const indicator = document.createElement("span");
 
-  const indicator =
-    document.createElement(
-      "span"
-    );
+  indicator.textContent = "◀";
+  indicator.className = "schedule-indicator prev";
 
-  indicator.textContent =
-    "◀";
-
-  indicator.style.fontSize =
-    "8px";
-
-  indicator.style.margin =
-    "0 1px";
-
-  indicator.style.color =
-    "inherit";
-
-  indicator.style.verticalAlign =
-    "middle";
-
-  button.appendChild(
-    indicator
-  );
-
+  button.appendChild(indicator);
 }
 
 
@@ -2121,34 +2062,13 @@ button.appendChild(
 );
 
 
-if (
-  connection.hasNext
-) {
+if (connection.hasNext) {
+  const indicator = document.createElement("span");
 
-  const indicator =
-    document.createElement(
-      "span"
-    );
+  indicator.textContent = "▶";
+  indicator.className = "schedule-indicator next";
 
-  indicator.textContent =
-    "▶";
-
-  indicator.style.fontSize =
-    "8px";
-
-  indicator.style.margin =
-    "0 1px";
-
-  indicator.style.color =
-    "inherit";
-
-  indicator.style.verticalAlign =
-    "middle";
-
-  button.appendChild(
-    indicator
-  );
-
+  button.appendChild(indicator);
 }
 
   
