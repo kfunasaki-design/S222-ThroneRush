@@ -2150,15 +2150,15 @@ Schedule Generator Buttons
 }
 
 .schedule-indicator.prev {
+  position: relative;
   margin-right: 4px;
+  top: -2px;
 }
 
 .schedule-indicator.next {
   position: absolute;
-
   right: 6px;
-
-  margin-left: 0;
+  top: 5px;
 }
 
 
