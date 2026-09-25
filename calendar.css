@@ -2141,8 +2141,11 @@ Schedule Generator Buttons
 
 .schedule-indicator {
   font-size: 8px;
+
   color: inherit;
+
   vertical-align: middle;
+
   line-height: 1;
 }
 
@@ -2151,16 +2154,26 @@ Schedule Generator Buttons
 }
 
 .schedule-indicator.next {
-  margin-left: auto;
+  position: absolute;
+
+  right: 6px;
+
+  margin-left: 0;
 }
-.schedule-first.schedule-last {
+
+
+/* =========================================================
+   Schedule Corner
+========================================================= */
+
+.schedule-layer .schedule.schedule-first.schedule-last {
   border-radius: 3px;
 }
 
-.schedule-first {
+.schedule-layer .schedule.schedule-first {
   border-radius: 3px 0 0 3px;
 }
 
-.schedule-last {
+.schedule-layer .schedule.schedule-last {
   border-radius: 0 3px 3px 0;
 }
