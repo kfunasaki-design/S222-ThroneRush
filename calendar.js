@@ -1305,15 +1305,7 @@ function renderCalendar() {
             weekStart,
             weekEnd
           );
-button.classList.toggle(
-  "schedule-first",
-  segment.isFirst
-);
 
-button.classList.toggle(
-  "schedule-last",
-  segment.isLast
-);
         if (!segment)
           return;
 
