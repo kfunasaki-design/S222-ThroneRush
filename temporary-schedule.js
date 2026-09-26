@@ -409,8 +409,12 @@ const groupLabel =
 groupLabel.className =
   "temporary-group";
 
+const groupName =
+  schedule._generatorGroup
+    .replace(/^Guild\s+/i, "");
+
 groupLabel.textContent =
-  ` ${schedule._generatorGroup}`;
+  ` ${groupName} / VAC`;
 
 button.appendChild(
   groupLabel
