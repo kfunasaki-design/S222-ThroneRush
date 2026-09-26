@@ -2240,9 +2240,10 @@ text-shadow:
   opacity: 0.95;
 
 }
-.temporary-group {
-  color: currentColor;
+.temporary-schedule.lv4 {
+  color: #00FF00;
 }
+
 .temporary-schedule.lv5 {
   color: #00E5FF;
 }
