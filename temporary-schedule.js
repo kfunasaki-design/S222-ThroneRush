@@ -401,17 +401,20 @@ button.setAttribute(
   Generator Group
   ===================================================== */
 
-  const groupLabel =
-    document.createElement(
-      "span"
-    );
+const groupLabel =
+  document.createElement(
+    "span"
+  );
 
 groupLabel.className =
   "temporary-group";
 
-  button.appendChild(
-    groupLabel
-  );
+groupLabel.textContent =
+  ` ${schedule._generatorGroup}`;
+
+button.appendChild(
+  groupLabel
+);
 
 
   /* =====================================================
