@@ -51,7 +51,7 @@ temporarySchedules =
           schedule.y,
 
         guild:
-          "仮ギルド",
+          "",
 
         start:
           schedule.start,
