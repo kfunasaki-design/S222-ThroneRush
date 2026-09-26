@@ -1365,19 +1365,19 @@ const item =
       }
     );
 
-    const scheduleHeight =
-      Math.max(
-        180,
-        42
-        +
-        (
-          (lanes.length + temporaryCount)
-          *
-          22
-        )
-        +
-        10
-      );
+const scheduleHeight =
+  Math.max(
+    180,
+    42
+    +
+    (
+      temporaryCount * 20
+      +
+      lanes.length * 22
+    )
+    +
+    10
+  );
 
     week.style.minHeight =
       `${scheduleHeight}px`;
@@ -2098,7 +2098,7 @@ if (connection.hasNext) {
     `calc(${segment.endColumn - segment.startColumn + 1} * (100% / 7) - 8px)`;
 
 button.style.top =
-  `${38 + temporaryCount * 22 + laneIndex * 22}px`;
+  `${38 + temporaryCount * 20 + laneIndex * 22}px`;
 
   button.addEventListener(
     "click",
