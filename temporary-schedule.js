@@ -281,13 +281,22 @@ function createTemporarySchedule(
   laneIndex
 ) {
 
-  const button =
-    document.createElement(
-      "button"
-    );
+const button =
+  document.createElement(
+    "button"
+  );
 
-  button.className =
-    "temporary-schedule";
+button.className =
+  "temporary-schedule";
+
+button.classList.add(
+  schedule.fortress.toLowerCase()
+);
+
+button.setAttribute(
+  "translate",
+  "no"
+);
 
   button.setAttribute(
     "translate",
