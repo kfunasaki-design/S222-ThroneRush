@@ -2179,6 +2179,17 @@ Schedule Generator Buttons
   border-radius: 0 3px 3px 0;
 }
 
+.temporary-schedule.schedule-first.schedule-last {
+  border-radius: 3px;
+}
+
+.temporary-schedule.schedule-first {
+  border-radius: 3px 0 0 3px;
+}
+
+.temporary-schedule.schedule-last {
+  border-radius: 0 3px 3px 0;
+}
 /* =========================================================
 Temporary Schedule
 ========================================================= */
