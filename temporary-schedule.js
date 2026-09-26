@@ -397,8 +397,8 @@ function createTemporarySchedule(
       "span"
     );
 
-  groupLabel.textContent =
-    ` ${schedule._generatorGroup}`;
+groupLabel.className =
+  "temporary-group";
 
   button.appendChild(
     groupLabel
