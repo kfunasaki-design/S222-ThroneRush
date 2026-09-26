@@ -2240,8 +2240,20 @@ text-shadow:
   opacity: 0.95;
 
 }
+.temporary-group {
+  color: currentColor;
+}
+.temporary-schedule.lv5 {
+  color: #00E5FF;
+}
 
+.temporary-schedule.lv6 {
+  color: #FF99FF;
+}
 
+.temporary-schedule.lv7 {
+  color: #FFCCFF;
+}
 /* =========================================================
 Coordinate Badge
 ========================================================= */
