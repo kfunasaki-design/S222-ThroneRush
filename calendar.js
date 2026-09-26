@@ -2191,7 +2191,9 @@ function resetForm() {
 
   selectedSchedule =
     null;
-
+setTemporaryEditMode(
+  false
+);
 }
 
 
@@ -2585,42 +2587,86 @@ form.addEventListener(
 
     };
 
-    try {
+try {
 
-      if (
-        !selectedSchedule
-      ) {
+  if (
+    !selectedSchedule
+  ) {
 
-        await insertSchedule(
-          schedule
-        );
+    await insertSchedule(
+      schedule
+    );
 
-      }
+  }
 
-      else {
+  else if (
+    selectedSchedule.isTemporary
+  ) {
 
-        if (
-          selectedSchedule.creatorId !== creatorId
-          &&
-          !window.s222AdminState?.isAdmin
-        ) {
+    if (
+      selectedSchedule.creatorId !== creatorId
+      &&
+      !window.s222AdminState?.isAdmin
+    ) {
 
-          error.textContent =
-            "Only the creator can edit this schedule.";
+      error.textContent =
+        "Only the creator can edit this schedule.";
 
-          return;
+      return;
 
-        }
+    }
 
-        await updateSchedule(
-          schedule
-        );
+    if (
+      guild === "仮ギルド"
+      ||
+      !guild.trim()
+    ) {
 
-      }
+      error.textContent =
+        "Please enter a Guild name.";
 
-      await loadSchedules();
+      return;
 
-      dialog.close();
+    }
+
+    await insertSchedule(
+      schedule
+    );
+
+    temporarySchedules =
+      temporarySchedules.filter(
+        temporary =>
+          temporary !== selectedSchedule
+      );
+
+  }
+
+  else {
+
+    if (
+      selectedSchedule.creatorId !== creatorId
+      &&
+      !window.s222AdminState?.isAdmin
+    ) {
+
+      error.textContent =
+        "Only the creator can edit this schedule.";
+
+      return;
+
+    }
+
+    await updateSchedule(
+      schedule
+    );
+
+  }
+
+  await loadSchedules();
+
+  dialog.close();
+
+}
 
     }
 
@@ -2955,6 +3001,9 @@ function openEditForm(
   selectedSchedule =
     schedule;
 
+  const isTemporary =
+    schedule.isTemporary === true;
+
   const title =
     document.getElementById(
       "dialogTitle"
@@ -3042,12 +3091,16 @@ function openEditForm(
   ).style.display =
     "block";
 
-  document.getElementById(
-    "formError"
-  ).textContent =
-    "";
+document.getElementById(
+  "formError"
+).textContent =
+  "";
 
-  dialog.showModal();
+setTemporaryEditMode(
+  isTemporary
+);
+
+dialog.showModal();
 
 }
 
@@ -3069,7 +3122,103 @@ function formatTimeJST(
 
 }
 
+function setTemporaryEditMode(
+  isTemporary
+) {
 
+  const league =
+    document.getElementById(
+      "league"
+    );
+
+  const fortress =
+    document.getElementById(
+      "fortress"
+    );
+
+  const coordinate =
+    document.getElementById(
+      "coordinate"
+    );
+
+  const startDate =
+    document.getElementById(
+      "startDate"
+    );
+
+  const startGMT =
+    document.getElementById(
+      "startGMT"
+    );
+
+  const startJST =
+    document.getElementById(
+      "startJST"
+    );
+
+  const endDate =
+    document.getElementById(
+      "endDate"
+    );
+
+  const endGMT =
+    document.getElementById(
+      "endGMT"
+    );
+
+  const endJST =
+    document.getElementById(
+      "endJST"
+    );
+
+  const description =
+    document.getElementById(
+      "description"
+    );
+
+  const deleteBtn =
+    document.getElementById(
+      "deleteBtn"
+    );
+
+
+  league.disabled =
+    isTemporary;
+
+  fortress.disabled =
+    isTemporary;
+
+  coordinate.disabled =
+    isTemporary;
+
+  startDate.readOnly =
+    isTemporary;
+
+  startGMT.readOnly =
+    isTemporary;
+
+  startJST.readOnly =
+    isTemporary;
+
+  endDate.readOnly =
+    isTemporary;
+
+  endGMT.readOnly =
+    isTemporary;
+
+  endJST.readOnly =
+    isTemporary;
+
+  description.readOnly =
+    isTemporary;
+
+
+  deleteBtn.style.display =
+    isTemporary
+      ? "none"
+      : "block";
+
+}
 
 /* =========================================================
 Delete
