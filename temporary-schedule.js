@@ -31,12 +31,15 @@ function setTemporarySchedules(
 
   }
 
-  temporarySchedules =
-    generatedSchedules.map(
-      schedule => ({
+temporarySchedules =
+  generatedSchedules.map(
+    schedule => ({
 
-        league:
-          schedule.league,
+      isTemporary:
+        true,
+
+      league:
+        schedule.league,
 
         fortress:
           schedule.fortress,
