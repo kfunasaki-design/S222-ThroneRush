@@ -2240,6 +2240,9 @@ text-shadow:
   opacity: 0.95;
 
 }
+.temporary-group {
+  color: inherit;
+}
 .temporary-schedule.lv4 {
   color: #00FF00;
 }
