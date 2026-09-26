@@ -2239,6 +2239,10 @@ text-shadow:
 
   opacity: 0.95;
 
+  
+}
+.temporary-group {
+  color: inherit;
 
   color: #fff;
   text-shadow:
@@ -2264,10 +2268,10 @@ text-shadow:
     opacity: 0.5;
     text-shadow: none;
   }
+
+
+
   
-}
-.temporary-group {
-  color: inherit;
 }
 .temporary-schedule.lv4 {
   color: #00FF00;
