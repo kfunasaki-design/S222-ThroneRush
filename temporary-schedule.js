@@ -104,7 +104,7 @@ function renderTemporarySchedules(
 
   }
 
-  let renderedCount = 0;
+  const lanes = [];
 
   temporarySchedules.forEach(
     schedule => {
@@ -131,25 +131,58 @@ function renderTemporarySchedules(
       if (!segment)
         return;
 
+      let laneIndex = 0;
+
+      while (true) {
+
+        if (
+          !lanes[laneIndex]
+        ) {
+
+          lanes[laneIndex] = [];
+
+        }
+
+        const overlaps =
+          lanes[laneIndex].some(
+            existingSegment =>
+              existingSegment.startColumn
+              <=
+              segment.endColumn
+              &&
+              existingSegment.endColumn
+              >=
+              segment.startColumn
+          );
+
+        if (!overlaps)
+          break;
+
+        laneIndex++;
+
+      }
+
+      lanes[laneIndex].push(
+        segment
+      );
+
       const item =
         createTemporarySchedule(
           schedule,
-          segment
+          segment,
+          laneIndex
         );
 
       scheduleLayer.appendChild(
         item
       );
 
-      renderedCount++;
-
     }
   );
 
-  return renderedCount;
+  return lanes.length;
 
 }
-
 
 /* =========================================================
 Create Temporary Schedule
