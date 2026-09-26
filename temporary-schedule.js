@@ -9,7 +9,21 @@ State
 ========================================================= */
 
 let temporarySchedules = [];
+const savedTemporarySchedules =
+  localStorage.getItem(
+    "s222_temporary_schedules"
+  );
 
+if (
+  savedTemporarySchedules
+) {
+
+  temporarySchedules =
+    JSON.parse(
+      savedTemporarySchedules
+    );
+
+}
 
 /* =========================================================
 Import Generated Schedules
@@ -78,7 +92,12 @@ temporarySchedules =
     "Temporary schedules:",
     temporarySchedules
   );
-
+localStorage.setItem(
+  "s222_temporary_schedules",
+  JSON.stringify(
+    temporarySchedules
+  )
+);
 }
 
 
@@ -190,7 +209,8 @@ Create Temporary Schedule
 
 function createTemporarySchedule(
   schedule,
-  segment
+  segment,
+  laneIndex
 ) {
 
   const button =
@@ -244,17 +264,17 @@ button.style.top =
   );
 
 
-  const guildLabel =
-    document.createElement(
-      "span"
-    );
-
-  guildLabel.textContent =
-    ` ${schedule.guild}`;
-
-  button.appendChild(
-    guildLabel
+const guildLabel =
+  document.createElement(
+    "span"
   );
+
+guildLabel.textContent =
+  ` ${schedule._generatorGroup}`;
+
+button.appendChild(
+  guildLabel
+);
 
 
   button.addEventListener(
