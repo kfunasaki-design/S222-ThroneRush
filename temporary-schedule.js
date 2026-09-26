@@ -414,7 +414,7 @@ const groupName =
     .replace(/^Guild\s+/i, "");
 
 groupLabel.textContent =
-  ` ${groupName}　/　VAC`;
+  ` ${groupName} / VAC`;
 
 button.appendChild(
   groupLabel
