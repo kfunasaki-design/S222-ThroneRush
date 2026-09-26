@@ -1257,7 +1257,12 @@ function renderCalendar() {
 
     scheduleLayer.className =
       "schedule-layer";
-
+const temporaryCount =
+  renderTemporarySchedules(
+    scheduleLayer,
+    weekStart,
+    weekEnd
+  );
     for (
       let i = 0;
       i < 7;
@@ -1345,11 +1350,13 @@ function renderCalendar() {
         );
 
         const item =
-          createSchedule(
-            schedule,
-            segment,
-            laneIndex
-          );
+const item =
+  createSchedule(
+    schedule,
+    segment,
+    laneIndex,
+    temporaryCount
+  );
 
         scheduleLayer.appendChild(
           item
@@ -1364,7 +1371,7 @@ const scheduleHeight =
     42
     +
     (
-      lanes.length
+      (lanes.length + temporaryCount)
       *
       22
     )
@@ -1956,7 +1963,8 @@ function getScheduleConnection(
 function createSchedule(
   schedule,
   segment,
-  laneIndex
+  laneIndex,
+  temporaryCount = 0
 ) {
 
   const button =
@@ -2089,8 +2097,8 @@ if (connection.hasNext) {
   button.style.width =
     `calc(${segment.endColumn - segment.startColumn + 1} * (100% / 7) - 8px)`;
 
-  button.style.top =
-    `${38 + laneIndex * 22}px`;
+button.style.top =
+  `${38 + temporaryCount * 22 + laneIndex * 22}px`;
 
   button.addEventListener(
     "click",
