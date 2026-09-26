@@ -3743,6 +3743,32 @@ generatorGoBtn.addEventListener(
         true;
     }
   }
+);generatorGoBtn.addEventListener(
+  "click",
+  () => {
+
+    if (
+      !generatedCandidate
+      ||
+      !Array.isArray(
+        generatedCandidate.schedules
+      )
+    ) {
+
+      return;
+
+    }
+
+    setTemporarySchedules(
+      generatedCandidate.schedules
+    );
+
+    generatorResult.value +=
+      "\n\n✓ Temporary Schedule loaded.";
+
+    generatorFitResultText();
+
+  }
 );
 
 
