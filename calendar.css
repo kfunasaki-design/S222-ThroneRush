@@ -2244,34 +2244,6 @@ text-shadow:
 .temporary-group {
   color: inherit;
 
-
-  text-shadow:
-    0 0 5px currentColor,
-    0 0 10px currentColor,
-    0 0 20px currentColor,
-    0 0 40px currentColor,
-    0 0 80px currentColor;
-  animation: flicker 2s infinite;
-}
-
-@keyframes flicker {
-  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-    opacity: 1;
-    text-shadow:
-      0 0 5px currentColor,
-      0 0 10px currentColor,
-      0 0 20px currentColor,
-      0 0 40px currentColor,
-      0 0 80px currentColor;
-  }
-  20%, 22%, 24%, 55% {
-    opacity: 0.5;
-    text-shadow: none;
-  }
-
-
-
-  
 }
 .temporary-schedule.lv4 {
   color: #00FF00;
