@@ -215,8 +215,8 @@ function createTemporarySchedule(
   button.style.width =
     `calc(${segment.endColumn - segment.startColumn + 1} * (100% / 7) - 8px)`;
 
-  button.style.top =
-    "38px";
+button.style.top =
+  `${38 + laneIndex * 20}px`;
 
   button.dataset.temporary =
     "true";
