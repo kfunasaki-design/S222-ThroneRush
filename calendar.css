@@ -2244,7 +2244,7 @@ text-shadow:
 .temporary-group {
   color: inherit;
 
-  color: #fff;
+
   text-shadow:
     0 0 5px currentColor,
     0 0 10px currentColor,
