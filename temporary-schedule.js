@@ -31,7 +31,25 @@ if (
     );
 
 }
+/* =========================================================
+Temporary Version
+========================================================= */
 
+function saveTemporaryVersion(
+  version
+) {
+
+  temporaryVersion =
+    Number(version);
+
+  localStorage.setItem(
+    "s222_temporary_version",
+    String(
+      temporaryVersion
+    )
+  );
+
+}
 /* =========================================================
 Load Shared Temporary Schedules
 ========================================================= */
@@ -123,24 +141,16 @@ async function checkSharedTemporarySchedules() {
       : [];
 
 
-  temporaryVersion =
-    remoteVersion;
+saveTemporaryVersion(
+  remoteVersion
+);
 
-
-  localStorage.setItem(
-    "s222_temporary_schedules",
-    JSON.stringify(
-      temporarySchedules
-    )
-  );
-
-
-  localStorage.setItem(
-    "s222_temporary_version",
-    String(
-      temporaryVersion
-    )
-  );
+localStorage.setItem(
+  "s222_temporary_schedules",
+  JSON.stringify(
+    temporarySchedules
+  )
+);
 
 
   console.log(
