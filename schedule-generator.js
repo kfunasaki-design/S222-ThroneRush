@@ -3808,7 +3808,9 @@ generatorGoBtn.addEventListener(
       return;
 
     }
-
+saveTemporaryVersion(
+  nextVersion
+);
 
     const currentVersion =
       Number(
