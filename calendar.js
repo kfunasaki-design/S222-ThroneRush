@@ -3563,6 +3563,17 @@ document
     "click",
     async () => {
 
+      const imported =
+        await importSharedTemporarySchedules();
+
+
+      if (!imported) {
+
+        return;
+
+      }
+
+
       updateScreen.remove();
 
       wrapper.style.display =
@@ -3574,7 +3585,7 @@ document
 
     }
   );
-}
+
 
 
 /* =========================================================
