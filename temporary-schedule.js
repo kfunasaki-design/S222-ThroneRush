@@ -10,6 +10,12 @@ State
 
 let temporarySchedules = [];
 
+let temporaryVersion = Number(
+  localStorage.getItem(
+    "s222_temporary_version"
+  ) || 0
+);
+
 const savedTemporarySchedules =
   localStorage.getItem(
     "s222_temporary_schedules"
@@ -26,7 +32,129 @@ if (
 
 }
 
+/* =========================================================
+Load Shared Temporary Schedules
+========================================================= */
 
+async function checkSharedTemporarySchedules() {
+
+  if (
+    typeof supabaseClient === "undefined"
+  ) {
+
+    console.error(
+      "Supabase client is not available."
+    );
+
+    return {
+      updated: false
+    };
+
+  }
+
+
+  const { data, error } =
+    await supabaseClient
+      .from("admin_settings")
+      .select(
+        "temporary_schedules, temporary_version"
+      )
+      .eq(
+        "id",
+        1
+      )
+      .maybeSingle();
+
+
+  if (error) {
+
+    console.error(
+      "Failed to load temporary schedules:",
+      error
+    );
+
+    return {
+      updated: false
+    };
+
+  }
+
+
+  if (!data) {
+
+    return {
+      updated: false
+    };
+
+  }
+
+
+  const remoteVersion =
+    Number(
+      data.temporary_version ?? 0
+    );
+
+
+  /* =========================================
+     No New Data
+  ========================================= */
+
+  if (
+    remoteVersion <=
+    temporaryVersion
+  ) {
+
+    return {
+      updated: false
+    };
+
+  }
+
+
+  /* =========================================
+     New Data
+  ========================================= */
+
+  temporarySchedules =
+    Array.isArray(
+      data.temporary_schedules
+    )
+      ? data.temporary_schedules
+      : [];
+
+
+  temporaryVersion =
+    remoteVersion;
+
+
+  localStorage.setItem(
+    "s222_temporary_schedules",
+    JSON.stringify(
+      temporarySchedules
+    )
+  );
+
+
+  localStorage.setItem(
+    "s222_temporary_version",
+    String(
+      temporaryVersion
+    )
+  );
+
+
+  console.log(
+    "Temporary schedules updated:",
+    temporaryVersion
+  );
+
+
+  return {
+    updated: true,
+    version: temporaryVersion
+  };
+
+}
 /* =========================================================
 Import Generated Schedules
 ========================================================= */
