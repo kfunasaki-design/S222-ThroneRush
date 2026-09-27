@@ -3555,26 +3555,36 @@ function showTemporaryUpdateScreen() {
   );
 
 
-  document
-    .getElementById(
-      "temporaryUpdateBtn"
-    )
-    .addEventListener(
-      "click",
-      async () => {
+document
+  .getElementById(
+    "temporaryUpdateBtn"
+  )
+  .addEventListener(
+    "click",
+    async () => {
 
-        updateScreen.remove();
+      const imported =
+        await importSharedTemporarySchedules();
 
-        wrapper.style.display =
-          "";
 
-        renderCalendar();
+      if (!imported) {
 
-        await loadSchedules();
+        return;
 
       }
-    );
 
+
+      updateScreen.remove();
+
+      wrapper.style.display =
+        "";
+
+      renderCalendar();
+
+      await loadSchedules();
+
+    }
+  );
 }
 
 
