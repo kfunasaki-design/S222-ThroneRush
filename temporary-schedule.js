@@ -215,58 +215,7 @@ async function importSharedTemporarySchedules() {
 
 }
 
-  /* =========================================
-     No New Data
-  ========================================= */
 
-  if (
-    remoteVersion <=
-    temporaryVersion
-  ) {
-
-    return {
-      updated: false
-    };
-
-  }
-
-
-  /* =========================================
-     New Data
-  ========================================= */
-
-  temporarySchedules =
-    Array.isArray(
-      data.temporary_schedules
-    )
-      ? data.temporary_schedules
-      : [];
-
-
-saveTemporaryVersion(
-  remoteVersion
-);
-
-localStorage.setItem(
-  "s222_temporary_schedules",
-  JSON.stringify(
-    temporarySchedules
-  )
-);
-
-
-  console.log(
-    "Temporary schedules updated:",
-    temporaryVersion
-  );
-
-
-  return {
-    updated: true,
-    version: temporaryVersion
-  };
-
-}
 /* =========================================================
 Import Generated Schedules
 ========================================================= */
