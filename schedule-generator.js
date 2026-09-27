@@ -3641,7 +3641,151 @@ window.addEventListener(
   }
 );
 
+/* =========================================================
+Clear Temporary Schedules
+========================================================= */
 
+const generatorClearBtn =
+  document.getElementById(
+    "generatorClearBtn"
+  );
+
+if (
+  generatorClearBtn
+) {
+
+  generatorClearBtn.addEventListener(
+    "click",
+    async () => {
+
+      if (
+        typeof supabaseClient === "undefined"
+      ) {
+
+        console.error(
+          "Supabase client is not available."
+        );
+
+        return;
+
+      }
+
+
+      /* =========================================
+         Load current version
+      ========================================= */
+
+      const { data, error } =
+        await supabaseClient
+          .from("admin_settings")
+          .select(
+            "temporary_version"
+          )
+          .eq(
+            "id",
+            1
+          )
+          .maybeSingle();
+
+
+      if (error) {
+
+        console.error(
+          "Failed to load temporary version:",
+          error
+        );
+
+        return;
+
+      }
+
+
+      const currentVersion =
+        Number(
+          data?.temporary_version ?? 0
+        );
+
+      const nextVersion =
+        currentVersion + 1;
+
+
+      /* =========================================
+         Clear local temporary schedules
+      ========================================= */
+
+      if (
+        typeof setTemporarySchedules ===
+        "function"
+      ) {
+
+        setTemporarySchedules([]);
+
+      }
+
+
+      saveTemporaryVersion(
+        nextVersion
+      );
+
+
+      /* =========================================
+         Clear shared temporary schedules
+      ========================================= */
+
+      const { error: updateError } =
+        await supabaseClient
+          .from("admin_settings")
+          .update({
+            temporary_schedules: [],
+            temporary_version:
+              nextVersion,
+            updated_at:
+              new Date().toISOString()
+          })
+          .eq(
+            "id",
+            1
+          );
+
+
+      if (updateError) {
+
+        console.error(
+          "Failed to clear temporary schedules:",
+          updateError
+        );
+
+        return;
+
+      }
+
+
+      /* =========================================
+         Reset generator state
+      ========================================= */
+
+      generatedCandidate =
+        null;
+
+      generatorGoBtn.disabled =
+        true;
+
+
+      generatorResult.value +=
+        `\n\n✓ Temporary Schedule cleared. v${nextVersion}`;
+
+      generatorFitResultText();
+
+
+      console.log(
+        "Temporary schedules cleared:",
+        nextVersion
+      );
+
+    }
+  );
+
+}
 
 /* =========================================================
 GO
