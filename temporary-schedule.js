@@ -51,7 +51,7 @@ function saveTemporaryVersion(
 
 }
 /* =========================================================
-Load Shared Temporary Schedules
+Load Shared Temporary Schedule Version
 ========================================================= */
 
 async function checkSharedTemporarySchedules() {
@@ -75,7 +75,7 @@ async function checkSharedTemporarySchedules() {
     await supabaseClient
       .from("admin_settings")
       .select(
-        "temporary_schedules, temporary_version"
+        "temporary_version"
       )
       .eq(
         "id",
@@ -87,7 +87,7 @@ async function checkSharedTemporarySchedules() {
   if (error) {
 
     console.error(
-      "Failed to load temporary schedules:",
+      "Failed to load temporary version:",
       error
     );
 
@@ -112,6 +112,108 @@ async function checkSharedTemporarySchedules() {
       data.temporary_version ?? 0
     );
 
+
+  if (
+    remoteVersion <=
+    temporaryVersion
+  ) {
+
+    return {
+      updated: false
+    };
+
+  }
+
+
+  return {
+    updated: true,
+    version: remoteVersion
+  };
+
+}
+/* =========================================================
+Import Shared Temporary Schedules
+========================================================= */
+
+async function importSharedTemporarySchedules() {
+
+  if (
+    typeof supabaseClient === "undefined"
+  ) {
+
+    console.error(
+      "Supabase client is not available."
+    );
+
+    return false;
+
+  }
+
+
+  const { data, error } =
+    await supabaseClient
+      .from("admin_settings")
+      .select(
+        "temporary_schedules, temporary_version"
+      )
+      .eq(
+        "id",
+        1
+      )
+      .maybeSingle();
+
+
+  if (error) {
+
+    console.error(
+      "Failed to import temporary schedules:",
+      error
+    );
+
+    return false;
+
+  }
+
+
+  if (!data) {
+
+    return false;
+
+  }
+
+
+  temporarySchedules =
+    Array.isArray(
+      data.temporary_schedules
+    )
+      ? data.temporary_schedules
+      : [];
+
+
+  saveTemporaryVersion(
+    Number(
+      data.temporary_version ?? 0
+    )
+  );
+
+
+  localStorage.setItem(
+    "s222_temporary_schedules",
+    JSON.stringify(
+      temporarySchedules
+    )
+  );
+
+
+  console.log(
+    "Temporary schedules imported:",
+    temporarySchedules
+  );
+
+
+  return true;
+
+}
 
   /* =========================================
      No New Data
