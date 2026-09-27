@@ -2297,3 +2297,58 @@ Temporary State
   font-weight: 600;
 
 }
+
+/* =========================================================
+Temporary Schedule Update Screen
+========================================================= */
+
+#temporaryUpdateScreen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #111;
+}
+
+
+.temporary-update-button {
+
+  min-width: 220px;
+  min-height: 70px;
+
+  padding: 12px 24px;
+
+  border: 1px solid
+    rgba(255,255,255,0.28);
+
+  border-radius: 6px;
+
+  background: #555;
+
+  box-shadow:
+    inset 0px 4px 8px rgba(0,0,0,0.8),
+    inset 0px 1px 3px rgba(0,0,0,0.9),
+    0px 1px 1px rgba(255,255,255,0.05);
+
+  color: #FF99FF;
+
+  font-size: 20px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+.temporary-update-button:active {
+
+  box-shadow:
+    inset 0px 2px 5px rgba(0,0,0,0.9);
+
+  transform:
+    translateY(1px);
+
+}
