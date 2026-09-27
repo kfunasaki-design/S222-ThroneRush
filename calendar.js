@@ -3468,13 +3468,121 @@ document
 Initial
 ========================================================= */
 
-setupGuildSelect();
+async function initializeCalendar() {
 
-updateFortressOptions();
+  setupGuildSelect();
 
-updateLanguage();
+  updateFortressOptions();
 
-updateCurrentTime();
+  updateLanguage();
+
+  updateCurrentTime();
+
+
+  /* =========================================
+     Temporary Schedule Update Check
+  ========================================= */
+
+  const temporaryUpdate =
+    await checkSharedTemporarySchedules();
+
+
+  if (
+    temporaryUpdate.updated
+  ) {
+
+    showTemporaryUpdateScreen();
+
+    return;
+
+  }
+
+
+  /* =========================================
+     Normal Calendar Start
+  ========================================= */
+
+  renderCalendar();
+
+  await loadSchedules();
+
+}
+
+
+/* =========================================================
+Temporary Schedule Update Screen
+========================================================= */
+
+function showTemporaryUpdateScreen() {
+
+  const wrapper =
+    document.getElementById(
+      "calendarWrapper"
+    );
+
+  if (!wrapper)
+    return;
+
+
+  wrapper.style.display =
+    "none";
+
+
+  const updateScreen =
+    document.createElement(
+      "div"
+    );
+
+  updateScreen.id =
+    "temporaryUpdateScreen";
+
+
+  updateScreen.innerHTML = `
+
+    <button
+      type="button"
+      id="temporaryUpdateBtn"
+      class="temporary-update-button"
+    >
+      仮予定アップ！
+    </button>
+
+  `;
+
+
+  document.body.appendChild(
+    updateScreen
+  );
+
+
+  document
+    .getElementById(
+      "temporaryUpdateBtn"
+    )
+    .addEventListener(
+      "click",
+      async () => {
+
+        updateScreen.remove();
+
+        wrapper.style.display =
+          "";
+
+        renderCalendar();
+
+        await loadSchedules();
+
+      }
+    );
+
+}
+
+
+/* =========================================================
+Start
+========================================================= */
+
+initializeCalendar();
 
 
 /* =========================================================
