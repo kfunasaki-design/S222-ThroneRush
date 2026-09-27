@@ -3745,32 +3745,125 @@ generatorGoBtn.addEventListener(
   }
 );generatorGoBtn.addEventListener(
   "click",
-  () => {
+  async () => {
 
     if (
-      !generatedCandidate
-      ||
+      !generatedCandidate ||
       !Array.isArray(
         generatedCandidate.schedules
       )
     ) {
+      return;
+    }
+
+    const schedules =
+      generatedCandidate.schedules;
+
+    /* =========================================
+       Local Temporary Schedule
+    ========================================= */
+
+    setTemporarySchedules(
+      schedules
+    );
+
+
+    /* =========================================
+       Upload Temporary Schedule
+    ========================================= */
+
+    if (
+      typeof supabaseClient === "undefined"
+    ) {
+
+      console.error(
+        "Supabase client is not available."
+      );
 
       return;
 
     }
 
-    setTemporarySchedules(
-      generatedCandidate.schedules
-    );
+
+    const { data, error } =
+      await supabaseClient
+        .from("admin_settings")
+        .select(
+          "temporary_version"
+        )
+        .eq(
+          "id",
+          1
+        )
+        .maybeSingle();
+
+
+    if (error) {
+
+      console.error(
+        "Failed to load temporary version:",
+        error
+      );
+
+      return;
+
+    }
+
+
+    const currentVersion =
+      Number(
+        data?.temporary_version ?? 0
+      );
+
+
+    const nextVersion =
+      currentVersion + 1;
+
+
+    const { error: updateError } =
+      await supabaseClient
+        .from("admin_settings")
+        .update({
+
+          temporary_schedules:
+            schedules,
+
+          temporary_version:
+            nextVersion,
+
+          updated_at:
+            new Date().toISOString()
+
+        })
+        .eq(
+          "id",
+          1
+        );
+
+
+    if (updateError) {
+
+      console.error(
+        "Failed to upload temporary schedules:",
+        updateError
+      );
+
+      return;
+
+    }
+
+
+    /* =========================================
+       Result
+    ========================================= */
 
     generatorResult.value +=
-      "\n\n✓ Temporary Schedule loaded.";
+      `\n\n✓ Temporary Schedule uploaded. v${nextVersion}`;
 
     generatorFitResultText();
 
   }
 );
-
 
 /* =========================================================
 Initial Generator State
