@@ -3795,102 +3795,6 @@ generatorGoBtn.addEventListener(
   "click",
   async () => {
 
-    if (!generatedCandidate) {
-      return;
-    }
-
-
-    try {
-
-      generatorGoBtn.disabled =
-        true;
-
-
-      for (
-        const originalSchedule of
-          generatedCandidate.schedules
-      ) {
-
-        /*
-         * Generator内部用の
-         * _generatorGroupは除外。
-         */
-        const schedule = {
-
-          league:
-            originalSchedule.league,
-
-          fortress:
-            originalSchedule.fortress,
-
-          x:
-            originalSchedule.x,
-
-          y:
-            originalSchedule.y,
-
-          guild:
-            "仮ギルド",
-
-          start:
-            originalSchedule.start,
-
-          end:
-            originalSchedule.end,
-
-          description:
-            originalSchedule.description,
-
-          color:
-            originalSchedule.color,
-
-          creatorId:
-            originalSchedule.creatorId
-        };
-
-
-        await insertSchedule(
-          schedule
-        );
-      }
-
-
-      generatorResult.value +=
-        "\n\n✓ Schedule imported.";
-
-      generatorFitResultText();
-
-
-      generatedCandidate =
-        null;
-
-
-    } catch (error) {
-
-      console.error(
-        "Schedule Generator GO:",
-        error
-      );
-
-
-      generatorResult.value +=
-        `\n\nImport failed: ${
-          error.message ||
-          "Unknown error."
-        }`;
-
-      generatorFitResultText();
-
-    } finally {
-
-      generatorGoBtn.disabled =
-        true;
-    }
-  }
-);generatorGoBtn.addEventListener(
-  "click",
-  async () => {
-
     if (
       !generatedCandidate ||
       !Array.isArray(
@@ -3952,18 +3856,17 @@ generatorGoBtn.addEventListener(
       return;
 
     }
+const currentVersion =
+  Number(
+    data?.temporary_version ?? 0
+  );
+
+const nextVersion =
+  currentVersion + 1;
+
 saveTemporaryVersion(
   nextVersion
 );
-
-    const currentVersion =
-      Number(
-        data?.temporary_version ?? 0
-      );
-
-
-    const nextVersion =
-      currentVersion + 1;
 
 
     const { error: updateError } =
