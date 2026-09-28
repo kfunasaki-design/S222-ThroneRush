@@ -3468,7 +3468,7 @@ document
 Initial
 ========================================================= */
 
-async function initializeCalendar() {
+function initializeCalendar() {
 
   setupGuildSelect();
 
@@ -3478,42 +3478,16 @@ async function initializeCalendar() {
 
   updateCurrentTime();
 
-
-  /* =========================================
-     Temporary Schedule Update Check
-  ========================================= */
-
-  const temporaryUpdate =
-    await checkSharedTemporarySchedules();
-
-
-  if (
-    temporaryUpdate.updated
-  ) {
-
-    showTemporaryUpdateScreen();
-
-    return;
-
-  }
-
-
-  /* =========================================
-     Normal Calendar Start
-  ========================================= */
-
-  renderCalendar();
-
-  await loadSchedules();
+  showStartupScreen();
 
 }
 
 
 /* =========================================================
-Temporary Schedule Update Screen
+Startup Screen
 ========================================================= */
 
-function showTemporaryUpdateScreen() {
+function showStartupScreen() {
 
   const wrapper =
     document.getElementById(
@@ -3528,65 +3502,191 @@ function showTemporaryUpdateScreen() {
     "none";
 
 
-  const updateScreen =
+  const startupScreen =
     document.createElement(
       "div"
     );
 
-  updateScreen.id =
-    "temporaryUpdateScreen";
+  startupScreen.id =
+    "startupScreen";
 
 
-  updateScreen.innerHTML = `
+  startupScreen.innerHTML = `
 
-    <button
-      type="button"
-      id="temporaryUpdateBtn"
-      class="temporary-update-button"
-    >
-      仮予定アップ！
-    </button>
+    <div class="startup-content">
+
+      <div class="startup-title">
+        TH Calendar
+      </div>
+
+      <button
+        type="button"
+        id="startupBtn"
+        class="startup-button"
+      >
+        START
+      </button>
+
+      <div
+        id="startupLoading"
+        class="startup-loading"
+      >
+
+        <div class="startup-loading-text">
+          Lord...
+        </div>
+
+        <div class="startup-loading-bar">
+
+          <div
+            id="startupLoadingProgress"
+            class="startup-loading-progress"
+          ></div>
+
+        </div>
+
+      </div>
+
+    </div>
 
   `;
 
 
   document.body.appendChild(
-    updateScreen
+    startupScreen
   );
 
 
-document
-  .getElementById(
-    "temporaryUpdateBtn"
-  )
-  .addEventListener(
-    "click",
-    async () => {
+  document
+    .getElementById(
+      "startupBtn"
+    )
+    .addEventListener(
+      "click",
+      async () => {
 
-      const imported =
-        await importSharedTemporarySchedules();
+        const button =
+          document.getElementById(
+            "startupBtn"
+          );
+
+        const progress =
+          document.getElementById(
+            "startupLoadingProgress"
+          );
 
 
-      if (!imported) {
+        if (!button)
+          return;
 
-        return;
+
+        button.disabled =
+          true;
+
+
+        button.style.pointerEvents =
+          "none";
+
+
+        /*
+         * Always import the latest
+         * shared temporary schedules.
+         */
+
+        const importPromise =
+          importSharedTemporarySchedules();
+
+
+        /*
+         * Minimum boot time:
+         * 2.5 seconds.
+         */
+
+        const loadingPromise =
+          new Promise(
+            resolve => {
+
+              requestAnimationFrame(
+                () => {
+
+                  if (progress) {
+
+                    progress.style.width =
+                      "100%";
+
+                  }
+
+                }
+              );
+
+
+              setTimeout(
+                resolve,
+                2500
+              );
+
+            }
+          );
+
+
+        const imported =
+          await importPromise;
+
+
+        await loadSchedules();
+
+
+        await loadingPromise;
+
+
+        if (!imported) {
+
+          button.disabled =
+            false;
+
+          button.style.pointerEvents =
+            "";
+
+          if (progress) {
+
+            progress.style.width =
+              "0%";
+
+          }
+
+          return;
+
+        }
+
+
+        /*
+         * Reveal calendar.
+         */
+
+        wrapper.style.display =
+          "";
+
+
+        startupScreen.classList.add(
+          "startup-exit"
+        );
+
+
+        setTimeout(
+          () => {
+
+            startupScreen.remove();
+
+          },
+          800
+        );
 
       }
-
-
-      updateScreen.remove();
-
-      wrapper.style.display =
-        "";
-
-      renderCalendar();
-
-      await loadSchedules();
-
-    }
-  );
+    );
 
 }
+
+
 
 /* =========================================================
 Start
