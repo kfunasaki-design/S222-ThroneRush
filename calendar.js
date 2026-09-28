@@ -3468,7 +3468,7 @@ document
 Initial
 ========================================================= */
 
-function initializeCalendar() {
+async function initializeCalendar() {
 
   setupGuildSelect();
 
@@ -3479,6 +3479,36 @@ function initializeCalendar() {
   updateCurrentTime();
 
   showStartupScreen();
+
+
+  /*
+   * Wait until all scripts are loaded,
+   * then prepare the calendar underneath
+   * the startup screen.
+   */
+
+  await new Promise(
+    resolve =>
+      setTimeout(
+        resolve,
+        0
+      )
+  );
+
+  const wrapper =
+    document.getElementById(
+      "calendarWrapper"
+    );
+
+  if (!wrapper)
+    return;
+
+
+  wrapper.style.display =
+    "";
+
+
+  await loadSchedules();
 
 }
 
@@ -3496,10 +3526,6 @@ function showStartupScreen() {
 
   if (!wrapper)
     return;
-
-
-  wrapper.style.display =
-    "none";
 
 
   const startupScreen =
