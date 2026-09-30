@@ -184,11 +184,18 @@ function getSummaryOccupationDays(
 
   }
 
-  // Event Period 外の予定は集計しない
-  if (
+  const calculationStart =
     start < eventStart
-    ||
+      ? eventStart
+      : start;
+
+  const calculationEnd =
     end > eventEnd
+      ? eventEnd
+      : end;
+
+  if (
+    calculationStart >= calculationEnd
   ) {
 
     return 0;
@@ -196,7 +203,8 @@ function getSummaryOccupationDays(
   }
 
   const diff =
-    end - start;
+    calculationEnd -
+    calculationStart;
 
   return Math.max(
     diff /
@@ -211,7 +219,6 @@ function getSummaryOccupationDays(
     ),
     0
   );
-
 }
 
 
