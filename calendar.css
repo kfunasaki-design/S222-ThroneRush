@@ -1276,9 +1276,13 @@ button {
 }
 
 .summary-status-low {
-  background: #fff2cc !important;
+  background: #4da6ff !important;
+  color: #fff;
+}
 
-  color: #7f6000;
+.summary-status-high {
+  background: #ff4d4d !important;
+  color: #fff;
 }
 
 .summary-status-warning {
