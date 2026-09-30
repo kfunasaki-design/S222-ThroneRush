@@ -415,8 +415,12 @@ function buildGuildSummary() {
   );
 
 
-  return Object.values(
-    guilds
+return Object.values(guilds)
+  .filter(guild =>
+    SUMMARY_LEVELS.some(
+      level =>
+        guild.levels[level].days > 0
+    )
   );
 
 }
