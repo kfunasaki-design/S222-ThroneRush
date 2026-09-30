@@ -142,7 +142,7 @@ body {
 }
 
 .admin-menu-button:hover {
-  background: var(--panel-light);
+  background: transparent;
 
   color: white;
 }
