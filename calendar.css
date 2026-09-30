@@ -705,10 +705,6 @@ button {
 
   border-bottom: 1px solid var(--border);
 }
-.week:has(.today) {
-  border-top: 1px solid #fff;
-  border-bottom-color: #fff;
-}
 
 /* =========================================================
    Day Grid
@@ -742,7 +738,9 @@ button {
   border-right: none;
 }
 .today {
+  border-top: 1px solid #fff;
   border-right-color: #fff;
+  border-bottom: 1px solid #fff;
   border-left: 1px solid #fff;
 }
 
