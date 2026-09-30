@@ -130,12 +130,17 @@ function getSummaryOccupationDays(
     !schedule.start
     ||
     !schedule.end
+    ||
+    typeof event === "undefined"
+    ||
+    !event.start
+    ||
+    !event.end
   ) {
 
     return 0;
 
   }
-
 
   const start =
     new Date(
@@ -147,6 +152,15 @@ function getSummaryOccupationDays(
       schedule.end
     );
 
+  const eventStart =
+    new Date(
+      event.start
+    );
+
+  const eventEnd =
+    new Date(
+      event.end
+    );
 
   if (
     Number.isNaN(
@@ -156,16 +170,33 @@ function getSummaryOccupationDays(
     Number.isNaN(
       end.getTime()
     )
+    ||
+    Number.isNaN(
+      eventStart.getTime()
+    )
+    ||
+    Number.isNaN(
+      eventEnd.getTime()
+    )
   ) {
 
     return 0;
 
   }
 
+  // Event Period 外の予定は集計しない
+  if (
+    start < eventStart
+    ||
+    end > eventEnd
+  ) {
+
+    return 0;
+
+  }
 
   const diff =
     end - start;
-
 
   return Math.max(
     diff /
