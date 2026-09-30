@@ -136,6 +136,9 @@ body {
   font-size: 22px;
 
   line-height: 1;
+  
+  position: relative;
+  z-index: 100000;
 }
 
 .admin-menu-button:hover {
