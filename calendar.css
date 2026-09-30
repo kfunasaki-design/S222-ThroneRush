@@ -738,7 +738,10 @@ button {
 .day:last-child {
   border-right: none;
 }
-
+.today {
+  border-right-color: #fff;
+  border-left: 1px solid #fff;
+}
 
 /* =========================================================
    Day Header
