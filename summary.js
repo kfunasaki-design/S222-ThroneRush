@@ -468,15 +468,17 @@ function getSummaryCellStatus(
       SUMMARY_AVERAGE_TOLERANCE;
 
 
-    if (
-      difference
-      >
-      allowedDifference
-    ) {
+if (
+  difference
+  >
+  allowedDifference
+) {
 
-      return "warning";
+  return days > averageDays
+    ? "high"
+    : "low";
 
-    }
+}
 
   }
 
