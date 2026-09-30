@@ -2599,47 +2599,121 @@ try {
 
   }
 
-  else if (
-    selectedSchedule.isTemporary
+else if (
+  selectedSchedule.isTemporary
+) {
+
+  if (
+    selectedSchedule.creatorId !== creatorId
+    &&
+    !window.s222AdminState?.isAdmin
   ) {
 
-    if (
-      selectedSchedule.creatorId !== creatorId
-      &&
-      !window.s222AdminState?.isAdmin
-    ) {
+    error.textContent =
+      "Only the creator can edit this schedule.";
 
-      error.textContent =
-        "Only the creator can edit this schedule.";
-
-      return;
-
-    }
-
-    if (
-      guild === "仮ギルド"
-      ||
-      !guild.trim()
-    ) {
-
-      error.textContent =
-        "Please enter a Guild name.";
-
-      return;
-
-    }
-
-    await insertSchedule(
-      schedule
-    );
-
-    temporarySchedules =
-      temporarySchedules.filter(
-        temporary =>
-          temporary !== selectedSchedule
-      );
+    return;
 
   }
+
+  if (
+    !guild.trim()
+  ) {
+
+    error.textContent =
+      "Please enter a Guild name.";
+
+    return;
+
+  }
+
+
+  /* =====================================================
+     Register all schedules in the same Generator Group
+  ===================================================== */
+
+  const generatorGroup =
+    selectedSchedule._generatorGroup;
+
+  const groupSchedules =
+    temporarySchedules.filter(
+      temporary =>
+        temporary._generatorGroup ===
+        generatorGroup
+    );
+
+
+  for (
+    const temporary
+    of groupSchedules
+  ) {
+
+    const groupSchedule = {
+
+      id:
+        crypto.randomUUID(),
+
+      league:
+        temporary.league,
+
+      fortress:
+        temporary.fortress,
+
+      x:
+        temporary.x,
+
+      y:
+        temporary.y,
+
+      guild,
+
+      start:
+        temporary.start,
+
+      end:
+        temporary.end,
+
+      description:
+        temporary.description,
+
+      color:
+        guildColor(
+          guild
+        ),
+
+      creatorId:
+        temporary.creatorId
+
+    };
+
+
+    await insertSchedule(
+      groupSchedule
+    );
+
+  }
+
+
+  /* =====================================================
+     Remove all registered temporary schedules
+  ===================================================== */
+
+  temporarySchedules =
+    temporarySchedules.filter(
+      temporary =>
+        temporary._generatorGroup !==
+        generatorGroup
+    );
+
+
+  localStorage.setItem(
+    "s222_temporary_schedules",
+    JSON.stringify(
+      temporarySchedules
+    )
+  );
+
+}
 
   else {
 
