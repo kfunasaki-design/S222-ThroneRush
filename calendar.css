@@ -738,10 +738,10 @@ button {
   border-right: none;
 }
 .today {
-  border-top: 1px solid #999;
-  border-right-color: #999;
-  border-bottom: 1px solid #999;
-  border-left: 1px solid #999;
+  border-top: 1px solid #555;
+  border-right-color: #555;
+  border-bottom: 1px solid #555;
+  border-left: 1px solid #555;
   box-shadow:
     inset 0 0 12px rgba(255, 255, 255, 0.18);
 }
