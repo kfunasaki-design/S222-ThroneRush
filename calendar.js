@@ -2509,18 +2509,6 @@ form.addEventListener(
 
     }
 
-    if (
-      end - start
-      <
-      72 * 60 * 60 * 1000
-    ) {
-
-      error.textContent =
-        "End must be at least 3 days after Start.";
-
-      return;
-
-    }
 
     const eventStart =
       new Date(
