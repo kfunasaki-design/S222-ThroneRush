@@ -188,7 +188,61 @@ function getScheduleTextColor(color) {
 }
 
 
+/* =========================================================
+Latest Guild League
+========================================================= */
 
+function getLatestGuildLeague(
+  guild,
+  excludeScheduleId = null
+) {
+
+  if (!guild)
+    return null;
+
+  const eventStart =
+    new Date(event.start);
+
+  const eventEnd =
+    new Date(event.end);
+
+  if (
+    Number.isNaN(eventStart.getTime())
+    ||
+    Number.isNaN(eventEnd.getTime())
+  ) {
+
+    return null;
+
+  }
+
+  const candidates =
+    schedules
+      .filter(
+        schedule =>
+          schedule.guild === guild
+          &&
+          schedule.id !== excludeScheduleId
+          &&
+          schedule.league
+          &&
+          new Date(schedule.start) >= eventStart
+          &&
+          new Date(schedule.start) <= eventEnd
+      )
+      .sort(
+        (a, b) =>
+          new Date(b.start)
+          -
+          new Date(a.start)
+      );
+
+  if (!candidates.length)
+    return null;
+
+  return candidates[0].league;
+
+}
 /* =========================================================
 Guild Select
 ========================================================= */
@@ -2424,6 +2478,17 @@ form.addEventListener(
         "guild"
       ).value;
 
+const latestGuildLeague =
+  getLatestGuildLeague(
+    guild,
+    selectedSchedule?.id || null
+  );
+
+const finalLeague =
+  latestGuildLeague
+  ||
+  league;
+    
     const startDate =
       document.getElementById(
         "startDate"
@@ -2540,7 +2605,8 @@ form.addEventListener(
           ? selectedSchedule.id
           : crypto.randomUUID(),
 
-      league,
+  league:
+    finalLeague,
 
       fortress,
 
@@ -2636,13 +2702,12 @@ else if (
     of groupSchedules
   ) {
 
-    const groupSchedule = {
-
-      id:
-        crypto.randomUUID(),
-
-      league:
-        temporary.league,
+const groupLeague =
+  getLatestGuildLeague(
+    guild
+  )
+  ||
+  temporary.league;
 
       fortress:
         temporary.fortress,
@@ -3494,7 +3559,45 @@ if (
 
 }
 
+/* =========================================================
+Guild Change
+========================================================= */
 
+document
+  .getElementById(
+    "guild"
+  )
+  .addEventListener(
+    "change",
+    () => {
+
+      const guild =
+        document.getElementById(
+          "guild"
+        ).value;
+
+      if (!guild)
+        return;
+
+      const latestLeague =
+        getLatestGuildLeague(
+          guild,
+          selectedSchedule?.id || null
+        );
+
+      if (latestLeague) {
+
+        document.getElementById(
+          "league"
+        ).value =
+          latestLeague;
+
+        updateFortressOptions();
+
+      }
+
+    }
+  );
 
 /* =========================================================
 League Change
