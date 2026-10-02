@@ -2523,11 +2523,11 @@ const finalLeague =
       "";
 
     if (
-      !validateLeagueFortress(
-        league,
-        fortress
-      )
-    ) {
+  !validateLeagueFortress(
+    finalLeague,
+    fortress
+  )
+) {
 
       error.textContent =
         "This league cannot challenge the selected fortress.";
@@ -2709,36 +2709,43 @@ const groupLeague =
   ||
   temporary.league;
 
-      fortress:
-        temporary.fortress,
+const groupSchedule = {
 
-      x:
-        temporary.x,
+  id:
+    crypto.randomUUID(),
 
-      y:
-        temporary.y,
+  league:
+    groupLeague,
 
-      guild,
+  fortress:
+    temporary.fortress,
 
-      start:
-        temporary.start,
+  x:
+    temporary.x,
 
-      end:
-        temporary.end,
+  y:
+    temporary.y,
 
-      description:
-        temporary.description,
+  guild,
 
-      color:
-        guildColor(
-          guild
-        ),
+  start:
+    temporary.start,
 
-      creatorId:
-        temporary.creatorId
+  end:
+    temporary.end,
 
-    };
+  description:
+    temporary.description,
 
+  color:
+    guildColor(
+      guild
+    ),
+
+  creatorId:
+    temporary.creatorId
+
+};
 
     await insertSchedule(
       groupSchedule
