@@ -110,14 +110,8 @@ function setGuildColor(
   color
 ) {
 
-  if (
-    !GUILD_COLORS[guild]
-  ) {
-
+  if (!guild)
     return false;
-
-  }
-
 
   if (
     !/^#[0-9A-Fa-f]{6}$/.test(
@@ -128,7 +122,6 @@ function setGuildColor(
     return false;
 
   }
-
 
   GUILD_COLORS[guild] =
     color;
@@ -245,7 +238,89 @@ function setupGuildSelect() {
   );
 
 }
+/* =========================================================
+Guild Settings Load
+========================================================= */
 
+async function loadGuildSettings() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("admin_settings")
+      .select(
+        "guild_list, guild_colors"
+      )
+      .eq(
+        "id",
+        1
+      )
+      .maybeSingle();
+
+  if (error) {
+
+    console.error(
+      "Guild settings load error:",
+      error
+    );
+
+    return;
+
+  }
+
+
+  /* =====================================================
+     Current Guild List
+  ===================================================== */
+
+  if (
+    Array.isArray(
+      data?.guild_list
+    )
+    &&
+    data.guild_list.length
+  ) {
+
+    GUILD_LIST.splice(
+      0,
+      GUILD_LIST.length,
+      ...data.guild_list
+    );
+
+  }
+
+
+  /* =====================================================
+     Guild Colors
+     Keep old Guild names for historical schedules.
+  ===================================================== */
+
+  if (
+    data?.guild_colors
+    &&
+    typeof data.guild_colors === "object"
+  ) {
+
+    Object.entries(
+      data.guild_colors
+    ).forEach(
+      (
+        [guild, color]
+      ) => {
+
+        setGuildColor(
+          guild,
+          color
+        );
+
+      }
+    );
+
+  }
+
+}
 /* =========================================================
 Latest Guild League
 ========================================================= */
@@ -2299,15 +2374,11 @@ function updateFortressOptions() {
   if (!fortressSelect)
     return;
 
-  const maxLevel = {
-
-    Bronze: 5,
-
-    Silver: 6,
-
-    Gold: 7
-
-  }[league] || 4;
+const maxLevel = {
+  Bronze: 5,
+  Silver: 6,
+  Gold: 7
+}[league] || 7;
 
   Array.from(
     fortressSelect.options
@@ -2416,31 +2487,20 @@ function validateLeagueFortress(
   league,
   fortress
 ) {
-
-  /*
-  Lv4 has no league restriction.
-  */
-
-  if (
-    fortress === "Lv4"
-  ) {
-
+  if (fortress === "Lv4") {
     return true;
-
   }
 
+  if (!league)
+    return true;
+
   const allowed =
-    LEAGUE_LIMITS[
-      league
-    ];
+    LEAGUE_LIMITS[league];
 
   if (!allowed)
     return false;
 
-  return allowed.includes(
-    fortress
-  );
-
+  return allowed.includes(fortress);
 }
 
 
@@ -2484,10 +2544,17 @@ const latestGuildLeague =
     selectedSchedule?.id || null
   );
 
+const isNewRegistration =
+  !selectedSchedule;
+
 const finalLeague =
-  latestGuildLeague
-  ||
-  league;
+  isNewRegistration
+    ? (
+        latestGuildLeague
+        ||
+        league
+      )
+    : league;
     
     const startDate =
       document.getElementById(
@@ -2707,7 +2774,7 @@ const groupLeague =
     guild
   )
   ||
-  temporary.league;
+  "";
 
 const groupSchedule = {
 
@@ -3586,20 +3653,23 @@ document
       if (!guild)
         return;
 
-      const latestLeague =
-        getLatestGuildLeague(
-          guild,
-          selectedSchedule?.id || null
-        );
+      if (!selectedSchedule) {
 
-      if (latestLeague) {
+        const latestLeague =
+          getLatestGuildLeague(
+            guild
+          );
 
-        document.getElementById(
-          "league"
-        ).value =
-          latestLeague;
+        if (latestLeague) {
 
-        updateFortressOptions();
+          document.getElementById(
+            "league"
+          ).value =
+            latestLeague;
+
+          updateFortressOptions();
+
+        }
 
       }
 
@@ -3616,7 +3686,14 @@ document
   )
   .addEventListener(
     "change",
-    updateFortressOptions
+    () => {
+
+      if (selectedSchedule)
+        return;
+
+      updateFortressOptions();
+
+    }
   );
 
 
@@ -3641,6 +3718,8 @@ Initial
 ========================================================= */
 
 async function initializeCalendar() {
+
+  await loadGuildSettings();
 
   setupGuildSelect();
 
