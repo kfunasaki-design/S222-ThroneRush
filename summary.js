@@ -2160,7 +2160,25 @@ async function loadAdminSettings() {
 
   }
 
+  /*
+    Guild List
+  */
 
+  if (
+    Array.isArray(
+      data.guild_list
+    )
+    &&
+    data.guild_list.length
+  ) {
+
+    GUILD_LIST.splice(
+      0,
+      GUILD_LIST.length,
+      ...data.guild_list
+    );
+
+  }
   /*
     Guild Colors
   */
