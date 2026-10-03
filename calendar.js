@@ -188,61 +188,7 @@ function getScheduleTextColor(color) {
 }
 
 
-/* =========================================================
-Latest Guild League
-========================================================= */
 
-function getLatestGuildLeague(
-  guild,
-  excludeScheduleId = null
-) {
-
-  if (!guild)
-    return null;
-
-  const eventStart =
-    new Date(event.start);
-
-  const eventEnd =
-    new Date(event.end);
-
-  if (
-    Number.isNaN(eventStart.getTime())
-    ||
-    Number.isNaN(eventEnd.getTime())
-  ) {
-
-    return null;
-
-  }
-
-  const candidates =
-    schedules
-      .filter(
-        schedule =>
-          schedule.guild === guild
-          &&
-          schedule.id !== excludeScheduleId
-          &&
-          schedule.league
-          &&
-          new Date(schedule.start) >= eventStart
-          &&
-          new Date(schedule.start) <= eventEnd
-      )
-      .sort(
-        (a, b) =>
-          new Date(b.start)
-          -
-          new Date(a.start)
-      );
-
-  if (!candidates.length)
-    return null;
-
-  return candidates[0].league;
-
-}
 /* =========================================================
 Guild Select
 ========================================================= */
@@ -300,7 +246,61 @@ function setupGuildSelect() {
 
 }
 
+/* =========================================================
+Latest Guild League
+========================================================= */
 
+function getLatestGuildLeague(
+  guild,
+  excludeScheduleId = null
+) {
+
+  if (!guild)
+    return null;
+
+  const eventStart =
+    new Date(event.start);
+
+  const eventEnd =
+    new Date(event.end);
+
+  if (
+    Number.isNaN(eventStart.getTime())
+    ||
+    Number.isNaN(eventEnd.getTime())
+  ) {
+
+    return null;
+
+  }
+
+  const candidates =
+    schedules
+      .filter(
+        schedule =>
+          schedule.guild === guild
+          &&
+          schedule.id !== excludeScheduleId
+          &&
+          schedule.league
+          &&
+          new Date(schedule.start) >= eventStart
+          &&
+          new Date(schedule.start) <= eventEnd
+      )
+      .sort(
+        (a, b) =>
+          new Date(b.start)
+          -
+          new Date(a.start)
+      );
+
+  if (!candidates.length)
+    return null;
+
+  return candidates[0].league;
+
+}
 
 /* =========================================================
 Event Period
@@ -2523,11 +2523,11 @@ const finalLeague =
       "";
 
     if (
-      !validateLeagueFortress(
-        league,
-        fortress
-      )
-    ) {
+  !validateLeagueFortress(
+    finalLeague,
+    fortress
+  )
+) {
 
       error.textContent =
         "This league cannot challenge the selected fortress.";
@@ -2709,36 +2709,43 @@ const groupLeague =
   ||
   temporary.league;
 
-      fortress:
-        temporary.fortress,
+const groupSchedule = {
 
-      x:
-        temporary.x,
+  id:
+    crypto.randomUUID(),
 
-      y:
-        temporary.y,
+  league:
+    groupLeague,
 
-      guild,
+  fortress:
+    temporary.fortress,
 
-      start:
-        temporary.start,
+  x:
+    temporary.x,
 
-      end:
-        temporary.end,
+  y:
+    temporary.y,
 
-      description:
-        temporary.description,
+  guild,
 
-      color:
-        guildColor(
-          guild
-        ),
+  start:
+    temporary.start,
 
-      creatorId:
-        temporary.creatorId
+  end:
+    temporary.end,
 
-    };
+  description:
+    temporary.description,
 
+  color:
+    guildColor(
+      guild
+    ),
+
+  creatorId:
+    temporary.creatorId
+
+};
 
     await insertSchedule(
       groupSchedule
