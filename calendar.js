@@ -110,8 +110,14 @@ function setGuildColor(
   color
 ) {
 
-  if (!guild)
+  if (
+    !GUILD_COLORS[guild]
+  ) {
+
     return false;
+
+  }
+
 
   if (
     !/^#[0-9A-Fa-f]{6}$/.test(
@@ -122,6 +128,7 @@ function setGuildColor(
     return false;
 
   }
+
 
   GUILD_COLORS[guild] =
     color;
@@ -181,7 +188,61 @@ function getScheduleTextColor(color) {
 }
 
 
+/* =========================================================
+Latest Guild League
+========================================================= */
 
+function getLatestGuildLeague(
+  guild,
+  excludeScheduleId = null
+) {
+
+  if (!guild)
+    return null;
+
+  const eventStart =
+    new Date(event.start);
+
+  const eventEnd =
+    new Date(event.end);
+
+  if (
+    Number.isNaN(eventStart.getTime())
+    ||
+    Number.isNaN(eventEnd.getTime())
+  ) {
+
+    return null;
+
+  }
+
+  const candidates =
+    schedules
+      .filter(
+        schedule =>
+          schedule.guild === guild
+          &&
+          schedule.id !== excludeScheduleId
+          &&
+          schedule.league
+          &&
+          new Date(schedule.start) >= eventStart
+          &&
+          new Date(schedule.start) <= eventEnd
+      )
+      .sort(
+        (a, b) =>
+          new Date(b.start)
+          -
+          new Date(a.start)
+      );
+
+  if (!candidates.length)
+    return null;
+
+  return candidates[0].league;
+
+}
 /* =========================================================
 Guild Select
 ========================================================= */
@@ -238,144 +299,8 @@ function setupGuildSelect() {
   );
 
 }
-/* =========================================================
-Guild Settings Load
-========================================================= */
-
-async function loadGuildSettings() {
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("admin_settings")
-      .select(
-        "guild_list, guild_colors"
-      )
-      .eq(
-        "id",
-        1
-      )
-      .maybeSingle();
-
-  if (error) {
-
-    console.error(
-      "Guild settings load error:",
-      error
-    );
-
-    return;
-
-  }
 
 
-  /* =====================================================
-     Current Guild List
-  ===================================================== */
-
-  if (
-    Array.isArray(
-      data?.guild_list
-    )
-    &&
-    data.guild_list.length
-  ) {
-
-    GUILD_LIST.splice(
-      0,
-      GUILD_LIST.length,
-      ...data.guild_list
-    );
-
-  }
-
-
-  /* =====================================================
-     Guild Colors
-     Keep old Guild names for historical schedules.
-  ===================================================== */
-
-  if (
-    data?.guild_colors
-    &&
-    typeof data.guild_colors === "object"
-  ) {
-
-    Object.entries(
-      data.guild_colors
-    ).forEach(
-      (
-        [guild, color]
-      ) => {
-
-        setGuildColor(
-          guild,
-          color
-        );
-
-      }
-    );
-
-  }
-
-}
-/* =========================================================
-Latest Guild League
-========================================================= */
-
-function getLatestGuildLeague(
-  guild,
-  excludeScheduleId = null
-) {
-
-  if (!guild)
-    return null;
-
-  const eventStart =
-    new Date(event.start);
-
-  const eventEnd =
-    new Date(event.end);
-
-  if (
-    Number.isNaN(eventStart.getTime())
-    ||
-    Number.isNaN(eventEnd.getTime())
-  ) {
-
-    return null;
-
-  }
-
-  const candidates =
-    schedules
-      .filter(
-        schedule =>
-          schedule.guild === guild
-          &&
-          schedule.id !== excludeScheduleId
-          &&
-          schedule.league
-          &&
-          new Date(schedule.start) >= eventStart
-          &&
-          new Date(schedule.start) <= eventEnd
-      )
-      .sort(
-        (a, b) =>
-          new Date(b.start)
-          -
-          new Date(a.start)
-      );
-
-  if (!candidates.length)
-    return null;
-
-  return candidates[0].league;
-
-}
 
 /* =========================================================
 Event Period
@@ -2374,11 +2299,15 @@ function updateFortressOptions() {
   if (!fortressSelect)
     return;
 
-const maxLevel = {
-  Bronze: 5,
-  Silver: 6,
-  Gold: 7
-}[league] || 7;
+  const maxLevel = {
+
+    Bronze: 5,
+
+    Silver: 6,
+
+    Gold: 7
+
+  }[league] || 4;
 
   Array.from(
     fortressSelect.options
@@ -2487,20 +2416,31 @@ function validateLeagueFortress(
   league,
   fortress
 ) {
-  if (fortress === "Lv4") {
+
+  /*
+  Lv4 has no league restriction.
+  */
+
+  if (
+    fortress === "Lv4"
+  ) {
+
     return true;
+
   }
 
-  if (!league)
-    return true;
-
   const allowed =
-    LEAGUE_LIMITS[league];
+    LEAGUE_LIMITS[
+      league
+    ];
 
   if (!allowed)
     return false;
 
-  return allowed.includes(fortress);
+  return allowed.includes(
+    fortress
+  );
+
 }
 
 
@@ -2544,17 +2484,10 @@ const latestGuildLeague =
     selectedSchedule?.id || null
   );
 
-const isNewRegistration =
-  !selectedSchedule;
-
 const finalLeague =
-  isNewRegistration
-    ? (
-        latestGuildLeague
-        ||
-        league
-      )
-    : league;
+  latestGuildLeague
+  ||
+  league;
     
     const startDate =
       document.getElementById(
@@ -2590,11 +2523,11 @@ const finalLeague =
       "";
 
     if (
-  !validateLeagueFortress(
-    finalLeague,
-    fortress
-  )
-) {
+      !validateLeagueFortress(
+        league,
+        fortress
+      )
+    ) {
 
       error.textContent =
         "This league cannot challenge the selected fortress.";
@@ -2774,45 +2707,38 @@ const groupLeague =
     guild
   )
   ||
-  "";
+  temporary.league;
 
-const groupSchedule = {
+      fortress:
+        temporary.fortress,
 
-  id:
-    crypto.randomUUID(),
+      x:
+        temporary.x,
 
-  league:
-    groupLeague,
+      y:
+        temporary.y,
 
-  fortress:
-    temporary.fortress,
+      guild,
 
-  x:
-    temporary.x,
+      start:
+        temporary.start,
 
-  y:
-    temporary.y,
+      end:
+        temporary.end,
 
-  guild,
+      description:
+        temporary.description,
 
-  start:
-    temporary.start,
+      color:
+        guildColor(
+          guild
+        ),
 
-  end:
-    temporary.end,
+      creatorId:
+        temporary.creatorId
 
-  description:
-    temporary.description,
+    };
 
-  color:
-    guildColor(
-      guild
-    ),
-
-  creatorId:
-    temporary.creatorId
-
-};
 
     await insertSchedule(
       groupSchedule
@@ -3653,23 +3579,20 @@ document
       if (!guild)
         return;
 
-      if (!selectedSchedule) {
+      const latestLeague =
+        getLatestGuildLeague(
+          guild,
+          selectedSchedule?.id || null
+        );
 
-        const latestLeague =
-          getLatestGuildLeague(
-            guild
-          );
+      if (latestLeague) {
 
-        if (latestLeague) {
+        document.getElementById(
+          "league"
+        ).value =
+          latestLeague;
 
-          document.getElementById(
-            "league"
-          ).value =
-            latestLeague;
-
-          updateFortressOptions();
-
-        }
+        updateFortressOptions();
 
       }
 
@@ -3686,14 +3609,7 @@ document
   )
   .addEventListener(
     "change",
-    () => {
-
-      if (selectedSchedule)
-        return;
-
-      updateFortressOptions();
-
-    }
+    updateFortressOptions
   );
 
 
@@ -3718,8 +3634,6 @@ Initial
 ========================================================= */
 
 async function initializeCalendar() {
-
-  await loadGuildSettings();
 
   setupGuildSelect();
 
