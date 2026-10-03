@@ -2037,51 +2037,73 @@ function renderAdminGuildColors() {
         "guild-color-row";
 
 
-      const label =
-        document.createElement(
-          "span"
-        );
+      /*
+        Guild Name
+      */
 
-
-      label.textContent =
-        guild;
-
-
-      label.className =
-        "guild-color-name";
-
-
-      const input =
+      const nameInput =
         document.createElement(
           "input"
         );
 
 
-      input.type =
-        "color";
+      nameInput.type =
+        "text";
 
 
-      input.className =
-        "guild-color-input";
+      nameInput.className =
+        "guild-name-input";
 
 
-      input.dataset.guild =
+      nameInput.value =
         guild;
 
 
-      input.value =
+      /*
+        Keep the original Guild name
+        so historical color data can
+        survive a rename.
+      */
+
+      nameInput.dataset.originalGuild =
+        guild;
+
+
+      /*
+        Guild Color
+      */
+
+      const colorInput =
+        document.createElement(
+          "input"
+        );
+
+
+      colorInput.type =
+        "color";
+
+
+      colorInput.className =
+        "guild-color-input";
+
+
+      colorInput.dataset.guild =
+        guild;
+
+
+      colorInput.value =
         guildColor(
           guild
         );
 
 
       row.appendChild(
-        label
+        nameInput
       );
 
 
       row.appendChild(
-        input
+        colorInput
       );
 
 
@@ -2156,44 +2178,67 @@ async function loadAdminSettings() {
   }
 
 
-  /*
-    Guild Colors
-  */
+/*
+  Guild List
+*/
 
-  if (
+if (
+  Array.isArray(
+    data.guild_list
+  )
+  &&
+  data.guild_list.length
+) {
+
+  GUILD_LIST.splice(
+    0,
+    GUILD_LIST.length,
+    ...data.guild_list
+  );
+
+}
+
+
+/*
+  Guild Colors
+
+  Load every stored color key,
+  including old Guild names.
+*/
+
+if (
+  data.guild_colors
+  &&
+  typeof data.guild_colors === "object"
+) {
+
+  Object.entries(
     data.guild_colors
-    &&
-    typeof data.guild_colors === "object"
-  ) {
+  ).forEach(
+    (
+      [guild, color]
+    ) => {
 
-    GUILD_LIST.forEach(
-      guild => {
+      if (
+        /^#[0-9A-Fa-f]{6}$/.test(
+          color || ""
+        )
+      ) {
 
-        const color =
-          data.guild_colors[guild];
-
-
-        if (
-          /^#[0-9A-Fa-f]{6}$/.test(
-            color || ""
-          )
-        ) {
-
-          setGuildColor(
-            guild,
-            color
-          );
-
-        }
+        setGuildColor(
+          guild,
+          color
+        );
 
       }
-    );
 
-  }
+    }
+  );
+
+}
 
 
-  renderAdminGuildColors();
-
+renderAdminGuildColors();
 
   /*
     Event period
@@ -2873,63 +2918,161 @@ async function loadEventPeriod() {
   };
 
 
-  /*
-    Guild Colors
-  */
+/*
+  Guild List + Guild Colors
+*/
 
-  if (
-    data.guild_colors
-    &&
-    typeof data.guild_colors === "object"
-  ) {
+const guildList = [];
 
-    GUILD_LIST.forEach(
-      guild => {
-
-        const color =
-          data.guild_colors[guild];
+const guildColors = {
+  ...GUILD_COLORS
+};
 
 
-        if (
-          /^#[0-9A-Fa-f]{6}$/.test(
-            color || ""
-          )
-        ) {
+if (
+  adminGuildColors
+) {
 
-          setGuildColor(
-            guild,
-            color
-          );
-
-        }
-
-      }
+  const rows =
+    adminGuildColors.querySelectorAll(
+      ".guild-color-row"
     );
 
-  }
 
-
-  if (
-    typeof updateCurrentTime ===
-    "function"
+  for (
+    const row of rows
   ) {
 
-    updateCurrentTime();
+    const nameInput =
+      row.querySelector(
+        ".guild-name-input"
+      );
 
-  }
+
+    const colorInput =
+      row.querySelector(
+        ".guild-color-input"
+      );
 
 
-  if (
-    typeof renderCalendar ===
-    "function"
-  ) {
+    if (
+      !nameInput
+      ||
+      !colorInput
+    ) {
 
-    renderCalendar();
+      continue;
+
+    }
+
+
+    const originalGuild =
+      nameInput
+        .dataset
+        .originalGuild
+        ?.trim();
+
+
+    const guild =
+      nameInput.value
+        .trim();
+
+
+    const color =
+      colorInput.value;
+
+
+    /*
+      Guild name required
+    */
+
+    if (
+      !guild
+    ) {
+
+      if (
+        adminPanelError
+      ) {
+
+        adminPanelError.textContent =
+          "Guild name cannot be empty.";
+
+      }
+
+      return;
+
+    }
+
+
+    /*
+      Duplicate Guild names
+    */
+
+    if (
+      guildList.includes(
+        guild
+      )
+    ) {
+
+      if (
+        adminPanelError
+      ) {
+
+        adminPanelError.textContent =
+          `Duplicate Guild name: ${guild}`;
+
+      }
+
+      return;
+
+    }
+
+
+    guildList.push(
+      guild
+    );
+
+
+    /*
+      Keep the current color
+      under the new Guild name.
+    */
+
+    if (
+      /^#[0-9A-Fa-f]{6}$/.test(
+        color
+      )
+    ) {
+
+      guildColors[guild] =
+        color;
+
+    }
+
+
+    /*
+      Keep the old Guild color key
+      for historical schedules.
+    */
+
+    if (
+      originalGuild
+      &&
+      originalGuild !== guild
+      &&
+      /^#[0-9A-Fa-f]{6}$/.test(
+        color
+      )
+    ) {
+
+      guildColors[originalGuild] =
+        color;
+
+    }
 
   }
 
 }
-
 
 /* =========================================================
    Auth State Change
@@ -3280,6 +3423,9 @@ if (
               guild_colors:
                 guildColors,
 
+guild_list:
+  guildList,
+               
               updated_at:
                 new Date().toISOString()
 
@@ -3299,31 +3445,51 @@ if (
         }
 
 
-        /*
-          Update guild colors.
-        */
+/*
+  Update Guild List
+*/
 
-        GUILD_LIST.forEach(
-          guild => {
+GUILD_LIST.splice(
+  0,
+  GUILD_LIST.length,
+  ...guildList
+);
 
-            const color =
-              guildColors[guild];
+
+/*
+  Update Guild Colors
+
+  Keep legacy Guild color keys.
+*/
+
+Object.entries(
+  guildColors
+).forEach(
+  (
+    [guild, color]
+  ) => {
+
+    setGuildColor(
+      guild,
+      color
+    );
+
+  }
+);
 
 
-            if (
-              color
-            ) {
+/*
+  Update Guild dropdown
+*/
 
-              setGuildColor(
-                guild,
-                color
-              );
+if (
+  typeof setupGuildSelect ===
+  "function"
+) {
 
-            }
+  setupGuildSelect();
 
-          }
-        );
-
+}
 
         /*
           Update live event settings.
