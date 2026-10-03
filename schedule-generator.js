@@ -3089,7 +3089,6 @@ function generatorGenerateCandidate() {
 
           schedules.push({
 
-            league:
 league:
   "",
 
