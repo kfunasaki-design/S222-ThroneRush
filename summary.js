@@ -2924,9 +2924,7 @@ async function loadEventPeriod() {
 
 const guildList = [];
 
-const guildColors = {
-  ...GUILD_COLORS
-};
+const guildColors = {};
 
 
 if (
