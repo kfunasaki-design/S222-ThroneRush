@@ -3090,11 +3090,8 @@ function generatorGenerateCandidate() {
           schedules.push({
 
             league:
-              fortressLevel === "Lv7"
-                ? "Gold"
-                : fortressLevel === "Lv6"
-                  ? "Silver"
-                  : "Bronze",
+league:
+  "",
 
             fortress:
               fortressLevel,
