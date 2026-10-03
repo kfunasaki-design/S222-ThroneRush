@@ -2037,51 +2037,57 @@ function renderAdminGuildColors() {
         "guild-color-row";
 
 
-      const label =
-        document.createElement(
-          "span"
-        );
+      /* Guild Name */
 
-
-      label.textContent =
-        guild;
-
-
-      label.className =
-        "guild-color-name";
-
-
-      const input =
+      const nameInput =
         document.createElement(
           "input"
         );
 
 
-      input.type =
-        "color";
+      nameInput.type =
+        "text";
 
+      nameInput.className =
+        "guild-name-input";
 
-      input.className =
-        "guild-color-input";
+      nameInput.value =
+        guild;
 
-
-      input.dataset.guild =
+      nameInput.dataset.originalGuild =
         guild;
 
 
-      input.value =
+      /* Guild Color */
+
+      const colorInput =
+        document.createElement(
+          "input"
+        );
+
+
+      colorInput.type =
+        "color";
+
+      colorInput.className =
+        "guild-color-input";
+
+      colorInput.dataset.guild =
+        guild;
+
+      colorInput.value =
         guildColor(
           guild
         );
 
 
       row.appendChild(
-        label
+        nameInput
       );
 
 
       row.appendChild(
-        input
+        colorInput
       );
 
 
@@ -2093,7 +2099,6 @@ function renderAdminGuildColors() {
   );
 
 }
-
 
 /* =========================================================
    Admin Settings Load
