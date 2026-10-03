@@ -3219,29 +3219,25 @@ if (
               colorInput?.value;
 
 
-            if (
-              guild
-            ) {
-
-              guildList.push(
-                guild
-              );
+guildList.push(
+  guild
+);
 
 
-              if (
-                originalGuild
-                &&
-                /^#[0-9A-Fa-f]{6}$/.test(
-                  color || ""
-                )
-              ) {
+if (
+  originalGuild
+  &&
+  guild
+  &&
+  /^#[0-9A-Fa-f]{6}$/.test(
+    color || ""
+  )
+) {
 
-                guildColors[guild] =
-                  color;
+  guildColors[guild] =
+    color;
 
-              }
-
-            }
+}
 
           }
         );
