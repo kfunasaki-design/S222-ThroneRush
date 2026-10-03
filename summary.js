@@ -3380,6 +3380,9 @@ if (
               lv7_release:
                 releaseValues[3],
 
+              guild_list:
+                guildList,
+               
               guild_colors:
                 guildColors,
 
@@ -3403,18 +3406,25 @@ if (
 
 
         /*
-          Update guild colors.
+          Update Guild List / Colors
         */
 
-        GUILD_LIST.forEach(
-          guild => {
+        GUILD_LIST.splice(
+          0,
+          GUILD_LIST.length,
+          ...guildList
+        );
 
-            const color =
-              guildColors[guild];
 
+        Object.entries(
+          guildColors
+        ).forEach(
+          ([guild, color]) => {
 
             if (
-              color
+              /^#[0-9A-Fa-f]{6}$/.test(
+                color || ""
+              )
             ) {
 
               setGuildColor(
@@ -3426,6 +3436,14 @@ if (
 
           }
         );
+
+
+        /*
+          Rebuild Guild select
+          for future registrations.
+        */
+
+        setupGuildSelect();
 
 
         /*
