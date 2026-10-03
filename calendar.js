@@ -3625,7 +3625,14 @@ document
   )
   .addEventListener(
     "change",
-    updateFortressOptions
+    () => {
+
+      if (selectedSchedule)
+        return;
+
+      updateFortressOptions();
+
+    }
   );
 
 
