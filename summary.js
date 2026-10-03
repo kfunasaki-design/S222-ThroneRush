@@ -3159,45 +3159,125 @@ if (
         Guild Colors
       */
 
-      const guildColors = {};
+      /*
+        Guild List / Colors
+      */
+
+      const guildList = [];
+      const guildColors = {
+        ...GUILD_COLORS
+      };
 
 
       if (
         adminGuildColors
       ) {
 
-        const colorInputs =
+        const rows =
           adminGuildColors.querySelectorAll(
-            ".guild-color-input"
+            ".guild-color-row"
           );
 
 
-        colorInputs.forEach(
-          input => {
+        rows.forEach(
+          row => {
+
+            const nameInput =
+              row.querySelector(
+                ".guild-name-input"
+              );
+
+            const colorInput =
+              row.querySelector(
+                ".guild-color-input"
+              );
+
 
             const guild =
-              input.dataset.guild;
+              nameInput?.value.trim();
+
+
+            const originalGuild =
+              nameInput?.dataset.originalGuild;
 
 
             const color =
-              input.value;
+              colorInput?.value;
 
 
             if (
               guild
-              &&
-              /^#[0-9A-Fa-f]{6}$/.test(
-                color
-              )
             ) {
 
-              guildColors[guild] =
-                color;
+              guildList.push(
+                guild
+              );
+
+
+              if (
+                originalGuild
+                &&
+                /^#[0-9A-Fa-f]{6}$/.test(
+                  color || ""
+                )
+              ) {
+
+                guildColors[guild] =
+                  color;
+
+              }
 
             }
 
           }
         );
+
+      }
+
+
+      /*
+        Validate Guild names
+      */
+
+      if (
+        guildList.some(
+          guild =>
+            !guild
+        )
+      ) {
+
+        if (
+          adminPanelError
+        ) {
+
+          adminPanelError.textContent =
+            "Guild name cannot be empty.";
+
+        }
+
+        return;
+
+      }
+
+
+      if (
+        new Set(
+          guildList
+        ).size
+        !==
+        guildList.length
+      ) {
+
+        if (
+          adminPanelError
+        ) {
+
+          adminPanelError.textContent =
+            "Guild names must be unique.";
+
+        }
+
+        return;
 
       }
 
