@@ -2784,7 +2784,7 @@ async function loadEventPeriod() {
         "admin_settings"
       )
       .select(
-        "event_start, event_end, lv4_release, lv5_release, lv6_release, lv7_release, guild_colors"
+        "event_start, event_end, lv4_release, lv5_release, lv6_release, lv7_release, guild_list, guild_colors"
       )
       .eq(
         "id",
@@ -2806,7 +2806,21 @@ async function loadEventPeriod() {
 
   }
 
+  if (
+    Array.isArray(
+      data.guild_list
+    )
+    &&
+    data.guild_list.length
+  ) {
 
+    GUILD_LIST.splice(
+      0,
+      GUILD_LIST.length,
+      ...data.guild_list
+    );
+
+  }
   if (
     !data
   ) {
