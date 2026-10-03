@@ -110,14 +110,8 @@ function setGuildColor(
   color
 ) {
 
-  if (
-    !GUILD_COLORS[guild]
-  ) {
-
+  if (!guild)
     return false;
-
-  }
-
 
   if (
     !/^#[0-9A-Fa-f]{6}$/.test(
@@ -128,7 +122,6 @@ function setGuildColor(
     return false;
 
   }
-
 
   GUILD_COLORS[guild] =
     color;
@@ -245,7 +238,89 @@ function setupGuildSelect() {
   );
 
 }
+/* =========================================================
+Guild Settings Load
+========================================================= */
 
+async function loadGuildSettings() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("admin_settings")
+      .select(
+        "guild_list, guild_colors"
+      )
+      .eq(
+        "id",
+        1
+      )
+      .maybeSingle();
+
+  if (error) {
+
+    console.error(
+      "Guild settings load error:",
+      error
+    );
+
+    return;
+
+  }
+
+
+  /* =====================================================
+     Current Guild List
+  ===================================================== */
+
+  if (
+    Array.isArray(
+      data?.guild_list
+    )
+    &&
+    data.guild_list.length
+  ) {
+
+    GUILD_LIST.splice(
+      0,
+      GUILD_LIST.length,
+      ...data.guild_list
+    );
+
+  }
+
+
+  /* =====================================================
+     Guild Colors
+     Keep old Guild names for historical schedules.
+  ===================================================== */
+
+  if (
+    data?.guild_colors
+    &&
+    typeof data.guild_colors === "object"
+  ) {
+
+    Object.entries(
+      data.guild_colors
+    ).forEach(
+      (
+        [guild, color]
+      ) => {
+
+        setGuildColor(
+          guild,
+          color
+        );
+
+      }
+    );
+
+  }
+
+}
 /* =========================================================
 Latest Guild League
 ========================================================= */
@@ -3643,6 +3718,8 @@ Initial
 ========================================================= */
 
 async function initializeCalendar() {
+
+  await loadGuildSettings();
 
   setupGuildSelect();
 
