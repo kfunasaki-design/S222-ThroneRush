@@ -2412,34 +2412,20 @@ function validateLeagueFortress(
   league,
   fortress
 ) {
-
-  /*
-  Lv4 has no league restriction.
-  */
-
-  if (
-    fortress === "Lv4"
-  ) {
-
+  if (fortress === "Lv4") {
     return true;
-
   }
 
+  if (!league)
+    return true;
+
   const allowed =
-    LEAGUE_LIMITS[
-      league
-    ];
-  
-if (!league)
-  return true;
+    LEAGUE_LIMITS[league];
 
   if (!allowed)
     return false;
 
-  return allowed.includes(
-    fortress
-  );
-
+  return allowed.includes(fortress);
 }
 
 
