@@ -2299,15 +2299,11 @@ function updateFortressOptions() {
   if (!fortressSelect)
     return;
 
-  const maxLevel = {
-
-    Bronze: 5,
-
-    Silver: 6,
-
-    Gold: 7
-
-  }[league] || 4;
+const maxLevel = {
+  Bronze: 5,
+  Silver: 6,
+  Gold: 7
+}[league] || 7;
 
   Array.from(
     fortressSelect.options
@@ -2433,6 +2429,9 @@ function validateLeagueFortress(
     LEAGUE_LIMITS[
       league
     ];
+  
+if (!league)
+  return true;
 
   if (!allowed)
     return false;
@@ -2484,10 +2483,17 @@ const latestGuildLeague =
     selectedSchedule?.id || null
   );
 
+const isNewRegistration =
+  !selectedSchedule;
+
 const finalLeague =
-  latestGuildLeague
-  ||
-  league;
+  isNewRegistration
+    ? (
+        latestGuildLeague
+        ||
+        league
+      )
+    : league;
     
     const startDate =
       document.getElementById(
@@ -2707,7 +2713,7 @@ const groupLeague =
     guild
   )
   ||
-  temporary.league;
+  "";
 
 const groupSchedule = {
 
@@ -3586,20 +3592,23 @@ document
       if (!guild)
         return;
 
-      const latestLeague =
-        getLatestGuildLeague(
-          guild,
-          selectedSchedule?.id || null
-        );
+      if (!selectedSchedule) {
 
-      if (latestLeague) {
+        const latestLeague =
+          getLatestGuildLeague(
+            guild
+          );
 
-        document.getElementById(
-          "league"
-        ).value =
-          latestLeague;
+        if (latestLeague) {
 
-        updateFortressOptions();
+          document.getElementById(
+            "league"
+          ).value =
+            latestLeague;
+
+          updateFortressOptions();
+
+        }
 
       }
 
