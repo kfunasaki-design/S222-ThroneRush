@@ -3870,8 +3870,8 @@ saveTemporaryVersion(
         .from("admin_settings")
         .update({
 
-          temporary_schedules:
-            schedules,
+temporary_schedules:
+  mergedTemporarySchedules,
 
           temporary_version:
             nextVersion,
