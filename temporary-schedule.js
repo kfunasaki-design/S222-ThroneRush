@@ -234,13 +234,22 @@ function setTemporarySchedules(
 
   }
 
-  if (
-    generatedSchedules.length === 0
-  ) {
+if (
+  generatedSchedules.length === 0
+) {
 
-    return temporarySchedules;
+  temporarySchedules = [];
 
-  }
+  localStorage.setItem(
+    "s222_temporary_schedules",
+    JSON.stringify(
+      temporarySchedules
+    )
+  );
+
+  return temporarySchedules;
+
+}
 
 
   /* =====================================================
