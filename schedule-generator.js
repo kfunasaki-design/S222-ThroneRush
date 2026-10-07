@@ -2604,34 +2604,19 @@ function generatorGenerateCandidate() {
     );
 
 
-  const actualStart =
-    generatorCloneDate(
-      releaseStart
-    );
-
-
-  actualStart.setUTCHours(
-    Math.floor(
-      firstMinutes / 60
-    ),
-    firstMinutes % 60,
-    0,
-    0
+const actualStart =
+  generatorCloneDate(
+    releaseStart
   );
 
-
-  /*
-   * Release時刻より前なら翌日。
-   */
-  if (
-    actualStart <
-    releaseStart
-  ) {
-
-    actualStart.setUTCDate(
-      actualStart.getUTCDate() + 1
-    );
-  }
+actualStart.setUTCHours(
+  Math.floor(
+    firstMinutes / 60
+  ),
+  firstMinutes % 60,
+  0,
+  0
+);
 
 
   if (
