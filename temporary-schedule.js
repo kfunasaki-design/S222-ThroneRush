@@ -230,13 +230,44 @@ function setTemporarySchedules(
     )
   ) {
 
-    temporarySchedules = [];
-
-    return;
+    return [];
 
   }
 
-  temporarySchedules =
+  if (
+    generatedSchedules.length === 0
+  ) {
+
+    return temporarySchedules;
+
+  }
+
+
+  /* =====================================================
+  Imported Fortress Level
+  ===================================================== */
+
+  const importedFortress =
+    generatedSchedules[0].fortress;
+
+
+  /* =====================================================
+  Keep Other Levels
+  ===================================================== */
+
+  const otherSchedules =
+    temporarySchedules.filter(
+      schedule =>
+        schedule.fortress !==
+        importedFortress
+    );
+
+
+  /* =====================================================
+  Convert Generated Schedules
+  ===================================================== */
+
+  const importedSchedules =
     generatedSchedules.map(
       schedule => ({
 
@@ -279,10 +310,22 @@ function setTemporarySchedules(
       })
     );
 
+
+  /* =====================================================
+  Merge
+  ===================================================== */
+
+  temporarySchedules = [
+    ...otherSchedules,
+    ...importedSchedules
+  ];
+
+
   console.log(
     "Temporary schedules:",
     temporarySchedules
   );
+
 
   localStorage.setItem(
     "s222_temporary_schedules",
@@ -290,6 +333,9 @@ function setTemporarySchedules(
       temporarySchedules
     )
   );
+
+
+  return temporarySchedules;
 
 }
 
