@@ -92,7 +92,7 @@ const GENERATOR_DEFAULTS = {
   fortress: "Lv6",
   guildCount: "4",
   attackCount: "2",
-  firstAttack: "12:00",
+  firstAttack: "13:00",
   rangeStart: "08:00",
   rangeEnd: "15:00",
   lag: "60"
