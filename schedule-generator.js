@@ -3800,17 +3800,17 @@ generatorGoBtn.addEventListener(
       return;
     }
 
-    const schedules =
-      generatedCandidate.schedules;
+const schedules =
+  generatedCandidate.schedules;
 
-    /* =========================================
-       Local Temporary Schedule
-    ========================================= */
+/* =========================================
+   Local Temporary Schedule
+========================================= */
 
-    setTemporarySchedules(
-      schedules
-    );
-
+const mergedTemporarySchedules =
+  setTemporarySchedules(
+    schedules
+  );
 
     /* =========================================
        Upload Temporary Schedule
