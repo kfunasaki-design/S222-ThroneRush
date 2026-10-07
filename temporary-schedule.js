@@ -324,10 +324,15 @@ if (
   Merge
   ===================================================== */
 
-  temporarySchedules = [
-    ...otherSchedules,
-    ...importedSchedules
-  ];
+temporarySchedules = [
+  ...otherSchedules,
+  ...importedSchedules
+].sort(
+  (a, b) =>
+    new Date(a.start)
+    -
+    new Date(b.start)
+);
 
 
   console.log(
